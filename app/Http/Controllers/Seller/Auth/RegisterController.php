@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Seller\Auth;
 
-use App\CPU\ImageManager;
 use App\Http\Controllers\Controller;
 use App\Model\Seller;
 use App\Model\Shop;
@@ -21,32 +20,30 @@ class RegisterController extends Controller
 
     public function store(Request $request)
     {
-
         $this->validate($request, [
             'email' => 'required|unique:sellers',
             'password' => 'required|min:8',
+            'shop_address' => 'required',
+            'shop_name' => 'required',
         ]);
 
         DB::transaction(function ($r) use ($request) {
             $seller = new Seller();
-            $seller->f_name = $request->f_name;
-            $seller->l_name = $request->l_name;
-            $seller->country = $request->country;
+            $seller->f_name = $request->name;
             $seller->phone = $request->phone;
             $seller->email = $request->email;
-            $seller->image = ImageManager::upload('seller/', 'png', $request->file('image'));
             $seller->password = bcrypt($request->password);
-            $seller->status = "pending";
+            $seller->status = 'pending';
             $seller->save();
 
             $shop = new Shop();
             $shop->seller_id = $seller->id;
             $shop->name = $request->shop_name;
-            $shop->country = $request->country;
             $shop->address = $request->shop_address;
-            $shop->contact = $request->phone;
-            $shop->image = ImageManager::upload('shop/', 'png', $request->file('logo'));
-            $shop->banner = ImageManager::upload('shop/banner/', 'png', $request->file('banner'));
+            $shop->contact = $request->phone_shop;
+            $shop->child = $request->child;
+            $shop->teen = $request->teen;
+            $shop->adult = $request->adult;
             $shop->save();
 
             DB::table('seller_wallets')->insert([
@@ -60,11 +57,10 @@ class RegisterController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-
         });
 
-        Toastr::success('Shop apply successfully!');
-        return redirect()->route('seller.auth.login');
+        Toastr::success('Barber_Shop_applied_successfully!');
 
+        return redirect()->route('seller.auth.login');
     }
 }

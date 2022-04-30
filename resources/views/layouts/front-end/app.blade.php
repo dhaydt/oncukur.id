@@ -541,7 +541,7 @@
 
 @include('layouts.front-end.partials._quick-view-modal')
 
-@if (url()->current() !== route('customer.auth.login') && url()->current() !== route('customer.auth.register'))
+@if (url()->current() !== route('customer.auth.login') && url()->current() !== route('customer.auth.register') && url()->current() !== route('shop.apply'))
     @include('layouts.front-end.partials._header')
 @endif
 
@@ -561,7 +561,7 @@
 
 @yield('content')
 
-@if (url()->current() !== route('customer.auth.login')  && url()->current() !== route('customer.auth.register'))
+@if (url()->current() !== route('customer.auth.login')  && url()->current() !== route('customer.auth.register') && url()->current() !== route('shop.apply'))
     @include('layouts.front-end.partials._footer')
 @endif()
 
