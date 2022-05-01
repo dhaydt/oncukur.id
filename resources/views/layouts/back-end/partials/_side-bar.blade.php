@@ -39,17 +39,17 @@
 
 <div id="sidebarMain" class="d-none">
     <aside style="background: #182c2f!important; text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};"
-           class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered  ">
+        class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered  ">
         <div class="navbar-vertical-container">
             <div class="navbar-vertical-footer-offset pb-0">
-                <div class="navbar-brand-wrapper justify-content-between side-logo">
+                <div class="navbar-brand-wrapper justify-content-between side-logo" style="background-color: #000;">
                     <!-- Logo -->
                     @php($e_commerce_logo=\App\Model\BusinessSetting::where(['type'=>'company_web_logo'])->first()->value)
                     <a class="navbar-brand" href="{{route('admin.dashboard.index')}}" aria-label="Front">
                         <img style="max-height: 38px"
-                             onerror="this.src='{{asset('assets/back-end/img/900x400/img1.jpg')}}'"
-                             class="navbar-brand-logo-mini for-web-logo"
-                             src="{{asset("storage/company/$e_commerce_logo")}}" alt="Logo">
+                            onerror="this.src='{{asset('assets/back-end/img/900x400/img1.jpg')}}'"
+                            class="navbar-brand-logo-mini for-web-logo"
+                            src="{{asset("storage/company/$e_commerce_logo")}}" alt="Logo">
                     </a>
                     <!-- Navbar Vertical Toggle -->
                     <button type="button"
@@ -66,7 +66,7 @@
 
                         <li class="navbar-vertical-aside-has-menu {{Request::is('admin')?'show':''}}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link"
-                               href="{{route('admin.dashboard.index')}}">
+                                href="{{route('admin.dashboard.index')}}">
                                 <i class="tio-home-vs-1-outlined nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                     {{\App\CPU\translate('Dashboard')}}
@@ -209,9 +209,9 @@
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                             </li>
                             <!-- Pages -->
-                            <li class="navbar-vertical-aside-has-menu {{Request::is('admin/brand*')?'active':''}}">
+                            {{-- <li class="navbar-vertical-aside-has-menu {{Request::is('admin/brand*')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
-                                   href="javascript:">
+                                    href="javascript:">
                                     <i class="tio-apple-outlined nav-icon"></i>
                                     <span
                                         class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{\App\CPU\translate('brands')}}</span>
@@ -231,10 +231,11 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </li>
-                            <li class="navbar-vertical-aside-has-menu {{(Request::is('admin/category*') ||Request::is('admin/sub*')) ?'active':''}}">
+                            </li> --}}
+
+                            {{-- <li class="navbar-vertical-aside-has-menu {{(Request::is('admin/category*') ||Request::is('admin/sub*')) ?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
-                                   href="javascript:">
+                                    href="javascript:">
                                     <i class="tio-filter-list nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{\App\CPU\translate('categories')}}
@@ -262,18 +263,20 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </li>
-                            <li class="navbar-vertical-aside-has-menu {{Request::is('admin/attribute*')?'active':''}}">
+                            </li> --}}
+
+                            {{-- <li class="navbar-vertical-aside-has-menu {{Request::is('admin/attribute*')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                   href="{{route('admin.attribute.view')}}">
+                                    href="{{route('admin.attribute.view')}}">
                                     <i class="tio-category-outlined nav-icon"></i>
                                     <span
                                         class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{\App\CPU\translate('Attribute')}}</span>
                                 </a>
-                            </li>
+                            </li> --}}
+
                             <li class="navbar-vertical-aside-has-menu {{(Request::is('admin/product/list/in_house') || Request::is('admin/product/bulk-import'))?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
-                                   href="javascript:">
+                                    href="javascript:">
                                     <i class="tio-shop nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         <span class="text-truncate">{{\App\CPU\translate('InHouse Products')}}</span>
@@ -303,7 +306,7 @@
                             </li>
                             <li class="navbar-vertical-aside-has-menu {{Request::is('admin/product/list/seller*')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
-                                   href="javascript:">
+                                    href="javascript:">
                                     <i class="tio-airdrop nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{\App\CPU\translate('Seller')}} {{\App\CPU\translate('Products')}}
@@ -341,7 +344,7 @@
                             </li>
                             <li class="navbar-vertical-aside-has-menu {{Request::is('admin/banner*')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                   href="{{route('admin.banner.list')}}">
+                                    href="{{route('admin.banner.list')}}">
                                     <i class="tio-photo-square-outlined nav-icon"></i>
                                     <span
                                         class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{\App\CPU\translate('banners')}}</span>
@@ -349,7 +352,7 @@
                             </li>
                             <li class="navbar-vertical-aside-has-menu {{Request::is('admin/coupon*')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                   href="{{route('admin.coupon.add-new')}}">
+                                    href="{{route('admin.coupon.add-new')}}">
                                     <i class="tio-credit-cards nav-icon"></i>
                                     <span
                                         class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{\App\CPU\translate('coupons')}}</span>
@@ -357,39 +360,42 @@
                             </li>
                             <li class="navbar-vertical-aside-has-menu {{Request::is('admin/notification*')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                   href="{{route('admin.notification.add-new')}}" title="">
+                                    href="{{route('admin.notification.add-new')}}" title="">
                                     <i class="tio-notifications-on-outlined nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{\App\CPU\translate('push_notification')}}
                                     </span>
                                 </a>
                             </li>
-                            <li class="navbar-vertical-aside-has-menu {{Request::is('admin/deal/flash')?'active':''}}">
+
+                            {{-- <li class="navbar-vertical-aside-has-menu {{Request::is('admin/deal/flash')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                   href="{{route('admin.deal.flash')}}">
+                                    href="{{route('admin.deal.flash')}}">
                                     <i class="tio-flash nav-icon"></i>
                                     <span
                                         class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{\App\CPU\translate('flash_deals')}}</span>
                                 </a>
-                            </li>
-                            <li class="navbar-vertical-aside-has-menu {{Request::is('admin/deal/day')?'active':''}}">
+                            </li> --}}
+
+                            {{-- <li class="navbar-vertical-aside-has-menu {{Request::is('admin/deal/day')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                   href="{{route('admin.deal.day')}}">
+                                    href="{{route('admin.deal.day')}}">
                                     <i class="tio-crown-outlined nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{\App\CPU\translate('deal_of_the_day')}}
                                     </span>
                                 </a>
-                            </li>
-                            <li class="navbar-vertical-aside-has-menu {{Request::is('admin/deal/feature')?'active':''}}">
+                            </li> --}}
+
+                            {{-- <li class="navbar-vertical-aside-has-menu {{Request::is('admin/deal/feature')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                   href="{{route('admin.deal.feature')}}">
+                                    href="{{route('admin.deal.feature')}}">
                                     <i class="tio-flag-outlined nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                         {{\App\CPU\translate('featured_deal')}}
                                     </span>
                                 </a>
-                            </li>
+                            </li> --}}
                         @endif
                     <!--marketing section ends here-->
 
@@ -400,39 +406,39 @@
                             </li>
 
                             {{-- seller withdraw --}}
-                            <li class="navbar-vertical-aside-has-menu {{Request::is('admin/stock/product-stock')?'active':''}}">
+                            {{-- <li class="navbar-vertical-aside-has-menu {{Request::is('admin/stock/product-stock')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                   href="{{route('admin.stock.product-stock')}}">
+                                    href="{{route('admin.stock.product-stock')}}">
                                     <i class="tio-fullscreen-1-1 nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                 {{\App\CPU\translate('product')}} {{\App\CPU\translate('stock')}}
+                                    {{\App\CPU\translate('product')}} {{\App\CPU\translate('stock')}}
                                 </span>
                                 </a>
-                            </li>
+                            </li> --}}
                             <li class="navbar-vertical-aside-has-menu {{Request::is('admin/reviews*')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                   href="{{route('admin.reviews.list')}}">
+                                    href="{{route('admin.reviews.list')}}">
                                     <i class="tio-star nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                     {{\App\CPU\translate('Customer')}} {{\App\CPU\translate('Reviews')}}
                                 </span>
                                 </a>
                             </li>
-                            <li class="navbar-vertical-aside-has-menu {{Request::is('admin/stock/product-in-wishlist')?'active':''}}">
+                            {{-- <li class="navbar-vertical-aside-has-menu {{Request::is('admin/stock/product-in-wishlist')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                   href="{{route('admin.stock.product-in-wishlist')}}">
+                                    href="{{route('admin.stock.product-in-wishlist')}}">
                                     <i class="tio-heart-outlined nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                 {{\App\CPU\translate('product')}} {{\App\CPU\translate('in')}}  {{\App\CPU\translate('wish_list')}}
+                                    {{\App\CPU\translate('product')}} {{\App\CPU\translate('in')}}  {{\App\CPU\translate('wish_list')}}
                                 </span>
                                 </a>
-                            </li>
+                            </li> --}}
                             <li class="navbar-vertical-aside-has-menu {{Request::is('admin/transaction/list')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                   href="{{route('admin.transaction.list')}}">
+                                    href="{{route('admin.transaction.list')}}">
                                     <i class="tio-money nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                 {{\App\CPU\translate('Transactions')}}
+                                    {{\App\CPU\translate('Transactions')}}
                                 </span>
                                 </a>
                             </li>
@@ -446,10 +452,13 @@
                             </li>
                             <li class="navbar-vertical-aside-has-menu {{Request::is('admin/seller*')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
-                                   href="javascript:">
+                                    href="javascript:">
                                     <i class="tio-users-switch nav-icon"></i>
-                                    <span
-                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{\App\CPU\translate('Seller')}}</span>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{\App\CPU\translate('Seller')}}
+                                        <span class="badge badge-warning badge-pill ml-1">
+                                            {{\App\Model\Seller::where('status', 'pending')->count()}}
+                                        </span>
+                                    </span>
                                 </a>
                                 <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
                                     style="display: {{Request::is('admin/seller*')?'block':'none'}}">
