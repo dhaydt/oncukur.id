@@ -48,7 +48,9 @@ class PassportAuthController extends Controller
 
         $token = $user->createToken('LaravelAuthApp')->accessToken;
 
-        return response()->json(['token' => $token], 200);
+        return response()->json([
+            'status' => 'success',
+            'token' => $token, ], 200);
     }
 
     public function login(Request $request)
@@ -101,12 +103,13 @@ class PassportAuthController extends Controller
 
             $token = auth()->user()->createToken('LaravelAuthApp')->accessToken;
 
-            return response()->json(['token' => $token], 200);
+            return response()->json(['status' => 'success', 'token' => $token], 200);
         } else {
             $errors = [];
             array_push($errors, ['code' => 'auth-001', 'message' => translate('Customer_not_found_or_Account_has_been_suspended')]);
 
             return response()->json([
+                'status' => 'fail',
                 'errors' => $errors,
             ], 401);
         }
