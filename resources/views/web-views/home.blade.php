@@ -318,7 +318,7 @@
             </div>
             <div>
                 <a class="btn btn-outline-accent btn-sm viw-btn-a"
-                   href="{{route('categories')}}">{{ \App\CPU\translate('view_all')}}
+                   href="{{route('categories')}}">{{ \App\CPU\translate('view all')}}
                     <i class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1' : 'right ml-1 mr-n1'}}"></i>
                 </a>
             </div>
