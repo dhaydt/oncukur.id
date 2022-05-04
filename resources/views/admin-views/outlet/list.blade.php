@@ -1,6 +1,6 @@
 @extends('layouts.back-end.app')
 
-@section('title', \App\CPU\translate('Product List'))
+@section('title', \App\CPU\translate('Outlet_List'))
 
 @push('css_or_js')
 
@@ -11,7 +11,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{\App\CPU\translate('Dashboard')}}</a></li>
-            <li class="breadcrumb-item" aria-current="page">{{\App\CPU\translate('Products')}}</li>
+            <li class="breadcrumb-item" aria-current="page">{{\App\CPU\translate('Outlets')}}</li>
         </ol>
     </nav>
 
@@ -22,8 +22,8 @@
                     <div class="row flex-between justify-content-between align-items-center flex-grow-1">
                         <div>
                             <h5 class="flex-between">
-                                <div>{{\App\CPU\translate('product_table')}}</div>
-                                <div style="color: red; padding: 0 .4375rem;">({{ $pro->total() }})</div>
+                                <div>{{\App\CPU\translate('outlet_table')}}</div>
+                                <div style="color: red; padding: 0 .4375rem;">({{ $shops->total() }})</div>
                             </h5>
                         </div>
                         <div style="width: 40vw">
@@ -36,7 +36,7 @@
                                         </div>
                                     </div>
                                     <input id="datatableSearch_" type="search" name="search" class="form-control"
-                                           placeholder="{{\App\CPU\translate('Search Product Name')}}" aria-label="Search orders"
+                                           placeholder="{{\App\CPU\translate('Search_Outlet_Name')}}" aria-label="Search orders"
                                            value="{{ $search }}" required>
                                     <input type="hidden" value="{{ $request_status }}" name="status">
                                     <button type="submit" class="btn btn-primary">{{\App\CPU\translate('search')}}</button>
@@ -45,9 +45,9 @@
                             <!-- End Search -->
                         </div>
                         <div>
-                            <a href="{{route('admin.product.add-new')}}" class="btn btn-primary  float-right">
+                            <a href="{{route('admin.product.outlet-add')}}" class="btn btn-primary  float-right">
                                 <i class="tio-add-circle"></i>
-                                <span class="text">{{\App\CPU\translate('Add new product')}}</span>
+                                <span class="text">{{\App\CPU\translate('Add_new_outlet')}}</span>
                             </a>
                         </div>
                     </div>
@@ -60,35 +60,23 @@
                             <thead class="thead-light">
                             <tr>
                                 <th>{{\App\CPU\translate('SL#')}}</th>
-                                <th>{{\App\CPU\translate('Product Name')}}</th>
-                                <th>{{\App\CPU\translate('purchase_price')}}</th>
-                                <th>{{\App\CPU\translate('selling_price')}}</th>
-                                <th>{{\App\CPU\translate('featured')}}</th>
+                                <th>{{\App\CPU\translate('oulet_Name')}}</th>
+                                <th>{{\App\CPU\translate('Address')}}</th>
                                 <th>{{\App\CPU\translate('Active')}} {{\App\CPU\translate('status')}}</th>
                                 <th style="width: 5px" class="text-center">{{\App\CPU\translate('Action')}}</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($pro as $k=>$p)
+                            @foreach($shops as $k=>$p)
                                 <tr>
-                                    <th scope="row">{{$pro->firstItem()+$k}}</th>
+                                    <th scope="row">{{$shops->firstItem()+$k}}</th>
                                     <td>
                                         <a href="{{route('admin.product.view',[$p['id']])}}">
                                             {{\Illuminate\Support\Str::limit($p['name'],20)}}
                                         </a>
                                     </td>
                                     <td>
-                                        {{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($p['purchase_price']))}}
-                                    </td>
-                                    <td>
-                                        {{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($p['unit_price']))}}
-                                    </td>
-                                    <td>
-                                        <label class="switch">
-                                            <input type="checkbox"
-                                                   onclick="featured_status('{{$p['id']}}')" {{$p->featured == 1?'checked':''}}>
-                                            <span class="slider round"></span>
-                                        </label>
+                                        {{ $p->address }}
                                     </td>
                                     <td>
                                         <label class="switch switch-status">
@@ -118,9 +106,9 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    {{$pro->links()}}
+                    {{$shops->links()}}
                 </div>
-                @if(count($pro)==0)
+                @if(count($shops)==0)
                     <div class="text-center p-4">
                         <img class="mb-3" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description" style="width: 7rem;">
                         <p class="mb-0">{{\App\CPU\translate('No data to show')}}</p>

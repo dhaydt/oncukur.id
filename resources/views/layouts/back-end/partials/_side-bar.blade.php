@@ -205,7 +205,7 @@
 
                         @if(\App\CPU\Helpers::module_permission_check('product_management'))
                             <li class="nav-item {{(Request::is('admin/brand*') || Request::is('admin/category*') || Request::is('admin/sub*') || Request::is('admin/attribute*') || Request::is('admin/product*'))?'scroll-here':''}}">
-                                <small class="nav-subtitle" title="">{{\App\CPU\translate('product_management')}}</small>
+                                <small class="nav-subtitle" title="">{{\App\CPU\translate('outlet_&_service_management')}}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                             </li>
                             <!-- Pages -->
@@ -274,7 +274,7 @@
                                 </a>
                             </li> --}}
 
-                            <li class="navbar-vertical-aside-has-menu {{(Request::is('admin/product/list/in_house') || Request::is('admin/product/bulk-import'))?'active':''}}">
+                            {{-- <li class="navbar-vertical-aside-has-menu {{(Request::is('admin/product/list/in_house') || Request::is('admin/product/bulk-import'))?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:">
                                     <i class="tio-shop nav-icon"></i>
@@ -303,13 +303,21 @@
                                         </a>
                                     </li>
                                 </ul>
+                            </li> --}}
+                            <li class="navbar-vertical-aside-has-menu {{Request::is('admin/product/outlet-list*')?'active':''}}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                    href="{{route('admin.product.outlet-list')}}">
+                                    <i class="tio-photo-square-outlined nav-icon"></i>
+                                    <span
+                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{\App\CPU\translate('outlet')}}</span>
+                                </a>
                             </li>
                             <li class="navbar-vertical-aside-has-menu {{Request::is('admin/product/list/seller*')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:">
                                     <i class="tio-airdrop nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                        {{\App\CPU\translate('Seller')}} {{\App\CPU\translate('Products')}}
+                                        {{\App\CPU\translate('Service')}}
                                     </span>
                                 </a>
                                 <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
