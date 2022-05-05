@@ -463,9 +463,6 @@
                                     href="javascript:">
                                     <i class="tio-users-switch nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{\App\CPU\translate('Seller')}}
-                                        <span class="badge badge-warning badge-pill ml-1">
-                                            {{\App\Model\Seller::where('status', 'pending')->count()}}
-                                        </span>
                                     </span>
                                 </a>
                                 <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
