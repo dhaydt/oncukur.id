@@ -51,7 +51,7 @@ class ProductController extends BaseController
 
     public function outletAdd()
     {
-        $response = Mapper::map(-6.296427499134125, 106.82998295716176);
+        $response = Mapper::map(-6.296427499134125, 106.82998295716176, ['zoom' => 15, 'center' => true, 'marker' => true, 'type' => 'MAP', 'overlay' => 'TRAFFIC', 'draggable' => true, 'eventDragEnd' => 'console.log("drag end");']);
 
         return view('admin-views.outlet.add-new', compact('response'));
     }
