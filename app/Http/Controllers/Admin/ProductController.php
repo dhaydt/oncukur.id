@@ -14,6 +14,7 @@ use App\Model\DealOfTheDay;
 use App\Model\FlashDealProduct;
 use App\Model\Product;
 use App\Model\Review;
+use App\Model\Seller;
 use App\Model\Shop;
 use App\Model\Translation;
 use Brian2694\Toastr\Facades\Toastr;
@@ -71,14 +72,19 @@ class ProductController extends BaseController
     public function outletAddStore(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'email' => 'required',
+            'username' => 'required',
+            'phone' => 'required',
             'name' => 'required',
             'image' => 'required',
-            'contact' => 'required',
             'capacity' => 'required',
             'address' => 'required',
             'chair' => 'required',
         ], [
             'name.required' => 'Outlet name is required',
+            'email.required' => 'Email is required for login',
+            'username.required' => 'Username is required',
+            'phone.required' => 'Phone is required',
             'image' => 'Outlet Image is required',
             'contact.required' => 'Contact Outlet is Required',
         ]);
@@ -87,18 +93,36 @@ class ProductController extends BaseController
             return response()->json(['errors' => Helpers::error_processor($validator)]);
         }
 
+        $user = $request->email;
+
+        $seller = Seller::where('email', $user)->first();
+        if (isset($seller)) {
+            Toastr::success('Email already used!!');
+
+            return back()->withInput();
+        }
+
+        $new = new Seller();
+        $new->f_name = $request->username;
+        $new->email = $request->email;
+        $new->phone = $request->phone;
+        $new->password = bcrypt('mitraoncukur');
+        $new->status = 'approved';
+
         $outlet = new Shop();
         $outlet->name = $request->name;
-        $outlet->contact = $request->contact;
-        $outlet->seller_id = auth('admin')->user()->id;
         $outlet->address = $request->address;
         $outlet->capacity = $request->capacity;
         $outlet->chair = $request->chair;
+        $outlet->contact = $request->contact;
         $outlet->status = 0;
         $outlet->image = ImageManager::upload('outlet/', 'png', $request->image);
         if ($request->ajax()) {
             return response()->json([], 200);
         } else {
+            $new->save();
+
+            $outlet->seller_id = $new->id;
             $outlet->save();
         }
 

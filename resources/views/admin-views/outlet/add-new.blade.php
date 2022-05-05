@@ -29,8 +29,27 @@
                     enctype="multipart/form-data"
                     id="product_form">
                     @csrf
-
                     <div class="card">
+                        <div class="card-header">
+                            <h4>{{ \App\CPU\Translate('Account_info') }}</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="email" class="input-label">{{ \App\CPU\Translate('email') }}</label>
+                                <input type="email" class="form-control" id="email" name="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="username" class="input-label">{{ \App\CPU\Translate('username') }}</label>
+                                <input type="text" class="form-control" id="username" name="username">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone" class="input-label">{{ \App\CPU\Translate('Phone') }}</label>
+                                <input type="number" class="form-control" id="phone" name="phone">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-2 rest-part">
                         <div class="card-header">
                             <h4>{{ \App\CPU\Translate('Outlet_info') }}</h4>
                         </div>
