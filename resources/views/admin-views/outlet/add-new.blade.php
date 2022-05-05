@@ -25,9 +25,9 @@
         <div class="row">
             <div class="col-md-12">
                 <form class="product-form" action="{{route('admin.product.outlet-add-store')}}" method="POST"
-                      style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};"
-                      enctype="multipart/form-data"
-                      id="product_form">
+                    style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};"
+                    enctype="multipart/form-data"
+                    id="product_form">
                     @csrf
 
                     <div class="card">
@@ -41,7 +41,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="contact" class="input-label">{{ \App\CPU\Translate('contact_number') }}</label>
-                                <input type="text" id="contact" class="form-control" name="contact">
+                                <input type="number" id="contact" class="form-control" name="contact">
                             </div>
                             <div class="form-group">
                                 <label for="capacity" class="input-label">{{ \App\CPU\Translate('Mitra_capacity') }}</label>
@@ -54,6 +54,11 @@
                             <div class="form-group">
                                 <label for="address" class="input-label">{{ \App\CPU\Translate('address') }}</label>
                                 <textarea id="address" class="form-control" name="address"></textarea>
+                                <div class="row justify-content-center mt-4">
+                                    <div class="map" style="width: 80%; height: 500px;">
+                                        {!! Mapper::render() !!}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

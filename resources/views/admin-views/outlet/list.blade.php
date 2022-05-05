@@ -61,7 +61,10 @@
                             <tr>
                                 <th>{{\App\CPU\translate('SL#')}}</th>
                                 <th>{{\App\CPU\translate('oulet_Name')}}</th>
+                                <th>{{\App\CPU\translate('oulet_image')}}</th>
                                 <th>{{\App\CPU\translate('Address')}}</th>
+                                <th>{{\App\CPU\translate('Capacity')}}</th>
+                                <th>{{\App\CPU\translate('Chair')}}</th>
                                 <th>{{\App\CPU\translate('Active')}} {{\App\CPU\translate('status')}}</th>
                                 <th style="width: 5px" class="text-center">{{\App\CPU\translate('Action')}}</th>
                             </tr>
@@ -76,7 +79,19 @@
                                         </a>
                                     </td>
                                     <td>
+                                        <img style="height: 80px;" height="auto"
+                                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                            src="{{asset("storage/outlet")}}/{{$p['image']}}"
+                                        alt="Outlet image">
+                                    </td>
+                                    <td>
                                         {{ $p->address }}
+                                    </td>
+                                    <td>
+                                        {{ $p->capacity }} Mitra
+                                    </td>
+                                    <td>
+                                        {{ $p->chair }} Chairs
                                     </td>
                                     <td>
                                         <label class="switch switch-status">
@@ -87,15 +102,15 @@
                                     </td>
                                     <td>
                                         <a class="btn btn-primary btn-sm"
-                                           href="{{route('admin.product.edit',[$p['id']])}}">
+                                            href="{{route('admin.product.outlet-edit',[$p['id']])}}">
                                             <i class="tio-edit"></i>{{\App\CPU\translate('Edit')}}
                                         </a>
                                         <a class="btn btn-danger btn-sm" href="javascript:"
-                                           onclick="form_alert('product-{{$p['id']}}','Want to delete this item ?')">
+                                            onclick="form_alert('product-{{$p['id']}}','Want to delete this item ?')">
                                             <i class="tio-add-to-trash"></i> {{\App\CPU\translate('Delete')}}
                                         </a>
-                                        <form action="{{route('admin.product.delete',[$p['id']])}}"
-                                              method="post" id="product-{{$p['id']}}">
+                                        <form action="{{route('admin.product.outlet-delete',[$p['id']])}}"
+                                            method="post" id="product-{{$p['id']}}">
                                             @csrf @method('delete')
                                         </form>
                                     </td>
@@ -144,7 +159,7 @@
                 }
             });
             $.ajax({
-                url: "{{route('admin.product.status-update')}}",
+                url: "{{route('admin.product.outlet-status-update')}}",
                 method: 'POST',
                 data: {
                     id: id,
@@ -155,7 +170,6 @@
                         toastr.success('{{\App\CPU\translate('Status updated successfully')}}');
                     }
                     else if(data.success == false) {
-                        toastr.error('{{\App\CPU\translate('Status updated failed. Product must be approved')}}');
                         setTimeout(function(){
                             location.reload();
                         }, 2000);

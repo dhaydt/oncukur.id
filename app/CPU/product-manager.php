@@ -138,10 +138,10 @@ class ProductManager
     public static function product_image_path($image_type)
     {
         $path = '';
-        if ($image_type == 'thumbnail') {
-            $path = asset('storage/app/public/product/thumbnail');
+        if ($image_type == 'outlet') {
+            $path = asset('storage/outlet');
         } elseif ($image_type == 'product') {
-            $path = asset('storage/app/public/product');
+            $path = asset('storage/product');
         }
 
         return $path;

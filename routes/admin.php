@@ -243,6 +243,10 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::get('outlet-list', 'ProductController@outletList')->name('outlet-list');
             Route::get('outlet-add', 'ProductController@outletAdd')->name('outlet-add');
             Route::post('outlet-add-store', 'ProductController@outletAddStore')->name('outlet-add-store');
+            Route::post('outlet-status-update', 'ProductController@outletStatusUpdate')->name('outlet-status-update');
+            Route::get('outlet-edit/{id}', 'ProductController@outletEdit')->name('outlet-edit');
+            Route::delete('outlet-delete/{id}', 'ProductController@outletDelete')->name('outlet-delete');
+            Route::post('outlet-update/{id}', 'ProductController@outletUpdate')->name('outlet-update');
         });
 
         Route::group(['prefix' => 'transaction', 'as' => 'transaction.', 'middleware' => ['module:business_section']], function () {

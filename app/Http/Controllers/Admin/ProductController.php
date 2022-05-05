@@ -17,6 +17,7 @@ use App\Model\Review;
 use App\Model\Shop;
 use App\Model\Translation;
 use Brian2694\Toastr\Facades\Toastr;
+use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -50,7 +51,21 @@ class ProductController extends BaseController
 
     public function outletAdd()
     {
-        return view('admin-views.outlet.add-new');
+        $response = Mapper::map(-6.296427499134125, 106.82998295716176);
+
+        return view('admin-views.outlet.add-new', compact('response'));
+    }
+
+    public function outletStatusUpdate(Request $request)
+    {
+        $shop = Shop::where('id', $request['id'])->first();
+        $success = 1;
+        $shop->status = $request['status'];
+        $shop->save();
+
+        return response()->json([
+            'success' => $success,
+        ], 200);
     }
 
     public function outletAddStore(Request $request)
@@ -90,6 +105,60 @@ class ProductController extends BaseController
         Toastr::success('Outlet successfully added!!');
 
         return redirect()->route('admin.product.outlet-list');
+    }
+
+    public function outletDelete($id)
+    {
+        $shop = Shop::find($id);
+
+        ImageManager::delete('outlet/'.$shop['image']);
+
+        $shop->delete();
+
+        return back();
+    }
+
+    public function outletEdit($id)
+    {
+        $shop = Shop::find($id);
+        $map = Mapper::map(-6.296427499134125, 106.82998295716176);
+
+        return view('admin-views.outlet.edit', compact('shop', 'map'));
+    }
+
+    public function outletUpdate(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'capacity' => 'required',
+            'chair' => 'required',
+            'address' => 'required',
+            'contact' => 'required',
+        ]);
+
+        if ($validator->errors()->count() > 0) {
+            return response()->json(['errors' => Helpers::error_processor($validator)]);
+        }
+
+        $shop = Shop::find($id);
+        $shop->name = $request->name;
+        $shop->address = $request->address;
+        $shop->chair = $request->chair;
+        $shop->capacity = $request->capacity;
+        $shop->contact = $request->contact;
+
+        if ($request->ajax()) {
+            return response()->json([], 200);
+        } else {
+            if ($request->file('image')) {
+                $shop->image = ImageManager::update('outlet/', $shop->image, 'png', $request->file('image'));
+            }
+            $shop->save();
+        }
+
+        Toastr::success('Outlet updated successfully.');
+
+        return back();
     }
 
     public function add_new()
