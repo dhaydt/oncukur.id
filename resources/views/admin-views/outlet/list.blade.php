@@ -79,7 +79,7 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <img style="height: 80px;" height="auto"
+                                        <img style="height: 80px; width: auto; max-width: 120px;"
                                             onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                             src="{{asset("storage/outlet")}}/{{$p['image']}}"
                                         alt="Outlet image">
