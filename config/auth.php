@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults
@@ -56,6 +55,11 @@ return [
             'provider' => 'sellers',
         ],
 
+        'mitra' => [
+            'driver' => 'session',
+            'provider' => 'mitra',
+        ],
+
         'customer' => [
             'driver' => 'session',
             'provider' => 'users',
@@ -93,6 +97,11 @@ return [
         'sellers' => [
             'driver' => 'eloquent',
             'model' => App\Model\Seller::class,
+        ],
+
+        'mitra' => [
+            'driver' => 'eloquent',
+            'model' => App\Model\Mitra::class,
         ],
 
         // 'users' => [
@@ -137,6 +146,13 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+
+        'mitra' => [
+            'provider' => 'mitra',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
     ],
 
     /*
@@ -151,5 +167,4 @@ return [
     */
 
     'password_timeout' => 10800,
-
 ];

@@ -30,8 +30,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
     }
 
@@ -49,6 +47,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapSellerRoutes();
         $this->mapCustomerRoutes();
         $this->mapWebRoutes();
+        $this->mapMitraRoutes();
         $this->mapSharedRoutes();
         $this->mapTestRoutes();
         //$this->mapInstallRoutes();
@@ -67,6 +66,13 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/admin.php'));
+    }
+
+    protected function mapMitraRoutes()
+    {
+        Route::middleware('web')
+        ->namespace($this->namespace)
+        ->group(base_path('routes/mitra.php'));
     }
 
     protected function mapSellerRoutes()
