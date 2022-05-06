@@ -17,4 +17,9 @@ Route::group(['namespace' => 'Mitra', 'prefix' => 'mitra', 'as' => 'mitra.'], fu
     Route::get('/', function () {
         return 'work';
     });
+
+    Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
+        Route::get('register', 'RegisterController@register')->name('register');
+        Route::get('login', 'RegisterController@login')->name('login');
+    });
 });
