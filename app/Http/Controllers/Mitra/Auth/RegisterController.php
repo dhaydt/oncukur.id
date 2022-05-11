@@ -63,6 +63,6 @@ class RegisterController extends Controller
         $mitra->ktp = ImageManager::upload('ktp', 'png', $request->file('ktp'));
         $mitra->save();
 
-        return redirect()->route('mitra.login');
+        return redirect()->route('mitra.auth.login');
     }
 }
