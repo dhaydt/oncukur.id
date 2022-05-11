@@ -40,7 +40,7 @@ class MitraController extends Controller
 
     public function view(Request $request, $id, $tab = null)
     {
-        $seller = Mitra::with('shop')->findOrFail($id);
+        $seller = Mitra::with('shop', 'wallet')->findOrFail($id);
         if ($tab == 'order') {
             $id = $seller->id;
             $orders = Order::where(['seller_is' => 'seller'])->where(['seller_id' => $id])->latest()->paginate(Helpers::pagination_limit());

@@ -8,10 +8,18 @@ use Illuminate\Notifications\Notifiable;
 class Mitra extends Authenticatable
 {
     use Notifiable;
+    protected $casts = [
+        'name',
+        'shop_id',
+        'email',
+        'password',
+        'birthdate',
+        'ktp',
+    ];
 
     public function shop()
     {
-        return $this->belongsTo(Shop::class, 'seller_id');
+        return $this->belongsTo(Shop::class, 'shop_id');
     }
 
     public function shops()
@@ -26,6 +34,6 @@ class Mitra extends Authenticatable
 
     public function wallet()
     {
-        return $this->hasMany(SellerWallet::class, 'seller_id');
+        return $this->hasOne(SellerWallet::class, 'seller_id');
     }
 }

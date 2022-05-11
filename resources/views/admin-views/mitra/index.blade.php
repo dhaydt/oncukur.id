@@ -64,7 +64,7 @@
                                 @foreach($sellers as $key=>$seller)
                                     <tr>
                                         <td scope="col">{{$sellers->firstItem()+$key}}</td>
-                                        <td scope="col">{{$seller->f_name}} {{$seller->l_name}}</td>
+                                        <td scope="col">{{$seller->name}}</td>
                                         <td scope="col">{{$seller->phone}}</td>
                                         <td scope="col">{{$seller->email}}</td>
                                         <td scope="col">
