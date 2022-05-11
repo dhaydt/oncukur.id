@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="{{asset('assets/front-end')}}/css/responsive1.css"/>
 
     <!-- CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Titillium+Web:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -42,6 +43,22 @@
         body {
             background-color: #f7f8fa94;
             font-family: 'Nunito', sans-serif;
+        }
+        .select2-container .select2-selection--single{
+            height: 40px !important;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__rendered{
+            line-height: 33px !important;
+            text-align: center;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow{
+            top: 5px !important;
+        }
+        .form-control {
+            text-align: center;
+        }
+        .main-card{
+            width: 50vw;
         }
         .rtl {
             direction: {{ Session::get('direction') }};
@@ -599,6 +616,7 @@
 {{--Toastr--}}
 <script src={{asset("assets/back-end/js/toastr.js")}}></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 {!! Toastr::message() !!}
 
 <script>

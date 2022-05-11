@@ -20,6 +20,14 @@ Route::group(['namespace' => 'Mitra', 'prefix' => 'mitra', 'as' => 'mitra.'], fu
 
     Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
         Route::get('register', 'RegisterController@register')->name('register');
-        Route::get('login', 'RegisterController@login')->name('login');
+        Route::get('login', 'LoginController@login')->name('login');
+        Route::post('store', 'RegisterController@store')->name('register.store');
+        Route::post('post-login', 'LoginController@store')->name('login.store');
+    });
+
+    Route::group(['midleware' => ['mitra']], function () {
+        Route::get('/mitra', function () {
+            return 'welcome to mitra home';
+        })->name('mitra.home');
     });
 });

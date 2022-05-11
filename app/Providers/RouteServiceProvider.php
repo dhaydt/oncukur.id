@@ -42,6 +42,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->mapApiRoutes();
         $this->mapApiv2Routes();
+        $this->mapApiv3Routes();
 
         $this->mapAdminRoutes();
         $this->mapSellerRoutes();
@@ -145,5 +146,13 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('api')
             ->namespace($this->namespace)
             ->group(base_path('routes/api/v2/api.php'));
+    }
+
+    protected function mapApiv3Routes()
+    {
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/api/v3/api.php'));
     }
 }

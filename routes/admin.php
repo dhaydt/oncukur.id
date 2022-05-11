@@ -218,6 +218,22 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
 
             Route::post('sales-commission-update/{id}', 'SellerController@sales_commission_update')->name('sales-commission-update');
         });
+
+        Route::group(['prefix' => 'mitras', 'as' => 'mitras.', 'middleware' => ['module:user_section']], function () {
+            Route::get('mitra-list', 'MitraController@index')->name('mitra-list');
+            Route::get('order-list/{seller_id}', 'MitraController@order_list')->name('order-list');
+            Route::get('product-list/{seller_id}', 'MitraController@product_list')->name('product-list');
+
+            Route::get('order-details/{order_id}/{seller_id}', 'MitraController@order_details')->name('order-details');
+            Route::get('verification/{id}', 'MitraController@view')->name('verification');
+            Route::get('view/{id}/{tab?}', 'MitraController@view')->name('view');
+            Route::post('update-status', 'MitraController@updateStatus')->name('updateStatus');
+            Route::post('withdraw-status/{id}', 'MitraController@withdrawStatus')->name('withdraw_status');
+            Route::get('withdraw_list', 'MitraController@withdraw')->name('withdraw_list');
+            Route::get('withdraw-view/{withdraw_id}/{seller_id}', 'MitraController@withdraw_view')->name('withdraw_view');
+
+            Route::post('sales-commission-update/{id}', 'MitraController@sales_commission_update')->name('sales-commission-update');
+        });
         Route::group(['prefix' => 'product', 'as' => 'product.', 'middleware' => ['module:product_management']], function () {
             Route::get('add-new', 'ProductController@add_new')->name('add-new');
             Route::post('store', 'ProductController@store')->name('store');

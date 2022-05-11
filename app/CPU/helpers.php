@@ -9,6 +9,7 @@ use App\Model\Category;
 use App\Model\Color;
 use App\Model\Coupon;
 use App\Model\Currency;
+use App\Model\Mitra;
 use App\Model\Order;
 use App\Model\Product;
 use App\Model\Review;
@@ -840,6 +841,26 @@ class Helpers
         $token = explode(' ', $request->header('authorization'));
         if (count($token) > 1 && strlen($token[1]) > 30) {
             $seller = Seller::where(['auth_token' => $token['1']])->first();
+            if (isset($seller)) {
+                $data = $seller;
+                $success = 1;
+            }
+        }
+
+        return [
+            'success' => $success,
+            'data' => $data,
+        ];
+    }
+
+    public static function get_mitra_by_token($request)
+    {
+        $data = '';
+        $success = 0;
+
+        $token = explode(' ', $request->header('authorization'));
+        if (count($token) > 1 && strlen($token[1]) > 30) {
+            $seller = Mitra::where(['auth_token' => $token['1']])->first();
             if (isset($seller)) {
                 $data = $seller;
                 $success = 1;

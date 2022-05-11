@@ -453,7 +453,7 @@
                         @endif
                     <!--business section ends here-->
 
-                        @if(\App\CPU\Helpers::module_permission_check('user_section'))
+                        {{-- @if(\App\CPU\Helpers::module_permission_check('user_section'))
                             <li class="nav-item {{(Request::is('admin/customer/list') || Request::is('admin/sellers/seller-list'))?'scroll-here':''}}">
                                 <small class="nav-subtitle" title="">{{\App\CPU\translate('user_section')}}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
@@ -462,7 +462,7 @@
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:">
                                     <i class="tio-users-switch nav-icon"></i>
-                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{\App\CPU\translate('Seller')}}
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{\App\CPU\translate('Outlet_account')}}
                                     </span>
                                 </a>
                                 <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
@@ -478,6 +478,50 @@
                                     </li>
                                     <li class="nav-item {{Request::is('admin/sellers/withdraw_list')?'active':''}}">
                                         <a class="nav-link " href="{{route('admin.sellers.withdraw_list')}}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">{{\App\CPU\translate('withdraws')}}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+
+                            <li class="nav-item {{Request::is('admin/customer/list')?'active':''}}">
+                                <a class="nav-link " href="{{route('admin.customer.list')}}">
+                                    <span class="tio-poi-user nav-icon"></span>
+                                    <span
+                                        class="text-truncate">{{\App\CPU\translate('customers')}} </span>
+                                </a>
+                            </li>
+                        @endif --}}
+                    <!--user section ends here-->
+
+
+                    @if(\App\CPU\Helpers::module_permission_check('user_section'))
+                            <li class="nav-item {{(Request::is('admin/customer/list') || Request::is('admin/mitra/mitra-list'))?'scroll-here':''}}">
+                                <small class="nav-subtitle" title="">{{\App\CPU\translate('mitra')}}</small>
+                                <small class="tio-more-horizontal nav-subtitle-replacer"></small>
+                            </li>
+                            <li class="navbar-vertical-aside-has-menu {{Request::is('admin/mitra*')?'active':''}}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                    href="javascript:">
+                                    <i class="tio-users-switch nav-icon"></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{\App\CPU\translate('mitra')}}
+                                    </span>
+                                </a>
+                                <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
+                                    style="display: {{Request::is('admin/mitra*')?'block':'none'}}">
+                                    <li class="nav-item {{Request::is('admin/mitras/mitra-list')?'active':''}}">
+                                        <a class="nav-link"
+                                        href="{{route('admin.mitras.mitra-list')}}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">
+                                                {{\App\CPU\translate('list')}}
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item {{Request::is('admin/mitras/withdraw_list')?'active':''}}">
+                                        <a class="nav-link " href="{{route('admin.mitras.withdraw_list')}}">
                                             <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{\App\CPU\translate('withdraws')}}</span>
                                         </a>
