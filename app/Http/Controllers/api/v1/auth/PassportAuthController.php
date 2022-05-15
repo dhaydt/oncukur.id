@@ -7,6 +7,7 @@ use function App\CPU\translate;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -101,9 +102,25 @@ class PassportAuthController extends Controller
                 return response()->json(['temporary_token' => $user->temporary_token], 200);
             }
 
-            $token = auth()->user()->createToken('LaravelAuthApp')->accessToken;
+            $token = rand(1000, 9999);
+            User::where('id', $user->id)->update([
+                'otp_login' => $token,
+            ]);
 
-            return response()->json(['status' => 'success', 'token' => $token], 200);
+            try {
+                Mail::to($request['email'])->send(new \App\Mail\EmailVerification($token));
+                $response = translate('check_your_email');
+            } catch (\Exception $exception) {
+                $response = translate('email_failed');
+            }
+
+            return response()->json([
+                'message' => $response,
+                'otp' => 'active',
+            ], 200);
+
+        // $token = auth()->user()->createToken('LaravelAuthApp')->accessToken;
+        //     return response()->json(['status' => 'success', 'token' => $token], 200);
         } else {
             $errors = [];
             array_push($errors, ['code' => 'auth-001', 'message' => translate('Customer_not_found_or_Account_has_been_suspended')]);
@@ -112,6 +129,29 @@ class PassportAuthController extends Controller
                 'status' => 'fail',
                 'errors' => $errors,
             ], 401);
+        }
+    }
+
+    public function otp_login_verify(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required',
+            'otp' => 'required',
+            'password' => 'required',
+        ]);
+
+        $user = User::where(['email' => $request->email, 'otp_login' => $request->otp])->first();
+        $data = [
+            'email' => $request->email,
+            'password' => $request->password,
+        ];
+        // dd($data);
+        if (isset($user) && auth()->attempt($data)) {
+            $token = auth()->user()->createToken('LaravelAuthApp')->accessToken;
+
+            return response()->json(['status' => 'success', 'token' => $token], 200);
+        } else {
+            return response()->json('invalid token');
         }
     }
 }

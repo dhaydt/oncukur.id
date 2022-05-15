@@ -17,6 +17,7 @@ Route::group(['namespace' => 'api\v1', 'prefix' => 'v1', 'middleware' => ['api_l
     Route::group(['prefix' => 'auth', 'namespace' => 'auth'], function () {
         Route::post('register', 'PassportAuthController@register');
         Route::post('login', 'PassportAuthController@login');
+        Route::post('verify-login-otp', 'PassportAuthController@otp_login_verify');
 
         Route::post('check-phone', 'PhoneVerificationController@check_phone');
         Route::post('verify-phone', 'PhoneVerificationController@verify_phone');
