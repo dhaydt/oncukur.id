@@ -82,11 +82,15 @@ class LoginController extends Controller
 
     public function otp_login_verify(Request $request)
     {
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'email' => 'required',
             'otp' => 'required',
             'password' => 'required',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => Helpers::error_processor($validator)], 403);
+        }
 
         $mitra = Mitra::where(['email' => $request->email, 'otp_login' => $request->otp])->first();
         $data = [
