@@ -53,4 +53,13 @@ class LoginController extends Controller
         return redirect()->back()->withInput($request->only('email', 'remember'))
             ->withErrors(['Credentials does not match.']);
     }
+
+    public function logout(Request $request)
+    {
+        auth()->guard('mitra')->logout();
+
+        $request->session()->invalidate();
+
+        return redirect()->route('mitra.auth.login');
+    }
 }

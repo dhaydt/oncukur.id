@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Brian2694\Toastr\Facades\Toastr;
 use Closure;
 
 class MitraMiddleware
@@ -20,6 +21,8 @@ class MitraMiddleware
         }
 
         auth()->guard('mitra')->logout();
+
+        Toastr::warning('Please input your mitra account credentials');
 
         return redirect()->route('mitra.auth.login');
     }

@@ -39,7 +39,6 @@
         <div class="page-header pb-0" style="border-bottom: 0!important">
             <div class="flex-between row align-items-center mx-1">
                 <h1 class="page-header-title">{{\App\CPU\translate('Dashboard')}}</h1>
-
                 <div>
                     <a class="btn btn-primary" href="{{route('seller.product.list')}}">
                         <i class="tio-premium-outlined mr-1"></i> {{\App\CPU\translate('Products')}}

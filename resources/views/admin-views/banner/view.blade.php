@@ -60,7 +60,7 @@
                                             <img
                                                 style="width: auto;border: 1px solid; border-radius: 10px; max-height:200px;"
                                                 id="mbImageviewer"
-                                                src="{{asset('public\assets\back-end\img\400x400\img1.jpg')}}"
+                                                src="{{asset('assets\back-end\img\400x400\img1.jpg')}}"
                                                 alt="banner image"/>
                                         </center>
                                     </div>
@@ -113,7 +113,7 @@
                                             <img
                                                 style="width: auto;border: 1px solid; border-radius: 10px; max-height:200px;"
                                                 id="fbImageviewer"
-                                                src="{{asset('public\assets\back-end\img\400x400\img2.jpg')}}"
+                                                src="{{asset('assets\back-end\img\400x400\img2.jpg')}}"
                                                 alt="banner image"/>
                                         </center>
                                     </div>
@@ -166,7 +166,7 @@
                                             <img
                                                 style="width: auto;border: 1px solid; border-radius: 10px; max-height:200px;"
                                                 id="pbImageviewer"
-                                                src="{{asset('public\assets\back-end\img\400x400\img2.jpg')}}"
+                                                src="{{asset('assets\back-end\img\400x400\img2.jpg')}}"
                                                 alt="banner image"/>
                                         </center>
                                     </div>
@@ -236,7 +236,7 @@
                                         <td>
                                             <img width="80"
                                                  onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                                                 src="{{asset('storage/app/banner')}}/{{$banner['photo']}}">
+                                                 src="{{asset('storage/banner')}}/{{$banner['photo']}}">
                                         </td>
                                         <td>{{$banner->banner_type}}</td>
                                         <td><label class="switch"><input type="checkbox" class="status"

@@ -26,7 +26,7 @@
 <!-- ========== MAIN CONTENT ========== -->
 <main id="content" role="main" class="main">
     <div class="position-fixed top-0 right-0 left-0 bg-img-hero"
-        style="height: 32rem; background-image: url({{asset('assets/admin')}}/svg/components/abstract-bg-4.svg);">
+         style="height: 32rem; background-image: url({{asset('assets/admin')}}/svg/components/abstract-bg-4.svg);">
         <!-- SVG Bottom Shape -->
         <figure class="position-absolute right-0 bottom-0 left-0">
             <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 1921 273">
@@ -41,8 +41,8 @@
         @php($e_commerce_logo=\App\Model\BusinessSetting::where(['type'=>'company_web_logo'])->first()->value)
         <a class="d-flex justify-content-center mb-5" href="javascript:">
             <img class="z-index-2"  src="{{asset("storage/company/".$e_commerce_logo)}}" alt="Logo"
-                onerror="this.src='{{asset('assets/back-end/img/400x400/img2.jpg')}}'"
-                style="width: 8rem;">
+                 onerror="this.src='{{asset('assets/back-end/img/400x400/img2.jpg')}}'"
+                 style="width: 8rem;">
         </a>
 
         <div class="row justify-content-center">
@@ -56,7 +56,7 @@
                 </ol>
                 <div class="card py-2 mt-4">
                     <form class="card-body needs-validation" novalidate method="POST"
-                        action="{{request('seller.auth.reset-password')}}">
+                          action="{{request('mitra.auth.reset-password')}}">
                         @csrf
                         <div class="form-group" style="display: none">
                             <input type="text" name="reset_token" value="{{$token}}" required>
@@ -66,7 +66,7 @@
                             <label for="si-password">{{\App\CPU\translate('New')}}{{\App\CPU\translate('password')}}</label>
                             <div class="password-toggle">
                                 <input class="form-control" name="password" type="password" id="si-password"
-                                    required>
+                                       required>
                                 <label class="password-toggle-btn">
                                     <input class="custom-control-input" type="checkbox"><i
                                         class="czi-eye password-toggle-indicator"></i><span
@@ -79,7 +79,7 @@
                             <label for="si-password">{{\App\CPU\translate('confirm_password')}}</label>
                             <div class="password-toggle">
                                 <input class="form-control" name="confirm_password" type="password" id="si-password"
-                                    required>
+                                       required>
                                 <label class="password-toggle-btn">
                                     <input class="custom-control-input" type="checkbox"><i
                                         class="czi-eye password-toggle-indicator"></i><span

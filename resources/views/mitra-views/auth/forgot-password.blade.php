@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Title -->
-    <title>{{\App\CPU\translate('Seller | Reset Password')}}</title>
+    <title>{{\App\CPU\translate('forgot_password')}}</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="favicon.ico">
@@ -26,7 +26,7 @@
 <!-- ========== MAIN CONTENT ========== -->
 <main id="content" role="main" class="main">
     <div class="position-fixed top-0 right-0 left-0 bg-img-hero"
-        style="height: 32rem; background-image: url({{asset('assets/admin')}}/svg/components/abstract-bg-4.svg);">
+         style="height: 32rem; background-image: url({{asset('assets/admin')}}/svg/components/abstract-bg-4.svg);">
         <!-- SVG Bottom Shape -->
         <figure class="position-absolute right-0 bottom-0 left-0">
             <svg preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 1921 273">
@@ -41,55 +41,31 @@
         @php($e_commerce_logo=\App\Model\BusinessSetting::where(['type'=>'company_web_logo'])->first()->value)
         <a class="d-flex justify-content-center mb-5" href="javascript:">
             <img class="z-index-2"  src="{{asset("storage/company/".$e_commerce_logo)}}" alt="Logo"
-                onerror="this.src='{{asset('assets/back-end/img/400x400/img2.jpg')}}'"
-                style="width: 8rem;">
+                 onerror="this.src='{{asset('assets/back-end/img/400x400/img2.jpg')}}'"
+                 style="width: 8rem;">
         </a>
 
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-10">
-                <h2 class="h3 mb-4">{{\App\CPU\translate('forget_your_password')}}?</h2>
-                <p class="font-size-md">{{\App\CPU\translate('follow_steps')}}
-                    secure.</p>
+                <h2 class="h3 mb-4">{{\App\CPU\translate('forgot_password?')}}</h2>
+                <p class="font-size-md">{{\App\CPU\translate('follow_steps')}}</p>
                 <ol class="list-unstyled font-size-md">
-                    <li><span class="text-primary mr-2">1.</span>{{\App\CPU\translate('new_password')}}.</li>
-                    <li><span class="text-primary mr-2">2.</span>{{\App\CPU\translate('confirm_password')}}.</li>
+                    <li><span class="text-primary mr-2">1.</span>{{\App\CPU\translate('Fill in your email address below')}}.</li>
+                    <li><span class="text-primary mr-2">2.</span>{{\App\CPU\translate('We will send email you a temporary code')}}.</li>
+                    <li><span class="text-primary mr-2">3.</span>{{\App\CPU\translate('Use the code to change your password on our secure
+                        website')}}.
+                    </li>
                 </ol>
                 <div class="card py-2 mt-4">
-                    <form class="card-body needs-validation" novalidate method="POST"
-                        action="{{request('seller.auth.reset-password')}}">
+                    <form class="card-body needs-validation" action="{{route('mitra.auth.forgot-password')}}"
+                          method="post">
                         @csrf
-                        <div class="form-group" style="display: none">
-                            <input type="text" name="reset_token" value="{{$token}}" required>
-                        </div>
-
                         <div class="form-group">
-                            <label for="si-password">{{\App\CPU\translate('New')}}{{\App\CPU\translate('password')}}</label>
-                            <div class="password-toggle">
-                                <input class="form-control" name="password" type="password" id="si-password"
-                                    required>
-                                <label class="password-toggle-btn">
-                                    <input class="custom-control-input" type="checkbox"><i
-                                        class="czi-eye password-toggle-indicator"></i><span
-                                        class="sr-only">{{\App\CPU\translate('Show')}} {{\App\CPU\translate('password')}} </span>
-                                </label>
-                                <div class="invalid-feedback">{{\App\CPU\translate('provide_valid_password')}}.</div>
-                            </div>
+                            <label for="recover-email">{{\App\CPU\translate('Enter your email address')}}</label>
+                            <input class="form-control" type="email" name="email" id="recover-email" required>
+                            <div class="invalid-feedback">{{\App\CPU\translate('Please provide valid email address')}}.</div>
                         </div>
-                        <div class="form-group">
-                            <label for="si-password">{{\App\CPU\translate('confirm_password')}}</label>
-                            <div class="password-toggle">
-                                <input class="form-control" name="confirm_password" type="password" id="si-password"
-                                    required>
-                                <label class="password-toggle-btn">
-                                    <input class="custom-control-input" type="checkbox"><i
-                                        class="czi-eye password-toggle-indicator"></i><span
-                                        class="sr-only">{{\App\CPU\translate('Show')}} {{\App\CPU\translate('password')}} </span>
-                                </label>
-                                <div class="invalid-feedback">{{\App\CPU\translate('provide_valid_password')}}</div>
-                            </div>
-                        </div>
-
-                        <button class="btn btn-primary" type="submit">{{\App\CPU\translate('reset_password')}}</button>
+                        <button class="btn btn-primary" type="submit">{{\App\CPU\translate('Get new password')}}</button>
                     </form>
                 </div>
             </div>
@@ -135,20 +111,6 @@
         });
     });
 </script>
-
-
-@if(env('APP_MODE')=='demo')
-    <script>
-        function copy_cred() {
-            $('#signinSrEmail').val('seller_demo@demo.com');
-            $('#signupSrPassword').val('12345678');
-            toastr.success('{{\App\CPU\translate('Copied successfully')}}!', 'Success!', {
-                CloseButton: true,
-                ProgressBar: true
-            });
-        }
-    </script>
-@endif
 
 <!-- IE Support -->
 <script>
