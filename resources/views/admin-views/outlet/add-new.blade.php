@@ -31,7 +31,7 @@
                     @csrf
                     <div class="card">
                         <div class="card-header">
-                            <h4>{{ \App\CPU\Translate('Account_info') }}</h4>
+                            <h4>{{ \App\CPU\Translate('Account_info') }}  <small class="text-danger">(user for login as outlet administrator)</small></h4>
                         </div>
                         <div class="card-body">
                             <div class="form-group">
@@ -78,6 +78,14 @@
                                         {!! Mapper::render() !!}
                                     </div>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="lat" class="input-label">{{ \App\CPU\Translate('Latitude') }}</label>
+                                <input type="text" id="lat" name="lat" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="long" class="input-label">{{ \App\CPU\Translate('Longitude') }}</label>
+                                <input type="text" id="long" name="long" class="form-control">
                             </div>
                         </div>
                     </div>

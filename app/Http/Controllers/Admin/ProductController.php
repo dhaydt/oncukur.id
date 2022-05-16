@@ -115,6 +115,8 @@ class ProductController extends BaseController
         $outlet->capacity = $request->capacity;
         $outlet->chair = $request->chair;
         $outlet->contact = $request->contact;
+        $outlet->latitude = $request->lat;
+        $outlet->longitude = $request->long;
         $outlet->status = 0;
         $outlet->image = ImageManager::upload('outlet/', 'png', $request->image);
         if ($request->ajax()) {
@@ -168,6 +170,8 @@ class ProductController extends BaseController
         $shop->name = $request->name;
         $shop->address = $request->address;
         $shop->chair = $request->chair;
+        $shop->latitude = $request->lat;
+        $shop->longitude = $request->long;
         $shop->capacity = $request->capacity;
         $shop->contact = $request->contact;
 

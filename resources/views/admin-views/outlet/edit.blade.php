@@ -60,6 +60,14 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label for="lat" class="input-label">{{ \App\CPU\Translate('Latitude') }}</label>
+                                <input type="text" id="lat" name="lat" value="{{ $shop->latitude }}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="long" class="input-label">{{ \App\CPU\Translate('Longitude') }}</label>
+                                <input type="text" id="long" name="long" value="{{ $shop->longitude }}" class="form-control">
+                            </div>
                         </div>
                     </div>
 

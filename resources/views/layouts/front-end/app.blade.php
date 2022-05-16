@@ -37,6 +37,10 @@
         body {
             background-color: #f7f8fa94;
         }
+        .body{
+            min-height: 50vh;
+        }
+
         .rtl {
             direction: {{ Session::get('direction') }};
         }
@@ -558,8 +562,9 @@
     </div>
 </div>
 <!-- Loading -->
-
-@yield('content')
+<div class="body">
+    @yield('content')
+</div>
 
 @if (url()->current() !== route('customer.auth.login')  && url()->current() !== route('customer.auth.register') && url()->current() !== route('shop.apply'))
     @include('layouts.front-end.partials._footer')

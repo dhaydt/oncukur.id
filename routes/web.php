@@ -46,6 +46,8 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode']], funct
         Route::get('/success/{type}', 'XenditPaymentController@success')->name('xenditSuccess');
     });
 
+    Route::get('/explore', 'WebController@explore')->name('explore');
+
     Route::get('search-shop', 'WebController@search_shop')->name('search-shop');
 
     Route::get('categories', 'WebController@all_categories')->name('categories');

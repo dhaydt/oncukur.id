@@ -27,6 +27,7 @@ use App\Model\ShippingAddress;
 use App\Model\Shop;
 use App\Model\Wishlist;
 use Brian2694\Toastr\Facades\Toastr;
+use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -97,6 +98,53 @@ class WebController extends Controller
         $deal_of_the_day = DealOfTheDay::join('products', 'products.id', '=', 'deal_of_the_days.product_id')->select('deal_of_the_days.*', 'products.unit_price')->where('deal_of_the_days.status', 1)->first();
 
         return view('web-views.home', compact('featured_products', 'topRated', 'bestSellProduct', 'latest_products', 'categories', 'brands', 'deal_of_the_day', 'top_sellers', 'home_categories'));
+    }
+
+    public function explore()
+    {
+        Mapper::map(-0.297936, 100.373483, ['zoom' => 13, 'center' => true, 'marker' => false, 'type' => 'MAP', 'overlay' => 'TRAFFIC', 'draggable' => true, 'eventDragEnd' => 'console.log("drag end");']);
+        $outlets = Shop::where('status', 1)->get();
+        foreach ($outlets as $outlet) {
+            // Mapper::marker($outlet->latitude, $outlet->longitude, ['symbol' => 'circle', 'scale' => 1000, 'title' => $outlet->title, 'icon' => 'http://maps.google.com/mapfiles/ms/icons/blue.png']);
+            $content = "\n        <div style='width:180px' align='center'><h5><b>".$outlet->name.'</b></h5> <p>'.$outlet->capacity.' chairs'."</p>\n        <p><b>Show Route "." </b></p>\n        <button align='center' type='button' class='btn btn-success btn-sm text-capitalize'>Click here</button>\n        </div>";
+            Mapper::informationWindow($outlet->latitude, $outlet->longitude, $content, ['animation' => 'DROP', 'symbol' => 'circle', 'scale' => 1000, 'title' => $outlet->name, 'label' => [
+                        'text' => $outlet->name,
+                        'color' => '#000',
+                        'fontFamily' => 'Arial',
+                        'textTransform' => 'capitalize',
+                        'fontSize' => '14px',
+                        'fontWeight' => 'bold',
+                    ]]);
+        }
+        // Mapper::map(-6.296427499134125, 106.82998295716176, ['zoom' => 10, 'center' => true, 'marker' => true, 'type' => 'MAP', 'overlay' => 'TRAFFIC', 'draggable' => true, 'eventDragEnd' => 'console.log("drag end");']);
+        // Mapper::map(52.381128999999990000, 0.470085000000040000, ['animation' => 'DROP', 'label' => 'Marker', 'title' => 'Marker'])->marker(53.381128999999990000, -1.470085000000040000);
+        // Mapper::marker(53.381128999999990000, -1.470085000000040000, [
+        //     'title' => 'title',
+        //     'icon' => [
+        //         'path' => 'M10.5,0C4.7,0,0,4.7,0,10.5c0,10.2,9.8,19,10.2,19.4c0.1,0.1,0.2,0.1,0.3,0.1s0.2,0,0.3-0.1C11.2,29.5,21,20.7,21,10.5 C21,4.7,16.3,0,10.5,0z M10.5,5c3,0,5.5,2.5,5.5,5.5S13.5,16,10.5,16S5,13.5,5,10.5S7.5,5,10.5,5z',
+        //         'fillColor' => '#DD716C',
+        //         'fillOpacity' => 1,
+        //         'strokeWeight' => 0,
+        //         'anchor' => [0, 0],
+        //         'origin' => [0, 0],
+        //         'size' => [21, 30],
+        //     ],
+        //     'label' => [
+        //         'text' => 'Marker',
+        //         'color' => '#B9B9B9',
+        //         'fontFamily' => 'Arial',
+        //         'fontSize' => '13px',
+        //         'fontWeight' => 'bold',
+        //     ],
+        //     'autoClose' => true,
+        //     'clickable' => false,
+        //     'cursor' => 'default',
+        //     'opacity' => 0.5,
+        //     'visible' => true,
+        //     'zIndex' => 1000,
+        // ]);
+
+        return view('web-views.explore');
     }
 
     public function flash_deals($id)
