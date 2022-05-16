@@ -102,8 +102,8 @@ class WebController extends Controller
 
     public function explore()
     {
-        Mapper::map(-0.297936, 100.373483, ['zoom' => 13, 'center' => true, 'marker' => false, 'type' => 'MAP', 'overlay' => 'TRAFFIC', 'draggable' => true, 'eventDragEnd' => 'console.log("drag end");']);
-        $outlets = Shop::where('status', 1)->get();
+        $outlets = Shop::where('status', 1)->where('latitude' != null)->get();
+        Mapper::map(-6.221042, 106.804111, ['zoom' => 10, 'center' => true, 'marker' => false, 'type' => 'MAP', 'overlay' => 'TRAFFIC', 'draggable' => true, 'eventDragEnd' => 'console.log("drag end");']);
         foreach ($outlets as $outlet) {
             // Mapper::marker($outlet->latitude, $outlet->longitude, ['symbol' => 'circle', 'scale' => 1000, 'title' => $outlet->title, 'icon' => 'http://maps.google.com/mapfiles/ms/icons/blue.png']);
             $content = "\n        <div style='width:180px' align='center'><h5><b>".$outlet->name.'</b></h5> <p>'.$outlet->capacity.' chairs'."</p>\n        <p><b>Show Route "." </b></p>\n        <button align='center' type='button' class='btn btn-success btn-sm text-capitalize'>Click here</button>\n        </div>";
