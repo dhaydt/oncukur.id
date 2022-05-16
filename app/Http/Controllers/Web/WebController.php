@@ -102,7 +102,7 @@ class WebController extends Controller
 
     public function explore()
     {
-        $outlets = Shop::where('status', 1)->where('latitude' != null)->get();
+        $outlets = Shop::where('status', 1)->where('latitude', '!=', null)->get();
         Mapper::map(-6.221042, 106.804111, ['zoom' => 10, 'center' => true, 'marker' => false, 'type' => 'MAP', 'overlay' => 'TRAFFIC', 'draggable' => true, 'eventDragEnd' => 'console.log("drag end");']);
         foreach ($outlets as $outlet) {
             // Mapper::marker($outlet->latitude, $outlet->longitude, ['symbol' => 'circle', 'scale' => 1000, 'title' => $outlet->title, 'icon' => 'http://maps.google.com/mapfiles/ms/icons/blue.png']);
