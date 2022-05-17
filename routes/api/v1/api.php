@@ -32,6 +32,8 @@ Route::group(['namespace' => 'api\v1', 'prefix' => 'v1', 'middleware' => ['api_l
         Route::any('social-login', 'SocialAuthController@social_login');
     });
 
+    Route::get('/explore', 'MapController@explore');
+
     Route::group(['prefix' => 'config'], function () {
         Route::get('/', 'ConfigController@configuration');
     });

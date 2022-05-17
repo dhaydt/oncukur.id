@@ -23,6 +23,16 @@ use Illuminate\Support\Facades\Session;
 
 class Helpers
 {
+    public static function responseSuccess($data)
+    {
+        $data = [
+            'status' => 'success',
+            'data' => $data,
+        ];
+
+        return $data;
+    }
+
     public static function status($id)
     {
         if ($id == 1) {
