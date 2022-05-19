@@ -90,6 +90,11 @@
         }
 
         @media (max-width: 600px) {
+            .photoHeader {
+                margin- {{Session::get('direction') === "rtl" ? 'right' : 'left'}}: 2px !important;
+                margin- {{Session::get('direction') === "rtl" ? 'left' : 'right'}}: 1px !important;
+                padding: 13px;
+            }
             .sidebar_heading {
                 background: {{$web_config['primary_color']}};
             }
@@ -101,11 +106,6 @@
                 font-size: 19px;
             }
 
-            .photoHeader {
-                margin- {{Session::get('direction') === "rtl" ? 'right' : 'left'}}: 2px !important;
-                margin- {{Session::get('direction') === "rtl" ? 'left' : 'right'}}: 1px !important;
-                padding: 13px;
-            }
         }
     </style>
 @endpush
@@ -137,8 +137,8 @@
                                 <img id="blah"
                                      style=" border-radius: 50px; margin-{{Session::get('direction') === "rtl" ? 'right' : 'left'}}: 30px; width: 50px!important;height: 50px!important;"
                                      class="rounded-circle border"
-                                     onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                     src="{{asset('storage/app/public/profile')}}/{{$customerDetail['image']}}">
+                                     onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                     src="{{asset('storage/profile')}}/{{$customerDetail['image']}}">
 
                                 <div class="col-md-10">
                                     <h5 class="font-name">{{$customerDetail->f_name. ' '.$customerDetail->l_name}}</h5>
@@ -238,7 +238,7 @@
                         @csrf
                         <div class="bg-secondary rounded-lg p-4 mb-4">
                             <div class="media align-items-center">
-                                <img id="blah" style="width: 80px; height: 80px;" src="{{asset('storage/app/public/profile')}}/{{$customerDetail['image']}}" width="90" alt="{{$customerDetail['f_name']}}">
+                                <img id="blah" style="width: 80px; height: 80px;" src="{{asset('storage/profile')}}/{{$customerDetail['image']}}" width="90" alt="{{$customerDetail['f_name']}}">
                                 <div class="media-body pl-3">
                                         <label for="files" style="cursor: pointer;"><i class="czi-loading mr-2"></i>Change avatar</label>
                                         <input id="files" name="image" style="visibility:hidden;" type="file">
@@ -310,8 +310,8 @@
 @endsection
 
 @push('script')
-    <script src="{{asset('public/assets/front-end')}}/vendor/nouislider/distribute/nouislider.min.js"></script>
-    <script src="{{asset('public/assets/back-end/js/croppie.js')}}"></script>
+    <script src="{{asset('assets/front-end')}}/vendor/nouislider/distribute/nouislider.min.js"></script>
+    <script src="{{asset('assets/back-end/js/croppie.js')}}"></script>
     <script>
         function checkPasswordMatch() {
             var password = $("#password").val();

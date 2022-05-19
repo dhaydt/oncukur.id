@@ -13,10 +13,10 @@ class ComposerStaticInit5c810ba0d19412d72c885b40a9decbf5
         'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
-        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
-        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
@@ -70,10 +70,6 @@ class ComposerStaticInit5c810ba0d19412d72c885b40a9decbf5
         'Z' => 
         array (
             'Zend\\Diactoros\\' => 15,
-        ),
-        'X' => 
-        array (
-            'Xendit\\' => 7,
         ),
         'W' => 
         array (
@@ -155,6 +151,7 @@ class ComposerStaticInit5c810ba0d19412d72c885b40a9decbf5
         array (
             'Mpdf\\' => 5,
             'Monolog\\' => 8,
+            'Midtrans\\' => 9,
             'Maherelgamil\\LaravelFawry\\' => 26,
             'Madnest\\Madzipper\\' => 18,
         ),
@@ -263,10 +260,6 @@ class ComposerStaticInit5c810ba0d19412d72c885b40a9decbf5
         'Zend\\Diactoros\\' => 
         array (
             0 => __DIR__ . '/..' . '/zendframework/zend-diactoros/src',
-        ),
-        'Xendit\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/xendit/xendit-php/src',
         ),
         'Whoops\\' => 
         array (
@@ -484,6 +477,10 @@ class ComposerStaticInit5c810ba0d19412d72c885b40a9decbf5
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
+        ),
+        'Midtrans\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans',
         ),
         'Maherelgamil\\LaravelFawry\\' => 
         array (
@@ -815,8 +812,10 @@ class ComposerStaticInit5c810ba0d19412d72c885b40a9decbf5
         'App\\Http\\Controllers\\FawryPaymentController' => __DIR__ . '/../..' . '/app/Http/Controllers/FawryPaymentController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\InstallController' => __DIR__ . '/../..' . '/app/Http/Controllers/InstallController.php',
+        'App\\Http\\Controllers\\Mitra\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Mitra/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Mitra\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Mitra/Auth/LoginController.php',
         'App\\Http\\Controllers\\Mitra\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Mitra/Auth/RegisterController.php',
+        'App\\Http\\Controllers\\Mitra\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/Mitra/DashboardController.php',
         'App\\Http\\Controllers\\PaymobController' => __DIR__ . '/../..' . '/app/Http/Controllers/PaymobController.php',
         'App\\Http\\Controllers\\PaypalPaymentController' => __DIR__ . '/../..' . '/app/Http/Controllers/PaypalPaymentController.php',
         'App\\Http\\Controllers\\PaystackController' => __DIR__ . '/../..' . '/app/Http/Controllers/PaystackController.php',
@@ -844,6 +843,7 @@ class ComposerStaticInit5c810ba0d19412d72c885b40a9decbf5
         'App\\Http\\Controllers\\Web\\ChattingController' => __DIR__ . '/../..' . '/app/Http/Controllers/Web/ChattingController.php',
         'App\\Http\\Controllers\\Web\\CouponController' => __DIR__ . '/../..' . '/app/Http/Controllers/Web/CouponController.php',
         'App\\Http\\Controllers\\Web\\CurrencyController' => __DIR__ . '/../..' . '/app/Http/Controllers/Web/CurrencyController.php',
+        'App\\Http\\Controllers\\Web\\PaymentController' => __DIR__ . '/../..' . '/app/Http/Controllers/Web/PaymentController.php',
         'App\\Http\\Controllers\\Web\\ReviewController' => __DIR__ . '/../..' . '/app/Http/Controllers/Web/ReviewController.php',
         'App\\Http\\Controllers\\Web\\ShortHomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Web/ShortHomeController.php',
         'App\\Http\\Controllers\\Web\\UserProfileController' => __DIR__ . '/../..' . '/app/Http/Controllers/Web/UserProfileController.php',
@@ -861,6 +861,7 @@ class ComposerStaticInit5c810ba0d19412d72c885b40a9decbf5
         'App\\Http\\Controllers\\api\\v1\\DealController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v1/DealController.php',
         'App\\Http\\Controllers\\api\\v1\\FlashDealController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v1/FlashDealController.php',
         'App\\Http\\Controllers\\api\\v1\\GeneralController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v1/GeneralController.php',
+        'App\\Http\\Controllers\\api\\v1\\MapController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v1/MapController.php',
         'App\\Http\\Controllers\\api\\v1\\NotificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v1/NotificationController.php',
         'App\\Http\\Controllers\\api\\v1\\OrderController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v1/OrderController.php',
         'App\\Http\\Controllers\\api\\v1\\ProductController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v1/ProductController.php',
@@ -878,6 +879,9 @@ class ComposerStaticInit5c810ba0d19412d72c885b40a9decbf5
         'App\\Http\\Controllers\\api\\v2\\seller\\SellerController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v2/seller/SellerController.php',
         'App\\Http\\Controllers\\api\\v2\\seller\\ShippingMethodController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v2/seller/ShippingMethodController.php',
         'App\\Http\\Controllers\\api\\v2\\seller\\auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v2/seller/auth/LoginController.php',
+        'App\\Http\\Controllers\\api\\v3\\mitra\\MitraController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v3/mitra/MitraController.php',
+        'App\\Http\\Controllers\\api\\v3\\mitra\\auth\\ForgotPassword' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v3/mitra/auth/ForgotPassword.php',
+        'App\\Http\\Controllers\\api\\v3\\mitra\\auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/api/v3/mitra/auth/LoginController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\APILocalizationMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/APILocalizationMiddleware.php',
         'App\\Http\\Middleware\\ActivationCheckMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/ActivationCheckMiddleware.php',
@@ -4168,6 +4172,14 @@ class ComposerStaticInit5c810ba0d19412d72c885b40a9decbf5
         'Maherelgamil\\LaravelFawry\\Facades\\FawryFacade' => __DIR__ . '/..' . '/maherelgamil/laravel-fawry/src/Facades/FawryFacade.php',
         'Maherelgamil\\LaravelFawry\\Fawry' => __DIR__ . '/..' . '/maherelgamil/laravel-fawry/src/Fawry.php',
         'Maherelgamil\\LaravelFawry\\FawryServiceProvider' => __DIR__ . '/..' . '/maherelgamil/laravel-fawry/src/FawryServiceProvider.php',
+        'Midtrans\\ApiRequestor' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/ApiRequestor.php',
+        'Midtrans\\Config' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/Config.php',
+        'Midtrans\\CoreApi' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/CoreApi.php',
+        'Midtrans\\Notification' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/Notification.php',
+        'Midtrans\\Sanitizer' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/Sanitizer.php',
+        'Midtrans\\Snap' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/Snap.php',
+        'Midtrans\\SnapApiRequestor' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/SnapApiRequestor.php',
+        'Midtrans\\Transaction' => __DIR__ . '/..' . '/midtrans/midtrans-php/Midtrans/Transaction.php',
         'Mockery' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery.php',
         'Mockery\\Adapter\\Phpunit\\MockeryPHPUnitIntegration' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegration.php',
         'Mockery\\Adapter\\Phpunit\\MockeryPHPUnitIntegrationAssertPostConditions' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegrationAssertPostConditions.php',
@@ -9419,38 +9431,6 @@ class ComposerStaticInit5c810ba0d19412d72c885b40a9decbf5
         'Whoops\\Util\\Misc' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/Misc.php',
         'Whoops\\Util\\SystemFacade' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/SystemFacade.php',
         'Whoops\\Util\\TemplateHelper' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/TemplateHelper.php',
-        'Xendit\\ApiOperations\\Create' => __DIR__ . '/..' . '/xendit/xendit-php/src/ApiOperations/Create.php',
-        'Xendit\\ApiOperations\\Request' => __DIR__ . '/..' . '/xendit/xendit-php/src/ApiOperations/Request.php',
-        'Xendit\\ApiOperations\\Retrieve' => __DIR__ . '/..' . '/xendit/xendit-php/src/ApiOperations/Retrieve.php',
-        'Xendit\\ApiOperations\\RetrieveAll' => __DIR__ . '/..' . '/xendit/xendit-php/src/ApiOperations/RetrieveAll.php',
-        'Xendit\\ApiOperations\\Update' => __DIR__ . '/..' . '/xendit/xendit-php/src/ApiOperations/Update.php',
-        'Xendit\\ApiRequestor' => __DIR__ . '/..' . '/xendit/xendit-php/src/ApiRequestor.php',
-        'Xendit\\Balance' => __DIR__ . '/..' . '/xendit/xendit-php/src/Balance.php',
-        'Xendit\\CardlessCredit' => __DIR__ . '/..' . '/xendit/xendit-php/src/CardlessCredit.php',
-        'Xendit\\Cards' => __DIR__ . '/..' . '/xendit/xendit-php/src/Cards.php',
-        'Xendit\\Customers' => __DIR__ . '/..' . '/xendit/xendit-php/src/Customers.php',
-        'Xendit\\DirectDebit' => __DIR__ . '/..' . '/xendit/xendit-php/src/DirectDebit.php',
-        'Xendit\\Disbursements' => __DIR__ . '/..' . '/xendit/xendit-php/src/Disbursements.php',
-        'Xendit\\EWallets' => __DIR__ . '/..' . '/xendit/xendit-php/src/EWallets.php',
-        'Xendit\\Exceptions\\ApiException' => __DIR__ . '/..' . '/xendit/xendit-php/src/Exceptions/ApiException.php',
-        'Xendit\\Exceptions\\ExceptionInterface' => __DIR__ . '/..' . '/xendit/xendit-php/src/Exceptions/ExceptionInterface.php',
-        'Xendit\\Exceptions\\InvalidArgumentException' => __DIR__ . '/..' . '/xendit/xendit-php/src/Exceptions/InvalidArgumentException.php',
-        'Xendit\\HttpClientInterface' => __DIR__ . '/..' . '/xendit/xendit-php/src/HttpClientInterface.php',
-        'Xendit\\HttpClient\\ClientInterface' => __DIR__ . '/..' . '/xendit/xendit-php/src/HttpClient/ClientInterface.php',
-        'Xendit\\HttpClient\\GuzzleClient' => __DIR__ . '/..' . '/xendit/xendit-php/src/HttpClient/GuzzleClient.php',
-        'Xendit\\Invoice' => __DIR__ . '/..' . '/xendit/xendit-php/src/Invoice.php',
-        'Xendit\\PayLater' => __DIR__ . '/..' . '/xendit/xendit-php/src/PayLater.php',
-        'Xendit\\PaymentChannels' => __DIR__ . '/..' . '/xendit/xendit-php/src/PaymentChannels.php',
-        'Xendit\\Payouts' => __DIR__ . '/..' . '/xendit/xendit-php/src/Payouts.php',
-        'Xendit\\Platform' => __DIR__ . '/..' . '/xendit/xendit-php/src/Platform.php',
-        'Xendit\\Promotion' => __DIR__ . '/..' . '/xendit/xendit-php/src/Promotion.php',
-        'Xendit\\QRCode' => __DIR__ . '/..' . '/xendit/xendit-php/src/QRCode.php',
-        'Xendit\\Recurring' => __DIR__ . '/..' . '/xendit/xendit-php/src/Recurring.php',
-        'Xendit\\Report' => __DIR__ . '/..' . '/xendit/xendit-php/src/Report.php',
-        'Xendit\\Retail' => __DIR__ . '/..' . '/xendit/xendit-php/src/Retail.php',
-        'Xendit\\Transaction' => __DIR__ . '/..' . '/xendit/xendit-php/src/Transaction.php',
-        'Xendit\\VirtualAccounts' => __DIR__ . '/..' . '/xendit/xendit-php/src/VirtualAccounts.php',
-        'Xendit\\Xendit' => __DIR__ . '/..' . '/xendit/xendit-php/src/Xendit.php',
         'Zend\\Diactoros\\AbstractSerializer' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/AbstractSerializer.php',
         'Zend\\Diactoros\\CallbackStream' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/CallbackStream.php',
         'Zend\\Diactoros\\Exception\\DeserializationException' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/Exception/DeserializationException.php',

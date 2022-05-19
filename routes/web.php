@@ -27,6 +27,8 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode']], funct
 
     Route::get('shortBy/{country}', 'ShortHomeController@shortBy')->name('shortBy');
 
+    Route::get('midtrans', 'PaymentController@getPayment');
+
     Route::group(['middleware' => ['customer']], function () {
         Route::get('checkout-details', 'WebController@checkout_details')->name('checkout-details');
         Route::get('checkout-shipping', 'WebController@checkout_shipping')->name('checkout-shipping')->middleware('customer');

@@ -27,6 +27,7 @@
         "lcobucci/jwt": "3.3.3",
         "madnest/madzipper": "*",
         "maherelgamil/laravel-fawry": "^0.1.1",
+        "midtrans/midtrans-php": "^2.5",
         "mpdf/mpdf": "^8.0",
         "nexmo/laravel": "^2.4",
         "paypal/rest-api-sdk-php": "^1.14",
@@ -35,8 +36,7 @@
         "symfony/translation": "*",
         "twilio/sdk": "^6.28",
         "unicodeveloper/laravel-paystack": "^1.0",
-        "unisharp/laravel-ckeditor": "*",
-        "xendit/xendit-php": "^2.17"
+        "unisharp/laravel-ckeditor": "*"
     },
     "require-dev": {
         "amirami/localizator": "^0.6.0@alpha",
