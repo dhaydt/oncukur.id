@@ -23,6 +23,19 @@ use Illuminate\Support\Facades\Session;
 
 class Helpers
 {
+    public static function userProfile($user)
+    {
+        $data = [
+            'f_name' => $user->f_name,
+            'l_name' => $user->l_name,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'image' => $user->image,
+        ];
+
+        return $data;
+    }
+
     public static function responseSuccess($data)
     {
         $data = [

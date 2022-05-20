@@ -164,7 +164,7 @@
                                 <div class="dropdown-divider"></div>
 
                                 <a class="dropdown-item"
-                                   href="{{route('seller.profile.update',auth('mitra')->user()->id)}}">
+                                   href="{{route('mitra.profile.update',auth('mitra')->user()->id)}}">
                                     <span class="text-truncate pr-2" title="Settings">{{\App\CPU\translate('Settings')}}</span>
                                 </a>
 
@@ -180,7 +180,7 @@
                                     denyButtonText: `Don't Logout`,
                                     }).then((result) => {
                                     if (result.value) {
-                                    location.href='{{route('seller.auth.logout')}}';
+                                    location.href='{{route('mitra.auth.logout')}}';
                                     } else{
                                     Swal.fire('Canceled', '', 'info')
                                     }

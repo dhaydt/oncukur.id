@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\v1;
 use App\CPU\CustomerManager;
 use App\CPU\Helpers;
 use App\CPU\ImageManager;
+use function App\CPU\translate;
 use App\Http\Controllers\Controller;
 use App\Model\Order;
 use App\Model\OrderDetail;
@@ -14,18 +15,16 @@ use App\Model\SupportTicketConv;
 use App\Model\Wishlist;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Intervention\Image\Facades\Image;
-use function App\CPU\translate;
 
 class CustomerController extends Controller
 {
     public function info(Request $request)
     {
-        return response()->json($request->user(), 200);
+        $data = Helpers::userProfile($request->user());
+
+        return response()->json($data, 200);
     }
 
     public function create_support_ticket(Request $request)
@@ -54,6 +53,7 @@ class CustomerController extends Controller
                 ],
             ], 422);
         }
+
         return response()->json(['message' => 'Support ticket created successfully.'], 200);
     }
 
@@ -64,6 +64,7 @@ class CustomerController extends Controller
         $support->admin_id = 1;
         $support->customer_message = $request['message'];
         $support->save();
+
         return response()->json(['message' => 'Support ticket reply sent.'], 200);
     }
 
@@ -90,10 +91,11 @@ class CustomerController extends Controller
         $wishlist = Wishlist::where('customer_id', $request->user()->id)->where('product_id', $request->product_id)->first();
 
         if (empty($wishlist)) {
-            $wishlist = new Wishlist;
+            $wishlist = new Wishlist();
             $wishlist->customer_id = $request->user()->id;
             $wishlist->product_id = $request->product_id;
             $wishlist->save();
+
             return response()->json(['message' => translate('successfully added!')], 200);
         }
 
@@ -114,9 +116,10 @@ class CustomerController extends Controller
 
         if (!empty($wishlist)) {
             Wishlist::where(['customer_id' => $request->user()->id, 'product_id' => $request->product_id])->delete();
-            return response()->json(['message' => translate('successfully removed!')], 200);
 
+            return response()->json(['message' => translate('successfully removed!')], 200);
         }
+
         return response()->json(['message' => translate('No such data found!')], 404);
     }
 
@@ -157,6 +160,7 @@ class CustomerController extends Controller
             'updated_at' => now(),
         ];
         DB::table('shipping_addresses')->insert($address);
+
         return response()->json(['message' => translate('successfully added!')], 200);
     }
 
@@ -172,18 +176,22 @@ class CustomerController extends Controller
 
         if (DB::table('shipping_addresses')->where(['id' => $request['address_id'], 'customer_id' => $request->user()->id])->first()) {
             DB::table('shipping_addresses')->where(['id' => $request['address_id'], 'customer_id' => $request->user()->id])->delete();
+
             return response()->json(['message' => 'successfully removed!'], 200);
         }
+
         return response()->json(['message' => translate('No such data found!')], 404);
     }
 
     public function get_order_list(Request $request)
     {
         $orders = Order::where(['customer_id' => $request->user()->id])->get();
-        $orders->map(function ($data){
-            $data['shipping_address_data']=json_decode($data['shipping_address_data']);
+        $orders->map(function ($data) {
+            $data['shipping_address_data'] = json_decode($data['shipping_address_data']);
+
             return $data;
         });
+
         return response()->json($orders, 200);
     }
 
@@ -198,11 +206,13 @@ class CustomerController extends Controller
         }
 
         $details = OrderDetail::where(['order_id' => $request['order_id']])->get();
-        $details->map(function ($query){
+        $details->map(function ($query) {
             $query['variation'] = json_decode($query['variation'], true);
             $query['product_details'] = Helpers::product_data_formatting(json_decode($query['product_details'], true));
+
             return $query;
         });
+
         return response()->json($details, 200);
     }
 
@@ -244,7 +254,7 @@ class CustomerController extends Controller
 
         User::where(['id' => $request->user()->id])->update($userDetails);
 
-        return response()->json(['message' => translate('successfully updated!')], 200);
+        return response()->json(Helpers::responseSuccess('Profile successfully updated'), 200);
     }
 
     public function update_cm_firebase_token(Request $request)

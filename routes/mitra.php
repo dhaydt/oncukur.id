@@ -31,5 +31,12 @@ Route::group(['namespace' => 'Mitra', 'prefix' => 'mitra', 'as' => 'mitra.'], fu
     // authenticated mitra
     Route::group(['middleware' => ['mitra']], function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('mitra.home');
+
+        Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
+            Route::get('view', 'ProfileController@view')->name('view');
+            Route::get('update/{id}', 'ProfileController@edit')->name('update');
+            Route::post('update/{id}', 'ProfileController@update');
+            Route::post('settings-password', 'ProfileController@settings_password_update')->name('settings-password');
+        });
     });
 });

@@ -378,9 +378,9 @@
                                             <div class="card">
                                                 <div class="card-body">
                                                     <img style="width: 100%" height="auto"
-                                                         onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                                         src="{{asset("storage/app/public/product/thumbnail")}}/{{$product['thumbnail']}}"
-                                                         alt="Product image">
+                                                        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                                        src="{{asset("storage/app/public/product/thumbnail")}}/{{$product['thumbnail']}}"
+                                                        alt="Product image">
                                                 </div>
                                             </div>
                                         </div>
