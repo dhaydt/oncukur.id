@@ -163,7 +163,7 @@
                                         <div class="col-6">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <img style="width: 100%" height="auto"
+                                                    <img style="width: 100%; max-height: 225px;" height="auto"
                                                         onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                                         src="{{asset("storage/ktp")}}/{{$data->ktp}}"
                                                         alt="KTP">
@@ -176,6 +176,7 @@
 
                             <div class="row">
                                 <div class="col-md-3 col-form-label">
+                                    Profile Image
                                 </div>
                                 <div class="form-group col-md-9" id="select-img">
                                     <div class="custom-file">

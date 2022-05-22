@@ -41,7 +41,7 @@
                             </div>
 
                             <a class="btn btn-primary"
-                               href="{{route('seller.profile.bankInfo',[$data->id])}}">{{\App\CPU\translate('Edit')}}</a>
+                                href="{{route('seller.profile.bankInfo',[$data->id])}}">{{\App\CPU\translate('Edit')}}</a>
                         </div>
                     </div>
                 </div>

@@ -13,5 +13,6 @@ Route::group(['namespace' => 'api\v3', 'prefix' => 'v3', 'middleware' => ['api_l
         });
 
         Route::get('mitra-info', 'MitraController@mitra_info');
+        Route::post('mitra-update', 'MitraController@update');
     });
 });

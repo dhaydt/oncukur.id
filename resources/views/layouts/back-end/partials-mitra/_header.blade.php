@@ -4,21 +4,21 @@
         <div class="navbar-nav-wrap">
             <div class="navbar-brand-wrapper">
                 <!-- Logo -->
-                @php($seller_logo=\App\Model\Shop::where(['id'=>auth('mitra')->user()->shop_id])->first()->image)
+                @php($seller_logo=\App\Model\BusinessSetting::where(['type'=>'company_web_logo'])->first()->value)
                 @if (isset($seller_logo))
                     @php($seller_logo = $seller_logo)
                 @else
                     @php($seller_logo = 'def.png')
                 @endif
 
-                <a class="navbar-brand" href="{{route('seller.dashboard.index')}}" aria-label="">
+                <a class="navbar-brand" href="{{route('mitra.mitra.home')}}" aria-label="">
                     <img class="navbar-brand-logo" style="max-height: 42px;"
-                         onerror="this.src='{{asset('assets/back-end/img/160x160/img1.jpg')}}'"
-                         src="{{asset("storage/shop/$seller_logo")}}" alt="Logo" height="40" width="40">
+                        onerror="this.src='{{asset('assets/back-end/img/160x160/img1.jpg')}}'"
+                        src="{{asset("storage/company/$seller_logo")}}" alt="Logo" height="40" width="40">
                     <img class="navbar-brand-logo-mini" style="max-height: 42px;"
-                         onerror="this.src='{{asset('assets/back-end/img/160x160/img1.jpg')}}'"
-                         src="{{asset("storage/shop/$seller_logo")}}"
-                         alt="Logo" height="40" width="40">
+                        onerror="this.src='{{asset('assets/back-end/img/160x160/img1.jpg')}}'"
+                        src="{{asset("storage/company/$seller_logo")}}"
+                        alt="Logo" height="40" width="40">
 
                 </a>
                 <!-- End Logo -->
@@ -28,10 +28,10 @@
                 <!-- Navbar Vertical Toggle -->
                 <button type="button" class="js-navbar-vertical-aside-toggle-invoker close mr-3">
                     <i class="tio-first-page navbar-vertical-aside-toggle-short-align" data-toggle="tooltip"
-                       data-placement="right" title="Collapse"></i>
+                        data-placement="right" title="Collapse"></i>
                     <i class="tio-last-page navbar-vertical-aside-toggle-full-align"
-                       data-template='<div class="tooltip d-none d-sm-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
-                       data-toggle="tooltip" data-placement="right" title="Expand"></i>
+                        data-template='<div class="tooltip d-none d-sm-block" role="tooltip"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
+                        data-toggle="tooltip" data-placement="right" title="Expand"></i>
                 </button>
                 <!-- End Navbar Vertical Toggle -->
                 <div class="d-none d-md-block">
@@ -45,43 +45,6 @@
             <div class="navbar-nav-wrap-content-right" style="{{Session::get('direction') === "rtl" ? 'margin-left:unset; margin-right: auto' : 'margin-right:unset; margin-left: auto'}}">
                 <!-- Navbar -->
                 <ul class="navbar-nav align-items-center flex-row">
-
-                    <li class="nav-item d-none d-sm-inline-block">
-                        <div class="hs-unfold">
-                            <div style="background:white;padding: 9px;border-radius: 5px;">
-                                @php( $local = session()->has('local')?session('local'):'en')
-                                @php($lang = \App\Model\BusinessSetting::where('type', 'language')->first())
-                                <div
-                                    class="topbar-text dropdown disable-autohide {{Session::get('direction') === "rtl" ? 'ml-3' : 'mr-3'}} text-capitalize">
-                                    <a class="topbar-link dropdown-toggle" href="#" data-toggle="dropdown" style="color: black!important;">
-                                        @foreach(json_decode($lang['value'],true) as $data)
-                                            @if($data['code']==$local)
-                                                <img class="{{Session::get('direction') === "rtl" ? 'ml-2' : 'mr-2'}}" width="20"
-                                                     src="{{asset('assets/front-end')}}/img/flags/{{$data['code']}}.png"
-                                                     alt="Eng">
-                                                {{$data['name']}}
-                                            @endif
-                                        @endforeach
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        @foreach(json_decode($lang['value'],true) as $key =>$data)
-                                            @if($data['status']==1)
-                                                <li>
-                                                    <a class="dropdown-item pb-1" href="{{route('lang',[$data['code']])}}">
-                                                        <img class="{{Session::get('direction') === "rtl" ? 'ml-2' : 'mr-2'}}"
-                                                             width="20"
-                                                             src="{{asset('assets/front-end')}}/img/flags/{{$data['code']}}.png"
-                                                             alt="{{$data['name']}}"/>
-                                                        <span style="text-transform: capitalize">{{\App\CPU\Helpers::get_language_name($data['code'])}}</span>
-                                                    </a>
-                                                </li>
-                                            @endif
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
 
                     <li class="nav-item d-none d-sm-inline-block">
                         <!-- Notification -->

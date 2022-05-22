@@ -14,7 +14,7 @@
 use App\Http\Controllers\Mitra\DashboardController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['namespace' => 'Mitra', 'prefix' => 'mitra', 'as' => 'mitra.'], function () {
+Route::group(['namespace' => 'mitra', 'prefix' => 'mitra', 'as' => 'mitra.'], function () {
     Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
         Route::get('register', 'RegisterController@register')->name('register');
         Route::get('login', 'LoginController@login')->name('login');

@@ -35,14 +35,18 @@
         class="js-navbar-vertical-aside navbar navbar-vertical-aside navbar-vertical navbar-vertical-fixed navbar-expand-xl navbar-bordered  ">
         <div class="navbar-vertical-container">
             <div class="navbar-vertical-footer-offset" style="padding-bottom: 0">
-                <div class="navbar-brand-wrapper justify-content-between side-logo">
+                <div class="navbar-brand-wrapper justify-content-between side-logo" style="background-color: #000;">
                     <!-- Logo -->
-                    {{-- @php($seller_logo=\App\Model\Shop::where(['seller_id'=>auth('mitra')->id()])->first()->image) --}}
-                    @php($seller_logo= 'def.png')
-                    <a class="navbar-brand" href="{{route('seller.dashboard.index')}}" aria-label="Front">
+                    @php($seller_logo=\App\Model\BusinessSetting::where(['type'=>'company_web_logo'])->first()->value)
+                    @if (isset($seller_logo))
+                        @php($seller_logo = $seller_logo)
+                    @else
+                        @php($seller_logo = 'def.png')
+                    @endif
+                    <a class="navbar-brand" href="{{route('mitra.mitra.home')}}" aria-label="Front">
                         <img onerror="this.src='{{asset('assets/back-end/img/900x400/img1.jpg')}}'"
-                             class="navbar-brand-logo-mini for-seller-logo"
-                             src="{{asset("storage/shop/$seller_logo")}}" alt="Logo">
+                            class="navbar-brand-logo-mini for-seller-logo" style="max-height: 38px;"
+                            src="{{asset("storage/company/$seller_logo")}}" alt="Logo">
                     </a>
                     <!-- End Logo -->
 

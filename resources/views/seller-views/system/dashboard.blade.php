@@ -53,7 +53,7 @@
                 <div class="flex-between row gx-2 gx-lg-3 mb-2">
                     <div style="{{Session::get('direction') === "rtl" ? 'margin-right:2px' : ''}};">
                         <h4><i style="font-size: 30px"
-                               class="tio-chart-bar-4"></i>{{\App\CPU\translate('dashboard_order_statistics')}}</h4>
+                            class="tio-chart-bar-4"></i>{{\App\CPU\translate('dashboard_order_statistics')}}</h4>
                     </div>
                     <div style="width: 20vw">
                         <select class="custom-select" name="statistics_type" onchange="order_stats_update(this.value)">
