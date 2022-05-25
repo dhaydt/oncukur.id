@@ -44,6 +44,29 @@ class WebController extends Controller
         return redirect()->route('home');
     }
 
+    public function onlocation()
+    {
+        $outlets = Shop::where('status', 1)->where('latitude', '!=', null)->get();
+        // $lang = -6.221042;
+        // $lat = 106.804111;
+        $lang = -0.287487;
+        $lat = 100.373011;
+        Mapper::map($lang, $lat, ['zoom' => 10, 'center' => true, 'marker' => false, 'type' => 'MAP', 'overlay' => 'TRAFFIC', 'draggable' => true, 'eventDragEnd' => 'console.log("drag end");']);
+        foreach ($outlets as $outlet) {
+            $content = "\n        <div style='width:180px' align='center'><h5><b>".$outlet->name.'</b></h5> <p>'.$outlet->capacity.' chairs'."</p>\n        <p><b>Show Route "." </b></p>\n        <button align='center' type='button' class='btn btn-success btn-sm text-capitalize'>Click here</button>\n        </div>";
+            Mapper::informationWindow($outlet->latitude, $outlet->longitude, $content, ['animation' => 'DROP', 'symbol' => 'circle', 'scale' => 1000, 'title' => $outlet->name, 'label' => [
+                        'text' => $outlet->name,
+                        'color' => '#000',
+                        'fontFamily' => 'Arial',
+                        'textTransform' => 'capitalize',
+                        'fontSize' => '14px',
+                        'fontWeight' => 'bold',
+                    ]]);
+        }
+
+        return view('web-views.onlocation');
+    }
+
     public function home()
     {
         $home_categories = Category::where('home_status', true)->get();
@@ -105,7 +128,6 @@ class WebController extends Controller
         $outlets = Shop::where('status', 1)->where('latitude', '!=', null)->get();
         Mapper::map(-6.221042, 106.804111, ['zoom' => 10, 'center' => true, 'marker' => false, 'type' => 'MAP', 'overlay' => 'TRAFFIC', 'draggable' => true, 'eventDragEnd' => 'console.log("drag end");']);
         foreach ($outlets as $outlet) {
-            // Mapper::marker($outlet->latitude, $outlet->longitude, ['symbol' => 'circle', 'scale' => 1000, 'title' => $outlet->title, 'icon' => 'http://maps.google.com/mapfiles/ms/icons/blue.png']);
             $content = "\n        <div style='width:180px' align='center'><h5><b>".$outlet->name.'</b></h5> <p>'.$outlet->capacity.' chairs'."</p>\n        <p><b>Show Route "." </b></p>\n        <button align='center' type='button' class='btn btn-success btn-sm text-capitalize'>Click here</button>\n        </div>";
             Mapper::informationWindow($outlet->latitude, $outlet->longitude, $content, ['animation' => 'DROP', 'symbol' => 'circle', 'scale' => 1000, 'title' => $outlet->name, 'label' => [
                         'text' => $outlet->name,
@@ -116,33 +138,6 @@ class WebController extends Controller
                         'fontWeight' => 'bold',
                     ]]);
         }
-        // Mapper::map(-6.296427499134125, 106.82998295716176, ['zoom' => 10, 'center' => true, 'marker' => true, 'type' => 'MAP', 'overlay' => 'TRAFFIC', 'draggable' => true, 'eventDragEnd' => 'console.log("drag end");']);
-        // Mapper::map(52.381128999999990000, 0.470085000000040000, ['animation' => 'DROP', 'label' => 'Marker', 'title' => 'Marker'])->marker(53.381128999999990000, -1.470085000000040000);
-        // Mapper::marker(53.381128999999990000, -1.470085000000040000, [
-        //     'title' => 'title',
-        //     'icon' => [
-        //         'path' => 'M10.5,0C4.7,0,0,4.7,0,10.5c0,10.2,9.8,19,10.2,19.4c0.1,0.1,0.2,0.1,0.3,0.1s0.2,0,0.3-0.1C11.2,29.5,21,20.7,21,10.5 C21,4.7,16.3,0,10.5,0z M10.5,5c3,0,5.5,2.5,5.5,5.5S13.5,16,10.5,16S5,13.5,5,10.5S7.5,5,10.5,5z',
-        //         'fillColor' => '#DD716C',
-        //         'fillOpacity' => 1,
-        //         'strokeWeight' => 0,
-        //         'anchor' => [0, 0],
-        //         'origin' => [0, 0],
-        //         'size' => [21, 30],
-        //     ],
-        //     'label' => [
-        //         'text' => 'Marker',
-        //         'color' => '#B9B9B9',
-        //         'fontFamily' => 'Arial',
-        //         'fontSize' => '13px',
-        //         'fontWeight' => 'bold',
-        //     ],
-        //     'autoClose' => true,
-        //     'clickable' => false,
-        //     'cursor' => 'default',
-        //     'opacity' => 0.5,
-        //     'visible' => true,
-        //     'zIndex' => 1000,
-        // ]);
 
         return view('web-views.explore');
     }

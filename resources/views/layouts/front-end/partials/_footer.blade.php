@@ -24,9 +24,9 @@
                 <div class="text-nowrap mb-4">
                     <a class="d-inline-block mt-n1" href="{{route('home')}}">
                         <img width="250" style="height: 60px!important;"
-                             src="{{asset("storage/company/")}}/{{ $web_config['footer_logo']->value }}"
-                             onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                             alt="{{ $web_config['name']->value }}"/>
+                            src="{{asset("storage/company/")}}/{{ $web_config['footer_logo']->value }}"
+                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                            alt="{{ $web_config['name']->value }}"/>
                     </a>
                 </div>
                 @php($social_media = \App\Model\SocialMedia::where('active_status', 1)->get())
@@ -34,7 +34,7 @@
                     @foreach ($social_media as $item)
                         <span class="social-media">
                                 <a class="social-btn sb-light sb-{{$item->name}} {{Session::get('direction') === "rtl" ? 'ml-2' : 'mr-2'}} mb-2"
-                                   target="_blank" href="{{$item->link}}" style="color: white!important;">
+                                    target="_blank" href="{{$item->link}}" style="color: white!important;">
                                     <i class="{{$item->icon}}" aria-hidden="true"></i>
                                 </a>
                             </span>

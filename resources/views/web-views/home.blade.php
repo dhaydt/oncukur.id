@@ -309,36 +309,23 @@
   </div>
 </section>
 
-  {{--categries--}}
+    <!--categries-->
     <section class="container rtl">
         <!-- Heading-->
         <div class="section-header">
             <div class="feature_header">
-                <span>{{ \App\CPU\translate('categories')}}</span>
+                <span>{{ \App\CPU\translate('Services')}}</span>
             </div>
-            <div>
+            {{-- <div>
                 <a class="btn btn-outline-accent btn-sm viw-btn-a"
-                   href="{{route('categories')}}">{{ \App\CPU\translate('view all')}}
+                    href="{{route('categories')}}">{{ \App\CPU\translate('view all')}}
                     <i class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1' : 'right ml-1 mr-n1'}}"></i>
                 </a>
-            </div>
+            </div> --}}
         </div>
 
         <div class="mt-2 mb-3 brand-slider">
-            <div class="owl-carousel owl-theme " id="category-slider">
-                @foreach($categories as $category)
-                    <div class="category_div" style="height: 132px; width: 100%;">
-                        <a href="{{route('products',['id'=> $category['id'],'data_from'=>'category','page'=>1])}}">
-                            <img style="vertical-align: middle; padding: 16%;height: 98px"
-                                 onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                                 src="{{asset("storage/category/$category->icon")}}"
-                                 alt="{{$category->name}}">
-                            <p class="text-center small"
-                               style="margin-top: -20px">{{Str::limit($category->name, 17)}}</p>
-                        </a>
-                    </div>
-                @endforeach
-            </div>
+            @include('web-views.partials._menu')
         </div>
     </section>
 

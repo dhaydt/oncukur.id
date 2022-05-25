@@ -445,7 +445,7 @@
             box-shadow: 0 0 0 0{{$web_config['primary_color']}};
         }
         .feature_header span {
-            background-color: #fafafc !important
+            background-color: #f2f3f7 !important
         }
         .discount-top-f {
             position: absolute;

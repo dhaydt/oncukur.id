@@ -192,8 +192,7 @@
                 </a>
                 <a class="navbar-brand d-sm-none {{Session::get('direction') === " rtl" ? 'ml-2' : 'mr-2' }}"
                 href="{{route('home')}}">
-                <img width="100" height="60" style="height: 60px!important;" src="{{asset("
-                    storage/company")."/".$web_config['mob_logo']->value}}"
+                <img width="100" height="60" style="height: 60px!important;" src="{{asset("storage/company")."/".$web_config['mob_logo']->value}}"
                 onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                 alt="{{$web_config['name']->value}}"/>
                 </a>
@@ -567,7 +566,7 @@
                         </li>
                         @endif
 
-                        @php( $local = \App\CPU\Helpers::default_lang())
+                        {{-- @php( $local = \App\CPU\Helpers::default_lang())
                         <li class="nav-item dropdown ml-auto">
                             <a class="nav-link dropdown-toggle text-dark border-right py-2 mt-2" href="#" data-toggle="dropdown"
                                 style="color: black !important">
@@ -613,7 +612,7 @@
                                     @endforeach
                                 </ul>
                             </li>
-                        @endif
+                        @endif --}}
                     </ul>
                 </div>
             </div>
