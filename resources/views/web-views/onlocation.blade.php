@@ -34,8 +34,8 @@
                     </div>
                 </div>
                 <div class="card-body justify-content-center d-flex">
-                    <div class="map" id="map-layer" style="width: 90%; height: 500px;">
-                        {{-- {!! Mapper::render() !!} --}}
+                    <div class="map" id="map" style="width: 90%; height: 500px;">
+
                     </div>
                 </div>
             </div>
@@ -45,48 +45,64 @@
 @endsection
 
 @push('script')
-<script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_API_KEY') }}&callback=initMap" async defer>
-</script>
+{{-- <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCTtlbf76QuFrP4TvNtK9KkfGPpCs9LaY&callback=initMap"></script> --}}
+
 <script type="text/javascript">
     $(document).ready(function(){
-        locate();
+        initMaps();
     })
 
-    // Call map
-    var map;
-    function initMap(lat, long) {
-        var mapLayer = document.getElementById("map-layer");
-        var centerCoordinates = new google.maps.LatLng(lat, long);
+    var lat = -0.287487;
+    var long = 100.373011;
 
-        var defaultOptions = { center: centerCoordinates, zoom: 13, mapTypeId: google.maps.MapTypeId.ROADMAP }
+    function initMap() {
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: lat, lng: long },
+    zoom: 11,
+  });
+  infoWindow = new google.maps.InfoWindow();
 
-        var map = new google.maps.Map(mapLayer, defaultOptions);
+  const locationButton = document.createElement("button");
 
-        marker=new google.maps.Marker({ position: new google.maps.LatLng(lat,long),
-                                        map: map,
-                                        animation: google.maps.Animation.DROP
-                                    });
+  locationButton.textContent = "Pan to Current Location";
+  locationButton.classList.add("custom-map-control-button");
+  map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+  locationButton.addEventListener("click", () => {
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+
+          infoWindow.setPosition(pos);
+          infoWindow.setContent("Location found.");
+          infoWindow.open(map);
+          map.setCenter(pos);
+        },
+        () => {
+          handleLocationError(true, infoWindow, map.getCenter());
         }
-
-    function locate(){
-        document.getElementById("btnAction").disabled = true;
-        document.getElementById("btnAction").innerHTML = "Processing...";
-        if ("geolocation" in navigator){
-            navigator.geolocation.getCurrentPosition(function(position){
-                var currentLatitude = position.coords.latitude;
-                var currentLongitude = position.coords.longitude;
-
-                initMap(currentLatitude, currentLongitude);
-
-                var infoWindowHTML = "Latitude: " + currentLatitude + "<br>Longitude: " + currentLongitude;
-                var infoWindow = new google.maps.InfoWindow({map: map, content: infoWindowHTML});
-
-                var currentLocation = { lat: currentLatitude, lng: currentLongitude };
-                infoWindow.setPosition(currentLocation);
-                document.getElementById("btnAction").style.display = 'none';
-            });
-        }
+      );
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, infoWindow, map.getCenter());
     }
+  });
+}
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+  infoWindow.setPosition(pos);
+  infoWindow.setContent(
+    browserHasGeolocation
+      ? "Error: The Geolocation service failed."
+      : "Error: Your browser doesn't support geolocation."
+  );
+  infoWindow.open(map);
+}
 
 </script>
 @endpush

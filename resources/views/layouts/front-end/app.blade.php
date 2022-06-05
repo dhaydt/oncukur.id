@@ -579,6 +579,7 @@
 <!-- Vendor scrits: js libraries and plugins-->
 {{--<script src="{{asset('assets/front-end')}}/vendor/jquery/dist/jquery.slim.min.js"></script>--}}
 <script src="{{asset('assets/front-end')}}/vendor/jquery/dist/jquery-2.2.4.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_API_KEY') }}&callback=initMap&v=weekly" defer></script>
 <script src="{{asset('assets/front-end')}}/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{asset('assets/front-end')}}/vendor/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
 <script src="{{asset('assets/front-end')}}/vendor/simplebar/dist/simplebar.min.js"></script>
@@ -588,14 +589,14 @@
 <script src="{{asset('assets/front-end')}}/vendor/lightgallery.js/dist/js/lightgallery.min.js"></script>
 <script src="{{asset('assets/front-end')}}/vendor/lg-video.js/dist/lg-video.min.js"></script>
 
-{{--Toastr--}}
+<!-- Toastr -->
 <script src={{asset("assets/back-end/js/toastr.js")}}></script>
-<!-- Main theme script-->
+<!-- Main theme script -->
 <script src="{{asset('assets/front-end')}}/js/theme.min.js"></script>
 <script src="{{asset('assets/front-end')}}/js/slick.min.js"></script>
 
 <script src="{{asset('assets/front-end')}}/js/sweet_alert.js"></script>
-{{--Toastr--}}
+<!-- Toastr -->
 <script src={{asset("assets/back-end/js/toastr.js")}}></script>
 {!! Toastr::message() !!}
 
@@ -1086,6 +1087,7 @@
     }
 </script>
 @stack('script')
+<script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_API_KEY') }}&callback=initMap" async defer>
 
 </body>
 </html>
