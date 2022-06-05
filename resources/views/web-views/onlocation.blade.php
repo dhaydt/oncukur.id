@@ -45,9 +45,6 @@
 @endsection
 
 @push('script')
-{{-- <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCTtlbf76QuFrP4TvNtK9KkfGPpCs9LaY&callback=initMap"></script> --}}
-
 <script type="text/javascript">
     $(document).ready(function(){
         initMaps();
@@ -57,51 +54,49 @@
     var long = 100.373011;
 
     function initMap() {
-  map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: lat, lng: long },
-    zoom: 11,
-  });
-  infoWindow = new google.maps.InfoWindow();
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: lat, lng: long },
+            zoom: 13,
+        });
 
-  const locationButton = document.createElement("button");
+        infoWindow = new google.maps.InfoWindow();
 
-  locationButton.textContent = "Pan to Current Location";
-  locationButton.classList.add("custom-map-control-button");
-  map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
-  locationButton.addEventListener("click", () => {
-    // Try HTML5 geolocation.
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
+        const locationButton = document.createElement("button");
 
-          infoWindow.setPosition(pos);
-          infoWindow.setContent("Location found.");
-          infoWindow.open(map);
-          map.setCenter(pos);
-        },
-        () => {
-          handleLocationError(true, infoWindow, map.getCenter());
+        // locationButton.textContent = "Pan to Current Location";
+        // locationButton.classList.add("custom-map-control-button");
+        map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+        if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+            const pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+            };
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent("You are here.");
+            infoWindow.open(map);
+            map.setCenter(pos);
+            },
+            () => {
+            handleLocationError(true, infoWindow, map.getCenter());
+            }
+        );
+        } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, infoWindow, map.getCenter());
         }
-      );
-    } else {
-      // Browser doesn't support Geolocation
-      handleLocationError(false, infoWindow, map.getCenter());
     }
-  });
-}
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-  infoWindow.setPosition(pos);
-  infoWindow.setContent(
-    browserHasGeolocation
-      ? "Error: The Geolocation service failed."
-      : "Error: Your browser doesn't support geolocation."
-  );
-  infoWindow.open(map);
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(
+        browserHasGeolocation
+        ? "Error: The Geolocation service failed."
+        : "Error: Your browser doesn't support geolocation."
+    );
+    infoWindow.open(map);
 }
 
 </script>
