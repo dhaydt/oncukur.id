@@ -29,9 +29,9 @@
             <div class="card mt-4">
                 <div class="card-header">
                     <h3>OnLocation Service</h3>
-                    <div id="button-layer d-none">
+                    {{-- <div id="button-layer d-none">
                         <button id="btnAction" onClick="locate()">My Current Location</button>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="card-body justify-content-center d-flex">
                     <div class="map" id="map" style="width: 90%; height: 500px;">
