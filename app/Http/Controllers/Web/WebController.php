@@ -44,6 +44,21 @@ class WebController extends Controller
         return redirect()->route('home');
     }
 
+    public function closestOutlet(Request $request)
+    {
+        $lat = $request->lat;
+        $lon = $request->lng;
+
+        $shops = Shop::select('*', DB::raw('6371 * acos(cos(radians('.$lat.'))
+                        * cos(radians(latitude)) * cos(radians(longitude) - radians('.$lon.'))
+                        + sin(radians('.$lat.')) * sin(radians(latitude)) ) AS distance'));
+        $shops = $shops->having('distance', '<', 20);
+        $shops = $shops->orderBy('distance', 'asc');
+        $shops = $shops->get();
+
+        return $shops;
+    }
+
     public function onlocation()
     {
         $outlets = Shop::where('status', 1)->where('latitude', '!=', null)->get();

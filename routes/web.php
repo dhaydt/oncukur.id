@@ -32,6 +32,7 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode']], funct
     });
 
     Route::get('onlocation', 'WebController@onlocation')->name('onlocation');
+    Route::post('outlet', 'WebController@closestOutlet')->name('closest-outlet');
 
     Route::group(['middleware' => ['customer']], function () {
         Route::get('checkout-details', 'WebController@checkout_details')->name('checkout-details');

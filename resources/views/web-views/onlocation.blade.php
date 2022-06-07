@@ -67,37 +67,83 @@
         // locationButton.classList.add("custom-map-control-button");
         map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
         if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-            const pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-            };
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                const pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                };
 
-            infoWindow.setPosition(pos);
-            infoWindow.setContent("You are here.");
-            infoWindow.open(map);
-            map.setCenter(pos);
-            },
-            () => {
-            handleLocationError(true, infoWindow, map.getCenter());
-            }
-        );
+                var label = 'Your location'
+
+                var marker = new google.maps.Marker({
+                    position: pos,
+                    animation: google.maps.Animation.BOUNCE,
+                    map: map,
+                });
+
+                marker.addListener("click", () => {
+                    infoWindow.setContent(label);
+                    infoWindow.open(map, marker);
+                });
+
+                map.setCenter(pos);
+                getOutlet(pos);
+                },
+                () => {
+                handleLocationError(true, infoWindow, map.getCenter());
+                }
+            );
         } else {
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
         }
     }
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(
-        browserHasGeolocation
-        ? "Error: The Geolocation service failed."
-        : "Error: Your browser doesn't support geolocation."
-    );
-    infoWindow.open(map);
-}
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(
+            browserHasGeolocation
+            ? "Error: The Geolocation service failed."
+            : "Error: Your browser doesn't support geolocation."
+        );
+        infoWindow.open(map);
+    }
+
+    function getOutlet(pos){
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: `{{ route('closest-outlet') }}`,
+            method: 'POST',
+            data: pos,
+            success: function(data){
+                console.log('resp', data);
+                $.each(data, function( index, value ) {
+                    var position = {
+                        lat: parseFloat(value.latitude),
+                        lng: parseFloat(value.longitude)
+                    }
+
+                    var label = `\n        <div style='width:180px' align='center'><h5><b class='text-capitalize'>`+ value.name+ `</b></h5> <p>`+(Math.round(value.distance * 100) / 100).toFixed(2)+` KM.</p>\n <button align='center' type='button' class='btn btn-success btn-sm text-capitalize'>Show route</button>\n        </div>`
+
+                    var marker = new google.maps.Marker({
+                        position: position,
+                        animation: google.maps.Animation.DROP,
+                        map: map,
+                    });
+
+                    marker.addListener("click", () => {
+                        infoWindow.setContent(label);
+                        infoWindow.open(map, marker);
+                    });
+                });
+            }
+        })
+    }
 
 </script>
 @endpush
