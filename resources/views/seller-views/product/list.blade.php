@@ -1,6 +1,6 @@
 @extends('layouts.back-end.app-seller')
 
-@section('title',\App\CPU\translate('Product List'))
+@section('title',\App\CPU\translate('Services List'))
 
 @push('css_or_js')
 
@@ -12,7 +12,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('seller.dashboard.index')}}">{{\App\CPU\translate('Dashboard')}}</a>
                 </li>
-                <li class="breadcrumb-item" aria-current="page">{{\App\CPU\translate('Products')}}</li>
+                <li class="breadcrumb-item" aria-current="page">{{\App\CPU\translate('Services')}}</li>
 
             </ol>
         </nav>
@@ -22,7 +22,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="flex-start">
-                            <h5>{{ \App\CPU\translate('Product')}} {{ \App\CPU\translate('Table')}}</h5>
+                            <h5>{{ \App\CPU\translate('Service')}} {{ \App\CPU\translate('Table')}}</h5>
                             <h5 class="mx-1"><span style="color: red;">({{ $products->total() }})</span></h5>
                         </div>
 
@@ -38,7 +38,7 @@
                                             </div>
                                         </div>
                                         <input id="datatableSearch_" type="search" name="search" class="form-control"
-                                            placeholder="{{\App\CPU\translate('Search by Product Name')}}" aria-label="Search orders" value="{{ $search }}" required>
+                                            placeholder="{{\App\CPU\translate('Search by Service Name')}}" aria-label="Search orders" value="{{ $search }}" required>
                                         <button type="submit" class="btn btn-primary">{{\App\CPU\translate('search')}}</button>
                                     </div>
                                     <!-- End Search -->
@@ -47,7 +47,7 @@
                             <div class="col-lg-4">
                                 <a href="{{route('seller.product.add-new')}}" class="btn btn-primary float-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}">
                                     <i class="tio-add-circle"></i>
-                                    <span class="text">{{\App\CPU\translate('Add new product')}}</span>
+                                    <span class="text">{{\App\CPU\translate('Add new service')}}</span>
                                 </a>
                             </div>
                         </div>
@@ -61,9 +61,8 @@
                                 <thead class="thead-light">
                                 <tr>
                                     <th>{{\App\CPU\translate('SL#')}}</th>
-                                    <th>{{\App\CPU\translate('Product Name')}}</th>
-                                    <th>{{\App\CPU\translate('purchase_price')}}</th>
-                                    <th>{{\App\CPU\translate('selling_price')}}</th>
+                                    <th>{{\App\CPU\translate('Service Name')}}</th>
+                                    <th>{{\App\CPU\translate('service_price')}}</th>
                                     <th>{{\App\CPU\translate('verify_status')}}</th>
                                     <th>{{\App\CPU\translate('Active')}} {{\App\CPU\translate('status')}}</th>
                                     <th style="width: 5px" class="text-center">{{\App\CPU\translate('Action')}}</th>
@@ -124,7 +123,7 @@
                     </div>
                     @if(count($products)==0)
                         <div class="text-center p-4">
-                            <img class="mb-3" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description" style="width: 7rem;">
+                            <img class="mb-3" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description" style="width: 7rem;">
                             <p class="mb-0">{{\App\CPU\translate('No data to show')}}</p>
                         </div>
                     @endif

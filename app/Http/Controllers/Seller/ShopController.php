@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Seller;
 
 use App\CPU\ImageManager;
 use App\Http\Controllers\Controller;
+use App\Model\Seller;
 use App\Model\Shop;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Model\Seller;
 use Illuminate\Support\Facades\DB;
 
 class ShopController extends Controller
@@ -24,7 +24,7 @@ class ShopController extends Controller
                 'contact' => auth('seller')->user()->phone,
                 'image' => 'def.png',
                 'created_at' => now(),
-                'updated_at' => now()
+                'updated_at' => now(),
             ]);
             $shop = Shop::where(['seller_id' => auth('seller')->id()])->first();
         }
@@ -34,16 +34,17 @@ class ShopController extends Controller
 
     public function edit($id)
     {
-        $shop = Shop::where(['seller_id' =>  auth('seller')->id()])->first();
+        $shop = Shop::where(['seller_id' => auth('seller')->id()])->first();
+
         return view('seller-views.shop.edit', compact('shop'));
     }
 
     public function update(Request $request, $id)
     {
-         if ($request->country == 'ID') {
+        if ($request->country == 'ID') {
             $provinces = $request->state;
             $province = explode(',', $provinces);
-             if (count($province) > 1) {
+            if (count($province) > 1) {
                 $prov = $province[1];
             } else {
                 $prov = $province[0];
@@ -70,30 +71,29 @@ class ShopController extends Controller
 
         $seller->province = $prov;
         $seller->city = $city;
-        $seller->district = $district;
+        $seller->district = null;
         $seller->city_id = $city_id;
-        $seller->district_id = $district_id;
+        $seller->district_id = null;
         $seller->save();
 
         $shop->name = $request->name;
-        $shop->country = $request->country;
         $shop->province = $prov;
         $shop->city = $city;
-        $shop->district = $district;
+        $shop->district = null;
         $shop->city_id = $city_id;
-        $shop->district_id = $district_id;
+        $shop->district_id = null;
         $shop->address = $request->address;
         $shop->contact = $request->contact;
         if ($request->image) {
-            $shop->image = ImageManager::update('shop/', $shop->image, 'png', $request->file('image'));
+            $shop->image = ImageManager::update('outlet/', $shop->image, 'png', $request->file('image'));
         }
         if ($request->banner) {
-            $shop->banner = ImageManager::update('shop/banner/', $shop->banner, 'png', $request->file('banner'));
+            $shop->banner = ImageManager::update('outlet/banner/', $shop->banner, 'png', $request->file('banner'));
         }
         $shop->save();
 
         Toastr::info('Shop updated successfully!');
+
         return redirect()->route('seller.shop.view');
     }
-
 }

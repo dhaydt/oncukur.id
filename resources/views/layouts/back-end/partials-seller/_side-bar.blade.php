@@ -37,11 +37,11 @@
             <div class="navbar-vertical-footer-offset" style="padding-bottom: 0">
                 <div class="navbar-brand-wrapper justify-content-between side-logo">
                     <!-- Logo -->
-                    @php($seller_logo=\App\Model\Shop::where(['seller_id'=>auth('seller')->id()])->first()->image)
+                    @php($e_commerce_logo=\App\Model\BusinessSetting::where(['type'=>'company_web_logo'])->first()->value)
                     <a class="navbar-brand" href="{{route('seller.dashboard.index')}}" aria-label="Front">
                         <img onerror="this.src='{{asset('assets/back-end/img/900x400/img1.jpg')}}'"
-                             class="navbar-brand-logo-mini for-seller-logo"
-                             src="{{asset("storage/shop/$seller_logo")}}" alt="Logo">
+                            class="navbar-brand-logo-mini for-seller-logo"
+                            src="{{asset("storage/company/$e_commerce_logo")}}" alt="Logo">
                     </a>
                     <!-- End Logo -->
 
@@ -175,7 +175,7 @@
                         <!-- End Pages -->
 
                         <li class="nav-item">
-                            <small class="nav-subtitle">{{\App\CPU\translate('product_management')}}</small>
+                            <small class="nav-subtitle">{{\App\CPU\translate('service_management')}}</small>
                             <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                         </li>
 
@@ -183,7 +183,7 @@
                             <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:">
                                 <i class="tio-premium-outlined nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                    {{\App\CPU\translate('Products')}}
+                                    {{\App\CPU\translate('Services')}}
                                 </span>
                             </a>
                             <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
@@ -191,7 +191,7 @@
                                 <li class="nav-item {{Request::is('seller/product/list')?'active':''}}">
                                     <a class="nav-link " href="{{route('seller.product.list')}}">
                                         <span class="tio-circle nav-indicator-icon"></span>
-                                        <span class="text-truncate">{{\App\CPU\translate('Products')}}</span>
+                                        <span class="text-truncate">{{\App\CPU\translate('Services')}}</span>
                                     </a>
                                 </li>
 
@@ -216,7 +216,7 @@
                                href="{{route('seller.reviews.list')}}">
                                 <i class="tio-star nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                    {{\App\CPU\translate('Product')}} {{\App\CPU\translate('Reviews')}}
+                                    {{\App\CPU\translate('Service')}} {{\App\CPU\translate('Reviews')}}
                                 </span>
                             </a>
                         </li>

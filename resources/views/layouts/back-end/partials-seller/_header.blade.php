@@ -9,10 +9,10 @@
                 <a class="navbar-brand" href="{{route('seller.dashboard.index')}}" aria-label="">
                     <img class="navbar-brand-logo" style="max-height: 42px;"
                          onerror="this.src='{{asset('assets/back-end/img/160x160/img1.jpg')}}'"
-                         src="{{asset("storage/shop/$seller_logo")}}" alt="Logo" height="40" width="40">
+                         src="{{asset("storage/outlet/$seller_logo")}}" alt="Logo" height="40" width="40">
                     <img class="navbar-brand-logo-mini" style="max-height: 42px;"
                          onerror="this.src='{{asset('assets/back-end/img/160x160/img1.jpg')}}'"
-                         src="{{asset("storage/shop/$seller_logo")}}"
+                         src="{{asset("storage/outlet/$seller_logo")}}"
                          alt="Logo" height="40" width="40">
 
                 </a>

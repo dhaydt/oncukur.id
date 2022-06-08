@@ -25,6 +25,7 @@
 @section('content')
 <div class="container">
     <div class="row">
+        <input type="hidden" id="user" value="{{ auth('customer')->id() }}">
         <div class="col-12">
             <div class="card mt-4">
                 <div class="card-header">
@@ -129,7 +130,7 @@
 
                     var coordinate = JSON.stringify(position)
 
-                    var label = `\n        <div style='width:180px' align='center'><h5><b class='text-capitalize'>`+ value.name+ `</b></h5> <p>`+(Math.round(value.distance * 100) / 100).toFixed(2)+` KM.</p>\n <button align='center' type='button' onclick="getRoute(`+ position.lat +`,`+position.lng+`)" class='btn btn-success btn-sm text-capitalize'>Show route</button>\n        </div>`
+                    var label = `<div style='width:180px' align='center'><h5><b class='text-capitalize'>`+ value.name+ `</b></h5> <p>`+(Math.round(value.distance * 100) / 100).toFixed(2)+` KM.</p>\n <button align='center' type='button' onclick="getRoute(`+ position.lat +`,`+position.lng+`,`+value.id+`)" class='btn btn-success btn-sm text-capitalize'>Show route</button>\n        </div>`
 
                     var marker = new google.maps.Marker({
                         position: position,
@@ -146,7 +147,13 @@
         })
     }
 
-    function getRoute(lat, lng){
+    function getRoute(lat, lng, id){
+        var user = $('#user').val();
+        if(!user){
+            toastr.warning('{{\App\CPU\translate('Please_login_first')}}');
+            window.location = `{{ route('customer.auth.login') }}`
+        }
+        console.log('user', user)
         $('#reset').removeClass('d-none');
         var destination = {
             lat: lat,
@@ -227,6 +234,23 @@
                          */
                         // output.innerHTML = "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> Could not retrieve driving distance.</div>";
                     }
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                        }
+                    });
+
+                    $.ajax({
+                        url: `{{ route('cart.add') }}`,
+                        method: 'post',
+                        data: {
+                            type: 'onlokasi',
+                            id: id
+                        },
+                        success: function(data){
+                            console.log('data', data)
+                        }
+                    })
                 });
         }}
     }

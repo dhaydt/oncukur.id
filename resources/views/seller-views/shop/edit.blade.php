@@ -3,9 +3,9 @@
 @section('title', \App\CPU\translate('Shop Edit'))
 @push('css_or_js')
     <!-- Custom styles for this page -->
-    <link href="{{asset('public/assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="{{asset('assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
      <!-- Custom styles for this page -->
-     <link href="{{asset('public/assets/back-end/css/croppie.css')}}" rel="stylesheet">
+     <link href="{{asset('assets/back-end/css/croppie.css')}}" rel="stylesheet">
      <meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush
 @section('content')
@@ -34,12 +34,11 @@
                                     <input type="number" name="contact" value="{{$shop->contact}}" class="form-control" id="name"
                                             required>
                                 </div>
-                                
-                                @if ($shop->seller->country == 'ID')
+
+                                {{-- @if ($shop->seller->country == 'ID')
                                 <input type="hidden" name="country" value="{{ $shop->seller->country }}">
                                 @php($province = App\CPU\Helpers::province())
                                 <div class="form-group">
-                                    {{-- {{ dd($province) }} --}}
                                     <label for="state">{{\App\CPU\translate('State_/_Province')}}</label>
                                     <select class="form-control" name="state">
                                                                                 @if ($shop->province)
@@ -81,7 +80,7 @@
                                         <option value="">Select your District address</option>
                                     </select>
                                 </div>
-                                @else
+                                @else --}}
                                 <div class="form-group">
                                     {{-- {{ dd($province) }} --}}
                                     <label for="state">{{\App\CPU\translate('State_/_Province')}}</label>
@@ -91,8 +90,8 @@
                                     <label for="address-city">{{\App\CPU\translate('City')}}</label>
                                     <input type="text" class="form-control" name="city" id="address-city">
                                 </div>
-                                @endif
-                                
+                                {{-- @endif --}}
+
                                 <div class="form-group">
                                     <label for="address">{{\App\CPU\translate('Address')}} <span class="text-danger">*</span></label>
                                     <textarea type="text" rows="4" name="address" value="" class="form-control" id="address"
@@ -110,11 +109,11 @@
                                 </div>
                                 <div class="text-center">
                                     <img style="width: auto;border: 1px solid; border-radius: 10px; max-height:200px;" id="viewer"
-                                    onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                    src="{{asset('storage/app/public/shop/'.$shop->image)}}" alt="Product thumbnail"/>
+                                    onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                    src="{{asset('storage/outlet/'.$shop->image)}}" alt="Product thumbnail"/>
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-4 mt-2">
+                            {{-- <div class="col-md-6 mb-4 mt-2">
                                 <div class="form-group">
                                     <div class="flex-start">
                                         <div for="name">{{\App\CPU\translate('Upload')}} {{\App\CPU\translate('Banner')}} </div>
@@ -128,10 +127,10 @@
                                 </div>
                                 <div class="text-center">
                                     <img style="width: auto; height:auto; border: 1px solid; border-radius: 10px; max-height:200px" id="viewerBanner"
-                                         onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                         src="{{asset('storage/app/public/shop/banner/'.$shop->banner)}}" alt="Product thumbnail"/>
+                                         onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                         src="{{asset('storage/shop/banner/'.$shop->banner)}}" alt="Product thumbnail"/>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
 
                         <button type="submit" class="btn btn-primary" id="btn_update">{{\App\CPU\translate('Update')}}</button>
@@ -234,7 +233,7 @@
                 });
             }
         });
-        
+
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
