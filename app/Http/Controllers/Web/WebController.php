@@ -55,30 +55,13 @@ class WebController extends Controller
         $shops = $shops->having('distance', '<', 20);
         $shops = $shops->orderBy('distance', 'asc');
         $shops = $shops->get();
-
-        return $shops;
+        if ($request->ajax()) {
+            return $shops;
+        }
     }
 
     public function onlocation()
     {
-        $outlets = Shop::where('status', 1)->where('latitude', '!=', null)->get();
-        // $lang = -6.221042;
-        // $lat = 106.804111;
-        $lang = -0.287487;
-        $lat = 100.373011;
-        Mapper::map($lang, $lat, ['zoom' => 10, 'center' => true, 'marker' => false, 'type' => 'MAP', 'overlay' => 'TRAFFIC', 'draggable' => true, 'eventDragEnd' => 'console.log("drag end");']);
-        foreach ($outlets as $outlet) {
-            $content = "\n        <div style='width:180px' align='center'><h5><b>".$outlet->name.'</b></h5> <p>'.$outlet->capacity.' chairs'."</p>\n        <p><b>Show Route "." </b></p>\n        <button align='center' type='button' class='btn btn-success btn-sm text-capitalize'>Click here</button>\n        </div>";
-            Mapper::informationWindow($outlet->latitude, $outlet->longitude, $content, ['animation' => 'DROP', 'symbol' => 'circle', 'scale' => 1000, 'title' => $outlet->name, 'label' => [
-                        'text' => $outlet->name,
-                        'color' => '#000',
-                        'fontFamily' => 'Arial',
-                        'textTransform' => 'capitalize',
-                        'fontSize' => '14px',
-                        'fontWeight' => 'bold',
-                    ]]);
-        }
-
         return view('web-views.onlocation');
     }
 

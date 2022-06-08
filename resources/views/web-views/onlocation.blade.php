@@ -29,9 +29,7 @@
             <div class="card mt-4">
                 <div class="card-header">
                     <h3>OnLocation Service</h3>
-                    {{-- <div id="button-layer d-none">
-                        <button id="btnAction" onClick="locate()">My Current Location</button>
-                    </div> --}}
+                    <button class="btn btn-danger btn-sm" id="reset" onclick="initMap()">Reset map</button>
                 </div>
                 <div class="card-body justify-content-center d-flex">
                     <div class="map" id="map" style="width: 90%; height: 500px;">
@@ -54,6 +52,7 @@
     var long = 100.373011;
 
     function initMap() {
+        $('#reset').addClass('d-none');
         map = new google.maps.Map(document.getElementById("map"), {
             center: { lat: lat, lng: long },
             zoom: 13,
@@ -89,14 +88,14 @@
 
                 map.setCenter(pos);
                 getOutlet(pos);
-                },
-                () => {
+            },
+            () => {
                 handleLocationError(true, infoWindow, map.getCenter());
-                }
+            }
             );
         } else {
-        // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindow, map.getCenter());
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
         }
     }
 
@@ -128,7 +127,9 @@
                         lng: parseFloat(value.longitude)
                     }
 
-                    var label = `\n        <div style='width:180px' align='center'><h5><b class='text-capitalize'>`+ value.name+ `</b></h5> <p>`+(Math.round(value.distance * 100) / 100).toFixed(2)+` KM.</p>\n <button align='center' type='button' class='btn btn-success btn-sm text-capitalize'>Show route</button>\n        </div>`
+                    var coordinate = JSON.stringify(position)
+
+                    var label = `\n        <div style='width:180px' align='center'><h5><b class='text-capitalize'>`+ value.name+ `</b></h5> <p>`+(Math.round(value.distance * 100) / 100).toFixed(2)+` KM.</p>\n <button align='center' type='button' onclick="getRoute(`+ position.lat +`,`+position.lng+`)" class='btn btn-success btn-sm text-capitalize'>Show route</button>\n        </div>`
 
                     var marker = new google.maps.Marker({
                         position: position,
@@ -144,6 +145,92 @@
             }
         })
     }
+
+    function getRoute(lat, lng){
+        $('#reset').removeClass('d-none');
+        var destination = {
+            lat: lat,
+            lng: lng
+        }
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                const pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                };
+                showRoute(pos);
+            },
+            () => {
+                handleLocationError(true, infoWindow, map.getCenter());
+            }
+            );
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+
+        function showRoute(origin){
+            map = new google.maps.Map(document.getElementById("map"), {
+                    center: origin,
+                    zoom: 13,
+                });
+
+            var directionsService = new google.maps.DirectionsService();
+
+            var directionsDisplay = new google.maps.DirectionsRenderer();
+
+            directionsDisplay.setMap(map);
+
+            calculateDistance();
+            function calculateDistance(){
+                /**
+                 * Creating a new request
+                 */
+                var request = {
+                    origin: origin,
+                    destination: destination,
+                    travelMode: google.maps.TravelMode.DRIVING, //WALKING, BYCYCLING, TRANSIT
+                    unitSystem: google.maps.UnitSystem.IMPERIAL
+                }
+
+                /**
+                 * Pass the created request to the route method
+                 */
+
+                directionsService.route(request, function (result, status) {
+                    if (status == google.maps.DirectionsStatus.OK) {
+
+                        /**
+                         * Get distance and time then display on the map
+                         */
+                        // const output = document.querySelector('#output');
+                        // output.innerHTML = "<p class='alert-success'>From: " + document.getElementById("origin").value + "</br>" +"To: " + document.getElementById("destination").value + "</br>"+"Driving distance <i class='fas fa-road'></i> : " + result.routes[0].legs[0].distance.text +"</br>"+ " Duration <i class='fas fa-clock'></i> : " + result.routes[0].legs[0].duration.text + ".</p>";
+
+                        /**
+                         * Display the obtained route
+                         */
+                        directionsDisplay.setDirections(result);
+                    } else {
+                        /**
+                         * Eliminate route from the map
+                         */
+                        directionsDisplay.setDirections({ routes: [] });
+
+                        /**
+                         * Centre the map to my current location
+                         */
+                        map.setCenter(origin);
+
+                        /**
+                         * show error message in case there is any
+                         */
+                        // output.innerHTML = "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> Could not retrieve driving distance.</div>";
+                    }
+                });
+        }}
+    }
+
 
 </script>
 @endpush
