@@ -78,21 +78,14 @@ class ProductController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'category_id' => 'required',
-            'brand_id' => 'required',
-            'unit' => 'required',
             'images' => 'required',
             'image' => 'required',
             'tax' => 'required|min:0',
             'unit_price' => 'required|numeric|min:1',
-            'purchase_price' => 'required|numeric|min:1',
         ], [
             'name.required' => 'Product name is required!',
-            'category_id.required' => 'category  is required!',
             'images.required' => 'Product images is required!',
             'image.required' => 'Product thumbnail is required!',
-            'brand_id.required' => 'brand  is required!',
-            'unit.required' => 'Unit  is required!',
         ]);
 
         if ($request['discount_type'] == 'percent') {
@@ -110,46 +103,46 @@ class ProductController extends Controller
         }
 
         $seller = auth('seller')->user();
-        $country = $seller->country;
-        $city = $seller->city;
-        $city_id = $seller->city_id;
+        // $country = $seller->country;
+        // $city = $seller->city;
+        // $city_id = $seller->city_id;
         // dd($request);
         // dd($user->country);
 
         $product = new Product();
         $product->user_id = $seller->id;
-        $product->country = $country;
-        $product->city = $city;
-        $product->city_id = $city_id;
-        $product->weight = $request->weight;
+        // $product->country = $country;
+        // $product->city = $city;
+        // $product->city_id = $city_id;
+        $product->weight = 0;
         $product->added_by = 'seller';
         $product->name = $request->name[array_search('en', $request->lang)];
         $product->slug = Str::slug($request->name[array_search('en', $request->lang)], '-').'-'.Str::random(6);
 
-        $category = [];
+        // $category = [];
 
-        if ($request->category_id != null) {
-            array_push($category, [
-                'id' => $request->category_id,
-                'position' => 1,
-            ]);
-        }
-        if ($request->sub_category_id != null) {
-            array_push($category, [
-                'id' => $request->sub_category_id,
-                'position' => 2,
-            ]);
-        }
-        if ($request->sub_sub_category_id != null) {
-            array_push($category, [
-                'id' => $request->sub_sub_category_id,
-                'position' => 3,
-            ]);
-        }
+        // if ($request->category_id != null) {
+        //     array_push($category, [
+        //         'id' => $request->category_id,
+        //         'position' => 1,
+        //     ]);
+        // }
+        // if ($request->sub_category_id != null) {
+        //     array_push($category, [
+        //         'id' => $request->sub_category_id,
+        //         'position' => 2,
+        //     ]);
+        // }
+        // if ($request->sub_sub_category_id != null) {
+        //     array_push($category, [
+        //         'id' => $request->sub_sub_category_id,
+        //         'position' => 3,
+        //     ]);
+        // }
 
-        $product->category_ids = json_encode($category);
-        $product->brand_id = $request->brand_id;
-        $product->unit = $request->unit;
+        // $product->category_ids = json_encode($category);
+        // $product->brand_id = $request->brand_id;
+        // $product->unit = $request->unit;
         $product->details = $request->description[array_search('en', $request->lang)];
 
         if ($request->file('images')) {
@@ -226,7 +219,7 @@ class ProductController extends Controller
         }
 
         //combinations end
-        $product->variation = json_encode($variations);
+        // $product->variation = json_encode($variations);
         $product->unit_price = Convert::usd($request->unit_price);
         $product->purchase_price = Convert::usd($request->purchase_price);
         $product->tax = $request->tax;

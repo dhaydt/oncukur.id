@@ -32,7 +32,7 @@
         <div class="page-header">
             <div class="flex-between row mx-1">
                 <div>
-                    <h1 class="page-header-title">{{$product['name']}}</h1>
+                    <h1 class="page-header-title text-capitalize">{{$product['name']}}</h1>
                 </div>
                 <div>
                     <a href="{{url()->previous()}}" class="btn btn-primary float-right">
@@ -53,7 +53,7 @@
             <ul class="nav nav-tabs page-header-tabs">
                 <li class="nav-item">
                     <a class="nav-link active" href="javascript:">
-                        {{\App\CPU\translate('Product reviews')}}
+                        {{\App\CPU\translate('Service reviews')}}
                     </a>
                 </li>
             </ul>
@@ -69,7 +69,7 @@
                     <div class="col-md-auto mb-3 mb-md-0">
                         <div class="d-flex align-items-center">
                             <img class="avatar avatar-xxl avatar-4by3 {{Session::get('direction') === "rtl" ? 'ml-4' : 'mr-4'}}"
-                                 onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                 onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                  src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
                                  alt="Image Description">
 
@@ -164,7 +164,7 @@
                     </div>
                     <div class="col-4 pt-2">
                         <div class="flex-start">
-                            <h4 class="border-bottom">{{$product['name']}}</h4>
+                            <h4 class="border-bottom text-capitalize">{{$product['name']}}</h4>
                         </div>
                         <div class="flex-start">
                             <span>{{\App\CPU\translate('Price')}} : </span>
@@ -177,10 +177,6 @@
                         <div class="flex-start">
                             <span>{{\App\CPU\translate('Discount')}} : </span>
                             <span class="mx-1">{{ $product->discount_type=='flat'?\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($product->discount)): $product->discount.''.'%'}}</span>
-                        </div>
-                        <div class="flex-start">
-                            <span>{{\App\CPU\translate('Current Stock')}} : </span>
-                            <span class="mx-1">{{ $product->current_stock }}</span>
                         </div>
                     </div>
 
@@ -207,7 +203,7 @@
                             </div>
                             @endif</span><br>
                         <span>
-                        {{\App\CPU\translate('Product Image')}}
+                        {{\App\CPU\translate('Service Image')}}
 
                      <div class="row">
                          @foreach (json_decode($product->images) as $key => $photo)
@@ -215,8 +211,8 @@
                                  <div class="card">
                                      <div class="card-body">
                                          <img style="width: 100%"
-                                              onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                              src="{{asset("storage/app/public/product/$photo")}}" alt="Product image">
+                                              onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                              src="{{asset("storage/product/$photo")}}" alt="Product image">
 
                                      </div>
                                  </div>
@@ -254,8 +250,8 @@
                                     <div class="avatar avatar-circle">
                                         <img
                                             class="avatar-img"
-                                            onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                            src="{{asset('storage/app/public/profile/'.$review->customer->image)}}"
+                                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                            src="{{asset('storage/profile/'.$review->customer->image)}}"
                                             alt="Image Description">
                                     </div>
                                     <div class="{{Session::get('direction') === "rtl" ? 'mr-3' : 'ml-3'}}">
@@ -299,8 +295,8 @@
 @endsection
 
 @push('script_2')
-    <script src="{{asset('public/assets/back-end')}}/js/tags-input.min.js"></script>
-    <script src="{{ asset('public/assets/select2/js/select2.min.js')}}"></script>
+    <script src="{{asset('assets/back-end')}}/js/tags-input.min.js"></script>
+    <script src="{{ asset('assets/select2/js/select2.min.js')}}"></script>
     <script>
         $('input[name="colors_active"]').on('change', function () {
             if (!$('input[name="colors_active"]').is(':checked')) {

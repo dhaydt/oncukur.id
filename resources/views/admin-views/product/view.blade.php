@@ -1,6 +1,6 @@
 @extends('layouts.back-end.app')
 
-@section('title', \App\CPU\translate('Product Preview'))
+@section('title', \App\CPU\translate('Service Preview'))
 
 @push('css_or_js')
     <style>
@@ -28,12 +28,12 @@
 
 @section('content')
     <div class="content container-fluid"
-         style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
+        style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
         <!-- Page Header -->
         <div class="page-header">
             <div class="flex-between row mx-1">
                 <div>
-                    <h1 class="page-header-title">{{$product['name']}}</h1>
+                    <h1 class="page-header-title text-capitalize">{{$product['name']}}</h1>
                 </div>
                 <div class="row">
                     <div class="col-12 flex-start">
@@ -56,7 +56,7 @@
                     <div class="{{Session::get('direction') === "rtl" ? 'mr-3' : 'ml-3'}}">
                         @if($product['request_status'] == 0)
                             <a href="{{route('admin.product.approve-status', ['id'=>$product['id']])}}"
-                               class="btn btn-secondary float-right">
+                                class="btn btn-secondary float-right">
                                 {{\App\CPU\translate('Approve')}}
                             </a>
                         @endif
@@ -67,7 +67,7 @@
                         </button>
                         <!-- Modal -->
                         <div class="modal fade" id="publishNoteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                             aria-hidden="true">
+                                aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -78,12 +78,12 @@
                                         </button>
                                     </div>
                                     <form class="form-group"
-                                          action="{{ route('admin.product.deny', ['id'=>$product['id']]) }}"
-                                          method="post">
+                                            action="{{ route('admin.product.deny', ['id'=>$product['id']]) }}"
+                                            method="post">
                                         <div class="modal-body">
                                             <textarea class="form-control" name="denied_note" rows="3"></textarea>
                                             <input type="hidden" name="_token" id="csrf-token"
-                                                   value="{{ csrf_token() }}"/>
+                                                value="{{ csrf_token() }}"/>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">{{\App\CPU\translate('Close')}}
@@ -109,7 +109,7 @@
             <ul class="nav nav-tabs page-header-tabs">
                 <li class="nav-item">
                     <a class="nav-link active" href="javascript:">
-                        {{\App\CPU\translate('Product reviews')}}
+                        {{\App\CPU\translate('Service reviews')}}
                     </a>
                 </li>
             </ul>
@@ -126,7 +126,7 @@
                         <div class="d-flex align-items-center">
                             <img
                                 class="avatar avatar-xxl avatar-4by3 {{Session::get('direction') === "rtl" ? 'ml-4' : 'mr-4'}}"
-                                onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                 src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
                                 alt="Image Description">
 
@@ -151,9 +151,9 @@
                                     class="{{Session::get('direction') === "rtl" ? 'ml-3' : 'mr-3'}}">{{\App\CPU\translate('5 star')}}</span>
                                 <div class="progress flex-grow-1">
                                     <div class="progress-bar" role="progressbar"
-                                         style="width: {{$total==0?0:($five/$total)*100}}%;"
-                                         aria-valuenow="{{$total==0?0:($five/$total)*100}}"
-                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                        style="width: {{$total==0?0:($five/$total)*100}}%;"
+                                        aria-valuenow="{{$total==0?0:($five/$total)*100}}"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                                 <span class="{{Session::get('direction') === "rtl" ? 'mr-3' : 'ml-3'}}">{{$five}}</span>
                             </li>
@@ -165,9 +165,9 @@
                                 <span class="{{Session::get('direction') === "rtl" ? 'ml-3' : 'mr-3'}}">{{\App\CPU\translate('4 star')}}</span>
                                 <div class="progress flex-grow-1">
                                     <div class="progress-bar" role="progressbar"
-                                         style="width: {{$total==0?0:($four/$total)*100}}%;"
-                                         aria-valuenow="{{$total==0?0:($four/$total)*100}}"
-                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                        style="width: {{$total==0?0:($four/$total)*100}}%;"
+                                        aria-valuenow="{{$total==0?0:($four/$total)*100}}"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                                 <span class="{{Session::get('direction') === "rtl" ? 'mr-3' : 'ml-3'}}">{{$four}}</span>
                             </li>
@@ -179,9 +179,9 @@
                                 <span class="{{Session::get('direction') === "rtl" ? 'ml-3' : 'mr-3'}}">{{\App\CPU\translate('3 star')}}</span>
                                 <div class="progress flex-grow-1">
                                     <div class="progress-bar" role="progressbar"
-                                         style="width: {{$total==0?0:($three/$total)*100}}%;"
-                                         aria-valuenow="{{$total==0?0:($three/$total)*100}}"
-                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                        style="width: {{$total==0?0:($three/$total)*100}}%;"
+                                        aria-valuenow="{{$total==0?0:($three/$total)*100}}"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                                 <span
                                     class="{{Session::get('direction') === "rtl" ? 'mr-3' : 'ml-3'}}">{{$three}}</span>
@@ -194,9 +194,9 @@
                                 <span class="{{Session::get('direction') === "rtl" ? 'ml-3' : 'mr-3'}}">{{\App\CPU\translate('2 star')}}</span>
                                 <div class="progress flex-grow-1">
                                     <div class="progress-bar" role="progressbar"
-                                         style="width: {{$total==0?0:($two/$total)*100}}%;"
-                                         aria-valuenow="{{$total==0?0:($two/$total)*100}}"
-                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                        style="width: {{$total==0?0:($two/$total)*100}}%;"
+                                        aria-valuenow="{{$total==0?0:($two/$total)*100}}"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                                 <span class="{{Session::get('direction') === "rtl" ? 'mr-3' : 'ml-3'}}">{{$two}}</span>
                             </li>
@@ -208,9 +208,9 @@
                                 <span class="{{Session::get('direction') === "rtl" ? 'ml-3' : 'mr-3'}}">{{\App\CPU\translate('1 star')}}</span>
                                 <div class="progress flex-grow-1">
                                     <div class="progress-bar" role="progressbar"
-                                         style="width: {{$total==0?0:($one/$total)*100}}%;"
-                                         aria-valuenow="{{$total==0?0:($one/$total)*100}}"
-                                         aria-valuemin="0" aria-valuemax="100"></div>
+                                        style="width: {{$total==0?0:($one/$total)*100}}%;"
+                                        aria-valuenow="{{$total==0?0:($one/$total)*100}}"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                                 <span class="{{Session::get('direction') === "rtl" ? 'mr-3' : 'ml-3'}}">{{$one}}</span>
                             </li>
@@ -223,7 +223,7 @@
                     </div>
                     <div class="col-4 pt-2">
                         <div class="flex-start">
-                            <h4 class="border-bottom">{{$product['name']}}</h4>
+                            <h4 class="border-bottom text-capitalize">{{$product['name']}}</h4>
                         </div>
                         <div class="flex-start">
                             <span>{{\App\CPU\translate('Price')}} : </span>
@@ -238,10 +238,6 @@
                             <span>{{\App\CPU\translate('Discount')}} : </span>
                             <span
                                 class="mx-1">{{ $product->discount_type=='flat'?(\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($product['discount']))): $product->discount.''.'%'}} </span>
-                        </div>
-                        <div class="flex-start">
-                            <span>{{\App\CPU\translate('Current Stock')}} : </span>
-                            <span class="mx-1">{{ $product->current_stock }}</span>
                         </div>
                     </div>
 
@@ -259,8 +255,8 @@
                                             <li>
 
                                                 <label style="background: {{ $color }};"
-                                                       for="{{ $product->id }}-color-{{ $key }}"
-                                                       data-toggle="tooltip"></label>
+                                                    for="{{ $product->id }}-color-{{ $key }}"
+                                                    data-toggle="tooltip"></label>
                                             </li>
                                         @endforeach
                                     </ul>
@@ -268,22 +264,22 @@
                             </div>
                             @endif</span><br>
                         <span>
-                        {{\App\CPU\translate('Product Image')}}
+                        {{\App\CPU\translate('Service Image')}}
 
-                     <div class="row">
-                         @foreach (json_decode($product->images) as $key => $photo)
-                             <div class="col-md-3">
-                                 <div class="card">
-                                     <div class="card-body">
-                                         <img style="width: 100%"
-                                              onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                              src="{{asset("storage/app/public/product/$photo")}}" alt="Product image">
+                    <div class="row">
+                        @foreach (json_decode($product->images) as $key => $photo)
+                            <div class="col-md-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <img style="width: 100%"
+                                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                            src="{{asset("storage/product/$photo")}}" alt="Product image">
 
-                                     </div>
-                                 </div>
-                             </div>
-                         @endforeach
-                     </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                     </span>
                     </div>
                 </div>
@@ -297,7 +293,7 @@
             <!-- Table -->
             <div class="table-responsive datatable-custom">
                 <table class="table table-borderless table-thead-bordered table-nowrap card-table"
-                       style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
+                    style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
                     <thead class="thead-light">
                     <tr>
                         <th>{{\App\CPU\translate('Reviewer')}}</th>
@@ -311,12 +307,12 @@
                         <tr>
                             <td>
                                 <a class="d-flex align-items-center"
-                                   href="{{route('admin.customer.view',[$review['customer_id']])}}">
+                                    href="{{route('admin.customer.view',[$review['customer_id']])}}">
                                     <div class="avatar avatar-circle">
                                         <img
                                             class="avatar-img"
-                                            onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                            src="{{asset('storage/app/public/profile/'.$review->customer->image)}}"
+                                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                            src="{{asset('storage/profile/'.$review->customer->image)}}"
                                             alt="Image Description">
                                     </div>
                                     <div class="{{Session::get('direction') === "rtl" ? 'mr-3' : 'ml-3'}}">
@@ -361,8 +357,8 @@
 @endsection
 
 @push('script_2')
-    <script src="{{asset('public/assets/back-end')}}/js/tags-input.min.js"></script>
-    <script src="{{ asset('public/assets/select2/js/select2.min.js')}}"></script>
+    <script src="{{asset('assets/back-end')}}/js/tags-input.min.js"></script>
+    <script src="{{ asset('assets/select2/js/select2.min.js')}}"></script>
     <script>
         $('input[name="colors_active"]').on('change', function () {
             if (!$('input[name="colors_active"]').is(':checked')) {

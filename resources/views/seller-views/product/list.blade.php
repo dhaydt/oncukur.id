@@ -55,9 +55,9 @@
                     <div class="card-body" style="padding: 0">
                         <div class="table-responsive">
                             <table id="datatable"
-                                   style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};"
-                                   class="table table-hover table-borderless table-thead-bordered table-nowrap table-align-middle card-table"
-                                   style="width: 100%">
+                                style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};"
+                                class="table table-hover table-borderless table-thead-bordered table-nowrap table-align-middle card-table"
+                                style="width: 100%">
                                 <thead class="thead-light">
                                 <tr>
                                     <th>{{\App\CPU\translate('SL#')}}</th>
@@ -76,9 +76,6 @@
                                                 {{$p['name']}}
                                             </a></td>
                                         <td>
-                                            {{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($p['purchase_price']))}}
-                                        </td>
-                                        <td>
                                             {{ \App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($p['unit_price']))}}
                                         </td>
                                         <td>
@@ -93,21 +90,21 @@
                                         <td>
                                             <label class="switch">
                                                 <input type="checkbox" class="status"
-                                                       id="{{$p['id']}}" {{$p->status == 1?'checked':''}}>
+                                                    id="{{$p['id']}}" {{$p->status == 1?'checked':''}}>
                                                 <span class="slider round"></span>
                                             </label>
                                         </td>
                                         <td>
                                             <a class="btn btn-primary btn-sm"
-                                               href="{{route('seller.product.edit',[$p['id']])}}">
+                                                href="{{route('seller.product.edit',[$p['id']])}}">
                                                 <i class="tio-edit"></i>{{\App\CPU\translate('Edit')}}
                                             </a>
                                             <a class="btn btn-danger btn-sm" href="javascript:"
-                                               onclick="form_alert('product-{{$p['id']}}','{{\App\CPU\translate("Want to delete this item")}} ?')">
-                                               <i class="tio-add-to-trash"></i> {{\App\CPU\translate('Delete')}}
+                                                onclick="form_alert('product-{{$p['id']}}','{{\App\CPU\translate("Want to delete this item")}} ?')">
+                                                <i class="tio-add-to-trash"></i> {{\App\CPU\translate('Delete')}}
                                             </a>
                                             <form action="{{route('seller.product.delete',[$p['id']])}}"
-                                                  method="post" id="product-{{$p['id']}}">
+                                                method="post" id="product-{{$p['id']}}">
                                                 @csrf @method('delete')
                                             </form>
                                         </td>
@@ -118,7 +115,7 @@
                         </div>
                     </div>
                     <!-- Footer -->
-                     <div class="card-footer">
+                    <div class="card-footer">
                         {{$products->links()}}
                     </div>
                     @if(count($products)==0)

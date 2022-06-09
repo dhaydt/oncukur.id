@@ -142,6 +142,8 @@ class ProductManager
             $path = asset('storage/outlet');
         } elseif ($image_type == 'product') {
             $path = asset('storage/product');
+        } else {
+            $path = asset('storage/product/thumbnail');
         }
 
         return $path;

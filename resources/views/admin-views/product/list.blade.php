@@ -1,6 +1,6 @@
 @extends('layouts.back-end.app')
 
-@section('title', \App\CPU\translate('Product List'))
+@section('title', \App\CPU\translate('Services List'))
 
 @push('css_or_js')
 
@@ -11,7 +11,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{\App\CPU\translate('Dashboard')}}</a></li>
-            <li class="breadcrumb-item" aria-current="page">{{\App\CPU\translate('Products')}}</li>
+            <li class="breadcrumb-item" aria-current="page">{{\App\CPU\translate('Services')}}</li>
         </ol>
     </nav>
 
@@ -22,7 +22,7 @@
                     <div class="row flex-between justify-content-between align-items-center flex-grow-1">
                         <div>
                             <h5 class="flex-between">
-                                <div>{{\App\CPU\translate('product_table')}}</div>
+                                <div>{{\App\CPU\translate('service_table')}}</div>
                                 <div style="color: red; padding: 0 .4375rem;">({{ $pro->total() }})</div>
                             </h5>
                         </div>
@@ -36,8 +36,8 @@
                                         </div>
                                     </div>
                                     <input id="datatableSearch_" type="search" name="search" class="form-control"
-                                           placeholder="{{\App\CPU\translate('Search Product Name')}}" aria-label="Search orders"
-                                           value="{{ $search }}" required>
+                                        placeholder="{{\App\CPU\translate('Search Service Name')}}" aria-label="Search orders"
+                                        value="{{ $search }}" required>
                                     <input type="hidden" value="{{ $request_status }}" name="status">
                                     <button type="submit" class="btn btn-primary">{{\App\CPU\translate('search')}}</button>
                                 </div>
@@ -47,7 +47,7 @@
                         <div>
                             <a href="{{route('admin.product.add-new')}}" class="btn btn-primary  float-right">
                                 <i class="tio-add-circle"></i>
-                                <span class="text">{{\App\CPU\translate('Add new product')}}</span>
+                                <span class="text">{{\App\CPU\translate('Add new service')}}</span>
                             </a>
                         </div>
                     </div>
@@ -55,13 +55,12 @@
                 <div class="card-body" style="padding: 0">
                     <div class="table-responsive">
                         <table id="datatable" style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};"
-                               class="table table-hover table-borderless table-thead-bordered table-nowrap table-align-middle card-table"
-                               style="width: 100%">
-                            <thead class="thead-light">
+                            class="table table-hover table-borderless table-thead-bordered table-nowrap table-align-middle card-table"
+                            style="width: 100%">
+                        <thead class="thead-light">
                             <tr>
                                 <th>{{\App\CPU\translate('SL#')}}</th>
                                 <th>{{\App\CPU\translate('Product Name')}}</th>
-                                <th>{{\App\CPU\translate('purchase_price')}}</th>
                                 <th>{{\App\CPU\translate('selling_price')}}</th>
                                 <th>{{\App\CPU\translate('featured')}}</th>
                                 <th>{{\App\CPU\translate('Active')}} {{\App\CPU\translate('status')}}</th>
@@ -78,36 +77,33 @@
                                         </a>
                                     </td>
                                     <td>
-                                        {{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($p['purchase_price']))}}
-                                    </td>
-                                    <td>
                                         {{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($p['unit_price']))}}
                                     </td>
                                     <td>
                                         <label class="switch">
                                             <input type="checkbox"
-                                                   onclick="featured_status('{{$p['id']}}')" {{$p->featured == 1?'checked':''}}>
+                                                onclick="featured_status('{{$p['id']}}')" {{$p->featured == 1?'checked':''}}>
                                             <span class="slider round"></span>
                                         </label>
                                     </td>
                                     <td>
                                         <label class="switch switch-status">
                                             <input type="checkbox" class="status"
-                                                   id="{{$p['id']}}" {{$p->status == 1?'checked':''}}>
+                                                id="{{$p['id']}}" {{$p->status == 1?'checked':''}}>
                                             <span class="slider round"></span>
                                         </label>
                                     </td>
                                     <td>
                                         <a class="btn btn-primary btn-sm"
-                                           href="{{route('admin.product.edit',[$p['id']])}}">
+                                            href="{{route('admin.product.edit',[$p['id']])}}">
                                             <i class="tio-edit"></i>{{\App\CPU\translate('Edit')}}
                                         </a>
                                         <a class="btn btn-danger btn-sm" href="javascript:"
-                                           onclick="form_alert('product-{{$p['id']}}','Want to delete this item ?')">
+                                            onclick="form_alert('product-{{$p['id']}}','Want to delete this item ?')">
                                             <i class="tio-add-to-trash"></i> {{\App\CPU\translate('Delete')}}
                                         </a>
                                         <form action="{{route('admin.product.delete',[$p['id']])}}"
-                                              method="post" id="product-{{$p['id']}}">
+                                            method="post" id="product-{{$p['id']}}">
                                             @csrf @method('delete')
                                         </form>
                                     </td>

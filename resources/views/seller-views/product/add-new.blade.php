@@ -1,8 +1,8 @@
 @extends('layouts.back-end.app-seller')
 
 @push('css_or_js')
-    <link href="{{asset('public/assets/back-end/css/tags-input.min.css')}}" rel="stylesheet">
-    <link href="{{ asset('public/assets/select2/css/select2.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/back-end/css/tags-input.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('assets/select2/css/select2.min.css')}}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush
 
@@ -21,8 +21,8 @@
             <div class="col-md-12">
 
                 <form class="product-form" action="{{route('seller.product.add-new')}}" method="post" enctype="multipart/form-data"
-                      style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};"
-                      id="product_form">
+                    style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};"
+                    id="product_form">
                     @csrf
                     <div class="card">
                         <div class="card-header">
@@ -35,7 +35,7 @@
                                 @foreach(json_decode($language) as $lang)
                                     <li class="nav-item">
                                         <a class="nav-link lang_link {{$lang == $default_lang? 'active':''}}" href="#"
-                                           id="{{$lang}}-link">{{\App\CPU\Helpers::get_language_name($lang).'('.strtoupper($lang).')'}}</a>
+                                        id="{{$lang}}-link">{{\App\CPU\Helpers::get_language_name($lang).'('.strtoupper($lang).')'}}</a>
                                     </li>
                                 @endforeach
                             </ul>
@@ -44,27 +44,27 @@
                         <div class="card-body">
                             @foreach(json_decode($language) as $lang)
                                 <div class="{{$lang != $default_lang ? 'd-none':''}} lang_form"
-                                     id="{{$lang}}-form">
+                                    id="{{$lang}}-form">
                                     <div class="form-group">
-                                        <label class="input-label" for="{{$lang}}_name">{{\App\CPU\translate('name')}}
+                                        <label class="input-label" for="{{$lang}}_name">{{\App\CPU\translate('service_name')}}
                                             ({{strtoupper($lang)}})</label>
                                         <input type="text" {{$lang == $default_lang? 'required':''}} name="name[]"
-                                               id="{{$lang}}_name" class="form-control" placeholder="New Product" required>
+                                            id="{{$lang}}_name" class="form-control" placeholder="New Product" required>
                                     </div>
                                     <input type="hidden" name="lang[]" value="{{$lang}}">
                                     <div class="form-group pt-4">
                                         <label class="input-label"
-                                               for="{{$lang}}_description">{{\App\CPU\translate('description')}}
+                                            for="{{$lang}}_description">{{\App\CPU\translate('description')}}
                                             ({{strtoupper($lang)}})</label>
                                         <textarea name="description[]" class="editor textarea" cols="30"
-                                                  rows="10" required>{{old('details')}}</textarea>
+                                                rows="10" required>{{old('details')}}</textarea>
                                     </div>
                                 </div>
                             @endforeach
                         </div>
                     </div>
 
-                    <div class="card mt-2 rest-part">
+                    {{-- <div class="card mt-2 rest-part">
                         <div class="card-header">
                             <h4>{{\App\CPU\translate('General_info')}}</h4>
                         </div>
@@ -102,9 +102,9 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
 
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label for="name">{{\App\CPU\translate('Brand')}}</label>
@@ -118,7 +118,7 @@
                                         </select>
                                     </div>
 
-                                   <div class="col-md-4">
+                                <div class="col-md-4">
                                         <label for="weight">{{\App\CPU\translate('Product_weight')}}</label>
                                         <input type="number" class="form-control" name="weight" required placeholder="in gram">
                                     </div>
@@ -136,9 +136,9 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
-                    <div class="card mt-2 rest-part">
+                    {{-- <div class="card mt-2 rest-part">
                         <div class="card-header">
                             <h4>{{\App\CPU\translate('Variations')}}</h4>
                         </div>
@@ -188,7 +188,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="card mt-2 rest-part">
                         <div class="card-header">
@@ -198,35 +198,29 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label class="control-label">{{\App\CPU\translate('Unit_price')}}</label>
+                                        <label class="control-label">{{\App\CPU\translate('Service_price')}}</label>
                                         <input type="number" min="0" value="0" step="0.01"
-                                               placeholder="{{\App\CPU\translate('Unit_price')}}"
-                                               name="unit_price" value="{{old('unit_price')}}"  class="form-control" required>
+                                            placeholder="{{\App\CPU\translate('Unit_price')}}"
+                                            name="unit_price" value="{{old('unit_price')}}"  class="form-control" required>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label
-                                            class="control-label">{{\App\CPU\translate('Purchase_price')}}</label>
-                                        <input type="number" min="0" value="0" step="0.01"
-                                               placeholder="{{\App\CPU\translate('Purchase_price')}}"
-                                               name="purchase_price" value="{{old('purchase_price')}}"  class="form-control" required>
-                                    </div>
-                                </div>
-
-                                <div class="row pt-4">
+                                        <input type="hidden" min="0" value="0" step="0.01"
+                                            name="purchase_price" value="0"  class="form-control" required>
                                     <div class="col-md-6">
                                         <label class="control-label">{{\App\CPU\translate('Tax')}}</label>
                                         <label class="badge badge-info">{{\App\CPU\translate('Percent')}} ( % )</label>
                                         <input type="number" min="0" value="0" step="0.01"
-                                               placeholder="{{\App\CPU\translate('Tax')}}" name="tax" value="{{old('tax')}}"
-                                               class="form-control">
+                                            placeholder="{{\App\CPU\translate('Tax')}}" name="tax" value="{{old('tax')}}"
+                                            class="form-control">
                                         <input name="tax_type" value="percent" style="display: none">
                                     </div>
+                                </div>
 
+                                <div class="row pt-4">
                                     <div class="col-md-4">
                                         <label class="control-label">{{\App\CPU\translate('Discount')}}</label>
                                         <input type="number" min="0" value="0" step="0.01"
-                                               placeholder="{{\App\CPU\translate('Discount')}}" name="discount" value="{{old('discount')}}"
-                                               class="form-control">
+                                            placeholder="{{\App\CPU\translate('Discount')}}" name="discount" value="{{old('discount')}}"
+                                            class="form-control">
                                     </div>
                                     <div class="col-md-2" style="padding-top: 30px;">
                                         <select
@@ -236,16 +230,11 @@
                                             <option value="percent">{{\App\CPU\translate('Percent')}}</option>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="sku_combination" id="sku_combination">
-
-                                </div>
-                                <div class="row pt-4">
                                     <div class="col-md-6" id="quantity">
                                         <label class="control-label">{{\App\CPU\translate('total')}} {{\App\CPU\translate('Quantity')}}</label>
                                         <input type="number" min="0" value="0" step="1"
-                                               placeholder="{{\App\CPU\translate('Quantity')}}"
-                                               name="current_stock" value="{{old('current_stock')}}" class="form-control" required>
+                                            placeholder="{{\App\CPU\translate('Quantity')}}"
+                                            name="current_stock" value="{{old('current_stock')}}" class="form-control" required>
                                     </div>
                                 </div>
                             </div>
@@ -328,9 +317,9 @@
 @endsection
 
 @push('script')
-    <script src="{{asset('public/assets/back-end')}}/js/tags-input.min.js"></script>
-    <script src="{{ asset('public/assets/select2/js/select2.min.js')}}"></script>
-    <script src="{{asset('public/assets/back-end/js/spartan-multi-image-picker.js')}}"></script>
+    <script src="{{asset('assets/back-end')}}/js/tags-input.min.js"></script>
+    <script src="{{ asset('assets/select2/js/select2.min.js')}}"></script>
+    <script src="{{asset('assets/back-end/js/spartan-multi-image-picker.js')}}"></script>
     <script>
         $(function () {
             $("#coba").spartanMultiImagePicker({
@@ -340,7 +329,7 @@
                 groupClassName: 'col-6',
                 maxFileSize: '',
                 placeholderImage: {
-                    image: '{{asset('public/assets/back-end/img/400x400/img2.jpg')}}',
+                    image: '{{asset('assets/back-end/img/400x400/img2.jpg')}}',
                     width: '100%',
                 },
                 dropFileLabel: "Drop Here",
@@ -374,7 +363,7 @@
                 groupClassName: 'col-12',
                 maxFileSize: '',
                 placeholderImage: {
-                    image: '{{asset('public/assets/back-end/img/400x400/img2.jpg')}}',
+                    image: '{{asset('assets/back-end/img/400x400/img2.jpg')}}',
                     width: '100%',
                 },
                 dropFileLabel: "Drop Here",
@@ -408,7 +397,7 @@
                 groupClassName: 'col-12',
                 maxFileSize: '',
                 placeholderImage: {
-                    image: '{{asset('public/assets/back-end/img/400x400/img2.jpg')}}',
+                    image: '{{asset('assets/back-end/img/400x400/img2.jpg')}}',
                     width: '90%',
                 },
                 dropFileLabel: "Drop Here",
