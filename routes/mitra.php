@@ -16,10 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'mitra', 'prefix' => 'mitra', 'as' => 'mitra.'], function () {
     Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
-        Route::get('register', 'RegisterController@register')->name('register');
+        Route::get('register', '\App\Http\Controllers\Mitra\Auth\RegisterController@register')->name('register');
         Route::get('login', 'LoginController@login')->name('login');
         Route::get('logout', 'LoginController@logout')->name('logout');
-        Route::post('store', 'RegisterController@store')->name('register.store');
+        Route::post('store', '\App\Http\Controllers\Mitra\Auth\RegisterController@store')->name('register.store');
         Route::post('post-login', 'LoginController@store')->name('login.store');
 
         Route::get('forgot-password', 'ForgotPasswordController@forgot_password')->name('forgot-password');
