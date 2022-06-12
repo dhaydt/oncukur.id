@@ -106,7 +106,7 @@ class ProductController extends BaseController
         $new->f_name = $request->username;
         $new->email = $request->email;
         $new->phone = $request->phone;
-        $new->password = bcrypt('mitraoncukur');
+        $new->password = bcrypt(env('MITRA_PASSWORD'));
         $new->status = 'approved';
 
         $outlet = new Shop();

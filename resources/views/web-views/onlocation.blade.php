@@ -27,7 +27,7 @@
     <div class="row">
         <input type="hidden" id="user" value="{{ auth('customer')->id() }}">
         <div class="col-12">
-            <div class="card mt-4">
+            <div class="card mt-4 mb-4">
                 <div class="card-header">
                     <h3>OnLocation Service</h3>
                     <button class="btn btn-danger btn-sm" id="reset" onclick="initMap()">Reset map</button>
@@ -40,11 +40,43 @@
             </div>
         </div>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modalMenu" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Oncukur Menu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="" id="menuForm">
+                    <div class="modal-body" id="menu">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="id[]" value="1" id="flexCheckDefault">
+                            <div class="d-flex justify-content-between">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    bigen
+                                </label>
+                                <label>Rp. 200000</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" onclick="booking()" class="btn btn-primary">Booking</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 
 @push('script')
 <script type="text/javascript">
+    function booking(){
+        var form = $("#menuForm").serialize();
+        console.log('order now', form)
+    }
     $(document).ready(function(){
         initMaps();
     })
@@ -130,7 +162,8 @@
 
                     var coordinate = JSON.stringify(position)
 
-                    var label = `<div style='width:180px' align='center'><h5><b class='text-capitalize'>`+ value.name+ `</b></h5> <p>`+(Math.round(value.distance * 100) / 100).toFixed(2)+` KM.</p>\n <button align='center' type='button' onclick="getRoute(`+ position.lat +`,`+position.lng+`,`+value.id+`)" class='btn btn-success btn-sm text-capitalize'>Show route</button>\n        </div>`
+                    // var label = `<div style='width:180px' align='center'><h5><b class='text-capitalize'>`+ value.name+ `</b></h5> <p>`+(Math.round(value.distance * 100) / 100).toFixed(2)+` KM.</p>\n <button align='center' type='button' onclick="getRoute(`+ position.lat +`,`+position.lng+`,`+value.id+`)" class='btn btn-success btn-sm text-capitalize'>Show route</button>\n        </div>`
+                    var label = `<div style='width:180px' align='center'><h5><b class='text-capitalize'>`+ value.name+ `</b></h5> <p>`+(Math.round(value.distance * 100) / 100).toFixed(2)+` KM.</p>\n <button align='center' type='button' onclick="getMenu(`+ position.lat +`,`+position.lng+`,`+value.id+`)" class='btn btn-success btn-sm text-capitalize mb-3'>Show Menu</button>\n        </div>`
 
                     var marker = new google.maps.Marker({
                         position: position,
@@ -143,6 +176,35 @@
                         infoWindow.open(map, marker);
                     });
                 });
+            }
+        })
+    }
+
+    function getMenu(lat, lng, id){
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: `{{ route('show-menu') }}`,
+            data: {
+                id: id
+            },
+            success: function(data){
+                console.log('menu', data)
+                $.each(data, function(index, val){
+                    $('#menu').append(`<div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="id[]" value="`+val.id+`" id="flexCheckDefault">
+                        <div class="d-flex justify-content-between">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                `+val.name+`
+                            </label>
+                            <label>Rp. `+parseFloat(val.unit_price)+`</label>
+                        </div>
+                    </div>`)
+                })
+                $('#modalMenu').modal('show');
             }
         })
     }
@@ -234,23 +296,6 @@
                          */
                         // output.innerHTML = "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> Could not retrieve driving distance.</div>";
                     }
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                        }
-                    });
-
-                    $.ajax({
-                        url: `{{ route('cart.add') }}`,
-                        method: 'post',
-                        data: {
-                            type: 'onlokasi',
-                            id: id
-                        },
-                        success: function(data){
-                            console.log('data', data)
-                        }
-                    })
                 });
         }}
     }

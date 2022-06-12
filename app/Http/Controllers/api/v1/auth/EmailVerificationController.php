@@ -27,6 +27,7 @@ class EmailVerificationController extends Controller
 
         if (User::where('email', $request->email)->first()->temporary_token != $request->temporary_token) {
             return response()->json([
+                'status' => 'fail',
                 'message' => translate('temporary_token_mismatch'),
             ], 200);
         }
@@ -47,6 +48,7 @@ class EmailVerificationController extends Controller
         }
 
         return response()->json([
+            'status' => 'success',
             'message' => $response,
             'token' => 'active',
         ], 200);
@@ -61,7 +63,7 @@ class EmailVerificationController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => Helpers::error_processor($validator)], 403);
+            return response()->json(['status' => 'fail', 'errors' => Helpers::error_processor($validator)], 403);
         }
 
         $verify = PhoneOrEmailVerification::where(['phone_or_email' => $request['email'], 'token' => $request['token']])->first();
@@ -75,19 +77,21 @@ class EmailVerificationController extends Controller
                 $verify->delete();
             } catch (\Exception $exception) {
                 return response()->json([
-                    'message' => translate('temporary_token_mismatch'),
+                    'status' => 'fail',
+                    'messages' => translate('temporary_token_mismatch'),
                 ], 200);
             }
 
             $token = $user->createToken('LaravelAuthApp')->accessToken;
 
             return response()->json([
+                'status' => 'success',
                 'message' => translate('otp_verified'),
                 'token' => $token,
             ], 200);
         }
 
-        return response()->json(['errors' => [
+        return response()->json(['status' => 'fail', 'errors' => [
             ['code' => 'token', 'message' => translate('invalid_token')],
         ]], 501);
     }

@@ -26,6 +26,7 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode']], funct
     Route::get('searched-products', 'WebController@searched_products')->name('searched-products');
 
     Route::get('shortBy/{country}', 'ShortHomeController@shortBy')->name('shortBy');
+    Route::get('show-menu', 'WebController@showMenu')->name('show-menu');
 
     Route::group(['prefix' => 'midtrans-payment', 'as' => 'midtrans-payment.'], function () {
         Route::get('midtrans', 'PaymentController@getPayment');

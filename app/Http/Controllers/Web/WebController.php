@@ -44,6 +44,14 @@ class WebController extends Controller
         return redirect()->route('home');
     }
 
+    public function showMenu(Request $request)
+    {
+        $shop = Shop::find($request->id);
+        $menu = Product::active()->where(['added_by' => 'seller', 'user_id' => $shop->seller_id])->get();
+
+        return $menu;
+    }
+
     public function closestOutlet(Request $request)
     {
         $lat = $request->lat;

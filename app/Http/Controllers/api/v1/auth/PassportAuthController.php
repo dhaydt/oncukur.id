@@ -41,10 +41,10 @@ class PassportAuthController extends Controller
         $phone_verification = Helpers::get_business_settings('phone_verification');
         $email_verification = Helpers::get_business_settings('email_verification');
         if ($phone_verification && !$user->is_phone_verified) {
-            return response()->json(['temporary_token' => $temporary_token], 200);
+            return response()->json(['status' => 'success', 'temporary_token' => $temporary_token], 200);
         }
         if ($email_verification && !$user->is_email_verified) {
-            return response()->json(['temporary_token' => $temporary_token], 200);
+            return response()->json(['status' => 'success', 'temporary_token' => $temporary_token], 200);
         }
 
         $token = $user->createToken('LaravelAuthApp')->accessToken;
@@ -77,6 +77,7 @@ class PassportAuthController extends Controller
                 array_push($errors, ['code' => 'email', 'message' => 'Invalid email address or phone number']);
 
                 return response()->json([
+                    'status' => 'fail',
                     'errors' => $errors,
                 ], 403);
             }
@@ -96,10 +97,10 @@ class PassportAuthController extends Controller
             $phone_verification = Helpers::get_business_settings('phone_verification');
             $email_verification = Helpers::get_business_settings('email_verification');
             if ($phone_verification && !$user->is_phone_verified) {
-                return response()->json(['temporary_token' => $user->temporary_token], 200);
+                return response()->json(['status' => 'success', 'temporary_token' => $user->temporary_token], 200);
             }
             if ($email_verification && !$user->is_email_verified) {
-                return response()->json(['temporary_token' => $user->temporary_token], 200);
+                return response()->json(['status' => 'success', 'temporary_token' => $user->temporary_token], 200);
             }
 
             $token = rand(1000, 9999);
@@ -115,6 +116,7 @@ class PassportAuthController extends Controller
             }
 
             return response()->json([
+                'status' => 'success',
                 'message' => $response,
                 'otp' => 'active',
             ], 200);
@@ -155,7 +157,7 @@ class PassportAuthController extends Controller
 
             return response()->json(['status' => 'success', 'token' => $token], 200);
         } else {
-            return response()->json('invalid token');
+            return response()->json(['status' => 'fail', 'message' => 'invalid token']);
         }
     }
 }
