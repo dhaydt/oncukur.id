@@ -25,7 +25,7 @@ class LoginController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => Helpers::error_processor($validator)], 403);
+            return response()->json(['status' => 'fail', 'errors' => Helpers::error_processor($validator)], 403);
         }
 
         DB::transaction(function ($r) use ($request) {
@@ -60,7 +60,7 @@ class LoginController extends Controller
             ]);
         });
 
-        return response()->json(['message' => 'Barber shop applied successfully'], 200);
+        return response()->json(['status' => 'success', 'message' => 'Barber shop applied successfully'], 200);
     }
 
     public function login(Request $request)
@@ -71,7 +71,7 @@ class LoginController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => Helpers::error_processor($validator)], 403);
+            return response()->json(['status' => 'fail', 'errors' => Helpers::error_processor($validator)], 403);
         }
 
         $data = [
@@ -97,12 +97,13 @@ class LoginController extends Controller
                 ]);
             }
 
-            return response()->json(['token' => $token], 200);
+            return response()->json(['status' => 'success', 'token' => $token], 200);
         } else {
             $errors = [];
             array_push($errors, ['code' => 'auth-001', 'message' => translate('Invalid credential or account no verified yet')]);
 
             return response()->json([
+                'status' => 'fail',
                 'errors' => $errors,
             ], 401);
         }
