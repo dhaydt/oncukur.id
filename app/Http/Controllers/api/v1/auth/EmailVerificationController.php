@@ -22,7 +22,7 @@ class EmailVerificationController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => Helpers::error_processor($validator)], 403);
+            return response()->json(['status' => 'fail', 'errors' => Helpers::error_processor($validator)], 403);
         }
 
         if (User::where('email', $request->email)->first()->temporary_token != $request->temporary_token) {

@@ -26,7 +26,7 @@ class PassportAuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => Helpers::error_processor($validator)], 403);
+            return response()->json(['status' => 'fail', 'errors' => Helpers::error_processor($validator)], 403);
         }
         $temporary_token = Str::random(40);
         $user = User::create([
@@ -62,7 +62,7 @@ class PassportAuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => Helpers::error_processor($validator)], 403);
+            return response()->json(['status' => 'fail', 'errors' => Helpers::error_processor($validator)], 403);
         }
 
         $user_id = $request['email'];
@@ -143,7 +143,7 @@ class PassportAuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => Helpers::error_processor($validator)], 403);
+            return response()->json(['status' => 'fail', 'errors' => Helpers::error_processor($validator)], 403);
         }
 
         $user = User::where(['email' => $request->email, 'otp_login' => $request->otp])->first();
