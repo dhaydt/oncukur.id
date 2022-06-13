@@ -100,7 +100,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="name">{{\App\CPU\translate('Upload_KTP_Mitra')}}</label>
+                                        <label for="name">{{\App\CPU\translate('Upload_KTP_Mitra')}} <span class="text-danger" style="font-size: 10px">({{\App\CPU\translate('Max size 2 Mb')}})</span> </label>
                                     </div>
 
                                     <div style="max-width:200px;">
@@ -150,7 +150,7 @@
                 maxCount: 1,
                 rowHeight: 'auto',
                 groupClassName: 'col-12',
-                maxFileSize: '',
+                maxFileSize: '200000',
                 placeholderImage: {
                     image: '{{asset('assets/back-end/img/400x400/img2.jpg')}}',
                     width: '100%',
