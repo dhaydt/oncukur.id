@@ -33,10 +33,6 @@ class RegisterController extends Controller
             'email.required' => 'Your Email is required',
         ]);
 
-        if ($validator->errors()->count() > 0) {
-            return response()->json(['errors' => Helpers::error_processor($validator)]);
-        }
-
         $check = Mitra::where('email', $request->email)->first();
         $checkPhone = Mitra::where('phone', $request->phone)->first();
 
@@ -51,7 +47,9 @@ class RegisterController extends Controller
 
             return redirect()->back()->withInput();
         }
-
+        if ($validator->errors()->count() > 0) {
+            return response()->json(['errors' => Helpers::error_processor($validator)]);
+        }
         $mitra = new Mitra();
         $mitra->name = $request->name;
         $mitra->shop_id = $request->outlet_id;

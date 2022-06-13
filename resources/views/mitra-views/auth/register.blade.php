@@ -42,8 +42,8 @@
                                     <select
                                         class="js-example-basic-single w-100 form-control js-states js-example-responsive demo-select2"
                                         name="outlet_id" required>
-                                        @foreach ($outlet as $o)
                                         <option value="">-- Select outlet --</option>
+                                        @foreach ($outlet as $o)
                                         <option value="{{ $o->id }}">{{ $o->name }}</option>
                                         @endforeach
                                     </select>
