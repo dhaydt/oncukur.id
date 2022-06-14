@@ -205,6 +205,7 @@
                     </div>`)
                 })
                 $('#modalMenu').modal('show');
+                getRoute(lat, lng, id)
             }
         })
     }
