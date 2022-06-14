@@ -102,7 +102,7 @@
                                 </div>
 
                             </div>
-                            <div class="flex-between row" style="direction: {{ Session::get('direction') }}">
+                            <div class="justify-content-between d-flex">
                                 <div class="mx-1">
                                     <div class="text-right">
                                         <button class="btn btn-primary" id="sign-up" type="submit" disabled>
@@ -116,14 +116,14 @@
                                         <i class="fa fa-sign-in"></i> {{\App\CPU\translate('Login')}}
                                     </a>
                                 </div>
-                                <div class="col-12 mt-3">
+                                <div class="col-12 mt-3 d-none">
                                     <div class="row">
                                         @foreach (\App\CPU\Helpers::get_business_settings('social_login') as $socialLoginService)
                                             @if (isset($socialLoginService) && $socialLoginService['status']==true)
                                                 <div class="col-sm-6 text-center mt-1">
                                                     <a class="btn btn-outline-primary"
-                                                       href="{{route('customer.auth.service-login', $socialLoginService['login_medium'])}}"
-                                                       style="width: 100%">
+                                                        href="{{route('customer.auth.service-login', $socialLoginService['login_medium'])}}"
+                                                        style="width: 100%">
                                                         <i class="czi-{{ $socialLoginService['login_medium'] }} {{Session::get('direction') === "rtl" ? 'ml-2 mr-n1' : 'mr-2 ml-n1'}}"></i>
                                                         {{\App\CPU\translate('register_with'.$socialLoginService['login_medium'])}}
                                                     </a>

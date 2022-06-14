@@ -11,6 +11,7 @@
         "php": "^7.2",
         "ext-curl": "*",
         "ext-zip": "*",
+        "barryvdh/laravel-debugbar": "^3.6",
         "barryvdh/laravel-dompdf": "^0.8.6",
         "brian2694/laravel-toastr": "^5.54",
         "ckeditor/ckeditor": "^4.15",
@@ -40,7 +41,6 @@
     },
     "require-dev": {
         "amirami/localizator": "^0.6.0@alpha",
-        "barryvdh/laravel-debugbar": "^3.5",
         "facade/ignition": "^1.4",
         "fzaninotto/faker": "^1.9.1",
         "laravel/ui": "^1.0",

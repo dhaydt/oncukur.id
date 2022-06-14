@@ -178,7 +178,7 @@
             <div class="navbar navbar-expand-md navbar-light">
             <div class="container ">
 
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
                 </button>
@@ -190,29 +190,14 @@
                                 onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                 alt="{{$web_config['name']->value}}"/>
                 </a>
-                <a class="navbar-brand d-sm-none {{Session::get('direction') === " rtl" ? 'ml-2' : 'mr-2' }}"
+
+                <a class="navbar-brand d-sm-none mr-auto ml-2"
                 href="{{route('home')}}">
-                <img width="100" height="60" style="height: 60px!important;" src="{{asset("storage/company")."/".$web_config['mob_logo']->value}}"
+                <img style="height: 40px!important; width:auto;" src="{{asset("storage/company")."/".$web_config['mob_logo']->value}}"
                 onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                 alt="{{$web_config['name']->value}}"/>
                 </a>
 
-                <!-- new search -->
-                <div id="nav-global-location-slot" data-toggle="tooltip" data-placement="top" title="Location">
-                            <span id="nav-global-location-data-modal-action" class="a-declarative nav-progressive-attribute">
-                                <a id="nav-global-location-popover-link"
-                                    class="d-flex align-items-center nav-a nav-a-2 a-popover-trigger a-declarative nav-progressive-attribute"
-                                    tabindex="0">
-                                    <img class="mt-1 mr-1" style="height: 20px; width: auto;" src="{{asset('assets/front-end/img/loc.png')}}" alt="">
-                                    <div class="mr-2 d-flex flex-column justify-content-center">
-                                        <span class="nav-line-1 nav-progressive-content">Deliver to</span>
-                                        <span class="nav-line-2 nav-progressive-content" id="auto-loc">
-                                            {{-- Indonesia --}}
-                                        </span>
-                                    </div>
-                                </a>
-                            </span>
-                        </div>
                 <div class="input-group-overlay d-none d-md-block mx-4" style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left' }}">
                     <form action="{{route('products')}}" type="submit" class="search_form">
                         <input class="form-control appended-form-control search-bar-input" type="text" autocomplete="off"
@@ -244,17 +229,17 @@
                             <i class="navbar-tool-icon czi-menu"></i>
                         </div>
                     </a>
-                <div class="navbar-tool dropdown {{Session::get('direction') === " rtl" ? 'mr-3' : 'ml-3' }}">
+                {{-- <div class="navbar-tool dropdown {{Session::get('direction') === " rtl" ? 'mr-3' : 'ml-3' }}">
                     <a class="navbar-tool-icon-box bg-secondary dropdown-toggle" href="{{route('wishlists')}}">
                         <span class="navbar-tool-label">
                         <span class="countWishlist">{{session()->has('wish_list')?count(session('wish_list')):0}}</span>
                         </span>
                         <i class="navbar-tool-icon czi-heart"></i>
                     </a>
-                </div>
+                </div> --}}
                 @if(auth('customer')->check())
-                <div class="dropdown">
-                    <a class="navbar-tool ml-2 mr-2 " type="button" data-toggle="dropdown" aria-haspopup="true"
+                <div class="dropdown dropstart user-stat">
+                    <a class="navbar-tool ml-2 mr-2 " type="button" data-bs-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
                     <div class="navbar-tool-icon-box bg-secondary">
                         <div class="navbar-tool-icon-box bg-secondary">
@@ -277,9 +262,9 @@
                     </div>
                 </div>
                 @else
-                <div class="dropdown">
-                    <a class="navbar-tool {{Session::get('direction') === " rtl" ? 'mr-3' : 'ml-3' }}" type="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="dropdown dropstart user-stat">
+                    <a class="navbar-tool ml-3" type="button"
+                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="navbar-tool-icon-box bg-secondary">
                         <div class="navbar-tool-icon-box bg-secondary">
                         <i class="navbar-tool-icon czi-user"></i>
@@ -300,9 +285,9 @@
                     </div>
                 </div>
                 @endif
-                <div id="cart_items">
+                {{-- <div id="cart_items">
                     @include('layouts.front-end.partials.cart')
-                </div>
+                </div> --}}
                 </div>
             </div>
             </div>
@@ -633,5 +618,13 @@ fetch('https://ipapi.co/json/')
             $('#auto-loc').append(data.country_name)
             $('#nav-global-location-slot').attr('data-original-title', data.city + ', ' + data.region);
   });
+  $(document).ready(function(){
+    if($(window).width() > 500)
+        {
+            $('.user-stat').removeClass('dropstart')
+        }else{
+            $('.user-stat').addClass('dropstart')
+        }
+  })
 </script>
 @endpush

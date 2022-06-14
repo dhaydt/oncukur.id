@@ -180,6 +180,7 @@ return [
         Laravelpkg\Laravelchk\LaravelchkServiceProvider::class,
         Amirami\Localizator\ServiceProvider::class,
         Cornford\Googlmapper\MapperServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
     ],
 
     /*

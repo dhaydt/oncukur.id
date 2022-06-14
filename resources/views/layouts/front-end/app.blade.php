@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=1024">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
     <meta name="_token" content="{{csrf_token()}}">
 
     <title>
@@ -40,6 +40,10 @@
         }
         .body{
             min-height: 50vh;
+        }
+
+        .page-footer hr{
+            max-width: 93vw !important;
         }
 
         .rtl {
@@ -502,6 +506,10 @@
         @media screen and (max-width: 500px) {
             .mobileshow {
                 display: block;
+            }
+            body{
+                max-width: 100vw !important;
+                overflow-x: hidden;
             }
         }
     </style>

@@ -55,6 +55,7 @@
     51 => 'Laravelpkg\\Laravelchk\\LaravelchkServiceProvider',
     52 => 'Amirami\\Localizator\\ServiceProvider',
     53 => 'Cornford\\Googlmapper\\MapperServiceProvider',
+    54 => 'Barryvdh\\Debugbar\\ServiceProvider',
   ),
   'eager' => 
   array (
@@ -97,6 +98,7 @@
     36 => 'Laravelpkg\\Laravelchk\\LaravelchkServiceProvider',
     37 => 'Amirami\\Localizator\\ServiceProvider',
     38 => 'Cornford\\Googlmapper\\MapperServiceProvider',
+    39 => 'Barryvdh\\Debugbar\\ServiceProvider',
   ),
   'deferred' => 
   array (
