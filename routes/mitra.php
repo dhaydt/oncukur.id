@@ -11,6 +11,7 @@
 |
  */
 
+use App\Http\Controllers\Mitra\Auth\RegisterController;
 use App\Http\Controllers\Mitra\DashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,9 @@ Route::group(['namespace' => 'mitra', 'prefix' => 'mitra', 'as' => 'mitra.'], fu
         Route::get('logout', '\App\Http\Controllers\Mitra\Auth\LoginController@logout')->name('logout');
         Route::post('store', '\App\Http\Controllers\Mitra\Auth\RegisterController@store')->name('register.store');
         Route::post('post-login', '\App\Http\Controllers\Mitra\Auth\LoginController@store')->name('login.store');
+
+        Route::get('check/{id}', [RegisterController::class, 'check'])->name('check');
+        Route::post('verify', [RegisterController::class, 'verify'])->name('verify');
 
         Route::get('forgot-password', '\App\Http\Controllers\Mitra\Auth\ForgotPasswordController@forgot_password')->name('forgot-password');
         Route::post('forgot-password', '\App\Http\Controllers\Mitra\Auth\ForgotPasswordController@reset_password_request');

@@ -150,7 +150,7 @@
                 maxCount: 1,
                 rowHeight: 'auto',
                 groupClassName: 'col-12',
-                maxFileSize: '200000',
+                maxFileSize: '2000000',
                 placeholderImage: {
                     image: '{{asset('assets/back-end/img/400x400/img2.jpg')}}',
                     width: '100%',

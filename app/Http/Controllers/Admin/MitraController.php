@@ -31,7 +31,7 @@ class MitraController extends Controller
                 });
             $query_param = ['search' => $request['search']];
         } else {
-            $sellers = Mitra::with('shop');
+            $sellers = Mitra::with('shop')->where('is_email_verified', 1);
         }
         $sellers = $sellers->latest()->paginate(Helpers::pagination_limit())->appends($query_param);
 

@@ -204,7 +204,7 @@
                         placeholder="{{\App\CPU\translate('search')}}" name="name"
                         style="border: 2px solid #23a4e5; border-radius: 50px; border-top-right-radius: 50px !important; border-bottom-right-radius: 50px !important;">
 
-                        <button class="input-group-append-overlay search_button" type="submit"
+                        <button class="input-group-append-overlay search_button d-flex align-items-center" type="submit"
                             style="border-radius: {{Session::get('direction') === " rtl" ? '50px 0px 0px 50px; right: unset; left: 0'
                             : '0px 50px 50px 0px; left: unset; right: 0' }};">
                             <span class="input-group-text" style="font-size: 20px;">
