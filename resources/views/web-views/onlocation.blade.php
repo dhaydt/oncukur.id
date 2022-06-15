@@ -50,15 +50,6 @@
                 </div>
                 <form action="" id="menuForm">
                     <div class="modal-body" id="menu">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="id[]" value="1" id="flexCheckDefault">
-                            <div class="d-flex justify-content-between">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    bigen
-                                </label>
-                                <label>Rp. 200000</label>
-                            </div>
-                        </div>
                     </div>
                 </form>
                 <div class="modal-footer">
@@ -76,7 +67,27 @@
     function booking(){
         var form = $("#menuForm").serialize();
         console.log('order now', form)
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: `{{ route('cart.add') }}`,
+            data: form,
+            method: 'POST',
+            success: function(data){
+                var lat = $('.lat').val();
+                var lng = $('.lng').val();
+                var id = $('.id').val();
+                $('#modalMenu').modal('hide');
+                toastr.success('Booking placed successfully!!');
+                updateNavCart();
+                getRoute(parseFloat(lat), parseFloat(lng), id)
+            }
+        })
     }
+
     $(document).ready(function(){
         initMaps();
     })
@@ -194,6 +205,9 @@
             success: function(data){
                 console.log('menu', data)
                 $.each(data, function(index, val){
+                    $('#menu').append(`<input type="hidden" name="lat" value="`+lat+`" class="lat">
+                    <input type="hidden" name="lng" value="`+lng+`" class="lng">
+                    <input type="hidden" name="idOutlet" value="`+id+`" class="id">`);
                     $('#menu').append(`<div class="form-check">
                         <input class="form-check-input" type="checkbox" name="id[]" value="`+val.id+`" id="flexCheckDefault">
                         <div class="d-flex justify-content-between">
@@ -205,7 +219,6 @@
                     </div>`)
                 })
                 $('#modalMenu').modal('show');
-                getRoute(lat, lng, id)
             }
         })
     }

@@ -285,9 +285,9 @@
                     </div>
                 </div>
                 @endif
-                {{-- <div id="cart_items">
+                <div id="cart_items">
                     @include('layouts.front-end.partials.cart')
-                </div> --}}
+                </div>
                 </div>
             </div>
             </div>

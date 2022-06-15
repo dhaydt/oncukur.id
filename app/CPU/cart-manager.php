@@ -173,8 +173,8 @@ class CartManager
         $price = 0;
 
         $user = Helpers::get_customer($request);
-        dd($user);
-        $product = Product::find($request->id);
+        $product = Product::find($request->id)->first();
+        // dd($product);
 
         //check the color enabled or disabled for the product
         if ($request->has('color')) {
@@ -184,15 +184,15 @@ class CartManager
 
         //Gets all the choice values of customer choice option and generate a string like Black-S-Cotton
         $choices = [];
-        foreach (json_decode($product->choice_options) as $key => $choice) {
-            $choices[$choice->name] = $request[$choice->name];
-            $variations[$choice->title] = $request[$choice->name];
-            if ($str != null) {
-                $str .= '-'.str_replace(' ', '', $request[$choice->name]);
-            } else {
-                $str .= str_replace(' ', '', $request[$choice->name]);
-            }
-        }
+        // foreach (json_decode($product->choice_options) as $key => $choice) {
+        //     $choices[$choice->name] = $request[$choice->name];
+        //     $variations[$choice->title] = $request[$choice->name];
+        //     if ($str != null) {
+        //         $str .= '-'.str_replace(' ', '', $request[$choice->name]);
+        //     } else {
+        //         $str .= str_replace(' ', '', $request[$choice->name]);
+        //     }
+        // }
 
         if ($user == 'offline') {
             if (session()->has('offline_cart')) {
@@ -223,20 +223,22 @@ class CartManager
             }
         }
 
+        // dd($product->id);
+
         $cart['color'] = $request->has('color') ? $request['color'] : null;
         $cart['product_id'] = $product->id;
-        $cart['choices'] = json_encode($choices);
+        // $cart['choices'] = json_encode($choices);
 
         //chek if out of stock
-        if ($product['current_stock'] < $request['quantity']) {
-            return [
-                'status' => 0,
-                'message' => translate('out_of_stock!'),
-            ];
-        }
+        // if ($product['current_stock'] < $request['quantity']) {
+        //     return [
+        //         'status' => 0,
+        //         'message' => translate('out_of_stock!'),
+        //     ];
+        // }
 
         $cart['variations'] = json_encode($variations);
-        $cart['variant'] = $str;
+        // $cart['variant'] = $str;
 
         //Check the string and decreases quantity for the stock
         if ($str != null) {
@@ -277,7 +279,7 @@ class CartManager
         //generate group id end
 
         $cart['customer_id'] = $user->id ?? 0;
-        $cart['quantity'] = $request['quantity'];
+        // $cart['quantity'] = $request['quantity'];
         /*$data['shipping_method_id'] = $shipping_id;*/
         $cart['price'] = $price;
         $cart['tax'] = $tax;
