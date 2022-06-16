@@ -28,9 +28,9 @@
                                         class="media-header d-flex justify-content-center align-items-center {{Session::get('direction') === "rtl" ? 'ml-2' : 'mr-2'}}">
                                         <a href="{{route('product',$cartItem['slug'])}}">
                                             <img style="height: 82px;"
-                                                 onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                                 src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$cartItem['thumbnail']}}"
-                                                 alt="Product">
+                                                onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                                src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$cartItem['thumbnail']}}"
+                                                alt="Product">
                                         </a>
                                     </div>
 
@@ -147,7 +147,7 @@
             <div class="mt-3"></div>
             @endforeach
 
-            @if($shippingMethod=='inhouse_shipping')
+            {{-- @if($shippingMethod=='inhouse_shipping')
                 @php($shippings=\App\CPU\Helpers::get_shipping_methods(1,'admin', $cartItem['product_id']))
             <div class="row">
                 <div class="col-12">
@@ -163,7 +163,7 @@
                     </select>
                     </div>
                 </div>
-            @endif
+            @endif --}}
 
             @if( $cart->count() == 0)
                 <div class="d-flex justify-content-center align-items-center">
@@ -174,12 +174,12 @@
         <div class="row pt-2">
             <div class="col-6">
                 <a href="{{route('home')}}" class="btn btn-primary">
-                    <i class="fa fa-{{Session::get('direction') === "rtl" ? 'forward' : 'backward'}} px-1"></i> {{\App\CPU\translate('continue_shopping')}}
+                    <i class="fa fa-{{Session::get('direction') === "rtl" ? 'forward' : 'backward'}} px-1"></i> {{\App\CPU\translate('back_to_home')}}
                 </a>
             </div>
             <div class="col-6">
                 <a href="{{route('checkout-details')}}"
-                   class="btn btn-primary pull-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}">
+                    class="btn btn-primary pull-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}">
                     {{\App\CPU\translate('checkout')}}
                     <i class="fa fa-{{Session::get('direction') === "rtl" ? 'backward' : 'forward'}} px-1"></i>
                 </a>

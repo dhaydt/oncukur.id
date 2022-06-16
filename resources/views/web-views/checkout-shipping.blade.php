@@ -104,70 +104,7 @@
                                                         <option value="others">{{ \App\CPU\translate('Others')}}</option>
                                                     </select>
                                                 </div>
-                                                {{-- {{ dd() }} --}}
-                                                @if (auth('customer')->user()->country == 'ID')
 
-                                                <div class="form-group">
-                                                    <label>{{ \App\CPU\translate('Country')}} <span
-                                                            style="color: red">*</span></label>
-                                                            <input type="hidden" name="country" value="ID">
-                                                    <input type="text" class="form-control"
-                                                           name="country" {{$shipping_addresses->count()==0?'required':''}} value="Indonesia" disabled>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    @php($province = App\CPU\Helpers::province())
-                                                    <label for="province">{{ \App\CPU\translate('Province')}} <span
-                                                            style="color: red">*</span></label>
-                                                            <select class="form-control" name="state" {{$shipping_addresses->count()==0?'required':''}}>
-                                                                <option value="">Select your Province Address</option>
-                                                                @foreach($province as $p)
-                                                                <option value="{{$p['province_id'].','. $p['province']}}"
-                                                                    provincename="{{$p['province']}}">
-                                                                    {{$p['province']}}
-                                                                </option>
-                                                                @endforeach
-                                                            </select>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label for="city">{{ \App\CPU\translate('City')}} <span
-                                                            style="color: red">*</span></label>
-                                                            <select disabled class="form-control" name="city" id="city" placeholder="Select your city address" {{$shipping_addresses->count()==0?'required':''}}
-                                                            style="text-align: {{Session::get('direction') === " rtl" ? 'right' : 'left'
-                                                            }};">
-                                                            <option value="">Select your city address</option>
-                                                        </select>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label for="district">{{ \App\CPU\translate('District')}} <span
-                                                            style="color: red">*</span></label>
-                                                            <select disabled class="form-control" name="district" id="address-district" placeholder="Select your District address" {{$shipping_addresses->count()==0?'required':''}}
-                                                            style="text-align: {{Session::get('direction') === " rtl" ? 'right' : 'left'
-                                                            }};">
-                                                                <option value="">Select your district address</option>
-                                                        </select>
-                                                </div>
-                                                @else
-                                                @php($country = App\Country::all())
-                                                <div class="form-group">
-                                                    <label>{{ \App\CPU\translate('Country')}} <span
-                                                            style="color: red">*</span></label>
-                                                            <select id="country" name="country" class="form-control" {{$shipping_addresses->count()==0?'required':''}}>
-                                                                <option value="0" selected>---select country---</option>
-                                                                @foreach($country as $r)
-                                                                <option value="{{$r->country}}">{{$r->country_name}}</option>
-                                                                @endforeach
-                                                            </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="city">{{ \App\CPU\translate('City')}} <span
-                                                            style="color: red">*</span></label>
-                                                    <input id="city" type="text" class="form-control"
-                                                           name="city" {{$shipping_addresses->count()==0?'required':''}}>
-                                                </div>
-                                                @endif
 
                                                 <div class="form-group">
                                                     <label

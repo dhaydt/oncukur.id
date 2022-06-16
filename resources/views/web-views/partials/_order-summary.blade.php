@@ -23,8 +23,7 @@
         @php($total_shipping_cost=0)
         @php($total_discount_on_product=0)
         @php($cart=\App\CPU\CartManager::get_cart())
-        @php(session(['cart_group_id' => $cart[0]['cart_group_id']]))
-        {{-- {{ dd(session()) }} --}}
+        {{-- @php(session(['cart_group_id' => $cart[0]['cart_group_id']])) --}}
         @php($shipping_cost=\App\CPU\CartManager::get_shipping_cost())
         @if($cart->count() > 0)
             @foreach($cart as $key => $cartItem)
@@ -73,7 +72,7 @@
                 <form class="needs-validation" method="post" novalidate id="coupon-code-ajax">
                     <div class="form-group">
                         <input class="form-control input_code" type="text" name="code" placeholder="{{\App\CPU\translate('Coupon code')}}"
-                               required>
+                            required>
                         <div class="invalid-feedback">{{\App\CPU\translate('please_provide_coupon_code')}}</div>
                     </div>
                     <button class="btn btn-primary btn-block" type="button" onclick="couponCode()">{{\App\CPU\translate('apply_code')}}

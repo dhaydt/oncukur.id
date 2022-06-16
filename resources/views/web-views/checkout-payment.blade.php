@@ -33,11 +33,10 @@
             <section class="col-lg-8">
                 <hr>
                 <div class="checkout_details mt-3">
-                @include('web-views.partials._checkout-steps',['step'=>3])
+                @include('web-views.partials._checkout-steps',['step'=>2])
 
                 <!-- Payment methods accordion-->
                 @php($ship = App\Model\CartShipping::where('cart_group_id', session()->get('cart_group_id'))->first())
-                @if ($ship->shipping_cost !== "0.00")
                 <h2 class="h6 pb-3 mb-2 mt-5">{{\App\CPU\translate('choose_payment')}}</h2>
 
                 <div class="row">
@@ -49,7 +48,7 @@
                                     <a class="btn btn-block"
                                        href="{{route('checkout-complete',['payment_method'=>'cash_on_delivery'])}}">
                                         <img width="150" style="margin-top: -10px"
-                                             src="{{asset('public/assets/front-end/img/cod.png')}}"/>
+                                             src="{{asset('assets/front-end/img/cod.png')}}"/>
                                     </a>
                                 </div>
                             </div>
@@ -65,7 +64,7 @@
                                         <input type="hidden" value="{{ csrf_token() }}" name="_token"/>
                                         <button class="btn btn-block" type="submit">
                                             <img width="150"
-                                                 src="{{asset('public/assets/front-end/img/sslcomz.png')}}"/>
+                                                 src="{{asset('assets/front-end/img/sslcomz.png')}}"/>
                                         </button>
                                     </form>
                                 </div>
@@ -83,7 +82,7 @@
                                         {{ csrf_field() }}
                                         <button class="btn btn-block" type="submit">
                                             <img width="150"
-                                                 src="{{asset('public/assets/front-end/img/paypal.png')}}"/>
+                                                 src="{{asset('assets/front-end/img/paypal.png')}}"/>
                                         </button>
                                     </form>
                                 </div>
@@ -103,7 +102,7 @@
                                 {{ csrf_field() }}
                                 <button class="btn btn-block" type="submit">
                                     <img width="150" style="margin-top: -10px"
-                                    src="{{asset('public/assets/front-end/img/ovo.png')}}" />
+                                    src="{{asset('assets/front-end/img/ovo.png')}}" />
                                 </button>
                             </form>
                         </div>
@@ -121,7 +120,7 @@
                                 {{ csrf_field() }}
                                 <button class="btn btn-block" type="submit">
                                     <img width="150" style="margin-top: -10px"
-                                    src="{{asset('public/assets/front-end/img/dana.png')}}" />
+                                    src="{{asset('assets/front-end/img/dana.png')}}" />
                                 </button>
                             </form>
                         </div>
@@ -139,7 +138,7 @@
                                 {{ csrf_field() }}
                                 <button class="btn btn-block" type="submit">
                                     <img width="150" style="margin-top: -10px"
-                                    src="{{asset('public/assets/front-end/img/bni.png')}}" />
+                                    src="{{asset('assets/front-end/img/bni.png')}}" />
                                 </button>
                             </form>
                         </div>
@@ -201,7 +200,7 @@
                                                 data-buttontext="Pay {{(\App\CPU\Convert::usdToinr($amount))*100}} INR"
                                                 data-name="{{\App\Model\BusinessSetting::where(['type'=>'company_name'])->first()->value}}"
                                                 data-description=""
-                                                data-image="{{asset('storage/app/public/company/'.\App\Model\BusinessSetting::where(['type'=>'company_web_logo'])->first()->value)}}"
+                                                data-image="{{asset('storage/app/company/'.\App\Model\BusinessSetting::where(['type'=>'company_web_logo'])->first()->value)}}"
                                                 data-prefill.name="{{auth('customer')->user()->f_name}}"
                                                 data-prefill.email="{{auth('customer')->user()->email}}"
                                                 data-theme.color="#ff7529">
@@ -210,7 +209,7 @@
                                     <button class="btn btn-block" type="button"
                                             onclick="$('.razorpay-payment-button').click()">
                                         <img width="150"
-                                             src="{{asset('public/assets/front-end/img/razor.png')}}"/>
+                                             src="{{asset('assets/front-end/img/razor.png')}}"/>
                                     </button>
                                 </div>
                             </div>
@@ -255,7 +254,7 @@
                                     <button class="btn btn-block" type="button"
                                             onclick="$('.paystack-payment-button').click()">
                                         <img width="100"
-                                             src="{{asset('public/assets/front-end/img/paystack.png')}}"/>
+                                             src="{{asset('assets/front-end/img/paystack.png')}}"/>
                                     </button>
                                 </div>
                             </div>
@@ -297,7 +296,7 @@
                                     <button class="btn btn-block" type="button"
                                             onclick="document.order.submit()">
                                         <img width="100"
-                                             src="{{asset('public/assets/front-end/img/senangpay.png')}}"/>
+                                             src="{{asset('assets/front-end/img/senangpay.png')}}"/>
                                     </button>
                                 </div>
                             </div>
@@ -315,7 +314,7 @@
                                         {{ csrf_field() }}
                                         <button class="btn btn-block" type="submit">
                                             <img width="150"
-                                                 src="{{asset('public/assets/front-end/img/paymob.png')}}"/>
+                                                 src="{{asset('assets/front-end/img/paymob.png')}}"/>
                                         </button>
                                     </form>
                                 </div>
@@ -330,7 +329,7 @@
                             <div class="card">
                                 <div class="card-body" style="height: 100px">
                                     <button class="btn btn-block" id="bKash_button" onclick="BkashPayment()">
-                                        <img width="100" src="{{asset('public/assets/front-end/img/bkash.png')}}"/>
+                                        <img width="100" src="{{asset('assets/front-end/img/bkash.png')}}"/>
                                     </button>
                                 </div>
                             </div>
@@ -346,99 +345,30 @@
                                             onclick="location.href='{{route('paytabs-payment')}}'"
                                             style="margin-top: -11px">
                                         <img width="150"
-                                             src="{{asset('public/assets/front-end/img/paytabs.png')}}"/>
+                                             src="{{asset('assets/front-end/img/paytabs.png')}}"/>
                                     </button>
                                 </div>
                             </div>
                         </div>
                     @endif
                 </div>
-                @else
-                @php($shippingMethod=\App\CPU\Helpers::get_business_settings('shipping_method'))
-                @php($cart=\App\Model\Cart::where(['customer_id' => auth('customer')->id()])->get()->groupBy('cart_group_id'))
-                <div class="row">
-                    <!-- List of items-->
-                    <div class="cart_information px-4 col-md-12 mb-4">
-                            <!-- Payment methods accordion-->
-                            <h2 class="h6 w-100 mt-5" style="color: red; font-size: 12px;">{{\App\CPU\translate('Because_you_changed_the_address')}}</h2>
-                            <h2 class="h6 pb-3 mb-2">{{\App\CPU\translate('Please_choose_the_shipping_method_again')}}</h2>
-                            @foreach($cart as $group_key=>$group)
-                                @foreach($group as $cart_key=>$cartItem)
 
-                                    @if($cart_key==$group->count()-1)
-                                    <!-- choosen shipping method-->
-                            @php($choosen_shipping=\App\Model\CartShipping::where(['cart_group_id'=>$cartItem['cart_group_id']])->first())
-                            @if(isset($choosen_shipping)==false)
-                            @php($choosen_shipping['shipping_method_id']=0)
-                            @endif
-
-                            @if($shippingMethod=='sellerwise_shipping')
-                            @php($shippings=\App\CPU\Helpers::get_shipping_methods($cartItem['seller_id'],$cartItem['seller_is'],$cartItem['product_id']))
-                            <div class="row">
-                                {{-- {{ dd($shippings) }} --}}
-                                <div class="col-12">
-                                    <select class="form-control"
-                                        onchange="set_shipping_id(this.value,'{{$cartItem['cart_group_id']}}')">
-                                        <option>{{\App\CPU\translate('choose_shipping_method')}}</option>
-                                        @if ($shippings[0][0][0]['costs'])
-                                        @foreach($shippings[0][0][0]['costs'] as $ship)
-                                        {{-- {{ dd($ship) }} --}}
-                                        <option value="{{'JNE-'.$ship['service'].','.$ship['cost'][0]['value']}}"
-                                            {{$choosen_shipping['shipping_method_id']==$ship['service']?'selected':''}}>
-                                            {{"JNE - ".''.$ship['service'].' ( '.$ship['cost'][0]['etd'].' Days)
-                                           '.\App\CPU\Helpers::currency_converter(\App\CPU\Convert::idrTousd($ship['cost'][0]['value']))}}
-                                        </option>
-                                        @endforeach
-                                        @endif
-
-                                        @if ($shippings[0][1][0]['costs'])
-                                        @foreach($shippings[0][1][0]['costs'] as $ship)
-                                        {{-- {{ dd($ship) }} --}}
-                                       <option value="{{'TIKI- '.$ship['service'].','.$ship['cost'][0]['value']}}"
-                                            {{$choosen_shipping['shipping_method_id']==$ship['service']?'selected':''}}>
-                                            {{"TIKI - ".''.$ship['service'].' ( '.$ship['cost'][0]['etd'].' Days)
-                                           '.\App\CPU\Helpers::currency_converter(\App\CPU\Convert::idrTousd($ship['cost'][0]['value']))}}
-                                        </option>
-                                        @endforeach
-                                        @endif
-
-                                        @if ($shippings[0][2][0]['costs'])
-                                        @foreach($shippings[0][2][0]['costs'] as $ship)
-                                        {{-- {{ dd($ship) }} --}}
-                                        <option value="{{'SiCepat- '.$ship['service'].','.$ship['cost'][0]['value']}}"
-                                            {{$choosen_shipping['shipping_method_id']==$ship['service']?'selected':''}}>
-                                            {{"SiCepat - ".''.$ship['service'].' ( '.$ship['cost'][0]['etd'].' Days)
-                                           '.\App\CPU\Helpers::currency_converter(\App\CPU\Convert::idrTousd($ship['cost'][0]['value']))}}
-                                        </option>
-                                        @endforeach
-                                        @endif
-                                        @foreach($shippings[1] as $shipping)
-                                        <option value="{{$shipping['id']}}"
-                                            {{$choosen_shipping['shipping_method_id']==$shipping['id']?'selected':''}}>
-                                            {{$shipping['title'].' ( '.$shipping['duration'].' )
-                                            '.\App\CPU\Helpers::currency_converter($shipping['cost'])}}
-                                        </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            @endif
-                            @endif
-                            @endforeach
+                            {{-- @endif --}}
+                            {{-- @endforeach --}}
                             <div class="mt-3"></div>
-                            @endforeach
+                            {{-- @endforeach --}}
 
 
                 @php($coupon_discount = session()->has('coupon_discount') ? session('coupon_discount') : 0)
                 @php($amount = \App\CPU\CartManager::cart_grand_total() - $coupon_discount)
-                @endif
+                {{-- @endif --}}
 
                     <!-- Navigation (desktop)-->
                     <div class="row">
                         <div class="col-4"></div>
                         <div class="col-4">
-                            <a class="btn btn-secondary btn-block" href="{{route('checkout-details')}}">
-                                <span class="d-none d-sm-inline">{{\App\CPU\translate('Back to Shipping')}}</span>
+                            <a class="btn btn-secondary btn-block" href="{{route('shop-cart')}}">
+                                <span class="d-none d-sm-inline">{{\App\CPU\translate('Back to Service Cart')}}</span>
                                 <span class="d-inline d-sm-none">{{\App\CPU\translate('Back')}}</span>
                             </a>
                         </div>
