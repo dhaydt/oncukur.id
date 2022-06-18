@@ -64,7 +64,7 @@ class PaymentController extends Controller
                 $paymentUrl = \Midtrans\Snap::createTransaction($params)->redirect_url;
 
                 // Redirect to Snap Payment Page
-                dd($paymentUrl);
+                // dd($paymentUrl);
 
                 return redirect()->away($paymentUrl);
             } catch (Exception $e) {
