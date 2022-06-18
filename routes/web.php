@@ -29,6 +29,8 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode']], funct
     Route::get('show-menu', 'WebController@showMenu')->name('show-menu');
 
     Route::group(['prefix' => 'midtrans-payment', 'as' => 'midtrans-payment.'], function () {
+        Route::post('index', 'PaymentController@createSnap')->name('index');
+        Route::get('success', 'PaymentController@paymentSuccess')->name('success');
         Route::get('midtrans', 'PaymentController@getPayment');
     });
 

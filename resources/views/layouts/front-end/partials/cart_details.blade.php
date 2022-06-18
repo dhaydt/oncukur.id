@@ -1,5 +1,5 @@
 <div class="feature_header">
-    <span>{{ \App\CPU\translate('shopping_cart')}}</span>
+    <span>{{ \App\CPU\translate('Services_cart')}}</span>
 </div>
 
 <!-- Grid-->
@@ -57,7 +57,7 @@
                             </div>
                             <div class="col-md-1 col-sm-2 col-3 d-flex align-items-center">
                                 <div>
-                                    <select name="quantity[{{ $cartItem['id'] }}]" id="cartQuantity{{$cartItem['id']}}"
+                                    <select name="quantity[{{ $cartItem['id'] }}]" id="cartQuantity{{$cartItem['id']}}" class="d-none"
                                             onchange="updateCartQuantity('{{$cartItem['id']}}')">
                                         @for ($i = 1; $i <= 10; $i++)
                                             <option
@@ -178,11 +178,15 @@
                 </a>
             </div>
             <div class="col-6">
-                <a href="{{route('checkout-details')}}"
-                    class="btn btn-primary pull-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}">
-                    {{\App\CPU\translate('checkout')}}
-                    <i class="fa fa-{{Session::get('direction') === "rtl" ? 'backward' : 'forward'}} px-1"></i>
-                </a>
+                <form class="needs-validation" method="POST" id="payment-form"
+                                action="{{route('midtrans-payment.index')}}">
+                                @csrf
+                                <button type="submit"
+                                    class="btn btn-primary pull-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}">
+                                    {{\App\CPU\translate('Process_to_Payment')}}
+                                    <i class="fa fa-{{Session::get('direction') === "rtl" ? 'backward' : 'forward'}} px-1"></i>
+                                </button>
+                            </form>
             </div>
         </div>
     </section>

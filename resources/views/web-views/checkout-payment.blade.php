@@ -95,11 +95,9 @@
                     <div class="card">
                         <div class="card-body" style="height: 100px">
                             <form class="needs-validation" method="POST" id="payment-form"
-                                action="{{route('xendit-payment.vaInvoice')}}">
-
+                                action="{{route('midtrans-payment.index')}}">
+                                @csrf
                                 <input type="hidden" name="type" value="OVO">
-                                {{-- <input class="price" type="hidden" name="price" value="price"> --}}
-                                {{ csrf_field() }}
                                 <button class="btn btn-block" type="submit">
                                     <img width="150" style="margin-top: -10px"
                                     src="{{asset('assets/front-end/img/ovo.png')}}" />

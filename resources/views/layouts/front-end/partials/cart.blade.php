@@ -65,12 +65,12 @@
                         </span>
                     </div>
 
-                    <a class="btn btn-outline-secondary btn-sm" href="{{route('shop-cart')}}">
+                    {{-- <a class="btn btn-outline-secondary btn-sm" href="{{route('shop-cart')}}">
                         {{\App\CPU\translate('Expand cart')}}<i
                             class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1' : 'right ml-1 mr-n1'}}"></i>
-                    </a>
+                    </a> --}}
                 </div>
-                <a class="btn btn-primary btn-sm btn-block" href="{{route('checkout-details')}}">
+                <a class="btn btn-primary btn-sm btn-block" href="{{route('shop-cart')}}">
                     <i class="czi-card {{Session::get('direction') === "rtl" ? 'ml-2' : 'mr-2'}} font-size-base align-middle"></i>{{\App\CPU\translate('Checkout')}}
                 </a>
             @else
