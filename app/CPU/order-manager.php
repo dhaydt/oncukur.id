@@ -5,14 +5,12 @@ namespace App\CPU;
 use App\Model\Admin;
 use App\Model\AdminWallet;
 use App\Model\Cart;
-use App\Model\CartShipping;
 use App\Model\Order;
 use App\Model\OrderDetail;
 use App\Model\OrderTransaction;
 use App\Model\Product;
 use App\Model\Seller;
 use App\Model\SellerWallet;
-use App\Model\ShippingAddress;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -232,7 +230,6 @@ class OrderManager
 
     public static function generate_order($data)
     {
-        dd($data);
         $order_id = 100000 + Order::all()->count() + 1;
         if (Order::find($order_id)) {
             $order_id = Order::orderBy('id', 'DESC')->first()->id + 1;
@@ -276,10 +273,10 @@ class OrderManager
             'discount_type' => $discount == 0 ? null : 'coupon_discount',
             'coupon_code' => $coupon_code,
             'order_amount' => CartManager::cart_grand_total($cart_group_id) - $discount,
-            'shipping_address' => $address_id,
-            'shipping_address_data' => ShippingAddress::find($address_id),
-            'shipping_cost' => CartManager::get_shipping_cost($data['cart_group_id']),
-            'shipping_method_id' => CartShipping::where(['cart_group_id' => $cart_group_id])->first()->shipping_method_id,
+            'shipping_address' => null,
+            'shipping_address_data' => null,
+            'shipping_cost' => 0,
+            'shipping_method_id' => 0,
             'created_at' => now(),
             'updated_at' => now(),
         ];
@@ -298,11 +295,11 @@ class OrderManager
                 'tax' => $c['tax'] * $c['quantity'],
                 'discount' => $c['discount'] * $c['quantity'],
                 'discount_type' => 'discount_on_product',
-                'variant' => $c['variant'],
-                'variation' => $c['variations'],
+                'variant' => $c['variant'] ? $c['variant'] : null,
+                'variation' => $c['variations'] ? $c['variations'] : null,
                 'delivery_status' => 'pending',
-                'shipping_method_id' => null,
-                'payment_status' => 'unpaid',
+                'shipping_method_id' => 0,
+                'payment_status' => 'paid',
                 'created_at' => now(),
                 'updated_at' => now(),
             ];

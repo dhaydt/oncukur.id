@@ -144,10 +144,6 @@
                 display: flex;
             }
 
-            .order_table_info_div_1 {
-                width: 50%;
-            }
-
             .order_table_info_div_2 {
                 width: 49%;
                 text-align: {{Session::get('direction') === "rtl" ? 'left' : 'right'}}        !important;
@@ -167,7 +163,10 @@
             .amount {
                 font-size: 13px;
                 margin- {{Session::get('direction') === "rtl" ? 'right' : 'left'}}: 0px;
+            }
 
+            .order_table_info_div_1 {
+                width: 50%;
             }
 
         }
@@ -187,7 +186,7 @@
             <section class="col-lg-9 col-md-9">
                 <div class="row">
                     <div class="col-md-6 mb-4">
-                        <a class="page-link" href="{{ route('account-oder') }}">
+                        <a class="" href="{{ route('account-oder') }}">
                             <i class="czi-arrow-{{Session::get('direction') === "rtl" ? 'right ml-2' : 'left mr-2'}}"></i>{{\App\CPU\translate('back')}}
                         </a>
                     </div>

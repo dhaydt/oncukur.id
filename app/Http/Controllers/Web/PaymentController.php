@@ -57,6 +57,9 @@ class PaymentController extends Controller
                     'order_id' => $tran,
                     'gross_amount' => $value,
                 ],
+                'callbacks' => [
+                    'finish' => env('APP_URL').'/midtrans-payment/success',
+                ],
             ];
 
             try {
