@@ -586,7 +586,7 @@
 </a>
 
 <!-- Vendor scrits: js libraries and plugins-->
-{{--<script src="{{asset('assets/front-end')}}/vendor/jquery/dist/jquery.slim.min.js"></script>--}}
+<script src="{{asset('assets/front-end')}}/vendor/jquery/dist/jquery.slim.min.js"></script>
 <script src="{{asset('assets/front-end')}}/vendor/jquery/dist/jquery-2.2.4.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_API_KEY') }}&callback=initMap&v=weekly" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
