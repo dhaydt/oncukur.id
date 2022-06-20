@@ -18,6 +18,17 @@ Route::group(['namespace' => 'api\v1', 'prefix' => 'v1', 'middleware' => ['api_l
     Route::get('/about_us', 'AttributeController@about_us');
     Route::get('/terms_and_condition', 'AttributeController@termsandCondition');
 
+    Route::get('/nearest-outlet', 'OnlocationController@index');
+
+    Route::group(['prefix' => 'onlocation', 'middleware' => 'auth:api'], function () {
+        Route::get('menu', 'OnlocationController@menu');
+    });
+
+    Route::group(['prefix' => 'payment', 'middleware' => 'auth:api'], function () {
+        Route::post('generate-invoice', 'MidtransController@createSnap');
+        Route::post('success', 'MidtransController@paymentSuccess');
+    });
+
     Route::group(['prefix' => 'auth', 'namespace' => 'auth'], function () {
         Route::post('register', 'PassportAuthController@register');
         Route::post('login', 'PassportAuthController@login');

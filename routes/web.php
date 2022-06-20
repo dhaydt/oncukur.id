@@ -22,6 +22,7 @@ Route::get('/storage-link', function () {
 
 Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode']], function () {
     Route::get('/', 'WebController@home')->name('home');
+    Route::get('/close', 'WebController@closeWindow');
     Route::get('quick-view', 'WebController@quick_view')->name('quick-view');
     Route::get('searched-products', 'WebController@searched_products')->name('searched-products');
 

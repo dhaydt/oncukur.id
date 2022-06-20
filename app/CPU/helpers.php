@@ -138,7 +138,7 @@ class Helpers
         $user = null;
         if (auth('customer')->check()) {
             $user = auth('customer')->user(); // for web
-        } elseif ($request != null && $request->user() != null) {
+        } elseif ($request !== null && $request->user() !== null) {
             $user = $request->user(); //for api
         } elseif (session()->has('customer_id')) {
             $user = User::find(session('customer_id'));

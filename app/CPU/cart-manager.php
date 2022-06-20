@@ -152,6 +152,22 @@ class CartManager
         return $total;
     }
 
+    public static function cart_grand_total_api($user)
+    {
+        $cart = Cart::where('customer_id', $user->id)->get();
+        $total = 0;
+        if (!empty($cart)) {
+            foreach ($cart as $item) {
+                $product_subtotal = ($item['price'] * $item['quantity'])
+                    + ($item['tax'] * $item['quantity'])
+                    - $item['discount'] * $item['quantity'];
+                $total += $product_subtotal;
+            }
+        }
+
+        return $total;
+    }
+
     public static function cart_clean($request = null)
     {
         $cart_ids = CartManager::get_cart_group_ids($request);
@@ -166,6 +182,14 @@ class CartManager
         session()->forget('cart_group_id');
     }
 
+    public static function cart_clean_api($request)
+    {
+        foreach ($request as $r) {
+            $cart = Cart::where('id', $r['id']);
+            $cart->delete();
+        }
+    }
+
     public static function add_to_cart($request, $from_api = false)
     {
         $str = '';
@@ -173,135 +197,136 @@ class CartManager
         $price = 0;
 
         $user = Helpers::get_customer($request);
-        $product = Product::find($request->id)->first();
-        // dd($product);
+        foreach ($request->id as $product_id) {
+            $product = Product::where('id', $product_id)->first();
 
-        //check the color enabled or disabled for the product
-        if ($request->has('color')) {
-            $str = Color::where('code', $request['color'])->first()->name;
-            $variations['color'] = $str;
-        }
+            //check the color enabled or disabled for the product
+            if ($request->has('color')) {
+                $str = Color::where('code', $request['color'])->first()->name;
+                $variations['color'] = $str;
+            }
 
-        //Gets all the choice values of customer choice option and generate a string like Black-S-Cotton
-        $choices = [];
-        // foreach (json_decode($product->choice_options) as $key => $choice) {
-        //     $choices[$choice->name] = $request[$choice->name];
-        //     $variations[$choice->title] = $request[$choice->name];
-        //     if ($str != null) {
-        //         $str .= '-'.str_replace(' ', '', $request[$choice->name]);
-        //     } else {
-        //         $str .= str_replace(' ', '', $request[$choice->name]);
-        //     }
-        // }
+            //Gets all the choice values of customer choice option and generate a string like Black-S-Cotton
+            $choices = [];
+            // foreach (json_decode($product->choice_options) as $key => $choice) {
+            //     $choices[$choice->name] = $request[$choice->name];
+            //     $variations[$choice->title] = $request[$choice->name];
+            //     if ($str != null) {
+            //         $str .= '-'.str_replace(' ', '', $request[$choice->name]);
+            //     } else {
+            //         $str .= str_replace(' ', '', $request[$choice->name]);
+            //     }
+            // }
 
-        if ($user == 'offline') {
-            if (session()->has('offline_cart')) {
-                $cart = session('offline_cart');
-                $check = $cart->where('product_id', $request->id)->where('variant', $str)->first();
-                if (isset($check) == false) {
+            if ($user == 'offline') {
+                if (session()->has('offline_cart')) {
+                    $cart = session('offline_cart');
+                    $check = $cart->where('product_id', $request->id)->where('variant', $str)->first();
+                    if (isset($check) == false) {
+                        $cart = collect();
+                        $cart['id'] = time();
+                    } else {
+                        return [
+                            'status' => 0,
+                            'message' => translate('already_added!'),
+                        ];
+                    }
+                } else {
                     $cart = collect();
-                    $cart['id'] = time();
+                    session()->put('offline_cart', $cart);
+                }
+            } else {
+                $cart = Cart::where(['product_id' => $request->id, 'customer_id' => $user->id, 'variant' => $str])->first();
+                if (isset($cart) == false) {
+                    $cart = new Cart();
                 } else {
                     return [
                         'status' => 0,
                         'message' => translate('already_added!'),
                     ];
                 }
-            } else {
-                $cart = collect();
-                session()->put('offline_cart', $cart);
             }
-        } else {
-            $cart = Cart::where(['product_id' => $request->id, 'customer_id' => $user->id, 'variant' => $str])->first();
-            if (isset($cart) == false) {
-                $cart = new Cart();
-            } else {
-                return [
-                    'status' => 0,
-                    'message' => translate('already_added!'),
-                ];
-            }
-        }
 
-        // dd($product->id);
+            // dd($product->id);
 
-        $cart['color'] = $request->has('color') ? $request['color'] : null;
-        $cart['product_id'] = $product->id;
-        // $cart['choices'] = json_encode($choices);
+            $cart['color'] = $request->has('color') ? $request['color'] : null;
+            $cart['product_id'] = $product->id;
+            // $cart['choices'] = json_encode($choices);
 
-        //chek if out of stock
-        // if ($product['current_stock'] < $request['quantity']) {
-        //     return [
-        //         'status' => 0,
-        //         'message' => translate('out_of_stock!'),
-        //     ];
-        // }
+            //chek if out of stock
+            // if ($product['current_stock'] < $request['quantity']) {
+            //     return [
+            //         'status' => 0,
+            //         'message' => translate('out_of_stock!'),
+            //     ];
+            // }
 
-        $cart['variations'] = json_encode($variations);
-        // $cart['variant'] = $str;
+            $cart['variations'] = json_encode($variations);
+            // $cart['variant'] = $str;
 
-        //Check the string and decreases quantity for the stock
-        if ($str != null) {
-            $count = count(json_decode($product->variation));
-            for ($i = 0; $i < $count; ++$i) {
-                if (json_decode($product->variation)[$i]->type == $str) {
-                    $price = json_decode($product->variation)[$i]->price;
-                    if (json_decode($product->variation)[$i]->qty < $request['quantity']) {
-                        return [
-                            'status' => 0,
-                            'message' => translate('out_of_stock!'),
-                        ];
+            //Check the string and decreases quantity for the stock
+            if ($str != null) {
+                $count = count(json_decode($product->variation));
+                for ($i = 0; $i < $count; ++$i) {
+                    if (json_decode($product->variation)[$i]->type == $str) {
+                        $price = json_decode($product->variation)[$i]->price;
+                        if (json_decode($product->variation)[$i]->qty < $request['quantity']) {
+                            return [
+                                'status' => 0,
+                                'message' => translate('out_of_stock!'),
+                            ];
+                        }
                     }
                 }
+            } else {
+                $price = round($product->unit_price);
             }
-        } else {
-            $price = $product->unit_price;
-        }
 
-        $tax = Helpers::tax_calculation($price, $product['tax'], 'percent');
+            $tax = Helpers::tax_calculation($price, $product['tax'], 'percent');
 
-        //generate group id
-        if ($user == 'offline') {
-            $check = session('offline_cart');
-            $cart_check = $check->where('seller_id', $product->user_id)->where('seller_is', $product->added_by)->first();
-        } else {
-            $cart_check = Cart::where([
-                'customer_id' => $user->id,
-                'seller_id' => $product->user_id,
-                'seller_is' => $product->added_by, ])->first();
-        }
+            //generate group id
+            if ($user == 'offline') {
+                $check = session('offline_cart');
+                $cart_check = $check->where('seller_id', $product->user_id)->where('seller_is', $product->added_by)->first();
+            } else {
+                $cart_check = Cart::where([
+                    'customer_id' => $user->id,
+                    'seller_id' => $product->user_id,
+                    'seller_is' => $product->added_by, ])->first();
+            }
 
-        if (isset($cart_check)) {
-            $cart['cart_group_id'] = $cart_check['cart_group_id'];
-        } else {
-            $cart['cart_group_id'] = ($user == 'offline' ? 'offline' : $user->id).'-'.Str::random(5).'-'.time();
-        }
-        //generate group id end
+            if (isset($cart_check)) {
+                $cart['cart_group_id'] = $cart_check['cart_group_id'];
+            } else {
+                $cart['cart_group_id'] = ($user == 'offline' ? 'offline' : $user->id).'-'.Str::random(5).'-'.time();
+            }
+            //generate group id end
 
-        $cart['customer_id'] = $user->id ?? 0;
-        // $cart['quantity'] = $request['quantity'];
-        /*$data['shipping_method_id'] = $shipping_id;*/
-        $cart['price'] = $price;
-        $cart['tax'] = $tax;
-        $cart['slug'] = $product->slug;
-        $cart['name'] = $product->name;
-        $cart['discount'] = Helpers::get_product_discount($product, $price);
-        /*$data['shipping_cost'] = $shipping_cost;*/
-        $cart['thumbnail'] = $product->thumbnail;
-        $cart['seller_id'] = $product->user_id;
-        $cart['seller_is'] = $product->added_by;
-        if ($product->added_by == 'seller') {
-            $cart['shop_info'] = Shop::where(['seller_id' => $product->user_id])->first()->name;
-        } else {
-            $cart['shop_info'] = Helpers::get_business_settings('company_name');
-        }
+            $cart['customer_id'] = $user->id ?? 0;
+            // $cart['quantity'] = $request['quantity'];
+            /*$data['shipping_method_id'] = $shipping_id;*/
+            $cart['price'] = $price;
+            $cart['tax'] = $tax;
+            $cart['slug'] = $product->slug;
+            $cart['name'] = $product->name;
+            $cart['discount'] = Helpers::get_product_discount($product, $price);
+            /*$data['shipping_cost'] = $shipping_cost;*/
+            $cart['thumbnail'] = $product->thumbnail;
+            $cart['seller_id'] = $product->user_id;
+            $cart['seller_is'] = $product->added_by;
+            if ($product->added_by == 'seller') {
+                $cart['shop_info'] = Shop::where(['seller_id' => $product->user_id])->first()->name;
+            } else {
+                $cart['shop_info'] = Helpers::get_business_settings('company_name');
+            }
 
-        if ($user == 'offline') {
-            $offline_cart = session('offline_cart');
-            $offline_cart->push($cart);
-            session()->put('offline_cart', $offline_cart);
-        } else {
-            $cart->save();
+            if ($user == 'offline') {
+                $offline_cart = session('offline_cart');
+                $offline_cart->push($cart);
+                session()->put('offline_cart', $offline_cart);
+            } else {
+                $cart->save();
+            }
         }
 
         return [

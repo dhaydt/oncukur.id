@@ -44,6 +44,13 @@ class WebController extends Controller
         return redirect()->route('home');
     }
 
+    public function closeWindow()
+    {
+        Toastr::success('Payment successfully');
+
+        return view('web-views.close');
+    }
+
     public function showMenu(Request $request)
     {
         $shop = Shop::find($request->id);

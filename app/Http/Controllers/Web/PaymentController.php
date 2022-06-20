@@ -25,7 +25,7 @@ class PaymentController extends Controller
             foreach (CartManager::get_cart() as $detail) {
                 array_push($products, [
                 'name' => $detail->product['name'],
-            ]);
+                ]);
             }
 
             $user = [
@@ -103,7 +103,7 @@ class PaymentController extends Controller
             return view('web-views.checkout-complete');
         }
 
-        return response()->json(['message' => 'Payment succeeded'], 200);
+        return response()->json(['message' => 'Payment succeeded, back to app'], 200);
     }
 
     public function getPayment()
