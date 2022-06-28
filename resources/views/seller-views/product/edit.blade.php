@@ -272,7 +272,7 @@
                                 {{-- <div class="sku_combination pt-4" id="sku_combination">
                                     @include('seller-views.product.partials._edit_sku_combinations',['combinations'=>json_decode($product['variation'],true)])
                                 </div> --}}
-                                <div class="row">
+                                {{-- <div class="row">
                                     <div class="col-md-6" id="quantity">
                                         <label
                                             class="control-label">{{\App\CPU\translate('total')}} {{\App\CPU\translate('Quantity')}} </label>
@@ -280,7 +280,7 @@
                                             placeholder="{{\App\CPU\translate('Quantity') }}"
                                             name="current_stock" class="form-control" required>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>

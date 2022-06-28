@@ -83,9 +83,9 @@ class ProductController extends Controller
             'tax' => 'required|min:0',
             'unit_price' => 'required|numeric|min:1',
         ], [
-            'name.required' => 'Product name is required!',
-            'images.required' => 'Product images is required!',
-            'image.required' => 'Product thumbnail is required!',
+            'name.required' => 'Serives name is required!',
+            'images.required' => 'Serives images is required!',
+            'image.required' => 'Serives thumbnail is required!',
         ]);
 
         if ($request['discount_type'] == 'percent') {
@@ -264,7 +264,7 @@ class ProductController extends Controller
                 }
             }
             Translation::insert($data);
-            Toastr::success('Product added successfully!');
+            Toastr::success('Services added successfully!');
 
             return redirect()->route('seller.product.list');
         }
@@ -351,17 +351,10 @@ class ProductController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'category_id' => 'required',
-            'brand_id' => 'required',
-            'unit' => 'required',
             'tax' => 'required|min:0',
             'unit_price' => 'required|numeric|min:1',
-            'purchase_price' => 'required|numeric|min:1',
         ], [
-            'name.required' => 'Product name is required!',
-            'category_id.required' => 'category  is required!',
-            'brand_id.required' => 'brand  is required!',
-            'unit.required' => 'Unit  is required!',
+            'name.required' => 'Serives name is required!',
         ]);
 
         if ($request['discount_type'] == 'percent') {
@@ -380,26 +373,26 @@ class ProductController extends Controller
         $product->name = $request->name[array_search('en', $request->lang)];
 
         $category = [];
-        if ($request->category_id != null) {
-            array_push($category, [
-                'id' => $request->category_id,
-                'position' => 1,
-            ]);
-        }
-        if ($request->sub_category_id != null) {
-            array_push($category, [
-                'id' => $request->sub_category_id,
-                'position' => 2,
-            ]);
-        }
-        if ($request->sub_sub_category_id != null) {
-            array_push($category, [
-                'id' => $request->sub_sub_category_id,
-                'position' => 3,
-            ]);
-        }
-        $product->category_ids = json_encode($category);
-        $product->brand_id = $request->brand_id;
+        // if ($request->category_id != null) {
+        //     array_push($category, [
+        //         'id' => $request->category_id,
+        //         'position' => 1,
+        //     ]);
+        // }
+        // if ($request->sub_category_id != null) {
+        //     array_push($category, [
+        //         'id' => $request->sub_category_id,
+        //         'position' => 2,
+        //     ]);
+        // }
+        // if ($request->sub_sub_category_id != null) {
+        //     array_push($category, [
+        //         'id' => $request->sub_sub_category_id,
+        //         'position' => 3,
+        //     ]);
+        // }
+        // $product->category_ids = json_encode($category);
+        // $product->brand_id = $request->brand_id;
         $product->unit = $request->unit;
         $product->details = $request->description[array_search('en', $request->lang)];
 
@@ -482,7 +475,7 @@ class ProductController extends Controller
         }
 
         //combinations end
-        $product->variation = json_encode($variations);
+        // $product->variation = json_encode($variations);
         $product->unit_price = Convert::usd($request->unit_price);
         $product->purchase_price = Convert::usd($request->purchase_price);
         $product->tax = $request->tax;
@@ -528,7 +521,7 @@ class ProductController extends Controller
                     );
                 }
             }
-            Toastr::success('Product updated successfully.');
+            Toastr::success('Services updated successfully.');
 
             return back();
         }

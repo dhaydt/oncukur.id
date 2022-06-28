@@ -230,12 +230,12 @@
                                             <option value="percent">{{\App\CPU\translate('Percent')}}</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-6" id="quantity">
+                                    {{-- <div class="col-md-6" id="quantity">
                                         <label class="control-label">{{\App\CPU\translate('total')}} {{\App\CPU\translate('Quantity')}}</label>
                                         <input type="number" min="0" value="0" step="1"
                                             placeholder="{{\App\CPU\translate('Quantity')}}"
                                             name="current_stock" value="{{old('current_stock')}}" class="form-control" required>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
 
