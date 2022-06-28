@@ -14,7 +14,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('seller.dashboard.index')}}">{{\App\CPU\translate('Dashboard')}}</a></li>
-                <li class="breadcrumb-item" aria-current="page"><a href="{{route('seller.product.list')}}">{{\App\CPU\translate('Product')}}</a>
+                <li class="breadcrumb-item" aria-current="page"><a href="{{route('seller.product.list')}}">{{\App\CPU\translate('Service')}}</a>
                 </li>
                 <li class="breadcrumb-item" aria-current="page">{{ \App\CPU\translate('Edit')}}</li>
             </ol>
@@ -656,7 +656,7 @@
                             });
                         }
                     } else {
-                        toastr.success('{{\App\CPU\translate('product updated successfully!')}}', {
+                        toastr.success('{{\App\CPU\translate('Services updated successfully!')}}', {
                             CloseButton: true,
                             ProgressBar: true
                         });
