@@ -274,11 +274,11 @@
                     <div class="card mt-2 rest-part">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-12 mb-4">
+                                {{-- <div class="col-md-12 mb-4">
                                     <label class="control-label">{{\App\CPU\translate('Youtube video link')}}</label>
                                     <small class="badge badge-soft-danger"> ( {{\App\CPU\translate('optional, please provide embed link not direct link')}}. )</small>
                                     <input type="text" name="video_link" placeholder="EX : https://www.youtube.com/embed/5R06LRdUCSE" class="form-control" required>
-                                </div>
+                                </div> --}}
 
                                 <div class="col-md-8">
                                     <div class="form-group">
