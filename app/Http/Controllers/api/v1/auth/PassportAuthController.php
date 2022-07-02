@@ -29,6 +29,15 @@ class PassportAuthController extends Controller
             return response()->json(['status' => 'fail', 'errors' => Helpers::error_processor($validator)], 403);
         }
         $temporary_token = Str::random(40);
+        $checkEmail = User::where('email', $request->email)->get();
+        $checkPhone = User::where('phone', $request->phone)->get();
+
+        if ($checkEmail) {
+            return response()->json(['status' => 'fail', 'message' => 'Email already used'], 200);
+        } elseif ($checkPhone) {
+            return response()->json(['status' => 'fail', 'message' => 'Phone already used'], 200);
+        }
+
         $user = User::create([
             'f_name' => $request->name,
             'email' => $request->email,
@@ -96,11 +105,12 @@ class PassportAuthController extends Controller
 
             $phone_verification = Helpers::get_business_settings('phone_verification');
             $email_verification = Helpers::get_business_settings('email_verification');
+
             if ($phone_verification && !$user->is_phone_verified) {
                 return response()->json(['status' => 'success', 'temporary_token' => $user->temporary_token], 200);
             }
             if ($email_verification && !$user->is_email_verified) {
-                return response()->json(['status' => 'success', 'temporary_token' => $user->temporary_token], 200);
+                return response()->json(['status' => 'success', 'message' => 'your email is not verified, please verified email first', 'temporary_token' => $user->temporary_token], 200);
             }
 
             $token = rand(1000, 9999);
