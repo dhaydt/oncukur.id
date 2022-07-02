@@ -18,16 +18,19 @@ class CartManager
             $cart = session('offline_cart');
             $storage = [];
             foreach ($cart as $item) {
+                $choices = $item['choices'] ? $item['choices'] : null;
+                $variation = $item['variations'] ? $item['variations'] : [];
+                $variant = $item['variant'] ? $item['variant'] : null;
                 $db_cart = Cart::where(['customer_id' => $user->id, 'seller_id' => $item['seller_id'], 'seller_is' => $item['seller_is']])->first();
                 $storage[] = [
                     'customer_id' => $user->id,
                     'cart_group_id' => isset($db_cart) ? $db_cart['cart_group_id'] : str_replace('offline', $user->id, $item['cart_group_id']),
                     'product_id' => $item['product_id'],
                     'color' => $item['color'],
-                    'choices' => $item['choices'],
-                    'variations' => $item['variations'],
-                    'variant' => $item['variant'],
-                    'quantity' => $item['quantity'],
+                    'choices' => $choices,
+                    'variations' => $variation,
+                    'variant' => $variant,
+                    'quantity' => 1,
                     'price' => $item['price'],
                     'tax' => $item['tax'],
                     'discount' => $item['discount'],
@@ -251,6 +254,7 @@ class CartManager
 
             $cart['color'] = $request->has('color') ? $request['color'] : null;
             $cart['product_id'] = $product->id;
+            $cart['order_type'] = $request->order_type;
             // $cart['choices'] = json_encode($choices);
 
             //chek if out of stock

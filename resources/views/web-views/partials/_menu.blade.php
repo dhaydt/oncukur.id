@@ -25,17 +25,17 @@
 @endforeach --}}
 <div class="owl-carousel owl-theme " id="category-slider">
     <div class="category_div">
-        <a href="javascript:" class="route-menu">
+        <a href="{{ route('onlocation') }}" class="route-menu">
             <img style="vertical-align: middle; padding: 16%;height: 98px"
-                onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'" src="{{ asset('assets/front-end/img/wahl.png') }}" alt="Wahl">
-            <p class="text-center small" style="margin-top: -15px">Booking cukur</p>
+                onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'" src="{{ asset('assets/front-end/img/wahl.png') }}" alt="Map">
+            <p class="text-center small" style="margin-top: -15px">Booking Cukur</p>
         </a>
     </div>
     <div class="category_div">
-        <a href="{{ route('onlocation') }}" class="route-menu">
+        <a href="javascript:" class="route-menu">
             <img style="vertical-align: middle; padding: 16%;height: 98px"
-                onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'" src="{{ asset('assets/front-end/img/map.png') }}" alt="Map">
-            <p class="text-center small" style="margin-top: -15px">Order visit</p>
+                onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'" src="{{ asset('assets/front-end/img/map.png') }}" alt="Wahl">
+            <p class="text-center small" style="margin-top: -15px">Order Visit</p>
         </a>
     </div>
     <div class="category_div">

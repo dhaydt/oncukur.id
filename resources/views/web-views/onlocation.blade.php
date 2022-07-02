@@ -207,6 +207,7 @@
                 $.each(data, function(index, val){
                     $('#menu').append(`<input type="hidden" name="lat" value="`+lat+`" class="lat">
                     <input type="hidden" name="lng" value="`+lng+`" class="lng">
+                    <input type="hidden" name="order_type" value="booking" class="lng">
                     <input type="hidden" name="idOutlet" value="`+id+`" class="id">`);
                     $('#menu').append(`<div class="form-check">
                         <input class="form-check-input" type="checkbox" name="id[]" value="`+val.id+`" id="flexCheckDefault">

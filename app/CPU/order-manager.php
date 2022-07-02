@@ -267,6 +267,7 @@ class OrderManager
             'payment_status' => $data['payment_status'],
             'order_status' => $data['order_status'],
             'payment_method' => $data['payment_method'],
+            'order_type' => $seller_data->order_type,
             'transaction_ref' => $data['transaction_ref'],
             'order_group_id' => $data['order_group_id'],
             'discount_amount' => $discount,
