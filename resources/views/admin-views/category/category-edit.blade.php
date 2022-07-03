@@ -84,7 +84,7 @@
                                             <center>
                                                 <img style="width: 30%;border: 1px solid; border-radius: 10px;"
                                                      id="viewer"
-                                                     src="{{asset('storage/app/public/category')}}/{{$category['icon']}}"
+                                                     src="{{asset('storage/category')}}/{{$category['icon']}}"
                                                      alt=""/>
                                             </center>
                                         </div>

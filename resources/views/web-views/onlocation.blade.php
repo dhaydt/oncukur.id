@@ -29,7 +29,7 @@
         <div class="col-12">
             <div class="card mt-4 mb-4">
                 <div class="card-header">
-                    <h3>OnLocation Service</h3>
+                    <h3>Booking Service</h3>
                     <button class="btn btn-danger btn-sm" id="reset" onclick="initMap()">Reset map</button>
                 </div>
                 <div class="card-body justify-content-center d-flex">

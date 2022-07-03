@@ -32,7 +32,7 @@
         </a>
     </div>
     <div class="category_div">
-        <a href="javascript:" class="route-menu">
+        <a href="{{ route('oncukur') }}" class="route-menu">
             <img style="vertical-align: middle; padding: 16%;height: 98px"
                 onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'" src="{{ asset('assets/front-end/img/map.png') }}" alt="Wahl">
             <p class="text-center small" style="margin-top: -15px">Order Visit</p>

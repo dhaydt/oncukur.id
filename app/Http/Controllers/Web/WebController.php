@@ -44,6 +44,14 @@ class WebController extends Controller
         return redirect()->route('home');
     }
 
+    public function oncukur()
+    {
+        $product = Product::distinct()->get('name');
+        dd($product);
+
+        return view('web-views.oncukur');
+    }
+
     public function closeWindow()
     {
         Toastr::success('Payment successfully');

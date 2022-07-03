@@ -140,6 +140,7 @@
 @push('script')
 <script src="{{asset('assets/back-end')}}/js/tags-input.min.js"></script>
 <script src="{{asset('assets/back-end/js/spartan-multi-image-picker.js')}}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_API_KEY') }}&callback=initMap&v=weekly" defer></script>
 <script>
     $(document).ready(function(){
         var lat = -0.287487;

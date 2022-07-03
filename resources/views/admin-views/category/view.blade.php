@@ -73,7 +73,7 @@
                                             <img
                                                 style="width: 30%;border: 1px solid; border-radius: 10px;"
                                                 id="viewer"
-                                                src="{{asset('public/assets/back-end/img/900x400/img1.jpg')}}"
+                                                src="{{asset('assets/back-end/img/900x400/img1.jpg')}}"
                                                 alt="image"/>
                                         </center>
                                     </div>
@@ -173,7 +173,7 @@
                     </div>
                     @if(count($categories)==0)
                         <div class="text-center p-4">
-                            <img class="mb-3" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description" style="width: 7rem;">
+                            <img class="mb-3" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description" style="width: 7rem;">
                             <p class="mb-0">{{\App\CPU\translate('no_data_found')}}</p>
                         </div>
                     @endif

@@ -233,6 +233,16 @@
                                 </ul>
                             </li> --}}
 
+                            <li class="navbar-vertical-aside-has-menu {{Request::is('admin/category/*')?'active':''}}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                    href="{{route('admin.category.view')}}">
+                                    <i class="tio-filter-list nav-icon"></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{\App\CPU\translate('Categories')}}
+                                    </span>
+                                </a>
+                            </li>
+
                             {{-- <li class="navbar-vertical-aside-has-menu {{(Request::is('admin/category*') ||Request::is('admin/sub*')) ?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:">
