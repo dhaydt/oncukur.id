@@ -460,7 +460,7 @@ class ProductController extends Controller
                 }
                 $item = [];
                 $item['type'] = $str;
-                $item['price'] = Convert::usd(abs($request['price_'.str_replace('.', '_', $str)]));
+                $item['price'] = Convert::usd(round($request['price_'.str_replace('.', '_', $str)]));
                 $item['sku'] = $request['sku_'.str_replace('.', '_', $str)];
                 $item['qty'] = abs($request['qty_'.str_replace('.', '_', $str)]);
                 array_push($variations, $item);

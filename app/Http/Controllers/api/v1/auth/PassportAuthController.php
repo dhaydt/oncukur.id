@@ -32,9 +32,9 @@ class PassportAuthController extends Controller
         $checkEmail = User::where('email', $request->email)->get();
         $checkPhone = User::where('phone', $request->phone)->get();
 
-        if ($checkEmail) {
+        if (count($checkEmail) > 0) {
             return response()->json(['status' => 'fail', 'message' => 'Email already used'], 200);
-        } elseif ($checkPhone) {
+        } elseif (count($checkPhone) > 0) {
             return response()->json(['status' => 'fail', 'message' => 'Phone already used'], 200);
         }
 

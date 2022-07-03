@@ -1,11 +1,21 @@
 @extends('layouts.back-end.app')
 
-@section('title', \App\CPU\translate('Product Edit'))
+@section('title', \App\CPU\translate('Outlet Edit'))
 
 @push('css_or_js')
     <link href="{{asset('assets/back-end/css/tags-input.min.css')}}" rel="stylesheet">
     <link href="{{ asset('assets/select2/css/select2.min.css')}}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <style>
+        #map-canvas {
+            height: 100%;
+            width: 100%;
+            margin: 0px;
+            padding: 0px;
+            border-radius: 20px;
+        }
+
+    </style>
 @endpush
 
 @section('content')
@@ -25,9 +35,9 @@
         <div class="row">
             <div class="col-md-12">
                 <form class="product-form" action="{{route('admin.product.outlet-update',$shop->id)}}" method="post"
-                      style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};"
-                      enctype="multipart/form-data"
-                      id="product_form">
+                    style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};"
+                    enctype="multipart/form-data"
+                    id="product_form">
                     @csrf
 
                     <div class="card">
@@ -52,13 +62,13 @@
                                 <input type="text" id="chair" name="chair" class="form-control" value="{{ $shop->chair }}">
                             </div>
                             <div class="form-group">
-                                <label for="address" class="input-label">{{ \App\CPU\Translate('address') }}</label>
-                                <textarea id="address" class="form-control" name="address">{{ $shop->address }}</textarea>
                                 <div class="row justify-content-center mt-4">
                                     <div class="map" style="width: 80%; height: 500px;">
-                                        {!! Mapper::render() !!}
+                                        <div id="map-canvas" class="mx-3"></div>
                                     </div>
                                 </div>
+                                <label for="address" class="input-label">{{ \App\CPU\Translate('address') }}</label>
+                                <textarea id="address" class="form-control" name="address">{{ $shop->address }}</textarea>
                             </div>
                             <div class="form-group">
                                 <label for="lat" class="input-label">{{ \App\CPU\Translate('Latitude') }}</label>
@@ -125,6 +135,107 @@
     <script src="{{asset('assets/back-end')}}/js/tags-input.min.js"></script>
     <script src="{{asset('assets/back-end/js/spartan-multi-image-picker.js')}}"></script>
     <script>
+        $(document).ready(function(){
+        var lat = {{ $shop->latitude }};
+        var long = {{ $shop->longitude }};
+        console.log('coor', lat, long)
+        var myLatlng = new google.maps.LatLng(lat, long);
+        var myOptions = {
+        zoom: 15,
+        center: myLatlng
+        }
+        map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+        infoWindow = new google.maps.InfoWindow();
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                const pos = {
+                    lat: lat,
+                    lng: long,
+                };
+
+                var label = 'Your location'
+
+                var marker = new google.maps.Marker({
+                    position: pos,
+                    animation: google.maps.Animation.DROP,
+                    draggable: true,
+                    map: map,
+                });
+
+                 // Mengambil alamat on drag
+                var geocoder = new google.maps.Geocoder();
+                google.maps.event.addListener(marker, 'dragend', function() {
+                    geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            if (results[0]) {
+                                var lt = results[0].geometry.location.lat
+                                var lg = results[0].geometry.location.lng
+
+                                $("#address").val(results[0].formatted_address);
+                                $("#lat").val(lt);
+                                $("#long").val(lg);
+
+                                var label = `<span class="badge badge-success m-2 mr-3 mb-3" style="font-size: 15px;">`+ results[0].formatted_address +`</span>`
+
+                                var address_components = results[0].address_components;
+                                var components={};
+                                jQuery.each(address_components, function(k,v1) {jQuery.each(v1.types, function(k2, v2){components[v2]=v1.long_name});});
+                                var city;
+                                var postal_code;
+                                var state;
+                                var country;
+
+                                if(components.locality) {
+                                    city = components.locality;
+                                }
+
+                                if(!city) {
+                                    city = components.administrative_area_level_1;
+                                }
+
+                                if(components.postal_code) {
+                                    postal_code = components.postal_code;
+                                }
+
+                                if(components.administrative_area_level_1) {
+                                    state = components.administrative_area_level_1;
+                                }
+
+                                if(components.country) {
+                                    country = components.country;
+                                }
+
+                                infoWindow.setContent(label);
+                                infoWindow.open(map, marker);
+                                }
+                            }
+                    });
+                });
+        // Akhir Mengambil alamat on drag
+
+                marker.addListener("click", () => {
+                    infoWindow.setContent(label);
+                    infoWindow.open(map, marker);
+                });
+
+                map.setCenter(pos);
+            },
+            () => {
+                handleLocationError(true, infoWindow, map.getCenter());
+            }
+            );
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+
+
+
+    })
+
+
         var thumbnail = '{{\App\CPU\ProductManager::product_image_path('outlet').'/'.$shop->image??asset('assets/back-end/img/400x400/img2.jpg')}}';
 
             $("#thumbnail").spartanMultiImagePicker({
