@@ -45,6 +45,25 @@
                         </div>
 
                         <div class="card-body">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="name">{{ \App\CPU\translate('Category')}}</label>
+                                        <select
+                                            class="js-example-basic-multiple js-states js-example-responsive form-control"
+                                            name="category_id"
+                                            id="category_id"
+                                            onchange="getRequest('{{url('/')}}/seller/product/get-categories?parent_id='+this.value,'sub-category-select','select')">
+                                            <option value="0" selected disabled>---{{ \App\CPU\translate('Select')}}---</option>
+                                            @foreach($categories as $category)
+                                                <option
+                                                    value="{{$category['id']}}" {{ $category->id==$product_category[0]->id ? 'selected' : ''}} >{{$category['name']}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
                             @foreach(json_decode($language) as $lang)
                                 <?php
                                 if (count($product['translations'])) {

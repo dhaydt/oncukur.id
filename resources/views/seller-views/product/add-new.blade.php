@@ -42,6 +42,25 @@
                         </div>
 
                         <div class="card-body">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="name">{{\App\CPU\translate('Select_service_Category')}}</label>
+                                        <select
+                                            class="js-example-basic-multiple form-control"
+                                            name="category_id"
+                                            onchange="getRequest('{{url('/')}}/seller/product/get-categories?parent_id='+this.value,'sub-category-select','select')"
+                                            required>
+                                            <option value="{{old('category_id')}}" selected disabled>---{{\App\CPU\translate('Select')}}---</option>
+                                            @foreach($cat as $c)
+                                                <option value="{{$c['id']}}" {{old('name')==$c['id']? 'selected': ''}}>
+                                                    {{$c['name']}}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                             @foreach(json_decode($language) as $lang)
                                 <div class="{{$lang != $default_lang ? 'd-none':''}} lang_form"
                                     id="{{$lang}}-form">
@@ -61,6 +80,7 @@
                                     </div>
                                 </div>
                             @endforeach
+
                         </div>
                     </div>
 

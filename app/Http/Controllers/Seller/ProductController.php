@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Seller;
 
-use App\Country;
 use App\CPU\Convert;
 use App\CPU\Helpers;
 use App\CPU\ImageManager;
@@ -81,11 +80,13 @@ class ProductController extends Controller
             'images' => 'required',
             'image' => 'required',
             'tax' => 'required|min:0',
+            'category_id' => 'required',
             'unit_price' => 'required|numeric|min:1',
         ], [
             'name.required' => 'Serives name is required!',
             'images.required' => 'Serives images is required!',
             'image.required' => 'Serives thumbnail is required!',
+            'category_id.required' => 'Please select service category!',
         ]);
 
         if ($request['discount_type'] == 'percent') {
@@ -103,30 +104,22 @@ class ProductController extends Controller
         }
 
         $seller = auth('seller')->user();
-        // $country = $seller->country;
-        // $city = $seller->city;
-        // $city_id = $seller->city_id;
-        // dd($request);
-        // dd($user->country);
 
         $product = new Product();
         $product->user_id = $seller->id;
-        // $product->country = $country;
-        // $product->city = $city;
-        // $product->city_id = $city_id;
         $product->weight = 0;
         $product->added_by = 'seller';
         $product->name = $request->name[array_search('en', $request->lang)];
         $product->slug = Str::slug($request->name[array_search('en', $request->lang)], '-').'-'.Str::random(6);
 
-        // $category = [];
+        $category = [];
 
-        // if ($request->category_id != null) {
-        //     array_push($category, [
-        //         'id' => $request->category_id,
-        //         'position' => 1,
-        //     ]);
-        // }
+        if ($request->category_id != null) {
+            array_push($category, [
+                'id' => $request->category_id,
+                'position' => 1,
+            ]);
+        }
         // if ($request->sub_category_id != null) {
         //     array_push($category, [
         //         'id' => $request->sub_category_id,
@@ -140,7 +133,7 @@ class ProductController extends Controller
         //     ]);
         // }
 
-        // $product->category_ids = json_encode($category);
+        $product->category_ids = json_encode($category);
         // $product->brand_id = $request->brand_id;
         // $product->unit = $request->unit;
         $product->details = $request->description[array_search('en', $request->lang)];
@@ -373,12 +366,12 @@ class ProductController extends Controller
         $product->name = $request->name[array_search('en', $request->lang)];
 
         $category = [];
-        // if ($request->category_id != null) {
-        //     array_push($category, [
-        //         'id' => $request->category_id,
-        //         'position' => 1,
-        //     ]);
-        // }
+        if ($request->category_id != null) {
+            array_push($category, [
+                'id' => $request->category_id,
+                'position' => 1,
+            ]);
+        }
         // if ($request->sub_category_id != null) {
         //     array_push($category, [
         //         'id' => $request->sub_category_id,
@@ -391,7 +384,7 @@ class ProductController extends Controller
         //         'position' => 3,
         //     ]);
         // }
-        // $product->category_ids = json_encode($category);
+        $product->category_ids = json_encode($category);
         // $product->brand_id = $request->brand_id;
         $product->unit = $request->unit;
         $product->details = $request->description[array_search('en', $request->lang)];

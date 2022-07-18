@@ -44,12 +44,12 @@
                             </form>
                             <!-- End Search -->
                         </div>
-                        <div>
+                        {{-- <div>
                             <a href="{{route('admin.product.add-new')}}" class="btn btn-primary  float-right">
                                 <i class="tio-add-circle"></i>
                                 <span class="text">{{\App\CPU\translate('Add new service')}}</span>
                             </a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="card-body" style="padding: 0">
@@ -61,7 +61,7 @@
                             <tr>
                                 <th>{{\App\CPU\translate('SL#')}}</th>
                                 <th>{{\App\CPU\translate('Product Name')}}</th>
-                                <th>{{\App\CPU\translate('selling_price')}}</th>
+                                <th>{{\App\CPU\translate('service_price')}}</th>
                                 <th>{{\App\CPU\translate('featured')}}</th>
                                 <th>{{\App\CPU\translate('Active')}} {{\App\CPU\translate('status')}}</th>
                                 <th style="width: 5px" class="text-center">{{\App\CPU\translate('Action')}}</th>

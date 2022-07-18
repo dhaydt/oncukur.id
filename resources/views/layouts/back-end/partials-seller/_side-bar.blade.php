@@ -195,19 +195,19 @@
                                     </a>
                                 </li>
 
-                                <li class="nav-item {{Request::is('seller/product/bulk-import')?'active':''}}">
+                                {{-- <li class="nav-item {{Request::is('seller/product/bulk-import')?'active':''}}">
                                     <a class="nav-link " href="{{route('seller.product.bulk-import')}}">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">{{\App\CPU\translate('bulk_import')}}</span>
                                     </a>
-                                </li>
+                                </li> --}}
 
-                                <li class="nav-item {{Request::is('seller/product/bulk-export')?'active':''}}">
+                                {{-- <li class="nav-item {{Request::is('seller/product/bulk-export')?'active':''}}">
                                     <a class="nav-link " href="{{route('seller.product.bulk-export')}}">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">{{\App\CPU\translate('bulk_export')}}</span>
                                     </a>
-                                </li>
+                                </li> --}}
                             </ul>
                         </li>
 

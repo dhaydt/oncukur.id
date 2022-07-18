@@ -18,6 +18,7 @@ use App\Model\DealOfTheDay;
 use App\Model\FlashDeal;
 use App\Model\FlashDealProduct;
 use App\Model\HelpTopic;
+use App\Model\Mitra;
 use App\Model\Order;
 use App\Model\OrderDetail;
 use App\Model\Product;
@@ -46,10 +47,35 @@ class WebController extends Controller
 
     public function oncukur()
     {
-        $product = Product::distinct()->get('name');
-        dd($product);
+        $data['product'] = Category::where('home_status', 1)->get();
+        // dd($product);
 
-        return view('web-views.oncukur');
+        return view('web-views.oncukur', $data);
+    }
+
+    public function menuLocation(Request $request)
+    {
+        $lat = $request->lat;
+        $long = $request->long;
+        $cat = Product::active()->with('shop')->whereJsonContains('category_ids', ['id' => (string) $request->cat_id]);
+
+        $cat = $cat->whereHas('shop', function ($q) use ($lat, $long) {
+            $q->select('*', DB::raw('6371 * acos(cos(radians('.$lat.'))
+            * cos(radians(latitude)) * cos(radians(longitude) - radians('.$long.'))
+            + sin(radians('.$lat.')) * sin(radians(latitude)) ) AS distance'))->having('distance', '<', 20);
+        })->get();
+
+        // $near = $cat::select('*', DB::raw('6371 * acos(cos(radians('.$lat.'))
+        //     * cos(radians(latitude)) * cos(radians(longitude) - radians('.$long.'))
+        //     + sin(radians('.$lat.')) * sin(radians(latitude)) ) AS distance'));
+        // $near = $near->having('distance', '<', 20)->get();
+        if (count($cat) > 0) {
+            $mitra = Mitra::where('shop_id', $cat[0]->shop->id)->inRandomOrder()->get();
+
+            return $mitra[0];
+        } else {
+            return $cat;
+        }
     }
 
     public function closeWindow()

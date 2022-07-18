@@ -36,6 +36,7 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode']], funct
     });
 
     Route::get('onlocation', 'WebController@onlocation')->name('onlocation');
+    Route::post('menu', 'WebController@menuLocation')->name('menu.location');
     Route::get('oncukur', 'WebController@oncukur')->name('oncukur');
     Route::post('outlet', 'WebController@closestOutlet')->name('closest-outlet');
 

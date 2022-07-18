@@ -2,8 +2,8 @@
 
 namespace App\Model;
 
-use App\CPU\Helpers;
 use App\Country;
+use App\CPU\Helpers;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
@@ -45,19 +45,17 @@ class Product extends Model
             $query->where(['added_by' => 'admin', 'status' => 1]);
         });
     }
-    
+
     public function country()
     {
         return $this->belongsTo(Country::class, 'country', 'country');
     }
-
 
     public function stocks()
     {
         return $this->hasMany(ProductStock::class);
     }
 
-    //
     public function reviews()
     {
         return $this->hasMany(Review::class);
@@ -75,7 +73,7 @@ class Product extends Model
 
     public function shop()
     {
-        return $this->belongsTo(Shop::class, 'seller_id');
+        return $this->belongsTo(Shop::class, 'user_id', 'seller_id');
     }
 
     public function seller()
@@ -105,6 +103,7 @@ class Product extends Model
         if (strpos(url()->current(), '/admin') || strpos(url()->current(), '/seller')) {
             return $name;
         }
+
         return $this->translations[0]->value ?? $name;
     }
 
@@ -113,6 +112,7 @@ class Product extends Model
         if (strpos(url()->current(), '/admin') || strpos(url()->current(), '/seller')) {
             return $detail;
         }
+
         return $this->translations[0]->value ?? $detail;
     }
 
@@ -121,12 +121,12 @@ class Product extends Model
         parent::boot();
         static::addGlobalScope('translate', function (Builder $builder) {
             $builder->with(['translations' => function ($query) {
-                if (strpos(url()->current(), '/api')){
+                if (strpos(url()->current(), '/api')) {
                     return $query->where('locale', App::getLocale());
-                }else{
+                } else {
                     return $query->where('locale', Helpers::default_lang());
                 }
-            },'reviews'])->withCount('reviews');
+            }, 'reviews'])->withCount('reviews');
         });
     }
 }
