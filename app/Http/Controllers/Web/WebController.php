@@ -57,24 +57,45 @@ class WebController extends Controller
     {
         $lat = $request->lat;
         $long = $request->long;
-        $cat = Product::active()->with('shop')->whereJsonContains('category_ids', ['id' => (string) $request->cat_id]);
 
-        $cat = $cat->whereHas('shop', function ($q) use ($lat, $long) {
-            $q->select('*', DB::raw('6371 * acos(cos(radians('.$lat.'))
-            * cos(radians(latitude)) * cos(radians(longitude) - radians('.$long.'))
-            + sin(radians('.$lat.')) * sin(radians(latitude)) ) AS distance'))->having('distance', '<', 20);
-        })->get();
+        $shops = Shop::with('seller')->select('*', DB::raw('6371 * acos(cos(radians('.$lat.'))
+                        * cos(radians(latitude)) * cos(radians(longitude) - radians('.$long.'))
+                        + sin(radians('.$lat.')) * sin(radians(latitude)) ) AS distance'));
+        $shops = $shops->having('distance', '<', 10);
+        $shops = $shops->whereHas('seller', function ($s) use ($request) {
+            $s->with('product')->whereHas('product', function ($p) use ($request) {
+                $p->whereJsonContains('category_ids', ['id' => (string) $request->cat_id])->inRandomOrder();
+            });
+        });
+        $shops = $shops->inRandomOrder();
+        $shops = $shops->get();
 
-        // $near = $cat::select('*', DB::raw('6371 * acos(cos(radians('.$lat.'))
-        //     * cos(radians(latitude)) * cos(radians(longitude) - radians('.$long.'))
-        //     + sin(radians('.$lat.')) * sin(radians(latitude)) ) AS distance'));
-        // $near = $near->having('distance', '<', 20)->get();
-        if (count($cat) > 0) {
-            $mitra = Mitra::where('shop_id', $cat[0]->shop->id)->inRandomOrder()->get();
+        if (count($shops) > 0) {
+            $shop = $shops[0];
+            $service = $shop->seller->product[0];
 
-            return $mitra[0];
+            $mitra = Mitra::with('shop')->where('shop_id', $shop->id)->inRandomOrder()->get();
+            if (count($mitra) > 0) {
+                $from = [
+                    'shop' => $shop,
+                    'mitra' => $mitra[0],
+                    'service' => $service,
+                    'to' => [
+                        'lat' => floatval($request->lat),
+                        'lng' => floatval($request->long),
+                    ],
+                ];
+                if ($request->ajax()) {
+                    return $from;
+                }
+            }
+            if ($request->ajax()) {
+                return $shops;
+            }
         } else {
-            return $cat;
+            if ($request->ajax()) {
+                return $shops;
+            }
         }
     }
 

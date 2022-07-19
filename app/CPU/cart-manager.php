@@ -116,7 +116,7 @@ class CartManager
         $total = 0;
         if (!empty($cart)) {
             foreach ($cart as $item) {
-                $product_subtotal = ($item['price'] - $item['discount']) * $item['quantity'];
+                $product_subtotal = ($item['price'] - $item['discount']) * 1;
                 $total += $product_subtotal;
             }
         }
@@ -318,6 +318,8 @@ class CartManager
             $cart['thumbnail'] = $product->thumbnail;
             $cart['seller_id'] = $product->user_id;
             $cart['seller_is'] = $product->added_by;
+            $cart['mitra_id'] = $request->mitra_id ? $request->mitra_id : '';
+            $cart['range_km'] = $request->range ? $request->range : 0;
             if ($product->added_by == 'seller') {
                 $cart['shop_info'] = Shop::where(['seller_id' => $product->user_id])->first()->name;
             } else {

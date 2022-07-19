@@ -41,17 +41,17 @@
                                     @endforeach
                                     <div class="widget-product-meta">
                                         <span
-                                            class="text-muted {{Session::get('direction') === "rtl" ? 'ml-2' : 'mr-2'}}">x {{$cartItem['quantity']}}</span>
+                                            class="text-muted {{Session::get('direction') === "rtl" ? 'ml-2' : 'mr-2'}}">x 1</span>
                                         <span
                                             class="text-accent {{Session::get('direction') === "rtl" ? 'ml-2' : 'mr-2'}}">
-                                                {{\App\CPU\Helpers::currency_converter(($cartItem['price']-$cartItem['discount'])*$cartItem['quantity'])}}
+                                                {{\App\CPU\Helpers::currency_converter(($cartItem['price']-$cartItem['discount'])*1)}}
                                         </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        @php($sub_total+=($cartItem['price']-$cartItem['discount'])*$cartItem['quantity'])
-                        @php($total_tax+=$cartItem['tax']*$cartItem['quantity'])
+                        @php($sub_total+=($cartItem['price']-$cartItem['discount'])*1)
+                        @php($total_tax+=$cartItem['tax']*1)
                     @endforeach
                 </div>
                 <hr>

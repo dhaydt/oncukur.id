@@ -89,7 +89,7 @@
     }
 
     $(document).ready(function(){
-        initMaps();
+        initMap();
     })
 
     var lat = -0.287487;
