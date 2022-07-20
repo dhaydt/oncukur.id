@@ -36,7 +36,7 @@
 
                                     <div class="media-body d-flex justify-content-center align-items-center">
                                         <div class="cart_product">
-                                            <div class="product-title">
+                                            <div class="product-title" style="margin-top: -10px;">
                                                 <a href="{{route('product',$cartItem['slug'])}}">{{$cartItem['name']}}</a>
                                             </div>
                                             <div
@@ -51,6 +51,11 @@
                                                         class="{{Session::get('direction') === "rtl" ? 'ml-2' : 'mr-2'}}">{{$key1}} :</span>{{$variation}}
                                                 </div>
                                             @endforeach
+                                            @if ($cartItem->order_type == 'order')
+                                                <div class="text-muted">
+                                                    <span class="mr-2">Range :</span> {{ $cartItem->range_km }} KM
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

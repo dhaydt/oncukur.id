@@ -278,6 +278,8 @@ class OrderManager
             'shipping_address_data' => null,
             'shipping_cost' => 0,
             'shipping_method_id' => 0,
+            'mitra_id' => $seller_data->mitra_id,
+            'range_km' => $seller_data->range_km,
             'created_at' => now(),
             'updated_at' => now(),
         ];

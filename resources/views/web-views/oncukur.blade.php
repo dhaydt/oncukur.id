@@ -131,27 +131,29 @@
         if(!user){
             toastr.warning('{{\App\CPU\translate('Please_login_first')}}');
             window.location = `{{ route('customer.auth.login') }}`
+            // break;
+        }else{
+            var data = $('#menuForm').serialize();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: `{{ route('cart.add') }}`,
+                data: data,
+                method: 'POST',
+                success: function(data){
+                    var lat = $('.lat').val();
+                    var lng = $('.lng').val();
+                    var id = $('.id').val();
+                    $('#modalMenu').modal('hide');
+                    toastr.success('Order placed successfully!!');
+                    updateNavCart();
+                    // getRoute(parseFloat(lat), parseFloat(lng), id)
+                }
+            })
         }
-        var data = $('#menuForm').serialize();
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: `{{ route('cart.add') }}`,
-            data: data,
-            method: 'POST',
-            success: function(data){
-                var lat = $('.lat').val();
-                var lng = $('.lng').val();
-                var id = $('.id').val();
-                $('#modalMenu').modal('hide');
-                toastr.success('Order placed successfully!!');
-                updateNavCart();
-                // getRoute(parseFloat(lat), parseFloat(lng), id)
-            }
-        })
     }
     $(document).ready(function(){
             if (navigator.geolocation) {

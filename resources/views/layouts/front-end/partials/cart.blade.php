@@ -27,11 +27,11 @@
                             </button>
                             <div class="media align-items-center">
                                 <a class="d-block {{Session::get('direction') === "rtl" ? 'ml-2' : 'mr-2'}}"
-                                   href="{{route('product',$cartItem['slug'])}}">
+                                    href="{{route('product',$cartItem['slug'])}}">
                                     <img width="64"
-                                         onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                                         src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$cartItem['thumbnail']}}"
-                                         alt="Product"/>
+                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                        src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$cartItem['thumbnail']}}"
+                                        alt="Product"/>
                                 </a>
                                 <div class="media-body">
                                     <h6 class="widget-product-title">
@@ -61,7 +61,7 @@
                         <span class="">{{\App\CPU\translate('Subtotal')}} :</span>
                         <span
                             class="text-accent font-size-base {{Session::get('direction') === "rtl" ? 'mr-1' : 'ml-1'}}">
-                             {{\App\CPU\Helpers::currency_converter($sub_total)}}
+                            {{\App\CPU\Helpers::currency_converter($sub_total)}}
                         </span>
                     </div>
 
