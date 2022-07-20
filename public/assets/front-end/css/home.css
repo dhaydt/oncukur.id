@@ -19,6 +19,7 @@ a {
 
 .widget-list-item a.widget-list-link, .social-media .social-btn {
       color: #fff !important;
+      text-decoration: none;
     }
 
 .category_div {
