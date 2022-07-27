@@ -69,10 +69,6 @@
                             <input type="text" id="name" name="name" placeholder="Outlet Name" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="contact" class="input-label">{{ \App\CPU\Translate('contact_number') }}</label>
-                            <input type="number" id="contact" class="form-control" name="contact">
-                        </div>
-                        <div class="form-group">
                             <label for="capacity" class="input-label">{{ \App\CPU\Translate('Mitra_capacity') }}</label>
                             <input type="number" name="capacity" id="capacity" class="form-control">
                         </div>

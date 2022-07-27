@@ -1,6 +1,6 @@
 @extends('layouts.front-end.app')
 
-@section('title',\App\CPU\translate('Barbershop_apply'))
+@section('title',\App\CPU\translate('Outlet_registration'))
 
 @push('css_or_js')
 <link href="{{asset('public/assets/back-end')}}/css/select2.min.css" rel="stylesheet"/>
@@ -19,12 +19,12 @@
                 <div class="col-lg-12">
                     <div class="p-5">
                         <div class="text-center mb-2 ">
-                            <h3 class="" > {{\App\CPU\translate('Barber_Shop')}} {{\App\CPU\translate('Application')}}</h3>
+                            <h3 class="" > {{\App\CPU\translate('Outlet')}} {{\App\CPU\translate('Registration')}}</h3>
                             <hr>
                         </div>
                         <form class="user" action="{{route('shop.apply')}}" method="post" enctype="multipart/form-data">
                             @csrf
-                            <h5 class="black">{{\App\CPU\translate('Mitra')}} {{\App\CPU\translate('Info')}} </h5>
+                            <h5 class="black">{{\App\CPU\translate('Admin')}} {{\App\CPU\translate('Info')}} </h5>
                             <div class="form-group row">
                                 <div class="col-sm-12 mb-3 mb-sm-0">
                                     <input type="text" class="form-control form-control-user" id="exampleFirstName" name="name" value="{{old('name')}}" placeholder="{{\App\CPU\translate('full_name')}}" required>
@@ -48,33 +48,34 @@
                                 </div>
                             </div>
 
-                            <h5 class="black">{{\App\CPU\translate('Barber_Shop')}} {{\App\CPU\translate('Info')}}</h5>
+                            <h5 class="black">{{\App\CPU\translate('Outlet')}} {{\App\CPU\translate('Info')}}</h5>
                             <div class="form-group row">
-                                <div class="col-sm-6 mb-3 mb-sm-0 ">
-                                    <input type="text" class="form-control form-control-user" id="shop_name" name="shop_name" placeholder="{{\App\CPU\translate('Barber_Shop_name')}}" value="{{old('shop_name')}}"required>
+                                <div class="col-sm-6 mb-3 mb-sm-0 col-md-4">
+                                    <input type="text" class="form-control form-control-user" id="shop_name" name="shop_name" placeholder="{{\App\CPU\translate('Outlet_name')}}" value="{{old('shop_name')}}"required>
                                 </div>
-                                <div class="col-sm-6 mb-3 mb-sm-0 ">
-                                    <input type="number" class="form-control form-control-user" name="phone_shop" placeholder="{{\App\CPU\translate('Barber_Shop_phone')}}" value="{{old('phone_shop')}}"required>
+                                <div class="col-sm-6 mb-3 mb-sm-0 col-md-4">
+                                    <input type="number" class="form-control form-control-user" name="capacity" placeholder="{{\App\CPU\translate('Mitra_capacity')}}" value="{{old('capacity')}}"required>
+                                </div>
+                                <div class="col-sm-6 mb-3 mb-sm-0 col-md-4">
+                                    <input type="number" class="form-control form-control-user" name="chair" placeholder="{{\App\CPU\translate('Available_chair')}}" value="{{old('chair')}}"required>
                                 </div>
 
                             </div>
                             <div class="form-group row">
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="number" name="child" class="form-control form-control-user" placeholder="{{ \App\CPU\translate('Price_for') }} < 10 {{ \App\CPU\translate('years_old') }}">
+                                <div class="col-sm-12">
+                                    <textarea name="shop_address" class="form-control" id="shop_address"rows="2" placeholder="{{\App\CPU\translate('outlet_address')}}">{{old('shop_address')}}</textarea>
                                 </div>
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="number" name="teen" class="form-control form-control-user" placeholder="{{ \App\CPU\translate('Price_for') }} 11 - 17 {{ \App\CPU\translate('years_old') }}">
+                                <div class="row justify-content-center">
+                                    <div id="map-canvas" class="mx-3"></div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="number" name="adult" class="form-control form-control-user" placeholder="{{ \App\CPU\translate('Price_for') }} 17 < {{ \App\CPU\translate('years_old') }}">
+                                <div class="col-sm-6 mt-3">
+                                    <input type="text" id="lat" name="lat" class="form-control" disabled placeholder="Latitude">
                                 </div>
-                                <div class="col-sm-6">
-                                    <textarea name="shop_address" class="form-control" id="shop_address"rows="2" placeholder="{{\App\CPU\translate('shop_address')}}">{{old('shop_address')}}</textarea>
+                                <div class="col-sm-6 mt-3">
+                                    <input type="text" id="long" name="long" class="form-control" disabled placeholder="Longitude">
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-user btn-block" id="apply">{{\App\CPU\translate('Apply')}} {{\App\CPU\translate('Barber_Shop')}} </button>
+                            <button type="submit" class="btn btn-primary btn-user btn-block" id="apply">{{\App\CPU\translate('register')}} {{\App\CPU\translate('Outlet')}} </button>
                         </form>
                         <hr>
                         <div class="text-center">

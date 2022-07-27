@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Seller\Auth;
 
+use App\CPU\ImageManager;
 use App\Http\Controllers\Controller;
 use App\Model\Seller;
 use App\Model\Shop;
@@ -20,11 +21,18 @@ class RegisterController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request);
         $this->validate($request, [
             'email' => 'required|unique:sellers',
             'password' => 'required|min:8',
             'shop_address' => 'required',
             'shop_name' => 'required',
+            'phone' => 'required',
+            'name' => 'required',
+            // 'image' => 'required',
+            'capacity' => 'required',
+            'shop_address' => 'required',
+            'chair' => 'required',
         ]);
 
         DB::transaction(function ($r) use ($request) {
@@ -39,15 +47,18 @@ class RegisterController extends Controller
             $shop = new Shop();
             $shop->seller_id = $seller->id;
             $shop->name = $request->shop_name;
+            $shop->capacity = $request->capacity;
+            $shop->chair = $request->chair;
             $shop->address = $request->shop_address;
-            $shop->contact = $request->phone_shop;
-            $shop->child = $request->child;
-            $shop->teen = $request->teen;
-            $shop->adult = $request->adult;
+            $shop->contact = $request->phone;
+            $shop->latitude = $request->lat;
+            $shop->longitude = $request->long;
+            $shop->status = 0;
+            $shop->image = ImageManager::upload('outlet/', 'png', $request->image);
             $shop->save();
 
             DB::table('seller_wallets')->insert([
-                'seller_id' => $seller['id'],
+                'seller_id' => $seller->id,
                 'withdrawn' => 0,
                 'commission_given' => 0,
                 'total_earning' => 0,
@@ -59,7 +70,7 @@ class RegisterController extends Controller
             ]);
         });
 
-        Toastr::success('Barber_Shop_applied_successfully!');
+        Toastr::success('Outlet was registered!, please wait for admin to review');
 
         return redirect()->route('seller.auth.login');
     }

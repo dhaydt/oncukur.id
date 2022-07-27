@@ -14,11 +14,11 @@
 use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'Seller', 'prefix' => 'seller', 'as' => 'seller.'], function () {
-
     /*authentication*/
     Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
         Route::get('login', 'LoginController@login')->name('login');
         Route::post('login', 'LoginController@submit');
+        Route::get('register', 'RegisterController@create')->name('register');
         Route::get('logout', 'LoginController@logout')->name('logout');
 
         Route::get('forgot-password', 'ForgotPasswordController@forgot_password')->name('forgot-password');
@@ -69,7 +69,6 @@ Route::group(['namespace' => 'Seller', 'prefix' => 'seller', 'as' => 'seller.'],
 
         Route::group(['prefix' => 'reviews', 'as' => 'reviews.'], function () {
             Route::get('list', 'ReviewsController@list')->name('list');
-
         });
 
         // Messaging
@@ -88,7 +87,6 @@ Route::group(['namespace' => 'Seller', 'prefix' => 'seller', 'as' => 'seller.'],
 
             Route::get('bank-edit/{id}', 'ProfileController@bank_edit')->name('bankInfo');
             Route::post('bank-update/{id}', 'ProfileController@bank_update')->name('bank_update');
-
         });
         Route::group(['prefix' => 'shop', 'as' => 'shop.'], function () {
             Route::get('view', 'ShopController@view')->name('view');
@@ -102,7 +100,6 @@ Route::group(['namespace' => 'Seller', 'prefix' => 'seller', 'as' => 'seller.'],
         });
 
         Route::group(['prefix' => 'business-settings', 'as' => 'business-settings.'], function () {
-
             Route::group(['prefix' => 'shipping-method', 'as' => 'shipping-method.'], function () {
                 Route::get('add', 'ShippingMethodController@index')->name('add');
                 Route::post('add', 'ShippingMethodController@store');
@@ -117,8 +114,6 @@ Route::group(['namespace' => 'Seller', 'prefix' => 'seller', 'as' => 'seller.'],
                 Route::get('cancel/{id}', 'WithdrawController@close_request')->name('cancel');
                 Route::post('status-filter', 'WithdrawController@status_filter')->name('status-filter');
             });
-
         });
     });
-
 });

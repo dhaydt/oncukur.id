@@ -497,29 +497,6 @@
                                 href="{{route('home')}}">{{ \App\CPU\translate('Home')}}</a>
                         </li>
 
-                        {{-- <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-dark border-right py-2 mt-2" style="color: black !important"
-                                ref="#" data-toggle="dropdown">{{ \App\CPU\translate('brand') }}</a>
-                            <ul class="dropdown-menu scroll-bar" style="text-align: {{Session::get('direction') === " rtl" ? 'right'
-                                : 'left' }};">
-                                @foreach(\App\CPU\BrandManager::get_brands() as $brand)
-                                    <li style="border-bottom: 1px solid #e3e9ef; display:flex; justify-content:space-between; ">
-                                        <div>
-                                            <a class="dropdown-item"
-                                                href="{{route('products',['id'=> $brand['id'],'data_from'=>'brand','page'=>1])}}">
-                                                {{$brand['name']}}
-                                            </a>
-                                        </div>
-                                        <div class="align-baseline">
-                                            @if($brand['brand_products_count'] > 0 )
-                                                <span class="count-value px-2">( {{ $brand['brand_products_count'] }} )</span>
-                                            @endif
-                                        </div>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </li> --}}
-
                         <li class="nav-item dropdown">
                             <a class="nav-link text-dark border-right py-2 mt-2" style="color: black !important"
                                 href="{{url('explore')}}">
@@ -529,13 +506,6 @@
 
                         @php($seller_registration=\App\Model\BusinessSetting::where(['type'=>'seller_registration'])->first()->value)
                         @if($seller_registration)
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link text-dark border-right py-2 mt-2" style="color: black !important"
-                                href="{{route('seller.auth.login')}}">
-                                {{ \App\CPU\translate('Outlet')}} {{ \App\CPU\translate('Login')}}
-                            </a>
-                        </li>
 
                         <li class="nav-item dropdown">
                             <a class="nav-link text-dark border-right py-2 mt-2" style="color: black !important"
@@ -549,7 +519,32 @@
                                 {{ \App\CPU\translate('Mitra')}} {{ \App\CPU\translate('login')}}
                             </a>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark border-right py-2 mt-2" style="color: black !important"
+                                ref="#" data-toggle="dropdown">{{ \App\CPU\translate('Outlet') }} <i class="ms-2 fas fa-caret-down"></i></a>
+                            <ul class="dropdown-menu scroll-bar" style="text-align: {{Session::get('direction') === " rtl" ? 'right'
+                                : 'left' }};">
+                                    <li class="pb-2 mb-2" style="border-bottom: 1px solid #e3e9ef; display:flex; justify-content:space-between;">
+                                        <div>
+                                            <a class="dropdown-item"
+                                                href="{{route('seller.auth.login')}}">
+                                                {{ \App\CPU\translate('Login')}} {{ \App\CPU\translate('Outlet')}}
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li style="display:flex; justify-content:space-between; ">
+                                        <div>
+                                            <a class="dropdown-item"
+                                                href="{{route('seller.auth.register')}}">
+                                                {{ \App\CPU\translate('Register')}} {{ \App\CPU\translate('Outlet')}}
+                                            </a>
+                                        </div>
+                                    </li>
+                            </ul>
+                        </li>
                         @endif
+
+
 
                         {{-- @php( $local = \App\CPU\Helpers::default_lang())
                         <li class="nav-item dropdown ml-auto">

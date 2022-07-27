@@ -117,7 +117,7 @@
                         <hr>
                         <div class="text-center">
                             <a class="small"
-                                href="{{route('seller.auth.login')}}">{{\App\CPU\translate('already_have_an_account?_login_here.')}}</a>
+                                href="{{route('mitra.auth.login')}}">{{\App\CPU\translate('already_have_an_account?_login_here.')}}</a>
                         </div>
                     </div>
                 </div>

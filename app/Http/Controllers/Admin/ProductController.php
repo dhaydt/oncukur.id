@@ -72,8 +72,7 @@ class ProductController extends BaseController
     public function outletAddStore(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required',
-            'username' => 'required',
+            'email' => 'required|unique:sellers',
             'phone' => 'required',
             'name' => 'required',
             'image' => 'required',
@@ -114,7 +113,7 @@ class ProductController extends BaseController
         $outlet->address = $request->address;
         $outlet->capacity = $request->capacity;
         $outlet->chair = $request->chair;
-        $outlet->contact = $request->contact;
+        $outlet->contact = $request->phone;
         $outlet->latitude = $request->lat;
         $outlet->longitude = $request->long;
         $outlet->status = 0;
@@ -127,6 +126,18 @@ class ProductController extends BaseController
             $outlet->seller_id = $new->id;
             $outlet->save();
         }
+
+        DB::table('seller_wallets')->insert([
+            'seller_id' => $new->id,
+            'withdrawn' => 0,
+            'commission_given' => 0,
+            'total_earning' => 0,
+            'pending_withdraw' => 0,
+            'delivery_charge_earned' => 0,
+            'collected_cash' => 0,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
         Toastr::success('Outlet successfully added!!');
 
