@@ -560,7 +560,7 @@
         <!-- Heading-->
         <div class="section-header">
             <div class="feature_header" style="color: black">
-                <span> {{\App\CPU\translate('brands')}}</span>
+                <span> {{\App\CPU\translate('partner_brands')}}</span>
             </div>
             <div>
                 <a class="btn btn-outline-accent btn-sm viw-btn-a" href="{{route('brands')}}">

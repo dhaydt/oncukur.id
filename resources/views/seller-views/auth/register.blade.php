@@ -8,6 +8,13 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush
 
+<style>
+    #map-canvas{
+        height: 500px;
+        margin-top: 20px;
+        border-radius: 10px;
+    }
+</style>
 @section('content')
 
 <div class="container main-card rtl" style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
@@ -63,16 +70,16 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-12">
-                                    <textarea name="shop_address" class="form-control" id="shop_address"rows="2" placeholder="{{\App\CPU\translate('outlet_address')}}">{{old('shop_address')}}</textarea>
+                                    <input type="text" name="shop_address" class="form-control" id="shop_address" placeholder="{{\App\CPU\translate('outlet_address')}}" />
                                 </div>
                                 <div class="row justify-content-center">
                                     <div id="map-canvas" class="mx-3"></div>
                                 </div>
                                 <div class="col-sm-6 mt-3">
-                                    <input type="text" id="lat" name="lat" class="form-control" disabled placeholder="Latitude">
+                                    <input type="hidden" id="lat" name="lat" class="form-control" disabled placeholder="Latitude">
                                 </div>
                                 <div class="col-sm-6 mt-3">
-                                    <input type="text" id="long" name="long" class="form-control" disabled placeholder="Longitude">
+                                    <input type="hidden" id="long" name="long" class="form-control" disabled placeholder="Longitude">
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary btn-user btn-block" id="apply">{{\App\CPU\translate('register')}} {{\App\CPU\translate('Outlet')}} </button>
@@ -100,6 +107,48 @@
     </script>
 @endif
 <script>
+    $(document).ready(function(){
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                const pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                };
+
+                console.log('pos', pos)
+                initMap(pos);
+
+
+                const input = document.getElementById("shop_address");
+                const options = {
+                    // fields: ["formatted_address", "geometry", "name"],
+                    types: ["geocode"],
+                };
+                const autocomplete = new google.maps.places.Autocomplete(input, options);
+
+                google.maps.event.addListener(autocomplete, 'place_changed', function(){
+                    var near_place = autocomplete.getPlace();
+                })
+
+            },
+            () => {
+                handleLocationError(true, infoWindow, map.getCenter());
+            }
+            );
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+    })
+
+    function initMap(center){
+        const map = new google.maps.Map(document.getElementById("map-canvas"), {
+            center: center,
+            zoom: 12,
+        });
+    }
+
     $('#exampleInputPassword ,#exampleRepeatPassword').on('keyup',function () {
         var pass = $("#exampleInputPassword").val();
         var passRepeat = $("#exampleRepeatPassword").val();
