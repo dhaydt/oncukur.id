@@ -209,12 +209,12 @@
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                             </li>
                             <!-- Pages -->
-                            {{-- <li class="navbar-vertical-aside-has-menu {{Request::is('admin/brand*')?'active':''}}">
+                            <li class="navbar-vertical-aside-has-menu {{Request::is('admin/brand*')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                     href="javascript:">
                                     <i class="tio-apple-outlined nav-icon"></i>
                                     <span
-                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{\App\CPU\translate('brands')}}</span>
+                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{\App\CPU\translate('partner_brands')}}</span>
                                 </a>
                                 <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
                                     style="display: {{Request::is('admin/brand*')?'block':'none'}}">
@@ -231,7 +231,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </li> --}}
+                            </li>
 
                             <li class="navbar-vertical-aside-has-menu {{Request::is('admin/category/*')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"

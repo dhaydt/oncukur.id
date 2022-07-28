@@ -56,9 +56,9 @@
                                         <td class="text-center">{{$br->firstItem()+$k}}</td>
                                         <td>{{$b['name']}}</td>
                                         <td>
-                                            <img style="width: 60px;height: 60px"
+                                            <img style="width: 80px;height: 60px; border-radius: 4px;"
                                                  onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                                                 src="{{asset('storage/app/brand')}}/{{$b['image']}}">
+                                                 src="{{asset('storage/brand')}}/{{$b['image']}}">
                                         </td>
                                         <td>
                                             <a class="btn btn-primary btn-sm"

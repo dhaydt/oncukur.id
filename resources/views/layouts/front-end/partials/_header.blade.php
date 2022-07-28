@@ -302,7 +302,7 @@
                                     <!--web-->
                             <li class=" nav-item {{!request()->is('/')?'dropdown':''}}">
                                 <a class="nav-link dropdown-toggle {{Session::get('direction') === " rtl" ? 'pr-0' : 'pl-0' }}" href="#"
-                                    data-toggle="dropdown" style="{{request()->is('/')?'pointer-events: none':''}}">
+                                    data-bs-toggle="dropdown" style="{{request()->is('/')?'pointer-events: none':''}}">
                                     <i class="czi-menu align-middle mt-n1 {{Session::get('direction') === " rtl" ? 'ml-2' : 'mr-2' }}"></i>
                                     <span style="margin-{{Session::get('direction') === " rtl" ? 'right' : 'left' }}: 40px
                                         !important;margin-{{Session::get('direction')==="rtl" ? 'left' : 'right' }}: 50px">
@@ -316,7 +316,7 @@
                                             @if($key<11)
                                                 <li class="dropdown">
                                                     <a class="dropdown-item flex-between"
-                                                        <?php if ($category->childes->count() > 0) echo "data-toggle='dropdown'"?> href="javascript:"
+                                                        <?php if ($category->childes->count() > 0) echo "data-bs-toggle='dropdown'"?> href="javascript:"
                                                         onclick="location.href='{{route('products',['id'=> $category['id'],'data_from'=>'category','page'=>1])}}'">
                                                         <div>
                                                             <img
@@ -338,7 +338,7 @@
                                                             @foreach($category['childes'] as $subCategory)
                                                                 <li class="dropdown">
                                                                     <a class="dropdown-item flex-between"
-                                                                        <?php if ($subCategory->childes->count() > 0) echo "data-toggle='dropdown'"?> href="javascript:"
+                                                                        <?php if ($subCategory->childes->count() > 0) echo "data-bs-toggle='dropdown'"?> href="javascript:"
                                                                         onclick="location.href='{{route('products',['id'=> $subCategory['id'],'data_from'=>'category','page'=>1])}}'">
                                                                         <div>
                                                                             <span
@@ -378,8 +378,8 @@
                                         style="right: 0; text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
                                         @foreach($categories as $category)
                                             <li class="dropdown">
-                                                <a class="dropdown-item flex-between <?php if ($category->childes->count() > 0) echo "data-toggle='dropdown"?> "
-                                                    <?php if ($category->childes->count() > 0) echo "data-toggle='dropdown'"?> href="javascript:"
+                                                <a class="dropdown-item flex-between <?php if ($category->childes->count() > 0) echo "data-bs-toggle='dropdown"?> "
+                                                    <?php if ($category->childes->count() > 0) echo "data-bs-toggle='dropdown'"?> href="javascript:"
                                                     onclick="location.href='{{route('products',['id'=> $category['id'],'data_from'=>'category','page'=>1])}}'">
                                                     <div>
                                                         <img src="{{asset("storage/category/$category->icon")}}"
@@ -397,8 +397,8 @@
                                                         style="right: 100%; text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
                                                         @foreach($category['childes'] as $subCategory)
                                                             <li class="dropdown">
-                                                                <a class="dropdown-item flex-between <?php if ($subCategory->childes->count() > 0) echo "data-toggle='dropdown"?> "
-                                                                    <?php if ($subCategory->childes->count() > 0) echo "data-toggle='dropdown'"?> href="javascript:"
+                                                                <a class="dropdown-item flex-between <?php if ($subCategory->childes->count() > 0) echo "data-bs-toggle='dropdown"?> "
+                                                                    <?php if ($subCategory->childes->count() > 0) echo "data-bs-toggle='dropdown'"?> href="javascript:"
                                                                     onclick="location.href='{{route('products',['id'=> $subCategory['id'],'data_from'=>'category','page'=>1])}}'">
                                                                     <div>
                                                                         <span
@@ -441,7 +441,7 @@
                         <!--mobile-->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle {{Session::get('direction') === " rtl" ? 'pr-0' : 'pl-0' }}" href="#"
-                                data-toggle="dropdown">
+                                data-bs-toggle="dropdown">
                                 <i class="czi-menu align-middle mt-n1 d-none {{Session::get('direction') === " rtl" ? 'ml-2' : 'mr-2' }}"></i>
                                 <span style="margin-{{Session::get('direction') === " rtl" ? 'right' : 'left' }}: -8px !important;">{{ \App\CPU\translate('categories')}}</span>
                             </a>
@@ -450,7 +450,7 @@
                                 @foreach($categories as $category)
                                     <li class="dropdown">
                                         <a class="dropdown-item <?php if ($category->childes->count() > 0) echo " dropdown-toggle"?> "
-                                            <?php if ($category->childes->count() > 0) echo "data-toggle='dropdown'"?>
+                                            <?php if ($category->childes->count() > 0) echo "data-bs-toggle='dropdown'"?>
                                             href="{{route('products',['id'=> $category['id'],'data_from'=>'category','page'=>1])}}">
                                             <img src="{{asset("storage/category/$category->icon")}}"
                                             onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
@@ -464,7 +464,7 @@
                                                 @foreach($category['childes'] as $subCategory)
                                                 <li class="dropdown">
                                                     <a class="dropdown-item <?php if ($subCategory->childes->count() > 0) echo " dropdown-toggle"?> "
-                                                        <?php if ($subCategory->childes->count() > 0) echo "data-toggle='dropdown'"?>
+                                                        <?php if ($subCategory->childes->count() > 0) echo "data-bs-toggle='dropdown'"?>
                                                         href="{{route('products',['id'=> $subCategory['id'],'data_from'=>'category','page'=>1])}}">
                                                         <span class="{{Session::get('direction') === " rtl" ? 'pr-3' : 'pl-3'
                                                         }}">{{$subCategory['name']}}</span>
@@ -521,7 +521,7 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-dark border-right py-2 mt-2" style="color: black !important"
-                                ref="#" data-toggle="dropdown">{{ \App\CPU\translate('Outlet') }} <i class="ms-2 fas fa-caret-down"></i></a>
+                                ref="#" data-bs-toggle="dropdown">{{ \App\CPU\translate('Outlet') }} <i class="ms-2 fas fa-caret-down"></i></a>
                             <ul class="dropdown-menu scroll-bar" style="text-align: {{Session::get('direction') === " rtl" ? 'right'
                                 : 'left' }};">
                                     <li class="pb-2 mb-2" style="border-bottom: 1px solid #e3e9ef; display:flex; justify-content:space-between;">
@@ -548,7 +548,7 @@
 
                         {{-- @php( $local = \App\CPU\Helpers::default_lang())
                         <li class="nav-item dropdown ml-auto">
-                            <a class="nav-link dropdown-toggle text-dark border-right py-2 mt-2" href="#" data-toggle="dropdown"
+                            <a class="nav-link dropdown-toggle text-dark border-right py-2 mt-2" href="#" data-bs-toggle="dropdown"
                                 style="color: black !important">
                                 @foreach(json_decode($language['value'],true) as $data)
                                     @if($data['code']==$local)
@@ -581,7 +581,7 @@
                         @if($currency_model=='multi_currency')
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" style="color: black !important" href="#"
-                                    data-toggle="dropdown">
+                                    data-bs-toggle="dropdown">
                                     <span>{{session('currency_code')}} {{session('currency_symbol')}}</span>
                                 </a>
                                 <ul class="dropdown-menu" style="min-width: 160px!important;">

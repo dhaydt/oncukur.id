@@ -16,24 +16,36 @@
 <meta property="twitter:description" content="{!! substr($web_config['about']->value,0,100) !!}">
 
 <link rel="stylesheet" href="{{asset('assets/front-end')}}/css/home.css" />
+
 <style>
+        #navbarCollapse > ul.navbar-nav.mega-nav.pr-2.pl-2.mr-2.d-none.d-xl-block > li > a {
+            pointer-events: none;
+        }
+        #navbarCollapse > ul.navbar-nav.mega-nav.pr-2.pl-2.mr-2.d-none.d-xl-block > li > ul {
+            display: block !important;
+        }
+        .media {
+            background: white;
+        }
 
-#navbarCollapse > ul.navbar-nav.mega-nav.pr-2.pl-2.mr-2.d-none.d-xl-block > li > a {
-        pointer-events: none;
-    }
-    #navbarCollapse > ul.navbar-nav.mega-nav.pr-2.pl-2.mr-2.d-none.d-xl-block > li > ul {
-        display: block !important;
-    }
-  .media {
-    background: white;
-  }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+        }
 
-  .section-header {
-    display: flex;
-    justify-content: space-between;
-  }
+        a{
+            text-decoration: none !important;
+        }
 
-  .cz-countdown-days {
+        .nav-item .dropdown-toggle::after{
+            display: none;
+        }
+
+        .product-price .text-accent{
+            color: #616166 !important;
+        }
+
+        .cz-countdown-days {
             color: white !important;
             background-color: {{$web_config['primary_color']}};
             padding: 0px 6px;
@@ -63,229 +75,208 @@
             padding: 0px 6px;
             border-radius: 3px !important;
         }
-  .flash_deal_product_details .flash-product-price {
-    font-weight: 700;
-    font-size: 18px;
-
-    color: {
-        {
-        $web_config['primary_color']
-      }
-    }
-
-    ;
-  }
-
-  .featured_deal_left {
-    height: 130px;
-
-    background: {
-        {
-        $web_config['primary_color']
-      }
-    }
-
-    0% 0% no-repeat padding-box;
-    padding: 10px 100px;
-    text-align: center;
-  }
-
-  .featured_deal {
-    min-height: 130px;
-
-  }
-
-  .category_div:hover {
-    color: {
-        {
-        $web_config['secondary_color']
-      }
-    }
-
-    ;
-  }
-
-     .deal_of_the_day {
-            /* filter: grayscale(0.5); */
-            opacity: .8;
-            background: {{$web_config['secondary_color']}};
-            border-radius: 3px;
+        .flash_deal_product_details .flash-product-price {
+            font-weight: 700;
+            font-size: 18px;
+            color: {{ $web_config['primary_color'] }};
         }
 
-  .deal-title {
-    font-size: 12px;
+        .featured_deal_left {
+            height: 130px;
+            background: {{ $web_config['primary_color'] }} 0% 0% no-repeat padding-box;
+            padding: 10px 100px;
+            text-align: center;
+        }
 
-  }
+        .featured_deal {
+            min-height: 130px;
+        }
 
-  .for-flash-deal-img img {
-    max-width: none;
-  }
+        .category_div:hover {
+            color: {{ $web_config['secondary_color'] }};
+        }
 
-  @media (max-width: 375px) {
-    .cz-countdown {
-      display: flex !important;
+        .deal_of_the_day {
+                /* filter: grayscale(0.5); */
+                opacity: .8;
+                background: {{$web_config['secondary_color']}};
+                border-radius: 3px;
+        }
+
+    .deal-title {
+        font-size: 12px;
 
     }
 
-    .cz-countdown .cz-countdown-seconds {
-
-      margin-top: -5px !important;
+    .for-flash-deal-img img {
+        max-width: none;
     }
 
-    .for-feature-title {
-      font-size: 20px !important;
-    }
-  }
+    @media (max-width: 375px) {
+        .cz-countdown {
+        display: flex !important;
 
-  @media (max-width: 600px) {
-    .flash_deal_title {
-      font-weight: 600;
-      font-size: 18px;
-      text-transform: uppercase;
-    }
+        }
 
-    .cz-countdown .cz-countdown-value {
-      font-family: "Roboto", sans-serif;
-      font-size: 11px !important;
-      font-weight: 700 !important;
+        .cz-countdown .cz-countdown-seconds {
+
+        margin-top: -5px !important;
+        }
+
+        .for-feature-title {
+        font-size: 20px !important;
+        }
     }
 
-    .featured_deal {
-      opacity: 1 !important;
+    @media (max-width: 600px) {
+        .flash_deal_title {
+        font-weight: 600;
+        font-size: 18px;
+        text-transform: uppercase;
+        }
+
+        .cz-countdown .cz-countdown-value {
+        font-family: "Roboto", sans-serif;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        }
+
+        .featured_deal {
+        opacity: 1 !important;
+        }
+
+        .cz-countdown {
+        display: inline-block;
+        flex-wrap: wrap;
+        font-weight: normal;
+        margin-top: 4px;
+        font-size: smaller;
+        }
+
+        .view-btn-div-f {
+
+        margin-top: 6px;
+        float: right;
+        }
+
+        .view-btn-div {
+        float: right;
+        }
+
+        .viw-btn-a {
+        font-size: 10px;
+        font-weight: 600;
+        }
+
+
+        .for-mobile {
+        display: none;
+        }
+
+        .featured_for_mobile {
+        max-width: 100%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        }
     }
 
-    .cz-countdown {
-      display: inline-block;
-      flex-wrap: wrap;
-      font-weight: normal;
-      margin-top: 4px;
-      font-size: smaller;
+    @media (max-width: 360px) {
+        .featured_for_mobile {
+        max-width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        }
+
+        .featured_deal {
+        opacity: 1 !important;
+        }
     }
 
-    .view-btn-div-f {
+    @media (max-width: 375px) {
+        .featured_for_mobile {
+        max-width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        }
 
-      margin-top: 6px;
-      float: right;
-    }
-
-    .view-btn-div {
-      float: right;
-    }
-
-    .viw-btn-a {
-      font-size: 10px;
-      font-weight: 600;
+        .featured_deal {
+        opacity: 1 !important;
+        }
     }
 
 
-    .for-mobile {
-      display: none;
+    @media (max-width: 992px) {
+        .navbar-collapse {
+        position: fixed;
+        top: 69px;
+        left: 0;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-bottom: 15px;
+        width: 89%;
+        height: 100%;
+        z-index: 99;
+        }
+
+        .navbar-collapse.collapsing {
+        left: -75%;
+        transition: height 0s ease;
+        }
+
+        .navbar-collapse.show {
+        left: 0;
+        background-color: #fff;
+        transition: left 300ms ease-in-out;
+        }
+
+        .navbar-toggler.collapsed~.navbar-collapse {
+        transition: left 500ms ease-in-out;
+        }
+
+        @media (max-width:768px) {
+        .nav-item.dropdown.ml-auto {
+            margin-left: 0px !important;
+        }
+
+        .timer {
+            margin: 0 auto;
+        }
+
+        .timer .view_all .px-2 .cz-countdown {
+            margin-left: 0 !important;
+        }
+        }
     }
 
-    .featured_for_mobile {
-      max-width: 100%;
-      margin-top: 20px;
-      margin-bottom: 20px;
-    }
-  }
-
-  @media (max-width: 360px) {
-    .featured_for_mobile {
-      max-width: 100%;
-      margin-top: 10px;
-      margin-bottom: 10px;
+    @media (min-width: 768px) {
+        .displayTab {
+        display: block !important;
+        }
     }
 
-    .featured_deal {
-      opacity: 1 !important;
-    }
-  }
+    @media (max-width: 800px) {
+        .for-tab-view-img {
+        width: 40%;
+        }
 
-  @media (max-width: 375px) {
-    .featured_for_mobile {
-      max-width: 100%;
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
+        .for-tab-view-img {
+        width: 105px;
+        }
 
-    .featured_deal {
-      opacity: 1 !important;
-    }
-  }
-
-
-  @media (max-width: 992px) {
-    .navbar-collapse {
-      position: fixed;
-      top: 69px;
-      left: 0;
-      padding-left: 15px;
-      padding-right: 15px;
-      padding-bottom: 15px;
-      width: 89%;
-      height: 100%;
-      z-index: 99;
+        .widget-title {
+        font-size: 19px !important;
+        }
     }
 
-    .navbar-collapse.collapsing {
-      left: -75%;
-      transition: height 0s ease;
+    .featured_deal_carosel .carousel-inner {
+        width: 100% !important;
     }
 
-    .navbar-collapse.show {
-      left: 0;
-      background-color: #fff;
-      transition: left 300ms ease-in-out;
+    .badge-style2 {
+        color: black !important;
+        background: transparent !important;
+        font-size: 11px;
     }
-
-    .navbar-toggler.collapsed~.navbar-collapse {
-      transition: left 500ms ease-in-out;
-    }
-
-    @media (max-width:768px) {
-      .nav-item.dropdown.ml-auto {
-        margin-left: 0px !important;
-      }
-
-      .timer {
-        margin: 0 auto;
-      }
-
-      .timer .view_all .px-2 .cz-countdown {
-        margin-left: 0 !important;
-      }
-    }
-  }
-
-  @media (min-width: 768px) {
-    .displayTab {
-      display: block !important;
-    }
-  }
-
-  @media (max-width: 800px) {
-    .for-tab-view-img {
-      width: 40%;
-    }
-
-    .for-tab-view-img {
-      width: 105px;
-    }
-
-    .widget-title {
-      font-size: 19px !important;
-    }
-  }
-
-  .featured_deal_carosel .carousel-inner {
-    width: 100% !important;
-  }
-
-  .badge-style2 {
-    color: black !important;
-    background: transparent !important;
-    font-size: 11px;
-  }
 </style>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
@@ -570,6 +561,7 @@
             </div>
         </div>
     {{--<hr class="view_border">--}}
+
     <!-- Grid-->
         <div class="mt-2 mb-3 brand-slider">
             <div class="owl-carousel owl-theme" id="brands-slider">
@@ -593,160 +585,160 @@
   {{--deal of the day--}}
   <div class="new-section mb-5">
     <div class="container">
-      <div class="row">
+        <div class="row">
         {{-- Deal of the day/Recommended Product --}}
         <div class="col col-md-3 col-sm-6 col-12 day-off">
-        <div class="deal_of_the_day">
-                    @if(isset($deal_of_the_day))
-                        <h1 style="color: white"> {{ \App\CPU\translate('deal_of_the_day') }}</h1>
-                        <center>
-                            <strong style="font-size: 21px!important;color: {{$web_config['primary_color']}}">
-                                {{$deal_of_the_day->discount_type=='amount'?\App\CPU\Helpers::currency_converter($deal_of_the_day->discount):$deal_of_the_day->discount.' % '}}
-                                {{\App\CPU\translate('off')}}
-                            </strong>
-                        </center>
-                        <div class="d-flex justify-content-center align-items-center" style="padding-top: 37px">
-                            <img style="height: 206px;"
-                                 src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$deal_of_the_day->product['thumbnail']}}"
-                                 onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                                 alt="">
-                        </div>
-                        <div style="text-align: center; padding-top: 26px;">
-                            <h5 style="font-weight: 600; color: {{$web_config['primary_color']}}">
-                                {{\Illuminate\Support\Str::limit($deal_of_the_day->product['name'],40)}}
-                            </h5>
-                            <span class="text-accent">
-                                {{\App\CPU\Helpers::currency_converter(
-                                    $deal_of_the_day->product->unit_price-(\App\CPU\Helpers::get_product_discount($deal_of_the_day->product,$deal_of_the_day->product->unit_price))
-                                )}}
-                            </span>
-                            @if($deal_of_the_day->product->discount > 0)
-                                <strike style="font-size: 12px!important;color: grey!important;">
-                                    {{\App\CPU\Helpers::currency_converter($deal_of_the_day->product->unit_price)}}
-                                </strike>
-                            @endif
-
-                        </div>
-                        <div class="pt-3 pb-2" style="text-align: center;">
-                            <button class="buy_btn"
-                                    onclick="location.href='{{route('product',$deal_of_the_day->product->slug)}}'">{{\App\CPU\translate('buy_now')}}
-                            </button>
-                        </div>
-                    @else
-                        @php($product=\App\Model\Product::active()->inRandomOrder()->first())
-                        @if(isset($product))
-                            <h1 style="color: white"> {{ \App\CPU\translate('recommended_product') }}</h1>
-                            <div class="d-flex justify-content-center align-items-center" style="padding-top: 55px">
+            <div class="deal_of_the_day">
+                        @if(isset($deal_of_the_day))
+                            <h1 style="color: white"> {{ \App\CPU\translate('deal_of_the_day') }}</h1>
+                            <center>
+                                <strong style="font-size: 21px!important;color: {{$web_config['primary_color']}}">
+                                    {{$deal_of_the_day->discount_type=='amount'?\App\CPU\Helpers::currency_converter($deal_of_the_day->discount):$deal_of_the_day->discount.' % '}}
+                                    {{\App\CPU\translate('off')}}
+                                </strong>
+                            </center>
+                            <div class="d-flex justify-content-center align-items-center" style="padding-top: 37px">
                                 <img style="height: 206px;"
-                                     src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
-                                     onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                                     alt="">
+                                    src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$deal_of_the_day->product['thumbnail']}}"
+                                    onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                    alt="">
                             </div>
-                            <div style="text-align: center; padding-top: 60px;" class="pb-2">
-                                <button class="buy_btn" onclick="location.href='{{route('product',$product->slug)}}'">
-                                    {{\App\CPU\translate('buy_now')}}
+                            <div style="text-align: center; padding-top: 26px;">
+                                <h5 style="font-weight: 600; color: {{$web_config['primary_color']}}">
+                                    {{\Illuminate\Support\Str::limit($deal_of_the_day->product['name'],40)}}
+                                </h5>
+                                <span class="text-accent">
+                                    {{\App\CPU\Helpers::currency_converter(
+                                        $deal_of_the_day->product->unit_price-(\App\CPU\Helpers::get_product_discount($deal_of_the_day->product,$deal_of_the_day->product->unit_price))
+                                    )}}
+                                </span>
+                                @if($deal_of_the_day->product->discount > 0)
+                                    <strike style="font-size: 12px!important;color: grey!important;">
+                                        {{\App\CPU\Helpers::currency_converter($deal_of_the_day->product->unit_price)}}
+                                    </strike>
+                                @endif
+
+                            </div>
+                            <div class="pt-3 pb-2" style="text-align: center;">
+                                <button class="buy_btn"
+                                        onclick="location.href='{{route('product',$deal_of_the_day->product->slug)}}'">{{\App\CPU\translate('buy_now')}}
                                 </button>
                             </div>
+                        @else
+                            @php($product=\App\Model\Product::active()->inRandomOrder()->first())
+                            @if(isset($product))
+                                <h1 style="color: white"> {{ \App\CPU\translate('recommended_service') }}</h1>
+                                <div class="d-flex justify-content-center align-items-center" style="padding-top: 55px">
+                                    <img style="height: 206px;"
+                                        src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
+                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                        alt="">
+                                </div>
+                                <div style="text-align: center; padding-top: 60px;" class="pb-2">
+                                    <button class="buy_btn" onclick="location.href='{{route('product',$product->slug)}}'">
+                                        {{\App\CPU\translate('order_now')}}
+                                    </button>
+                                </div>
+                            @endif
                         @endif
-                    @endif
-                </div>
-                  <div class="container mt-2">
-            <div class="row p-0">
-              <div class="col-md-3 col-sm-6 col-6 mb-2 p-0 text-center mobile-padding">
-                <img style="height: 29px;" src="{{asset("/assets/front-end/png/delivery.png")}}" alt="">
-                <div class="deal-title">3 Days <br><span>Fast Delivery</span></div>
-              </div>
+                    </div>
+                    {{-- <div class="container mt-2">
+                        <div class="row p-0">
+                        <div class="col-md-3 col-sm-6 col-6 mb-2 p-0 text-center mobile-padding">
+                            <img style="height: 29px;" src="{{asset("/assets/front-end/png/delivery.png")}}" alt="">
+                            <div class="deal-title">3 Days <br><span>Fast Delivery</span></div>
+                        </div>
 
-              <div class="col-md-3 col-sm-6 col-6 mb-2 p-0 text-center">
-                <img style="height: 29px;" src="{{asset("/assets/front-end/png/money.png")}}" alt="">
-                <div class="deal-title">Money Back <br><span>Gurrantey</span></div>
-              </div>
-              <div class="col-md-3 col-sm-6 col-6 mb-2 p-0 text-center">
-                <img style="height: 29px;" src="{{asset("/assets/front-end/png/Genuine.png")}}" alt="">
-                <div class="deal-title">100% Genuine<br><span>Product</span></div>
-              </div>
-              <div class="col-md-3 col-sm-6 col-6 mb-2 p-0 text-center">
-                <img style="height: 29px;" src="{{asset("/assets/front-end/png/Payment.png")}}" alt="">
-                <div class="deal-title">Authentic<br><span>Payment</span></div>
-              </div>
+                        <div class="col-md-3 col-sm-6 col-6 mb-2 p-0 text-center">
+                            <img style="height: 29px;" src="{{asset("/assets/front-end/png/money.png")}}" alt="">
+                            <div class="deal-title">Money Back <br><span>Gurrantey</span></div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-6 mb-2 p-0 text-center">
+                            <img style="height: 29px;" src="{{asset("/assets/front-end/png/Genuine.png")}}" alt="">
+                            <div class="deal-title">100% Genuine<br><span>Product</span></div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-6 mb-2 p-0 text-center">
+                            <img style="height: 29px;" src="{{asset("/assets/front-end/png/Payment.png")}}" alt="">
+                            <div class="deal-title">Authentic<br><span>Payment</span></div>
+                        </div>
+                        </div>
+                    </div> --}}
             </div>
-          </div>
-        </div>
+
         <div class="col col-md-9 col-sm-6 col-12">
-          <div class="row">
+            <div class="row">
             {{-- featured --}}
-            <div class="col col-md-6 col-sm-6 col-12 products">
-              @if(count($featured_products) > 0)
-              <div class="container rtl card p-2 h-100" style="box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);
--webkit-box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);
--moz-box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);">
-                <!-- Heading-->
-                <div class="section-header">
-                  <div class="feature_header">
-                    <span class="for-feature-title">{{ \App\CPU\translate('featured_products')}}</span>
-                  </div>
-                  <div>
-                    <a class="btn btn-outline-accent btn-sm viw-btn-a"
-                      href="{{route('products',['data_from'=>'featured','page'=>1])}}">
-                      {{ \App\CPU\translate('view_all')}}
-                      <i class="czi-arrow-{{Session::get('direction') === " rtl" ? 'left mr-1 ml-n1'
-                        : 'right ml-1 mr-n1' }}"></i>
-                    </a>
-                  </div>
+            {{-- <div class="col col-md-6 col-sm-6 col-12 products">
+                @if(count($featured_products) > 0)
+                <div class="container rtl card p-2 h-100" style="box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);
+                    -webkit-box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);
+                    -moz-box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);">
+                    <!-- Heading-->
+                    <div class="section-header">
+                        <div class="feature_header">
+                            <span class="for-feature-title">{{ \App\CPU\translate('featured_products')}}</span>
+                        </div>
+                        <div>
+                            <a class="btn btn-outline-accent btn-sm viw-btn-a"
+                            href="{{route('products',['data_from'=>'featured','page'=>1])}}">
+                            {{ \App\CPU\translate('view_all')}}
+                            <i class="czi-arrow-{{Session::get('direction') === " rtl" ? 'left mr-1 ml-n1'
+                                : 'right ml-1 mr-n1' }}"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <hr class="view_border">
+                    <!-- Grid-->
+                    <div class="row mt-2 mb-3">
+                    @foreach($featured_products->slice(0, 6) as $product)
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-6 mb-2">
+                        @include('web-views.partials._single_product_featured',['product'=>$product])
+
+                        <hr class="d-sm-none">
+                    </div>
+                    @endforeach
+                    </div>
                 </div>
-                {{--
-                <hr class="view_border">--}}
-                <!-- Grid-->
-                <div class="row mt-2 mb-3">
-                  @foreach($featured_products->slice(0, 6) as $product)
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-6 mb-2">
-                    @include('web-views.partials._single_product_featured',['product'=>$product])
-                    {{--
-                    <hr class="d-sm-none">--}}
-                  </div>
-                  @endforeach
-                </div>
-              </div>
               @endif
-            </div>
+            </div> --}}
 
 
             {{-- Latest products --}}
-            <div class="col col-md-6 col-sm-6 col-12 latest card p-2" style="box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);
-      -webkit-box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);
-      -moz-box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);">
-              <div class="container rtl">
-                <div class="section-header">
-                  <div class="feature_header">
-                    <span class="for-feature-title">{{ \App\CPU\translate('latest_products')}}</span>
-                  </div>
-                  <div>
-                    <a class="btn btn-outline-accent btn-sm viw-btn-a"
-                      href="{{route('products',['data_from'=>'latest'])}}">
-                      {{ \App\CPU\translate('view_all')}}
-                      <i class="czi-arrow-{{Session::get('direction') === " rtl" ? 'left mr-1 ml-n1'
-                        : 'right ml-1 mr-n1' }}"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
+                <div class="col col-md-12 col-sm-12 col-12 latest card p-2" style="box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);
+                    -webkit-box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);
+                    -moz-box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);">
+                    <div class="container rtl">
+                        <div class="section-header">
+                            <div class="feature_header">
+                                <span class="for-feature-title">{{ \App\CPU\translate('latest_services')}}</span>
+                            </div>
+                            <div>
+                                <a class="btn btn-outline-accent btn-sm viw-btn-a"
+                                href="{{route('products',['data_from'=>'latest'])}}">
+                                {{ \App\CPU\translate('view_all')}}
+                                <i class="czi-arrow-{{Session::get('direction') === " rtl" ? 'left mr-1 ml-n1'
+                                    : 'right ml-1 mr-n1' }}"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
 
-              <div class="row">
-                <div class="row mt-2 mb-3">
-                  @foreach($latest_products->slice(0, 6) as $product)
-                  <div class="col-lg-4 col-md-4 col-sm-6 col-6 mb-2">
-                    @include('web-views.partials._single_product_featured',['product'=>$product])
-                  </div>
-                  @endforeach
+                    <div class="row">
+                        <div class="row mt-2 mb-3">
+                            @foreach($latest_products->slice(0, 6) as $product)
+                            <div class="col-lg-2 col-md-3 col-sm-6 col-6 mb-2">
+                                @include('web-views.partials._single_product_featured',['product'=>$product])
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
+</div>
 
 <!-- new section2 -->
 
@@ -1220,7 +1212,7 @@
     <!-- Heading-->
     <div class="section-header">
       <div class="feature_header">
-        <span>{{ \App\CPU\translate('sellers')}}</span>
+        <span>{{ \App\CPU\translate('Outlet')}}</span>
       </div>
       <div>
         <a class="btn btn-outline-accent btn-sm viw-btn-a" href="{{route('sellers')}}">{{
@@ -1238,23 +1230,11 @@
           <center>
             <a href="{{route('shopView',['id'=>$seller['id']])}}">
               <img style="vertical-align: middle; padding: 2%;width:75px;height: 75px;border-radius: 50%"
-                onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'" src="{{asset("
-                storage/shop")}}/{{$seller->shop->image}}"
+                onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'" src="{{asset("storage/outlet")}}/{{$seller->shop->image}}"
               alt="{{$seller->name}}">
               <p class="text-center small font-weight-bold">{{Str::limit($seller->name, 14)}}</p>
             </a>
           </center>
-           <div class="d-flex justify-content-start w-100"
-                        style="position: absolute;bottom: 10px;left: 10px;z-index: 1;">
-                        <div class="flag d-flex align-items-center">
-                            <img class="{{Session::get('direction') === " rtl" ? 'ml-2' : 'mr-2' }}" width="20"
-                                src="{{asset('assets/front-end')}}/img/flags/{{ strtolower($seller->country)  }}.png"
-                                alt="Eng" style="width: 20px">
-                        </div>
-                        @php($c_name = App\Country::where('country', $seller->country)->get())
-                        <span style="font-size: 13px; color: #616166;">{{ $c_name[0]->country_name
-                            }}</span>
-                    </div>
         </div>
         @endif
         @endforeach

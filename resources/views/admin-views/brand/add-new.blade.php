@@ -1,5 +1,5 @@
 @extends('layouts.back-end.app')
-@section('title', \App\CPU\translate('Brand Add'))
+@section('title', \App\CPU\translate('Partner_Brand_Add'))
 
 @push('css_or_js')
     <link href="{{asset('public/assets/back-end')}}/css/select2.min.css" rel="stylesheet"/>
@@ -64,7 +64,7 @@
                             <div class="col-md-6">
                                 <center>
                                     <img style="border-radius: 10px; max-height:200px;" id="viewer"
-                                        src="{{asset('public\assets\back-end\img\400x400\img2.jpg')}}" alt="banner image"/>
+                                        src="{{asset('assets\back-end\img\400x400\img2.jpg')}}" alt="banner image"/>
                                 </center>
                             </div>
                         </div>

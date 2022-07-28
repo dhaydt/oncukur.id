@@ -415,12 +415,13 @@ widget .btn > i {
 
 .product-title1 {
     font-family: "Roboto", sans-serif !important;
-    font-weight: 400 !important;
+    font-weight: 600 !important;
     font-size: 16px !important;
     color: #000000 !important;
     position: relative;
     display: inline-block;
     word-wrap: break-word;
+    text-transform: capitalize;
     overflow: hidden;
     max-height: 2.4em; /* (Number of lines you want visible) * (line-height) */
     line-height: 1.2em;
