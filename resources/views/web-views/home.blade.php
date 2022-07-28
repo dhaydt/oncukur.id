@@ -41,6 +41,10 @@
             display: none;
         }
 
+        .section-header .feature_header span, .feature_header span{
+            background-color: transparent !important;
+        }
+
         .product-price .text-accent{
             color: #616166 !important;
         }
@@ -790,23 +794,11 @@
                                                 )}}
 
                                                 @if($bestSell->product->discount > 0)
-                                                <strike style="font-size: 12px!important;color: grey!important;">
+                                                <strike style="font-size: 12px!important;color: red!important;">
                                                     {{\App\CPU\Helpers::currency_converter($bestSell->product->unit_price)}}
                                                 </strike>
                                                 @endif
                                             </span>
-                                        </div>
-                                        <div class="d-flex justify-content-start w-100"
-                                            style="position: absolute;bottom: -15px;left: 5px;z-index: 1;">
-                                            <div class="flag">
-                                                <img class="{{Session::get('direction') === " rtl" ? 'ml-2' : 'mr-2' }}"
-                                                    width="20"
-                                                    src="{{asset('assets/front-end')}}/img/flags/{{ strtolower($product->country)  }}.png"
-                                                    alt="Eng">
-                                            </div>
-                                            @php($c_name = App\Country::where('country', $product->country)->get())
-                                            <span style="font-size: 13px; color: #616166; line-height: 2;">{{
-                                                $c_name[0]->country_name }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -863,23 +855,11 @@
                                             $product->unit_price-(\App\CPU\Helpers::get_product_discount($product,$product->unit_price))
                                             )}}
                                             @if($product->discount > 0)
-                                            <strike style="font-size: 12px!important;color: grey!important;">
+                                            <strike style="font-size: 12px!important;color: red!important;">
                                                 {{\App\CPU\Helpers::currency_converter($product->unit_price)}}
                                             </strike>
                                             @endif
                                         </span>
-                                    </div>
-                                    <div class="d-flex justify-content-start w-100"
-                                        style="position: absolute;bottom: -15px;left: 5px;z-index: 1;">
-                                        <div class="flag">
-                                            <img class="{{Session::get('direction') === " rtl" ? 'ml-2' : 'mr-2' }}"
-                                                width="20"
-                                                src="{{asset('assets/front-end')}}/img/flags/{{ strtolower($product->country)  }}.png"
-                                                alt="Eng">
-                                        </div>
-                                        @php($c_name = App\Country::where('country', $product->country)->get())
-                                            <span style="font-size: 13px; color: #616166; line-height: 2;">{{
-                                                $c_name[0]->country_name }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -940,23 +920,11 @@
                                             )}}
 
                                             @if($top->product->discount > 0)
-                                            <strike style="font-size: 12px!important;color: grey!important;">
+                                            <strike style="font-size: 12px!important;color: red!important;">
                                                 {{\App\CPU\Helpers::currency_converter($top->product->unit_price)}}
                                             </strike>
                                             @endif
                                         </span>
-                                    </div>
-                                    <div class="d-flex justify-content-start w-100"
-                                        style="position: absolute;bottom: -15px;left: 5px;z-index: 1;">
-                                        <div class="flag">
-                                            <img class="{{Session::get('direction') === " rtl" ? 'ml-2' : 'mr-2' }}"
-                                                width="20"
-                                                src="{{asset('assets/front-end')}}/img/flags/{{ strtolower($product->country)  }}.png"
-                                                alt="Eng">
-                                        </div>
-                                        @php($c_name = App\Country::where('country', $top->product->country)->get())
-                                            <span style="font-size: 13px; color: #616166; line-height: 2;">{{
-                                                $c_name[0]->country_name }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -1322,7 +1290,7 @@
                   )}}
 
                   @if($bestSell->product->discount > 0)
-                  <strike style="font-size: 12px!important;color: grey!important;">
+                  <strike style="font-size: 12px!important;color: red!important;">
                     {{\App\CPU\Helpers::currency_converter($bestSell->product->unit_price)}}
                   </strike>
                   @endif
@@ -1369,7 +1337,7 @@
                 $product->unit_price-(\App\CPU\Helpers::get_product_discount($product,$product->unit_price))
                 )}}
                 @if($product->discount > 0)
-                <strike style="font-size: 12px!important;color: grey!important;">
+                <strike style="font-size: 12px!important;color: red!important;">
                   {{\App\CPU\Helpers::currency_converter($product->unit_price)}}
                 </strike>
                 @endif
@@ -1414,7 +1382,7 @@
                 )}}
 
                 @if($top->product->discount > 0)
-                <strike style="font-size: 12px!important;color: grey!important;">
+                <strike style="font-size: 12px!important;color: red!important;">
                   {{\App\CPU\Helpers::currency_converter($top->product->unit_price)}}
                 </strike>
                 @endif

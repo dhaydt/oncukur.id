@@ -575,6 +575,7 @@ widget .btn > i {
         padding-right: 0;
         padding-left: 0;
         font-weight: 700;
+        background-color: #fff!important;
         font-size: 25px;
         text-transform: uppercase;
     }
