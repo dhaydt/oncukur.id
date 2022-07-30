@@ -1,10 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    <meta name="_token" content="{{csrf_token()}}">
+    <title>Outlet Registration</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body {
+            min-height: 100vh;
+        }
+
+        .column {
+            min-height: 100vh;
+        }
+        .helpers{
+            font-size: 12px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center h-100">
+            <div class="col-12 col-md-12 column d-flex align-items-center">
+                <form action="{{ route('shop.apply') }}" class="w-100" method="post" enctype="multipart/form-data">
+                <div class="card shadow-lg w-100 my-5">
+                    <div class="card-header border-0 shadow-sm">
+                        <div class="card-title text-center py-4">
+                            <h5>
+                                Outlet Registration
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="card-body">
+
+                            @csrf
+                            <div class="card shadow-sm border-0">
+                                <div class="card-header border-0 shadow-sm">
+                                    <div class="card-title">
+                                        Admin Info
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12  col-lg-4">
+                                            <div class="mb-3">
+                                                <label for="name" class="form-label">Full Name</label>
+                                                <input type="text" class="form-control form-control-user" name="name" id="name" value="{{ old('name') }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6 col-lg-4">
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label">Email</label>
+                                                <input type="email" name="email" class="form-control form-control-user" id="exampleInputEmail1" value="{{ old('email') }}"
+                                                    aria-describedby="emailHelp" required>
+                                                <div id="emailHelp" class="form-text text-primary helpers ms-1">Use for Outlet login
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6  col-lg-4">
+                                            <div class="mb-3">
+                                                <label for="phone" class="form-label">Phone number</label>
+                                                <input type="number" name="phone" value="{{ old('phone') }}" class="form-control form-control-user" aria-describedby="phoneHelp" required>
+                                                <div id="phoneHelp" class="form-text text-primary helpers ms-1">Ex: 0812 3456 7899</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="mb-3">
+                                                <label for="password" class="form-label">Password</label>
+                                                <input type="password" class="form-control form-control-user" minlength="6" required name="password">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="mb-3">
+                                                <label for="r_password" class="form-label">Repeat Password</label>
+                                                <input type="password" class="form-control form-control-user" minlength="6" required>
+                                                <div class="pass invalid-feedback">Repeat Password Not Match</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card shadow-sm mt-4 border-0">
+                                <div class="card-header border-0 shadow-sm">
+                                    <div class="card-title">
+                                        Outlet Info
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                                <label for="name" class="form-label">Full Name</label>
+                                                <input type="text" class="form-control form-control-user" name="name" id="name" value="{{ old('name') }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="mb-3">
+                                                <label for="exampleInputEmail1" class="form-label">Email</label>
+                                                <input type="email" name="email" class="form-control form-control-user" id="exampleInputEmail1" value="{{ old('email') }}"
+                                                    aria-describedby="emailHelp" required>
+                                                <div id="emailHelp" class="form-text text-primary helpers ms-1">Use for Outlet login
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="mb-3">
+                                                <label for="phone" class="form-label">Phone number</label>
+                                                <input type="number" name="phone" value="{{ old('phone') }}" class="form-control form-control-user" aria-describedby="phoneHelp" required>
+                                                <div id="phoneHelp" class="form-text text-primary helpers ms-1">Ex: 0812 3456 7899</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="mb-3">
+                                                <label for="password" class="form-label">Password</label>
+                                                <input type="password" class="form-control form-control-user" minlength="6" required name="password">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="mb-3">
+                                                <label for="r_password" class="form-label">Repeat Password</label>
+                                                <input type="password" class="form-control form-control-user" minlength="6" required>
+                                                <div class="pass invalid-feedback">Repeat Password Not Match</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success ms-auto m-2" disabled id="apply">Register</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+    @if ($errors->any())
+    <script>
+        @foreach($errors->all() as $error)
+        toastr.error('{{$error}}', Error, {
+            CloseButton: true,
+            ProgressBar: true
+        });
+        @endforeach
+    </script>
+@endif
+</body>
+
+</html>
+
+{{-- <!--
+Real register
 @extends('layouts.front-end.app')
 
 @section('title',\App\CPU\translate('Outlet_registration'))
 
 @push('css_or_js')
-<link href="{{asset('public/assets/back-end')}}/css/select2.min.css" rel="stylesheet"/>
-<link href="{{asset('public/assets/back-end/css/croppie.css')}}" rel="stylesheet">
+<link href="{{asset('assets/back-end')}}/css/select2.min.css" rel="stylesheet"/>
+<link href="{{asset('assets/back-end/css/croppie.css')}}" rel="stylesheet">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush
 
@@ -239,3 +400,5 @@
     });
 </script>
 @endpush
+
+--> --}}

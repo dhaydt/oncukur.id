@@ -45,12 +45,12 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="email" class="input-label">{{ \App\CPU\Translate('email') }}</label>
-                            <input type="email" class="form-control" id="email" name="email">
+                            <label for="username" class="input-label">{{ \App\CPU\Translate('Full Name') }}</label>
+                            <input type="text" class="form-control" id="username" name="Your full name">
                         </div>
                         <div class="form-group">
-                            <label for="username" class="input-label">{{ \App\CPU\Translate('username') }}</label>
-                            <input type="text" class="form-control" id="username" name="username">
+                            <label for="email" class="input-label">{{ \App\CPU\Translate('email') }}</label>
+                            <input type="email" class="form-control" id="email" name="email">
                         </div>
                         <div class="form-group">
                             <label for="phone" class="input-label">{{ \App\CPU\Translate('Phone') }}</label>
@@ -77,19 +77,19 @@
                             <input type="text" id="chair" name="chair" class="form-control">
                         </div>
                         <div class="form-group">
+                            <label for="address" class="input-label mt-4">{{ \App\CPU\Translate('address') }}</label>
+                            <input id="address" class="form-control" name="address">
                             <div class="row justify-content-center mt-4">
                                 <div id="map-canvas" class="mx-3"></div>
                             </div>
-                            <label for="address" class="input-label mt-4">{{ \App\CPU\Translate('address') }}</label>
-                            <textarea id="address" class="form-control" name="address"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="lat" class="input-label">{{ \App\CPU\Translate('Latitude') }}</label>
-                            <input type="text" readonly id="lat" name="lat" class="form-control">
+                            <label for="lat" class="input-label d-none">{{ \App\CPU\Translate('Latitude') }}</label>
+                            <input type="hidden" readonly id="lat" name="lat" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label for="long" class="input-label">{{ \App\CPU\Translate('Longitude') }}</label>
-                            <input type="text" readonly id="long" name="long" class="form-control">
+                            <label for="long" class="input-label d-none">{{ \App\CPU\Translate('Longitude') }}</label>
+                            <input type="hidden" readonly id="long" name="long" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -117,16 +117,16 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="card card-footer">
-                    <div class="row">
-                        <div class="col-md-12" style="padding-top: 20px">
-                            <button type="button" onclick="check()"
-                                class="btn btn-primary">{{\App\CPU\translate('Submit')}}</button>
+                    <div class="card card-footer">
+                        <div class="row">
+                            <div class="col-md-12 d-flex justify-content-end">
+                                <button type="button" onclick="check()"
+                                    class="btn btn-primary">{{\App\CPU\translate('Add_outlet')}}</button>
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </form>
         </div>
     </div>
@@ -136,9 +136,25 @@
 @push('script')
 <script src="{{asset('assets/back-end')}}/js/tags-input.min.js"></script>
 <script src="{{asset('assets/back-end/js/spartan-multi-image-picker.js')}}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_API_KEY') }}&callback=initMap&v=weekly" defer></script>
+{{-- <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_API_KEY') }}&callback=initMap&v=weekly" defer></script> --}}
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key={{ env('GOOGLE_API_KEY') }}&language=id"></script>
+
 <script>
     $(document).ready(function(){
+        var searchInput = 'address';
+        var autocomplete;
+        autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+            types: ['geocode'],
+            componentRestrictions: {
+            country: "IDN"
+            }
+        });
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            var near_place = autocomplete.getPlace();
+        });
+
+
         var lat = -0.287487;
         var long = 100.373011;
         var myLatlng = new google.maps.LatLng(lat, long);

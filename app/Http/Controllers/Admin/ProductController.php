@@ -74,7 +74,7 @@ class ProductController extends BaseController
         $validator = Validator::make($request->all(), [
             'email' => 'required|unique:sellers',
             'phone' => 'required',
-            'name' => 'required',
+            'username' => 'required',
             'image' => 'required',
             'capacity' => 'required',
             'address' => 'required',
