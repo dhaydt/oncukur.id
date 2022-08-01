@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\CPU\BackEndHelper;
+use App\CPU\Convert;
 use App\CPU\Helpers;
 use App\CPU\ImageManager;
 use function App\CPU\translate;
@@ -247,21 +247,17 @@ class ProductController extends BaseController
 
     public function store(Request $request)
     {
+        // dd($request);
         $validator = Validator::make($request->all(), [
-            'category_id' => 'required',
-            'brand_id' => 'required',
-            'unit' => 'required',
-            'images' => 'required',
+            'name' => 'required',
+            'product' => 'required',
             'image' => 'required',
             'tax' => 'required|min:0',
             'unit_price' => 'required|numeric|min:1',
-            'purchase_price' => 'required|numeric|min:1',
         ], [
-            'images.required' => 'Product images is required!',
-            'image.required' => 'Product thumbnail is required!',
-            'category_id.required' => 'category  is required!',
-            'brand_id.required' => 'brand  is required!',
-            'unit.required' => 'Unit  is required!',
+            'name.required' => 'Serives name is required!',
+            'product.required' => 'Services images is required!',
+            'image.required' => 'Service thumbnail is required!',
         ]);
 
         if ($request['discount_type'] == 'percent') {
@@ -286,36 +282,36 @@ class ProductController extends BaseController
 
         $category = [];
 
-        if ($request->category_id != null) {
-            array_push($category, [
-                'id' => $request->category_id,
-                'position' => 1,
-            ]);
-        }
-        if ($request->sub_category_id != null) {
-            array_push($category, [
-                'id' => $request->sub_category_id,
-                'position' => 2,
-            ]);
-        }
-        if ($request->sub_sub_category_id != null) {
-            array_push($category, [
-                'id' => $request->sub_sub_category_id,
-                'position' => 3,
-            ]);
-        }
+        // if ($request->category_id != null) {
+        //     array_push($category, [
+        //         'id' => $request->category_id,
+        //         'position' => 1,
+        //     ]);
+        // }
+        // if ($request->sub_category_id != null) {
+        //     array_push($category, [
+        //         'id' => $request->sub_category_id,
+        //         'position' => 2,
+        //     ]);
+        // }
+        // if ($request->sub_sub_category_id != null) {
+        //     array_push($category, [
+        //         'id' => $request->sub_sub_category_id,
+        //         'position' => 3,
+        //     ]);
+        // }
 
         $p->category_ids = json_encode($category);
-        $p->brand_id = $request->brand_id;
-        $p->unit = $request->unit;
+        // $p->brand_id = $request->brand_id;
+        // $p->unit = $request->unit;
         $p->details = $request->description[array_search('en', $request->lang)];
 
-        if ($request->has('colors_active') && $request->has('colors') && count($request->colors) > 0) {
-            $p->colors = json_encode($request->colors);
-        } else {
-            $colors = [];
-            $p->colors = json_encode($colors);
-        }
+        // if ($request->has('colors_active') && $request->has('colors') && count($request->colors) > 0) {
+        //     $p->colors = json_encode($request->colors);
+        // } else {
+        //     $colors = [];
+        //     $p->colors = json_encode($colors);
+        // }
         $choice_options = [];
         if ($request->has('choice')) {
             foreach ($request->choice_no as $key => $no) {
@@ -363,7 +359,7 @@ class ProductController extends BaseController
                 }
                 $item = [];
                 $item['type'] = $str;
-                $item['price'] = BackEndHelper::currency_to_usd(abs($request['price_'.str_replace('.', '_', $str)]));
+                $item['price'] = Convert::usd(abs($request['price_'.str_replace('.', '_', $str)]));
                 $item['sku'] = $request['sku_'.str_replace('.', '_', $str)];
                 $item['qty'] = abs($request['qty_'.str_replace('.', '_', $str)]);
                 array_push($variations, $item);
@@ -377,21 +373,13 @@ class ProductController extends BaseController
             return response()->json(['errors' => Helpers::error_processor($validator)]);
         }
 
-        if ($request->file('images')) {
-            foreach ($request->file('images') as $img) {
-                $product_images[] = ImageManager::upload('product/', 'png', $img);
-            }
-            $p->images = json_encode($product_images);
-        }
-        $p->thumbnail = ImageManager::upload('product/thumbnail/', 'png', $request->image);
-
         //combinations end
-        $p->variation = json_encode($variations);
-        $p->unit_price = BackEndHelper::currency_to_usd($request->unit_price);
-        $p->purchase_price = BackEndHelper::currency_to_usd($request->purchase_price);
-        $p->tax = $request->tax_type == 'flat' ? BackEndHelper::currency_to_usd($request->tax) : $request->tax;
+        // $p->variation = json_encode($variations);
+        $p->unit_price = Convert::usd($request->unit_price);
+        $p->purchase_price = Convert::usd($request->purchase_price);
+        $p->tax = $request->tax_type == $request->tax;
         $p->tax_type = $request->tax_type;
-        $p->discount = $request->discount_type == 'flat' ? BackEndHelper::currency_to_usd($request->discount) : $request->discount;
+        $p->discount = $request->discount_type == 'flat' ? Convert::usd($request->discount) : $request->discount;
         $p->discount_type = $request->discount_type;
         $p->attributes = json_encode($request->choice_attributes);
         $p->current_stock = abs($stock_count);
@@ -407,6 +395,8 @@ class ProductController extends BaseController
         if ($request->ajax()) {
             return response()->json([], 200);
         } else {
+            $p->images = ImageManager::upload('product/', 'png', $request->product);
+            $p->thumbnail = ImageManager::upload('product/thumbnail/', 'png', $request->image);
             $p->save();
 
             $data = [];
@@ -432,7 +422,7 @@ class ProductController extends BaseController
             }
             Translation::insert($data);
 
-            Toastr::success(translate('Product added successfully!'));
+            Toastr::success(translate('Service added successfully!'));
 
             return redirect()->route('admin.product.list', ['in_house']);
         }
@@ -544,17 +534,10 @@ class ProductController extends BaseController
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'category_id' => 'required',
-            'brand_id' => 'required',
-            'unit' => 'required',
             'tax' => 'required|min:0',
             'unit_price' => 'required|numeric|min:1',
-            'purchase_price' => 'required|numeric|min:1',
         ], [
             'name.required' => 'Product name is required!',
-            'category_id.required' => 'category  is required!',
-            'brand_id.required' => 'brand  is required!',
-            'unit.required' => 'Unit  is required!',
         ]);
 
         if ($request['discount_type'] == 'percent') {
@@ -579,20 +562,20 @@ class ProductController extends BaseController
                 'position' => 1,
             ]);
         }
-        if ($request->sub_category_id != null) {
-            array_push($category, [
-                'id' => $request->sub_category_id,
-                'position' => 2,
-            ]);
-        }
-        if ($request->sub_sub_category_id != null) {
-            array_push($category, [
-                'id' => $request->sub_sub_category_id,
-                'position' => 3,
-            ]);
-        }
+        // if ($request->sub_category_id != null) {
+        //     array_push($category, [
+        //         'id' => $request->sub_category_id,
+        //         'position' => 2,
+        //     ]);
+        // }
+        // if ($request->sub_sub_category_id != null) {
+        //     array_push($category, [
+        //         'id' => $request->sub_sub_category_id,
+        //         'position' => 3,
+        //     ]);
+        // }
         $product->category_ids = json_encode($category);
-        $product->brand_id = $request->brand_id;
+        // $product->brand_id = $request->brand_id;
         $product->unit = $request->unit;
         $product->details = $request->description[array_search('en', $request->lang)];
         $product_images = json_decode($product->images);
@@ -649,7 +632,7 @@ class ProductController extends BaseController
                 }
                 $item = [];
                 $item['type'] = $str;
-                $item['price'] = BackEndHelper::currency_to_usd(abs($request['price_'.str_replace('.', '_', $str)]));
+                $item['price'] = Convert::usd(abs($request['price_'.str_replace('.', '_', $str)]));
                 $item['sku'] = $request['sku_'.str_replace('.', '_', $str)];
                 $item['qty'] = abs($request['qty_'.str_replace('.', '_', $str)]);
                 array_push($variations, $item);
@@ -668,24 +651,13 @@ class ProductController extends BaseController
             return back()->withErrors($validator)
                 ->withInput();
         }
-
-        if ($request->file('images')) {
-            foreach ($request->file('images') as $img) {
-                $product_images[] = ImageManager::upload('product/', 'png', $img);
-            }
-            $product->images = json_encode($product_images);
-        }
-
-        if ($request->file('image')) {
-            $product->thumbnail = ImageManager::update('product/thumbnail/', $product->thumbnail, 'png', $request->file('image'));
-        }
         //combinations end
-        $product->variation = json_encode($variations);
-        $product->unit_price = BackEndHelper::currency_to_usd($request->unit_price);
-        $product->purchase_price = BackEndHelper::currency_to_usd($request->purchase_price);
-        $product->tax = $request->tax == 'flat' ? BackEndHelper::currency_to_usd($request->tax) : $request->tax;
+        // $product->variation = json_encode($variations);
+        $product->unit_price = Convert::usd($request->unit_price);
+        $product->purchase_price = Convert::usd($request->purchase_price);
+        $product->tax = $request->tax == 'flat' ? Convert::usd($request->tax) : $request->tax;
         $product->tax_type = $request->tax_type;
-        $product->discount = $request->discount_type == 'flat' ? BackEndHelper::currency_to_usd($request->discount) : $request->discount;
+        $product->discount = $request->discount_type == 'flat' ? Convert::usd($request->discount) : $request->discount;
         $product->attributes = json_encode($request->choice_attributes);
         $product->discount_type = $request->discount_type;
         $product->current_stock = abs($stock_count);
@@ -704,6 +676,13 @@ class ProductController extends BaseController
         if ($request->ajax()) {
             return response()->json([], 200);
         } else {
+            if ($request->file('product')) {
+                $product->images = ImageManager::update('product/', $product->images, 'png', $request->file('product'));
+            }
+
+            if ($request->file('image')) {
+                $product->thumbnail = ImageManager::update('product/thumbnail/', $product->thumbnail, 'png', $request->file('image'));
+            }
             $product->save();
             foreach ($request->lang as $index => $key) {
                 if ($request->name[$index] && $key != 'en') {
@@ -760,9 +739,7 @@ class ProductController extends BaseController
             ->where('translationable_id', $id);
         $translation->delete();
         $product = Product::find($id);
-        foreach (json_decode($product['images'], true) as $image) {
-            ImageManager::delete('/product/'.$image);
-        }
+        ImageManager::delete('/product/'.$product['images']);
         ImageManager::delete('/product/thumbnail/'.$product['thumbnail']);
         $product->delete();
         FlashDealProduct::where(['product_id' => $id])->delete();

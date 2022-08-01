@@ -47,7 +47,7 @@ class WebController extends Controller
 
     public function oncukur()
     {
-        $data['product'] = Category::where('home_status', 1)->get();
+        $data['product'] = Product::where('status', 1)->get();
         // dd($product);
 
         return view('web-views.oncukur', $data);

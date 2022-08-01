@@ -75,18 +75,19 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        dd($request);
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'images' => 'required',
             'image' => 'required',
             'tax' => 'required|min:0',
-            'category_id' => 'required',
+            // 'category_id' => 'required',
             'unit_price' => 'required|numeric|min:1',
         ], [
             'name.required' => 'Serives name is required!',
             'images.required' => 'Serives images is required!',
             'image.required' => 'Serives thumbnail is required!',
-            'category_id.required' => 'Please select service category!',
+            // 'category_id.required' => 'Please select service category!',
         ]);
 
         if ($request['discount_type'] == 'percent') {
@@ -114,12 +115,12 @@ class ProductController extends Controller
 
         $category = [];
 
-        if ($request->category_id != null) {
-            array_push($category, [
-                'id' => $request->category_id,
-                'position' => 1,
-            ]);
-        }
+        // if ($request->category_id != null) {
+        //     array_push($category, [
+        //         'id' => $request->category_id,
+        //         'position' => 1,
+        //     ]);
+        // }
         // if ($request->sub_category_id != null) {
         //     array_push($category, [
         //         'id' => $request->sub_category_id,
@@ -269,7 +270,8 @@ class ProductController extends Controller
         $search = $request['search'];
         if ($request->has('search')) {
             $key = explode(' ', $request['search']);
-            $products = Product::where(['added_by' => 'seller', 'user_id' => \auth('seller')->id()])
+            // $products = Product::where(['added_by' => 'seller', 'user_id' => \auth('seller')->id()])
+            $products = Product::where(['added_by' => 'admin', 'status' => 1])
                 ->where(function ($q) use ($key) {
                     foreach ($key as $value) {
                         $q->Where('name', 'like', "%{$value}%");
@@ -277,7 +279,8 @@ class ProductController extends Controller
                 });
             $query_param = ['search' => $request['search']];
         } else {
-            $products = Product::where(['added_by' => 'seller', 'user_id' => \auth('seller')->id()]);
+            // $products = Product::where(['added_by' => 'seller', 'user_id' => \auth('seller')->id()]);
+            $products = Product::where(['added_by' => 'admin', 'status' => 1]);
         }
         $products = $products->orderBy('id', 'DESC')->paginate(Helpers::pagination_limit())->appends($query_param);
 

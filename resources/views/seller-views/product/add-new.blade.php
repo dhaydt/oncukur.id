@@ -302,7 +302,7 @@
 
                                 <div class="col-md-8">
                                     <div class="form-group">
-                                        <label>{{\App\CPU\translate('Upload_product_images')}}</label><small
+                                        <label>{{\App\CPU\translate('Upload_service_image')}}</label><small
                                             style="color: red">* ( {{\App\CPU\translate('ratio 1:1')}}  )</small>
                                     </div>
                                     <div  class="p-2 border border-dashed"  style="max-width:430px;">
@@ -556,6 +556,7 @@
                     CKEDITOR.instances[instance].updateElement();
                 }
                 var formData = new FormData(document.getElementById('product_form'));
+                console.log($('#product_form').serialize());
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

@@ -44,12 +44,12 @@
                                     <!-- End Search -->
                                 </form>
                             </div>
-                            <div class="col-lg-4">
+                            {{-- <div class="col-lg-4">
                                 <a href="{{route('seller.product.add-new')}}" class="btn btn-primary float-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}">
                                     <i class="tio-add-circle"></i>
                                     <span class="text">{{\App\CPU\translate('Add new service')}}</span>
                                 </a>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     <div class="card-body" style="padding: 0">
@@ -63,9 +63,9 @@
                                     <th>{{\App\CPU\translate('SL#')}}</th>
                                     <th>{{\App\CPU\translate('Service Name')}}</th>
                                     <th>{{\App\CPU\translate('service_price')}}</th>
-                                    <th>{{\App\CPU\translate('verify_status')}}</th>
+                                    {{-- <th>{{\App\CPU\translate('verify_status')}}</th> --}}
                                     <th>{{\App\CPU\translate('Active')}} {{\App\CPU\translate('status')}}</th>
-                                    <th style="width: 5px" class="text-center">{{\App\CPU\translate('Action')}}</th>
+                                    {{-- <th style="width: 5px" class="text-center">{{\App\CPU\translate('Action')}}</th> --}}
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -78,7 +78,7 @@
                                         <td>
                                             {{ \App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($p['unit_price']))}}
                                         </td>
-                                        <td>
+                                        {{-- <td>
                                             @if($p->request_status == 0)
                                                 <label class="badge badge-warning">{{\App\CPU\translate('New Request')}}</label>
                                             @elseif($p->request_status == 1)
@@ -86,15 +86,15 @@
                                             @elseif($p->request_status == 2)
                                                 <label class="badge badge-danger">{{\App\CPU\translate('Denied')}}</label>
                                             @endif
-                                        </td>
+                                        </td> --}}
                                         <td>
                                             <label class="switch">
-                                                <input type="checkbox" class="status"
+                                                <input type="checkbox" class="status" disabled
                                                     id="{{$p['id']}}" {{$p->status == 1?'checked':''}}>
                                                 <span class="slider round"></span>
                                             </label>
                                         </td>
-                                        <td>
+                                        {{-- <td>
                                             <a class="btn btn-primary btn-sm"
                                                 href="{{route('seller.product.edit',[$p['id']])}}">
                                                 <i class="tio-edit"></i>{{\App\CPU\translate('Edit')}}
@@ -107,7 +107,7 @@
                                                 method="post" id="product-{{$p['id']}}">
                                                 @csrf @method('delete')
                                             </form>
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                 @endforeach
                                 </tbody>

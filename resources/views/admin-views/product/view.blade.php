@@ -243,42 +243,20 @@
 
                     <div class="col-8 pt-2 border-left">
 
-                        <span> @if (count(json_decode($product->colors)) > 0)
-                                <div class="row no-gutters">
-                                <div class="col-2">
-                                    <div class="product-description-label mt-2">{{\App\CPU\translate('Available color')}}:
-                                    </div>
-                                </div>
-                                <div class="col-10">
-                                    <ul class="list-inline checkbox-color mb-1">
-                                        @foreach (json_decode($product->colors) as $key => $color)
-                                            <li>
-
-                                                <label style="background: {{ $color }};"
-                                                    for="{{ $product->id }}-color-{{ $key }}"
-                                                    data-toggle="tooltip"></label>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                            @endif</span><br>
                         <span>
                         {{\App\CPU\translate('Service Image')}}
 
                     <div class="row">
-                        @foreach (json_decode($product->images) as $key => $photo)
                             <div class="col-md-3">
                                 <div class="card">
                                     <div class="card-body">
                                         <img style="width: 100%"
                                             onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                                            src="{{asset("storage/product/$photo")}}" alt="Product image">
+                                            src="{{asset("storage/product/$product->images")}}" alt="Product image">
 
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
                     </div>
                     </span>
                     </div>

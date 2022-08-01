@@ -44,12 +44,12 @@
                             </form>
                             <!-- End Search -->
                         </div>
-                        {{-- <div>
+                        <div>
                             <a href="{{route('admin.product.add-new')}}" class="btn btn-primary  float-right">
                                 <i class="tio-add-circle"></i>
                                 <span class="text">{{\App\CPU\translate('Add new service')}}</span>
                             </a>
-                        </div> --}}
+                        </div>
                     </div>
                 </div>
                 <div class="card-body" style="padding: 0">

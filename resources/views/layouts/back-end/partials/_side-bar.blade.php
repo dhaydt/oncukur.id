@@ -208,6 +208,55 @@
                                 <small class="nav-subtitle" title="">{{\App\CPU\translate('outlet_&_service_management')}}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                             </li>
+
+                            <li class="navbar-vertical-aside-has-menu {{Request::is('admin/product/outlet-list') || Request::is('admin/product/outlet-add') || Request::is('admin/product/outlet-edit*') ? 'active' :''}}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                    href="{{route('admin.product.outlet-list')}}">
+                                    <i class="tio-shop-outlined nav-icon"></i>
+                                    <span
+                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{\App\CPU\translate('outlet')}}</span>
+                                </a>
+                            </li>
+
+                            <li class="navbar-vertical-aside-has-menu {{Request::is('admin/product/list*') || Request::is('admin/product/view') || Request::is('admin/product/edit') || Request::is('admin/product/add-new') ?'active':''}}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                    href="{{route('admin.product.list', ['in_house'])}}">
+                                    <i class="tio-airdrop nav-icon"></i>
+                                    <span
+                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{\App\CPU\translate('Services')}}</span>
+                                </a>
+                            </li>
+
+                            {{-- <li class="navbar-vertical-aside-has-menu {{Request::is('admin/product/list/seller*')?'active':''}}">
+                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                    href="javascript:">
+                                    <i class="tio-airdrop nav-icon"></i>
+                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
+                                        {{\App\CPU\translate('Service')}}
+                                    </span>
+                                </a>
+                                <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
+                                    style="display: {{Request::is('admin/product/list/seller*')?'block':''}}">
+                                    <li class="nav-item {{Request::is('admin/product/list/seller/0')?'active':''}}">
+                                        <a class="nav-link " href="{{route('admin.product.list',['seller', 'status'=>'0'])}}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">{{\App\CPU\translate('New')}} {{\App\CPU\translate('Services')}}</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item {{Request::is('admin/product/list/seller/1')?'active':''}}">
+                                        <a class="nav-link " href="{{route('admin.product.list',['seller', 'status'=>'1'])}}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">{{\App\CPU\translate('Approved')}} {{\App\CPU\translate('services')}}</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item {{Request::is('admin/product/list/seller/2')?'active':''}}">
+                                        <a class="nav-link " href="{{route('admin.product.list',['seller', 'status'=>'2'])}}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">{{\App\CPU\translate('Denied')}} {{\App\CPU\translate('services')}}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li> --}}
                             <!-- Pages -->
                             <li class="navbar-vertical-aside-has-menu {{Request::is('admin/brand*')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
@@ -233,7 +282,7 @@
                                 </ul>
                             </li>
 
-                            <li class="navbar-vertical-aside-has-menu {{Request::is('admin/category/*')?'active':''}}">
+                            {{-- <li class="navbar-vertical-aside-has-menu {{Request::is('admin/category/*')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{route('admin.category.view')}}">
                                     <i class="tio-filter-list nav-icon"></i>
@@ -241,7 +290,7 @@
                                         {{\App\CPU\translate('Categories')}}
                                     </span>
                                 </a>
-                            </li>
+                            </li> --}}
 
                             {{-- <li class="navbar-vertical-aside-has-menu {{(Request::is('admin/category*') ||Request::is('admin/sub*')) ?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
@@ -314,43 +363,7 @@
                                     </li>
                                 </ul>
                             </li> --}}
-                            <li class="navbar-vertical-aside-has-menu {{Request::is('admin/product/outlet-list*')?'active':''}}">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link"
-                                    href="{{route('admin.product.outlet-list')}}">
-                                    <i class="tio-photo-square-outlined nav-icon"></i>
-                                    <span
-                                        class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{\App\CPU\translate('outlet')}}</span>
-                                </a>
-                            </li>
-                            <li class="navbar-vertical-aside-has-menu {{Request::is('admin/product/list/seller*')?'active':''}}">
-                                <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
-                                    href="javascript:">
-                                    <i class="tio-airdrop nav-icon"></i>
-                                    <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                        {{\App\CPU\translate('Service')}}
-                                    </span>
-                                </a>
-                                <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
-                                    style="display: {{Request::is('admin/product/list/seller*')?'block':''}}">
-                                    <li class="nav-item {{Request::is('admin/product/list/seller/0')?'active':''}}">
-                                        <a class="nav-link " href="{{route('admin.product.list',['seller', 'status'=>'0'])}}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
-                                            <span class="text-truncate">{{\App\CPU\translate('New')}} {{\App\CPU\translate('Services')}}</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item {{Request::is('admin/product/list/seller/1')?'active':''}}">
-                                        <a class="nav-link " href="{{route('admin.product.list',['seller', 'status'=>'1'])}}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
-                                            <span class="text-truncate">{{\App\CPU\translate('Approved')}} {{\App\CPU\translate('services')}}</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item {{Request::is('admin/product/list/seller/2')?'active':''}}">
-                                        <a class="nav-link " href="{{route('admin.product.list',['seller', 'status'=>'2'])}}">
-                                            <span class="tio-circle nav-indicator-icon"></span>
-                                            <span class="text-truncate">{{\App\CPU\translate('Denied')}} {{\App\CPU\translate('services')}}</span>
-                                        </a>
-                                    </li>
-                                </ul>
+
                             </li>
                         @endif
                     <!--product management ends-->

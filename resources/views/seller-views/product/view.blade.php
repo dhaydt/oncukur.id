@@ -1,6 +1,6 @@
 @extends('layouts.back-end.app-seller')
 
-@section('title', \App\CPU\translate('Product Preview'))
+@section('title', \App\CPU\translate('Service Preview'))
 
 @push('css_or_js')
     <style>
@@ -206,18 +206,16 @@
                         {{\App\CPU\translate('Service Image')}}
 
                      <div class="row">
-                         @foreach (json_decode($product->images) as $key => $photo)
                              <div class="col-md-3">
                                  <div class="card">
                                      <div class="card-body">
                                          <img style="width: 100%"
                                               onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                                              src="{{asset("storage/product/$photo")}}" alt="Product image">
+                                              src="{{asset("storage/product/$product->images")}}" alt="Product image">
 
                                      </div>
                                  </div>
                              </div>
-                         @endforeach
                      </div>
                     </span>
                     </div>
