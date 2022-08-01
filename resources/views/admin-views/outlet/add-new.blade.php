@@ -46,7 +46,7 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="username" class="input-label">{{ \App\CPU\Translate('Full Name') }}</label>
-                            <input type="text" class="form-control" id="username" name="Your full name">
+                            <input type="text" class="form-control" id="username" name="username">
                         </div>
                         <div class="form-group">
                             <label for="email" class="input-label">{{ \App\CPU\Translate('email') }}</label>
@@ -78,7 +78,11 @@
                         </div>
                         <div class="form-group">
                             <label for="address" class="input-label mt-4">{{ \App\CPU\Translate('address') }}</label>
-                            <input id="address" class="form-control" name="address">
+                            <div class="input-group">
+                                <input id="address" class="form-control" name="address">
+                                <btn id="map-address-btn" class="input-group-text btn btn-success" onclick="codeAddress()">Cari</btn>
+                            </div>
+                            {{-- <button id="map-address-btn" onclick="codeAddress()">find</button> --}}
                             <div class="row justify-content-center mt-4">
                                 <div id="map-canvas" class="mx-3"></div>
                             </div>
@@ -146,7 +150,7 @@
         autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
             types: ['geocode'],
             componentRestrictions: {
-            country: "IDN"
+                country: "IDN"
             }
         });
 
@@ -159,9 +163,10 @@
         var long = 100.373011;
         var myLatlng = new google.maps.LatLng(lat, long);
         var myOptions = {
-        zoom: 13,
-        center: myLatlng
+            zoom: 13,
+            center: myLatlng
         }
+
         map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
         infoWindow = new google.maps.InfoWindow();
 
@@ -182,8 +187,50 @@
                     map: map,
                 });
 
+                // get map button functionality
+        function initialize() {
+                var mapOptions = {												// options for map
+                    zoom: 8,
+                    center: latlng
+                }
+                map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);	// create new map in the map-canvas div
+            }
+
+            var geocoder = new google.maps.Geocoder();
+
+            function codeAddress(address) {
+                // geocoder = new google.maps.Geocoder();
+                geocoder.geocode( { 'address': address}, function(results, status) {
+                    console.log('stat', status)
+                    console.log('res', results)
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        map.setCenter(results[0].geometry.location);
+                        infoWindow = new google.maps.InfoWindow();			// center the map on address
+                        var marker = new google.maps.Marker({					// place a marker on the map at the address
+                            map: map,
+                            position: results[0].geometry.location
+                        });
+                        var label = `<span class="badge badge-success m-2 mr-3 mb-3" style="font-size: 15px;">`+ address +`</span>`
+                        $("#lat").val(results[0].geometry.location.lat);
+                        $("#long").val(results[0].geometry.location.lng);
+                        infoWindow.setContent(label);
+                        infoWindow.open(map, marker);
+                    } else {
+                        // alert('Geocode was not successful for the following reason: ' + status);
+                    }
+                });
+            }
+
+            $("#map-address-btn").click(function(event){
+                event.preventDefault();
+                var address = $("#address").val();					// grab the address from the input field
+                codeAddress(address);										// geocode the address
+            });
+
+                google.maps.event.addListener(window, 'load', initialize);
+            // infoWindow.open(map, marker);	// setup initial map
+
                  // Mengambil alamat on drag
-                var geocoder = new google.maps.Geocoder();
                 google.maps.event.addListener(marker, 'dragend', function() {
                     geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {
                         if (status == google.maps.GeocoderStatus.OK) {
@@ -234,6 +281,7 @@
         // Akhir Mengambil alamat on drag
 
                 marker.addListener("click", () => {
+                    infoWindow = new google.maps.InfoWindow();
                     infoWindow.setContent(label);
                     infoWindow.open(map, marker);
                 });
@@ -250,46 +298,7 @@
         }
 
 
-
-        // Mengambil alamat onclick map
-                        // var geocoder = new google.maps.Geocoder();
-
-                        // google.maps.event.addListener(map, 'click', function(event) {
-                        // geocoder.geocode({
-                        //     'latLng': event.latLng
-                        // }, function(results, status) {
-                        //     if (status == google.maps.GeocoderStatus.OK) {
-
-                        //         if (results[0]) {
-                        //             console.log('loc', results[0])
-                        //             // alert(results[0].address_components);
-                        //             var lt = results[0].geometry.location.lat
-                        //             var lg = results[0].geometry.location.lng
-
-                        //             $("#address").val(results[0].formatted_address);
-                        //             $("#lat").val(lt);
-                        //             $("#long").val(lg);
-
-
-                        //         }
-                        //     }
-                        // });
-
-                        // placeMarker(event.latLng)
-                        // });
-
-                        // function placeMarker(location){
-                        //     var marker = new google.maps.Marker({
-                        //         position: location,
-                        //         map:map
-                        //     });
-                        // }
-            // Akhir get alamat onclick
-
     })
-
-
-
 
         $(function () {
             $("#coba").spartanMultiImagePicker({

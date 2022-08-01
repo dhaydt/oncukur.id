@@ -74,7 +74,7 @@
                                 <tr>
                                     <th scope="row">{{$shops->firstItem()+$k}}</th>
                                     <td>
-                                        <a href="{{route('admin.product.view',[$p['id']])}}">
+                                        <a href="javascript:">
                                             {{\Illuminate\Support\Str::limit($p['name'],20)}}
                                         </a>
                                     </td>
