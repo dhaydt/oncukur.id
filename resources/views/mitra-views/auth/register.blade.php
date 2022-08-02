@@ -44,7 +44,7 @@
                                         name="outlet_id" required>
                                         <option value="">-- Select outlet --</option>
                                         @foreach ($outlet as $o)
-                                        <option value="{{ $o->id }}">{{ $o->name }}</option>
+                                        <option class="text-capitalize" value="{{ $o->id }}">{{ $o->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

@@ -62,24 +62,40 @@ class WebController extends Controller
                         * cos(radians(latitude)) * cos(radians(longitude) - radians('.$long.'))
                         + sin(radians('.$lat.')) * sin(radians(latitude)) ) AS distance'));
         $shops = $shops->having('distance', '<', 10);
-        $shops = $shops->whereHas('seller', function ($s) use ($request) {
-            $s->with('product')->whereHas('product', function ($p) use ($request) {
-                $p->whereJsonContains('category_ids', ['id' => (string) $request->cat_id])->inRandomOrder();
-            });
-        });
+        // $shops = $shops->whereHas('seller', function ($s) use ($request) {
+        //     $s->with('product')->whereHas('product', function ($p) use ($request) {
+        //         $p->whereJsonContains('category_ids', ['id' => (string) $request->cat_id])->inRandomOrder();
+        //     });
+        // });
         $shops = $shops->inRandomOrder();
         $shops = $shops->get();
 
         if (count($shops) > 0) {
             $shop = $shops[0];
-            $service = $shop->seller->product[0];
+            $prices = [];
+            $id = [];
+            foreach ($request->cat_id as $cat) {
+                $product = Product::where('id', $cat)->pluck('unit_price');
+                $ids = Product::where('id', $cat)->pluck('id');
+                array_push($prices, $product[0]);
+                array_push($id, $ids[0]);
+            }
+            $price = array_sum($prices);
+            $driver = round(10000 * $shop->distance);
+
+            $service = Product::find($request->cat_id);
 
             $mitra = Mitra::with('shop')->where('shop_id', $shop->id)->inRandomOrder()->get();
             if (count($mitra) > 0) {
                 $from = [
+                    'status' => 200,
                     'shop' => $shop,
                     'mitra' => $mitra[0],
+                    'service_price' => number_format($price),
+                    'driver_price' => number_format($driver),
+                    'total_price' => number_format($price + $driver),
                     'service' => $service,
+                    'ids' => $id,
                     'to' => [
                         'lat' => floatval($request->lat),
                         'lng' => floatval($request->long),
@@ -87,13 +103,21 @@ class WebController extends Controller
                 ];
                 if ($request->ajax()) {
                     return $from;
+                } else {
+                    return $from;
                 }
             }
+            $shops = ['status' => 400, 'message' => 'Mitra not available'];
             if ($request->ajax()) {
                 return $shops;
+            } else {
+                // return $shops;
             }
         } else {
+            $shops = ['status' => 400, 'message' => 'Outlet Not Found in This Area'];
             if ($request->ajax()) {
+                return $shops;
+            } else {
                 return $shops;
             }
         }
@@ -109,7 +133,7 @@ class WebController extends Controller
     public function showMenu(Request $request)
     {
         $shop = Shop::find($request->id);
-        $menu = Product::active()->where(['added_by' => 'seller', 'user_id' => $shop->seller_id])->get();
+        $menu = Product::active()->where(['added_by' => 'admin'])->get();
 
         return $menu;
     }

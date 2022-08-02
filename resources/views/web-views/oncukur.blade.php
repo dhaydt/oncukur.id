@@ -60,30 +60,32 @@
         <div class="col-12">
             <div class="card mt-4 mb-4">
                 <div class="card-header">
-                    <h3>Select Service to Order</h3>
+                    <h3>Select Services to Order</h3>
                 </div>
+                <form action="" method="post" id="menu">
+                    @csrf
                 <div class="card-body justify-content-center d-flex">
                     @foreach ($product as $p)
                     <div class="card-menu col-md-2">
-                        <a href="javascript:" class="card shadow-sm nav-link" onclick="submit({{ $p->id }})">
-                            <form action="" method="post" id="menu{{ $p->id }}">
-                                @csrf
-                                <input type="hidden" value="{{ $p->id }}" name="cat_id">
-                                <input type="hidden" name="lat">
-                                <input type="hidden" name="long">
-                                <div class="card-header menu-item text-center">
-                                    <h4>
+                        <a href="javascript:" class="card shadow-sm nav-link">
+                                <input type="checkbox" class="form-check-input" value="{{ $p->id }}" name="cat_id[]">
+                                <div class="card-header menu-item text-center text-capitalize">
                                         {{ $p->name }}
-                                    </h4>
                                 </div>
                                 <div class="card-body text-center">
-                                    <img class="cat-img" src="{{ asset('storage/category/').'/'.$p->icon }}" alt="">
+                                    <img class="cat-img" src="{{ asset('storage/product/').'/'.$p->images }}" alt="">
                                 </div>
-                            </form>
                         </a>
                     </div>
                     @endforeach
                 </div>
+                <div class="card-footer text-end">
+                        <input type="hidden" name="lat">
+                        <input type="hidden" name="long">
+
+                        <a href="javascript:" class="btn btn-primary" onclick="submit({{ $p->id }})"><i class="fas fa-search"></i> Find Mitra</a>
+                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -96,7 +98,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="" id="menuForm">
-                    <input type="hidden" id="product_id" name="id[]">
                     <input type="hidden" name="mitra_id">
                     <input type="hidden" name="range">
                     <input type="hidden" name="order_type" value="order">
@@ -106,11 +107,27 @@
                                 onerror="this.src=`{{ asset('assets/front-end/img/def.png') }}`">
                         </div>
                         <div class="d-flex justify-content-center mt-4 flex-column text-center">
-                            <h4 class="text-bold" id="mitra-name"></h4>
+                            <h4 class="text-bold text-capitalize" id="mitra-name"></h4>
                             <span id="distance"></span>
                         </div>
                         <div class="d-flex justify-content-center mt-4">
                             <div id="map" style="height: 500px; width: 100%;"></div>
+                        </div>
+                    </div>
+                    <div class="row px-4">
+                        <div class="d-flex justify-content-between">
+                            <span class="prices text-bold">Service Price</span>
+                            <span id="sPrices"></span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="prices text-bold">Driver Price</span>
+                            <span id="dPrices"></span>
+                        </div>
+                        <div class="row">
+                            <hr>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <h5 class="text-success" id="totalPrice"></h5>
                         </div>
                     </div>
                 </form>
@@ -150,6 +167,7 @@
                     $('#modalMenu').modal('hide');
                     toastr.success('Order placed successfully!!');
                     updateNavCart();
+                    location.href = '/shop-cart';
                     // getRoute(parseFloat(lat), parseFloat(lng), id)
                 }
             })
@@ -181,7 +199,8 @@
         })
 
         function submit(id){
-            var form = $('#menu' + id).serialize();
+            var form = $('#menu').serialize();
+            console.log('form', form)
 
             $.ajax({
                 url: `{{ route('menu.location') }}`,
@@ -192,25 +211,30 @@
                 },
                 success: function(resp){
                     console.log('resp', resp);
-                        if(resp.length == 0){
+                        if(resp.status == 400){
                             Swal.fire({
                             position: 'center',
                             type: 'error',
-                            title: "Service Not Found",
+                            title: resp.message,
                             showConfirmButton: true,
                             // timer: 1500
                         });
                     }else{
-                        console.log('resp', resp)
                         var from = {
                             lat: parseFloat(resp.mitra.shop.latitude),
                             lng: parseFloat(resp.mitra.shop.longitude)
                         }
                         initMaps(from, resp.to);
+                        $.each(resp.ids, function(index, val){
+                            $('#menuForm').append(`<input type="hidden" value="`+val+`" name="id[]">`)
+                        })
                         $('#mitra-name').text(resp.mitra.name);
                         $('#distance').text((Math.round(resp.shop.distance * 100) / 100).toFixed(2) + ' KM');
                         $('input[name=mitra_id]').val(resp.mitra.id)
                         $('#product_id').val(resp.service.id)
+                        $('#sPrices').text('Rp '+resp.service_price)
+                        $('#dPrices').text('Rp ' + resp.driver_price)
+                        $('#totalPrice').text('Rp ' + resp.total_price)
                         $('input[name=range]').val((Math.round(resp.shop.distance * 100) / 100).toFixed(2))
                         $('.mitra-avatar').attr('src', `{{ asset('storage/mitra') }}`+ '/' + resp.image)
                         $('#modalMenu').modal('show');

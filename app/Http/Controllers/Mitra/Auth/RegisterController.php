@@ -20,7 +20,7 @@ class RegisterController extends Controller
 {
     public function register()
     {
-        $outlet = Shop::get();
+        $outlet = Shop::where('status', 1)->get();
 
         return view('mitra-views.auth.register', compact('outlet'));
     }
