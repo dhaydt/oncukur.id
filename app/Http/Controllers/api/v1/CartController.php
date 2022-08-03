@@ -28,6 +28,11 @@ class CartController extends Controller
 
     public function add_to_cart(Request $request)
     {
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json(['status' => 'fail', 'message' => 'Please login first!']);
+        }
         $validator = Validator::make($request->all(), [
             'id' => 'required',
         ], [

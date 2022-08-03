@@ -42,6 +42,35 @@
         background: {{ $web_config['primary_color'] }};
     }
 
+    .check-input{
+        display: none
+    }
+    span.check-menu{
+        position: relative;
+        display: inline-block;
+        background: #424242;
+        padding: 15px 30px;
+        color: #555;
+        text-shadow: 0 1px 4px rgba(0,0,0,.5);
+        border-radius: 30px;
+        font-size: 20px;
+        user-select: none;
+        overflow: hidden;
+    }
+    span.check-menu::before{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 50%;
+        background: rgba(255,255,255,.1);
+    }
+
+    .checkbox input[type="checkbox"]:checked ~ span.check-menu{
+        background-color: wheat;
+    }
+
 </style>
 @endpush
 
@@ -64,18 +93,18 @@
                 </div>
                 <form action="" method="post" id="menu">
                     @csrf
-                <div class="card-body justify-content-center d-flex">
+                <div class="card-body checkbox justify-content-center d-flex">
                     @foreach ($product as $p)
                     <div class="card-menu col-md-2">
-                        <a href="javascript:" class="card shadow-sm nav-link">
-                                <input type="checkbox" class="form-check-input" value="{{ $p->id }}" name="cat_id[]">
+                        <input type="checkbox" class="form-check-input check-input" value="{{ $p->id }}" name="cat_id[]">
+                        <span class="check-menu">
                                 <div class="card-header menu-item text-center text-capitalize">
                                         {{ $p->name }}
                                 </div>
                                 <div class="card-body text-center">
                                     <img class="cat-img" src="{{ asset('storage/product/').'/'.$p->images }}" alt="">
                                 </div>
-                        </a>
+                        </span>
                     </div>
                     @endforeach
                 </div>

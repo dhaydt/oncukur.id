@@ -24,6 +24,9 @@ Route::group(['namespace' => 'api\v1', 'prefix' => 'v1', 'middleware' => ['api_l
         Route::get('menu', 'OnlocationController@menu');
     });
 
+    Route::get('/menu', 'OnlocationController@menuOrder');
+    Route::post('/findMitra', 'OnlocationController@getMitra');
+
     Route::group(['prefix' => 'payment', 'middleware' => 'auth:api'], function () {
         Route::post('generate-invoice', 'MidtransController@createSnap');
         Route::post('success', 'MidtransController@paymentSuccess');

@@ -269,22 +269,8 @@ class CartManager
             // $cart['variant'] = $str;
 
             //Check the string and decreases quantity for the stock
-            if ($str != null) {
-                $count = count(json_decode($product->variation));
-                for ($i = 0; $i < $count; ++$i) {
-                    if (json_decode($product->variation)[$i]->type == $str) {
-                        $price = json_decode($product->variation)[$i]->price;
-                        if (json_decode($product->variation)[$i]->qty < $request['quantity']) {
-                            return [
-                                'status' => 0,
-                                'message' => translate('out_of_stock!'),
-                            ];
-                        }
-                    }
-                }
-            } else {
-                $price = round($product->unit_price);
-            }
+
+            $price = round($product->unit_price);
 
             $tax = Helpers::tax_calculation($price, $product['tax'], 'percent');
 
