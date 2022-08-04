@@ -41,6 +41,60 @@
 
         background: {{ $web_config['primary_color'] }};
     }
+    .container-checkbox{
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .container-checkbox div{
+        margin: 10px;
+    }
+
+    .container-checkbox div label{
+        cursor: pointer;
+        position: relative;
+    }
+
+    .container-checkbox div label input[type='checkbox']{
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        opacity: 0;
+    }
+
+    .container-checkbox div label span {
+        position: relative;
+        display: inline-block;
+        background: {{$web_config['primary_color']}};
+        padding: 15px 30px;
+        color: #fff;
+        text-shadow: 0 1px 4px rgba(0,0,0,.5);
+        border-radius: 30px;
+        font-size: 20px;
+        user-select: none;
+        font-weight: 700;
+        overflow: hidden;
+    }
+
+    .container-checkbox div label span::before{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 50%;
+        background: #ffffff1a;
+    }
+    .container-checkbox div label input[type="checkbox"]:checked ~ span{
+        background-color: {{$web_config['secondary_color']}};
+        color: #fbfbfb;
+        box-shadow: 0 2px 20px {{$web_config['secondary_color']}};
+    }
+    /* -------- */
 
     .check-input{
         display: none
@@ -94,8 +148,15 @@
                 <form action="" method="post" id="menu">
                     @csrf
                 <div class="card-body checkbox justify-content-center d-flex">
+                    <div class="container-checkbox">
                     @foreach ($product as $p)
-                    <div class="card-menu col-md-2">
+                        <div class="">
+                            <label for="">
+                                <input type="checkbox" name="cat_id[]" value="{{ $p->id }}">
+                                <span class="text-capitalize">{{ $p->name }}</span>
+                            </label>
+                        </div>
+                    {{-- <div class="card-menu col-md-2">
                         <input type="checkbox" class="form-check-input check-input" value="{{ $p->id }}" name="cat_id[]">
                         <span class="check-menu">
                                 <div class="card-header menu-item text-center text-capitalize">
@@ -105,8 +166,9 @@
                                     <img class="cat-img" src="{{ asset('storage/product/').'/'.$p->images }}" alt="">
                                 </div>
                         </span>
-                    </div>
+                    </div> --}}
                     @endforeach
+                    </div>
                 </div>
                 <div class="card-footer text-end">
                         <input type="hidden" name="lat">
