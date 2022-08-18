@@ -245,7 +245,7 @@
                                 <hr>
                             @endif
                         @endforeach
-                        @php($shipping=$order['shipping_cost'])
+                        @php($shipping=$order['details'][0]['driver_cost'])
                         @php($coupon_discount=$order['discount_amount'])
                         <div class="row justify-content-md-end mb-3">
                             <div class="col-md-9 col-lg-8">
@@ -253,8 +253,7 @@
                                     @if ($order['order_type'] == 'order')
                                         <dt class="col-sm-6">{{\App\CPU\translate('Driver_cost')}}</dt>
                                         <dd class="col-sm-6 border-bottom">
-                                            {{-- <strong>{{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($shipping))}}</strong> --}}
-                                            {{ $order['range_km'] }}
+                                            {{ \App\CPU\BackEndHelper::set_symbol($order['details'][0]['driver_cost']) }}
                                         </dd>
                                     @endif
 
