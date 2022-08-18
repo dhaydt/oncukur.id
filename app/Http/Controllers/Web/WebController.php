@@ -50,7 +50,7 @@ class WebController extends Controller
         $data['product'] = Product::where('status', 1)->get();
         // dd($product);
 
-        return view('web-views.oncukur', $data);
+        return view('web-views.order_visit', $data);
     }
 
     public function menuLocation(Request $request)
@@ -156,7 +156,7 @@ class WebController extends Controller
 
     public function onlocation()
     {
-        return view('web-views.onlocation');
+        return view('web-views.booking');
     }
 
     public function home()

@@ -53,7 +53,7 @@
                     </div>
                 </form>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" onclick="closeModal()" class="btn btn-secondary">Close</button>
                     <button type="button" onclick="booking()" class="btn btn-primary">Booking</button>
                 </div>
             </div>
@@ -64,6 +64,11 @@
 
 @push('script')
 <script type="text/javascript">
+    function closeModal(){
+        $('#menu input').remove();
+        $('#menu div').remove();
+        $('#modalMenu').modal('hide');
+    }
     function booking(){
         var form = $("#menuForm").serialize();
         console.log('order now', form)
@@ -204,22 +209,42 @@
             },
             success: function(data){
                 console.log('menu', data)
-                $.each(data, function(index, val){
-                    $('#menu').append(`<input type="hidden" name="lat" value="`+lat+`" class="lat">
-                    <input type="hidden" name="lng" value="`+lng+`" class="lng">
-                    <input type="hidden" name="order_type" value="booking" class="lng">
-                    <input type="hidden" name="idOutlet" value="`+id+`" class="id">`);
-                    $('#menu').append(`<div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="id[]" value="`+val.id+`" id="flexCheckDefault">
-                        <div class="d-flex justify-content-between">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                `+val.name+`
-                            </label>
-                            <label>Rp. `+parseFloat(val.unit_price)+`</label>
-                        </div>
-                    </div>`)
-                })
-                $('#modalMenu').modal('show');
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            const pos = {
+                                lat_user: position.coords.latitude,
+                                lng_user: position.coords.longitude,
+                            }
+
+                            $.each(data, function(index, val){
+                                $('#menu').append(`<input type="hidden" name="lat" value="`+lat+`" class="lat">
+                                <input type="hidden" name="lng" value="`+lng+`" class="lng">
+                                <input type="hidden" name="lat_user" value="`+pos.lat_user+`" class="lat">
+                                <input type="hidden" name="lng_user" value="`+pos.lng_user+`" class="lng">
+                                <input type="hidden" name="order_type" value="booking" class="lng">
+                                <input type="hidden" name="idOutlet" value="`+id+`" class="id">`);
+                                $('#menu').append(`<div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="id[]" value="`+val.id+`" id="flexCheckDefault">
+                                    <div class="d-flex justify-content-between">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            `+val.name+`
+                                        </label>
+                                        <label>Rp. `+parseFloat(val.unit_price)+`</label>
+                                    </div>
+                                </div>`)
+                            })
+                            $('#modalMenu').modal('show');
+                    },
+                    () => {
+                        handleLocationError(true, infoWindow, map.getCenter());
+                    }
+                    );
+                } else {
+                    // Browser doesn't support Geolocation
+                    handleLocationError(false, infoWindow, map.getCenter());
+                }
+
             }
         })
     }

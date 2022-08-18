@@ -23,6 +23,13 @@ use Illuminate\Support\Facades\Session;
 
 class Helpers
 {
+    public static function mitra_name($id)
+    {
+        $name = Mitra::find($id);
+
+        return $name->name;
+    }
+
     public static function userProfile($user)
     {
         $data = [

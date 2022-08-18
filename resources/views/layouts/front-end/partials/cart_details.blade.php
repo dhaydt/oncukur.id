@@ -183,12 +183,12 @@
                 </a>
             </div>
             <div class="col-6">
-                <form class="needs-validation" method="POST" id="payment-form"
-                                action="{{route('midtrans-payment.index')}}">
+                <form class="needs-validation" method="Get" id="payment-form"
+                                action="{{route('checkout-complete')}}">
                                 @csrf
                                 <button type="submit"
                                     class="btn btn-primary pull-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}">
-                                    {{\App\CPU\translate('Process_to_Payment')}}
+                                    {{\App\CPU\translate('Process')}}
                                     <i class="fa fa-{{Session::get('direction') === "rtl" ? 'backward' : 'forward'}} px-1"></i>
                                 </button>
                             </form>

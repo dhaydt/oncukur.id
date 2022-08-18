@@ -301,11 +301,15 @@ class CartManager
             $cart['name'] = $product->name;
             $cart['discount'] = Helpers::get_product_discount($product, $price);
             /*$data['shipping_cost'] = $shipping_cost;*/
+            $outlet = Shop::find($request->idOutlet);
             $cart['thumbnail'] = $product->thumbnail;
-            $cart['seller_id'] = $product->user_id;
-            $cart['seller_is'] = $product->added_by;
+            $cart['seller_id'] = $outlet->seller_id;
+            // $cart['seller_is'] = $product->added_by;
+            $cart['seller_is'] = 'seller';
             $cart['mitra_id'] = $request->mitra_id ? $request->mitra_id : '';
             $cart['range_km'] = $request->range ? $request->range : 0;
+            $cart['user_lat'] = $request->lat_user;
+            $cart['user_long'] = $request->lng_user;
             if ($product->added_by == 'seller') {
                 $cart['shop_info'] = Shop::where(['seller_id' => $product->user_id])->first()->name;
             } else {

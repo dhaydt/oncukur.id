@@ -103,7 +103,7 @@
                             </div>
 
                             <span class="font-weight-bold d-block mt-4" style="font-size: 17px;">{{\App\CPU\translate('Hello')}}, {{auth('customer')->user()->f_name}}</span>
-                            <span>{{\App\CPU\translate('You order has been confirmed and will be shipped according to the method you selected!')}}</span>
+                            <span>{{\App\CPU\translate('we_will_confirm_your_order_soon!')}}</span>
 
                             <div class="row mt-4">
                                 <div class="col-6">

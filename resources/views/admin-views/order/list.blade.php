@@ -94,6 +94,7 @@
                         <th class=" ">{{\App\CPU\translate('Order')}}</th>
                         <th>{{\App\CPU\translate('Date')}}</th>
                         <th>{{\App\CPU\translate('customer_name')}}</th>
+                        <th>{{\App\CPU\translate('type')}}</th>
                         <th>{{\App\CPU\translate('Status')}}</th>
                         <th>{{\App\CPU\translate('Total')}}</th>
                         <th>{{\App\CPU\translate('Order')}} {{\App\CPU\translate('Status')}} </th>
@@ -115,20 +116,29 @@
                             <td>
                                 @if($order->customer)
                                     <a class="text-body text-capitalize"
-                                       href="{{route('admin.orders.details',['id'=>$order['id']])}}">{{$order->customer['f_name'].' '.$order->customer['l_name']}}</a>
+                                    href="{{route('admin.orders.details',['id'=>$order['id']])}}">{{$order->customer['f_name'].' '.$order->customer['l_name']}}</a>
                                 @else
                                     <label class="badge badge-danger">{{\App\CPU\translate('invalid_customer_data')}}</label>
                                 @endif
                             </td>
                             <td>
+                                @if($order->order_type == 'order')
+                                    <span class="badge badge-soft-success text-success text-capitalize">
+                                            {{$order->order_type}}
+                                    </span>
+                                @else
+                                    <span class="badge badge-soft-primary text-primary text-capitalize">{{$order->order_type}}</span>
+                                @endif
+                            </td>
+                            <td>
                                 @if($order->payment_status=='paid')
                                     <span class="badge badge-soft-success">
-                                      <span class="legend-indicator bg-success"
+                                    <span class="legend-indicator bg-success"
                                             style="{{Session::get('direction') === "rtl" ? 'margin-right: 0;margin-left: .4375rem;' : 'margin-left: 0;margin-right: .4375rem;'}}"></span>{{\App\CPU\translate('paid')}}
                                     </span>
                                 @else
                                     <span class="badge badge-soft-danger">
-                                      <span class="legend-indicator bg-danger"
+                                    <span class="legend-indicator bg-danger"
                                             style="{{Session::get('direction') === "rtl" ? 'margin-right: 0;margin-left: .4375rem;' : 'margin-left: 0;margin-right: .4375rem;'}}"></span>{{\App\CPU\translate('unpaid')}}
                                     </span>
                                 @endif
@@ -136,30 +146,30 @@
                             <td> {{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($order->order_amount))}}</td>
                             <td class="text-capitalize">
                                 @if($order['order_status']=='pending')
-                                    <span class="badge badge-soft-info ml-2 ml-sm-3">
-                                        <span class="legend-indicator bg-info"
-                                              style="{{Session::get('direction') === "rtl" ? 'margin-right: 0;margin-left: .4375rem;' : 'margin-left: 0;margin-right: .4375rem;'}}"></span>{{\App\CPU\translate($order['order_status'])}}
-                                      </span>
+                                    <span class="badge badge-soft-warning ml-2 ml-sm-3">
+                                        <span class="legend-indicator bg-warning"
+                                            style="{{Session::get('direction') === "rtl" ? 'margin-right: 0;margin-left: .4375rem;' : 'margin-left: 0;margin-right: .4375rem;'}}"></span>{{\App\CPU\translate("need_confirmation")}}
+                                    </span>
 
                                 @elseif($order['order_status']=='processing' || $order['order_status']=='out_for_delivery')
                                     <span class="badge badge-soft-warning ml-2 ml-sm-3">
                                         <span class="legend-indicator bg-warning"
-                                              style="{{Session::get('direction') === "rtl" ? 'margin-right: 0;margin-left: .4375rem;' : 'margin-left: 0;margin-right: .4375rem;'}}"></span>{{\App\CPU\translate($order['order_status'])}}
-                                      </span>
+                                            style="{{Session::get('direction') === "rtl" ? 'margin-right: 0;margin-left: .4375rem;' : 'margin-left: 0;margin-right: .4375rem;'}}"></span>{{\App\CPU\translate($order['order_status'])}}
+                                    </span>
                                 @elseif($order['order_status']=='confirmed')
                                     <span class="badge badge-soft-success ml-2 ml-sm-3">
                                         <span class="legend-indicator bg-success"
-                                              style="{{Session::get('direction') === "rtl" ? 'margin-right: 0;margin-left: .4375rem;' : 'margin-left: 0;margin-right: .4375rem;'}}"></span>{{\App\CPU\translate($order['order_status'])}}
-                                      </span>
+                                            style="{{Session::get('direction') === "rtl" ? 'margin-right: 0;margin-left: .4375rem;' : 'margin-left: 0;margin-right: .4375rem;'}}"></span>{{\App\CPU\translate($order['order_status'])}}
+                                    </span>
                                 @elseif($order['order_status']=='failed')
                                     <span class="badge badge-danger ml-2 ml-sm-3">
-                                        <span class="legend-indicator bg-warning"
-                                              style="{{Session::get('direction') === "rtl" ? 'margin-right: 0;margin-left: .4375rem;' : 'margin-left: 0;margin-right: .4375rem;'}}"></span>{{\App\CPU\translate($order['order_status'])}}
+                                        <span class="legend-indicator bg-danger"
+                                            style="{{Session::get('direction') === "rtl" ? 'margin-right: 0;margin-left: .4375rem;' : 'margin-left: 0;margin-right: .4375rem;'}}"></span>{{\App\CPU\translate($order['order_status'])}}
                                       </span>
                                 @elseif($order['order_status']=='delivered')
                                     <span class="badge badge-soft-success ml-2 ml-sm-3">
                                         <span class="legend-indicator bg-success"
-                                              style="{{Session::get('direction') === "rtl" ? 'margin-right: 0;margin-left: .4375rem;' : 'margin-left: 0;margin-right: .4375rem;'}}"></span>{{\App\CPU\translate($order['order_status'])}}
+                                            style="{{Session::get('direction') === "rtl" ? 'margin-right: 0;margin-left: .4375rem;' : 'margin-left: 0;margin-right: .4375rem;'}}"></span>{{\App\CPU\translate('completed')}}
                                       </span>
                                 @else
                                     <span class="badge badge-soft-danger ml-2 ml-sm-3">

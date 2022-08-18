@@ -51,10 +51,13 @@
                                 <tr>
                                     <th>{{\App\CPU\translate('SL#')}}</th>
                                     <th>{{\App\CPU\translate('Order')}}</th>
+                                    <th>{{\App\CPU\translate('Type')}}</th>
                                     <th>{{\App\CPU\translate('customer_name')}}</th>
                                     <th>{{\App\CPU\translate('Phone')}}</th>
-                                    <th>{{\App\CPU\translate('Payment')}}</th>
+                                    <th>{{\App\CPU\translate('Payment_status')}}</th>
+                                    <th>{{\App\CPU\translate('Total')}}</th>
                                     <th>{{\App\CPU\translate('Status')}} </th>
+                                    <th>{{\App\CPU\translate('Mitra')}} </th>
                                     <th style="width: 30px">{{\App\CPU\translate('Action')}}</th>
                                 </tr>
                                 </thead>
@@ -67,9 +70,18 @@
                                         <td>
                                             <a href="{{route('seller.orders.details',$order['id'])}}">{{$order['id']}}</a>
                                         </td>
-                                        <td> {{$order->customer ? $order->customer['f_name'].' '.$order->customer['l_name'] : 'Customer Data not found'}}</td>
-                                        <td>{{ $order->customer ? $order->customer->phone : '' }}</td>
                                         <td>
+                                            @if($order->order_type == 'order')
+                                            <span class="badge badge-soft-success text-success text-capitalize">
+                                                    {{$order->order_type}}
+                                            </span>
+                                            @else
+                                                <span class="badge badge-soft-primary text-primary text-capitalize">{{$order->order_type}}</span>
+                                            @endif
+                                        </td>
+                                        <td class="text-center text-capitalize"> {{$order->customer ? $order->customer['f_name'].' '.$order->customer['l_name'] : 'Customer Data not found'}}</td>
+                                        <td>{{ $order->customer ? $order->customer->phone : '' }}</td>
+                                        <td class="text-center">
                                             @if($order->payment_status=='paid')
                                                 <span class="badge badge-soft-success">
                                                 <span class="legend-indicator bg-success" style="{{Session::get('direction') === "rtl" ? 'margin-right: 0;margin-left: .4375rem;' : 'margin-left: 0;margin-right: .4375rem;'}}"></span>{{\App\CPU\translate('paid')}}
@@ -79,11 +91,13 @@
                                                 <span class="legend-indicator bg-danger" style="{{Session::get('direction') === "rtl" ? 'margin-right: 0;margin-left: .4375rem;' : 'margin-left: 0;margin-right: .4375rem;'}}"></span>{{\App\CPU\translate('unpaid')}}
                                                 </span>
                                             @endif
-                                            </td>
+                                        </td>
+                                        <td> {{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($order->order_amount))}}</td>
                                             <td class="text-capitalize ">
                                                 @if($order->order_status=='pending')
                                                     <label
-                                                        class="badge badge-primary">{{\App\CPU\translate($order['order_status'])}}</label>
+                                                        class="badge badge-soft-warning">{{\App\CPU\translate('need_confirmation')}}
+                                                    </label>
                                                 @elseif($order->order_status=='processing' || $order->order_status=='out_for_delivery')
                                                     <label
                                                         class="badge badge-warning">{{\App\CPU\translate($order['order_status'])}}</label>
@@ -96,6 +110,11 @@
                                                 @else
                                                     <label
                                                         class="badge badge-danger">{{\App\CPU\translate($order['order_status'])}}</label>
+                                                @endif
+                                            </td>
+                                            <td class="text-center text-capitalize">
+                                                @if ($order['order_type'] == 'order')
+                                                    {{ \app\CPU\helpers::mitra_name($order['mitra_id']) }}
                                                 @endif
                                             </td>
                                             <td>

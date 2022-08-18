@@ -190,8 +190,11 @@
                 </div>
                 <form action="" id="menuForm">
                     <input type="hidden" name="mitra_id">
+                    <input type="hidden" name="idOutlet">
                     <input type="hidden" name="range">
                     <input type="hidden" name="order_type" value="order">
+                    <input type="hidden" name="lat_user" class="lat">
+                    <input type="hidden" name="lng_user" class="lng">
                     <div class="modal-body" id="menu">
                         <div class="d-flex justify-content-center">
                             <img src="" alt="" class="mitra-avatar"
@@ -322,6 +325,9 @@
                         $('#mitra-name').text(resp.mitra.name);
                         $('#distance').text((Math.round(resp.shop.distance * 100) / 100).toFixed(2) + ' KM');
                         $('input[name=mitra_id]').val(resp.mitra.id)
+                        $('input[name=idOutlet]').val(resp.shop.id)
+                        $('input[name=lat_user]').val(resp.to.lat)
+                        $('input[name=lng_user]').val(resp.to.lng)
                         $('#product_id').val(resp.service.id)
                         $('#sPrices').text('Rp '+resp.service_price)
                         $('#dPrices').text('Rp ' + resp.driver_price)
