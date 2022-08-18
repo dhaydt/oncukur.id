@@ -1,9 +1,9 @@
 @extends('layouts.back-end.app-seller')
-@section('title',\App\CPU\translate('Order Details'))
+@section('title',\App\CPU\translate($order['order_type'] .' Details'))
 
 @push('css_or_js')
     <!-- Custom styles for this page -->
-    <link href="{{asset('public/assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="{{asset('assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 @endpush
 @section('content')
     <!-- Page Heading -->
@@ -15,21 +15,20 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb breadcrumb-no-gutter">
                             <li class="breadcrumb-item"><a class="breadcrumb-link"
-                                                           href="{{route('seller.orders.list',['all'])}}">{{\App\CPU\translate('Orders')}}</a>
+                                                        href="{{route('seller.orders.list',['all'])}}">{{\App\CPU\translate('Orders')}}</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">{{\App\CPU\translate('Order details')}}</li>
                         </ol>
                     </nav>
 
                     <div class="d-sm-flex align-items-sm-center">
-                        <h1 class="page-header-title">{{\App\CPU\translate('Order')}} #{{$order['id']}}</h1>
-                        {{-- {{ $order}} --}}
+                        <h1 class="page-header-title">{{\App\CPU\translate($order['order_type'])}} #{{$order['id']}}</h1>
 
                         @if($order['payment_status']=='paid')
                             <span
                                 class="badge badge-soft-success {{Session::get('direction') === "rtl" ? 'mr-sm-3' : 'ml-sm-3'}}">
                             <span class="legend-indicator bg-success"
-                                  style="{{Session::get('direction') === "rtl" ? 'margin-right: 0;margin-left: .4375rem;' : 'margin-left: 0;margin-right: .4375rem;'}}"></span>{{\App\CPU\translate('Paid')}}
+                                style="{{Session::get('direction') === "rtl" ? 'margin-right: 0;margin-left: .4375rem;' : 'margin-left: 0;margin-right: .4375rem;'}}"></span>{{\App\CPU\translate('Paid')}}
                         </span>
                         @else
                             <span
@@ -102,19 +101,6 @@
                                             value="confirmed" {{$order->order_status == 'confirmed'?'selected':''}} > {{\App\CPU\translate('Confirmed')}}</option>
                                         <option
                                             value="processing" {{$order->order_status == 'processing'?'selected':''}} >{{\App\CPU\translate('Processing')}} </option>
-
-                                        @if( $order->shipping->creator_type != 'admin')
-                                            <option
-                                                value="out_for_delivery" {{$order->order_status == 'out_for_delivery'?'selected':''}} >{{\App\CPU\translate('out_for_delivery')}} </option>
-                                            <option
-                                                value="delivered" {{$order->order_status == 'delivered'?'selected':''}} >{{\App\CPU\translate('Delivered')}} </option>
-                                            <option
-                                                value="returned" {{$order->order_status == 'returned'?'selected':''}} > {{\App\CPU\translate('Returned')}}</option>
-                                            <option
-                                                value="failed" {{$order->order_status == 'failed'?'selected':''}} >{{\App\CPU\translate('Failed')}} </option>
-                                            <option
-                                                value="canceled" {{$order->order_status == 'canceled'?'selected':''}} >{{\App\CPU\translate('Canceled')}} </option>
-                                        @endif
                                     </select>
                                 </div>
                             </div>
@@ -154,37 +140,30 @@
                      style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
                     <!-- Header -->
                     <div class="card-header" style="display: block!important;">
-                        <div class="row">
-                            <div class="col-12 pb-2 border-bottom">
-                                <h4 class="card-header-title">
-                                   {{\App\CPU\translate('Order details')}}
-                                    <span
-                                        class="badge badge-soft-dark rounded-circle {{Session::get('direction') === "rtl" ? 'mr-1' : 'ml-1'}}">{{$order->details->count()}}</span>
-                                </h4>
-                            </div>
-                            <div class="col-6 pt-2">
-                                <h6 style="color: #8a8a8a;">
+                        <div class="row pr-0">
+                            <div class="col-12 row pr-0">
+                                <div class="col-6">
+                                    <h4 class="card-header-title">
+                                        {{\App\CPU\translate($order['order_type'] .' details')}}
+                                        <span
+                                            class="badge badge-soft-dark rounded-circle {{Session::get('direction') === "rtl" ? 'mr-1' : 'ml-1'}}">{{$order->details->count()}}</span>
+                                    </h4>
+                                </div>
+                                <div class="col-6 pr-0">
+                                    <div class="flex-end">
+                                        <h6 class="text-capitalize mb-0"
+                                            style="color: #8a8a8a;">{{\App\CPU\translate('order_type')}} :</h6>
+                                        <span class="mx-1 text-capitalize badge badge-soft-primary p-1">{{$order['order_type']}}</span>
+                                    </div>
+                                    @if ($order['mitra_id'] !== NULL && $order['mitra_id'] !== 0)
+                                    <div class="flex-end mt-2">
+                                        <h6 class="mb-0" style="color: #8a8a8a;">{{\App\CPU\translate('Mitra')}}
+                                            :</h6>
+                                        <span class="mx-1 text-capitalize badge badge-soft-info">{{ \app\CPU\Helpers::mitra_name($order['mitra_id']) }}</span>
+                                    </div>
+                                    @endif
+                                </div>
 
-                                </h6>
-                            </div>
-                            <div class="col-6 pt-2">
-                                <div class="flex-end">
-                                    <h6 class="text-capitalize"
-                                        style="color: #8a8a8a;">{{\App\CPU\translate('payment_method')}} :</h6>
-                                    <h6 class="mx-1"
-                                        style="color: #8a8a8a;">{{str_replace('_',' ',$order['payment_method'])}}</h6>
-                                </div>
-                                <div class="flex-end">
-                                    <h6 style="color: #8a8a8a;">{{\App\CPU\translate('Payment')}} {{\App\CPU\translate('reference')}}
-                                        :</h6>
-                                    <h6 class="mx-1"
-                                        style="color: #8a8a8a;">{{str_replace('_',' ',$order['transaction_ref'])}}</h6>
-                                </div>
-                                <div class="flex-end">
-                                    <h6 style="color: #8a8a8a;">{{\App\CPU\translate('shipping')}} {{\App\CPU\translate('method')}}
-                                        :</h6>
-                                    <h6 class="mx-1" style="color: #8a8a8a;">{{$order->shipping->title}}</h6>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -193,22 +172,14 @@
                     <!-- Body -->
                     <div class="card-body">
                         <div class="media">
-                            <div class="avatar avatar-xl {{Session::get('direction') === "rtl" ? 'ml-3' : 'mr-3'}}">
-                                <p>{{\App\CPU\translate('image')}}</p>
-                            </div>
-
                             <div class="media-body">
                                 <div class="row">
                                     <div class="col-md-4 product-name">
-                                        <p> {{\App\CPU\translate('Name')}}</p>
+                                        <p> {{\App\CPU\translate('service_name')}}</p>
                                     </div>
 
                                     <div class="col col-md-2 align-self-center p-0 ">
                                         <p> {{\App\CPU\translate('price')}}</p>
-                                    </div>
-
-                                    <div class="col col-md-1 align-self-center">
-                                        <p>{{\App\CPU\translate('Q')}}</p>
                                     </div>
                                     <div class="col col-md-1 align-self-center  p-0 product-name">
                                         <p> {{\App\CPU\translate('TAX')}}</p>
@@ -234,35 +205,18 @@
 
                             <!-- Media -->
                                 <div class="media">
-                                    <div
-                                        class="avatar avatar-xl {{Session::get('direction') === "rtl" ? 'ml-3' : 'mr-3'}}">
-                                        <img class="img-fluid"
-                                             onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                             src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$detail->product['thumbnail']}}"
-                                             alt="Image Description">
-                                    </div>
-
                                     <div class="media-body">
                                         <div class="row">
-                                            <div class="col-md-4 mb-3 mb-md-0 product-name">
+                                            <div class="col-md-4 mb-3 mb-md-0 product-name text-capitalize">
                                                 <p>
-                                                    {{substr($detail->product['name'],0,10)}}{{strlen($detail->product['name'])>10?'...':''}}
+                                                    {{substr($detail->product['name'],0,20)}}{{strlen($detail->product['name'])>20?'...':''}}
                                                 </p>
-                                                <strong><u>{{\App\CPU\translate('variation')}} : </u></strong>
-
-                                                <div class="font-size-sm text-body">
-                                                    <span class="font-weight-bold">{{$detail['variant']}}</span>
-                                                </div>
                                             </div>
 
                                             <div class="col col-md-2 align-self-center p-0 ">
                                                 <h6>{{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($detail['price']))}}</h6>
                                             </div>
 
-                                            <div class="col col-md-1 align-self-center">
-
-                                                <h5>{{$detail->qty}}</h5>
-                                            </div>
                                             <div class="col col-md-1 align-self-center  p-0 product-name">
 
                                                 <h5>{{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($detail['tax']))}}</h5>
@@ -296,10 +250,13 @@
                         <div class="row justify-content-md-end mb-3">
                             <div class="col-md-9 col-lg-8">
                                 <dl class="row text-sm-right">
-                                    <dt class="col-sm-6">{{\App\CPU\translate('Shipping')}}</dt>
-                                    <dd class="col-sm-6 border-bottom">
-                                        <strong>{{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($shipping))}}</strong>
-                                    </dd>
+                                    @if ($order['order_type'] == 'order')
+                                        <dt class="col-sm-6">{{\App\CPU\translate('Driver_cost')}}</dt>
+                                        <dd class="col-sm-6 border-bottom">
+                                            {{-- <strong>{{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($shipping))}}</strong> --}}
+                                            {{ $order['range_km'] }}
+                                        </dd>
+                                    @endif
 
                                     <dt class="col-sm-6">{{\App\CPU\translate('coupon_discount')}}</dt>
                                     <dd class="col-sm-6 border-bottom">
@@ -337,14 +294,14 @@
                     @if($order->customer)
 
                         <div class="card-body"
-                             style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
+                            style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
                             <div class="media align-items-center" href="javascript:">
                                 <div
                                     class="avatar avatar-circle {{Session::get('direction') === "rtl" ? 'ml-3' : 'mr-3'}}">
                                     <img
                                         class="avatar-img"
-                                        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                        src="{{asset('storage/app/public/profile/'.$order->customer->image)}}"
+                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                        src="{{asset('storage/profile/'.$order->customer->image)}}"
                                         alt="Image Description">
                                 </div>
                                 <div class="media-body">

@@ -23,6 +23,14 @@ use Illuminate\Support\Facades\Session;
 
 class Helpers
 {
+    public static function driver_cost($range)
+    {
+        $cost = Helpers::get_business_settings('driver_cost');
+        $cost = floatval($cost) * floatval($range);
+
+        return round($cost);
+    }
+
     public static function mitra_name($id)
     {
         $name = Mitra::find($id);
@@ -645,7 +653,7 @@ class Helpers
             $rate = 1;
         }
 
-        return Helpers::set_symbol(round($amount * $rate, 2));
+        return Helpers::set_symbol(round($amount * $rate, 0));
     }
 
     public static function language_load()
@@ -674,10 +682,10 @@ class Helpers
 
         foreach (json_decode($product->variation) as $key => $variation) {
             if ($lowest_price > $variation->price) {
-                $lowest_price = round($variation->price, 2);
+                $lowest_price = round($variation->price, 0);
             }
             if ($highest_price < $variation->price) {
-                $highest_price = round($variation->price, 2);
+                $highest_price = round($variation->price, 0);
             }
         }
 
@@ -1012,9 +1020,9 @@ class Helpers
     {
         $position = Helpers::get_business_settings('currency_symbol_position');
         if (!is_null($position) && $position == 'left') {
-            $string = currency_symbol().''.number_format($amount, 2);
+            $string = currency_symbol().''.number_format($amount, 0);
         } else {
-            $string = number_format($amount, 2).''.currency_symbol();
+            $string = number_format($amount, 0).''.currency_symbol();
         }
 
         return $string;

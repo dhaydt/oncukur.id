@@ -140,11 +140,14 @@ class CartManager
     public static function cart_grand_total($cart_group_id = null)
     {
         $cart = CartManager::get_cart($cart_group_id);
-        $shipping_cost = CartManager::get_shipping_cost($cart_group_id);
+        $shipping_cost = 0;
         $total = 0;
         if (!empty($cart)) {
             foreach ($cart as $item) {
-                $product_subtotal = ($item['price'] * $item['quantity'])
+                if ($item['order_type'] == 'order') {
+                    $shipping_cost = \App\CPU\BackEndHelper::driver_cost($item['range_km']);
+                }
+                $product_subtotal = $item['price']
                     + ($item['tax'] * $item['quantity'])
                     - $item['discount'] * $item['quantity'];
                 $total += $product_subtotal;

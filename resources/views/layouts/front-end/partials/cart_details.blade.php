@@ -10,7 +10,7 @@
 <div class="row">
     <!-- List of items-->
     <section class="col-lg-8">
-        <div class="cart_information">
+        <div class="cart_information text-capitalize">
             @foreach($cart as $group_key=>$group)
                 @foreach($group as $cart_key=>$cartItem)
                     @if($cart_key==0)
@@ -20,7 +20,7 @@
                             {{\App\Model\Shop::where(['seller_id'=>$cartItem['seller_id']])->first()->name}}
                         @endif
                     @endif
-                    <div class="cart_item mb-2">
+                    <div class="cart_item mb-2 card shadow-sm p-2 py-3">
                         <div class="row">
                             <div class="col-md-7 col-sm-6 col-9 d-flex align-items-center">
                                 <div class="media">
@@ -39,18 +39,12 @@
                                             <div class="product-title" style="margin-top: -10px;">
                                                 <a href="{{route('product',$cartItem['slug'])}}">{{$cartItem['name']}}</a>
                                             </div>
-                                            <div
-                                                class=" text-accent">{{ \App\CPU\Helpers::currency_converter($cartItem['price']-$cartItem['discount']) }}</div>
+                                            <div class=" text-accent">{{ \App\CPU\Helpers::currency_converter($cartItem['price']-$cartItem['discount']) }}</div>
                                             @if($cartItem['discount'] > 0)
                                                 <strike style="font-size: 12px!important;color: grey!important;">
                                                     {{\App\CPU\Helpers::currency_converter($cartItem['price'])}}
                                                 </strike>
                                             @endif
-                                            @foreach(json_decode($cartItem['variations'],true) as $key1 =>$variation)
-                                                <div class="text-muted"><span
-                                                        class="{{Session::get('direction') === "rtl" ? 'ml-2' : 'mr-2'}}">{{$key1}} :</span>{{$variation}}
-                                                </div>
-                                            @endforeach
                                             @if ($cartItem->order_type == 'order')
                                                 <div class="text-muted">
                                                     <span class="mr-2">Range :</span> {{ $cartItem->range_km }} KM
@@ -77,8 +71,11 @@
                                 class="col-md-4 col-sm-4 offset-4 offset-sm-0 text-center d-flex justify-content-between align-items-center">
                                 <div class="">
                                     <div class=" text-accent">
-                                        {{ \App\CPU\Helpers::currency_converter(($cartItem['price']-$cartItem['discount'])*$cartItem['quantity']) }}
+                                        {{ \App\CPU\Helpers::currency_converter(($cartItem['price']-$cartItem['discount'])) }}
                                     </div>
+                                    @if ($cartItem->order_type == 'order')
+                                    <div class="text-muted">{{ \App\CPU\Helpers::currency_converter(\App\CPU\Helpers::driver_cost($cartItem->range_km)) }}</div>
+                                    @endif
                                 </div>
                                 <div style="margin-top: 3px;">
                                     <button class="btn btn-link px-0 text-danger"

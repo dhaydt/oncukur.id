@@ -9,6 +9,14 @@ use Illuminate\Support\Carbon;
 
 class BackEndHelper
 {
+    public static function driver_cost($range)
+    {
+        $cost = Helpers::get_business_settings('driver_cost');
+        $cost = floatval($cost) * floatval($range);
+
+        return round($cost);
+    }
+
     public static function currency_to_usd($amount)
     {
         $currency_model = Helpers::get_business_settings('currency_model');
@@ -21,14 +29,13 @@ class BackEndHelper
             $value = floatval($amount);
         }
 
-        return $value;
+        return round($value);
     }
 
     public static function usd_to_currency($amount)
     {
         $currency_model = Helpers::get_business_settings('currency_model');
         if ($currency_model == 'multi_currency') {
-
             if (session()->has('default')) {
                 $default = session('default');
             } else {
@@ -49,12 +56,13 @@ class BackEndHelper
             $value = floatval($amount);
         }
 
-        return round($value, 2);
+        return round($value, 0);
     }
 
     public static function currency_symbol()
     {
         $currency = Currency::where('id', Helpers::get_business_settings('system_default_currency'))->first();
+
         return $currency->symbol;
     }
 
@@ -62,16 +70,18 @@ class BackEndHelper
     {
         $position = Helpers::get_business_settings('currency_symbol_position');
         if (!is_null($position) && $position == 'left') {
-            $string = currency_symbol() . '' . number_format($amount, 2);
+            $string = currency_symbol().''.number_format($amount, 0);
         } else {
-            $string = number_format($amount, 2) . '' . currency_symbol();
+            $string = number_format($amount, 0).''.currency_symbol();
         }
+
         return $string;
     }
 
     public static function currency_code()
     {
         $currency = Currency::where('id', Helpers::get_business_settings('system_default_currency'))->first();
+
         return $currency->code;
     }
 
@@ -93,6 +103,7 @@ class BackEndHelper
                 $max = $count;
             }
         }
+
         return $max;
     }
 
@@ -108,12 +119,13 @@ class BackEndHelper
         foreach ($data as $month) {
             $count = 0;
             foreach ($month as $order) {
-                $count += 1;
+                ++$count;
             }
             if ($count > $max) {
                 $max = $count;
             }
         }
+
         return $max;
     }
 }

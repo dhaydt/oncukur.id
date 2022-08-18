@@ -81,7 +81,7 @@ class WebController extends Controller
                 array_push($id, $ids[0]);
             }
             $price = array_sum($prices);
-            $driver = round(10000 * $shop->distance);
+            $driver = \App\CPU\Helpers::driver_cost(round($shop->distance, 2));
 
             $service = Product::find($request->cat_id);
 

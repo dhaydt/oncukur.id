@@ -31,7 +31,7 @@
                 @php($total_tax+=$cartItem['tax']*$cartItem['quantity'])
                 @php($total_discount_on_product+=$cartItem['discount']*$cartItem['quantity'])
             @endforeach
-            @php($total_shipping_cost=$shipping_cost)
+            @php($total_shipping_cost=\App\CPU\Helpers::driver_cost(round($cartItem->range_km, 2)))
         @else
             <span>{{\App\CPU\translate('empty_cart')}}</span>
         @endif
@@ -48,7 +48,7 @@
             </span>
         </div>
         <div class="d-flex justify-content-between">
-            <span class="cart_title">{{\App\CPU\translate('shipping')}}</span>
+            <span class="cart_title">{{\App\CPU\translate('driver_cost')}}</span>
             <span class="cart_value">
                 {{\App\CPU\Helpers::currency_converter($total_shipping_cost)}}
             </span>
