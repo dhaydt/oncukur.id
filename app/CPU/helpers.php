@@ -38,6 +38,13 @@ class Helpers
         return $name->name;
     }
 
+    public static function mitra_data($id)
+    {
+        $name = Mitra::find($id);
+
+        return $name;
+    }
+
     public static function userProfile($user)
     {
         $data = [

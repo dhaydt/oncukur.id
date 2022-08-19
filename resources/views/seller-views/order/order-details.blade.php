@@ -51,11 +51,15 @@
                                 style="{{Session::get('direction') === "rtl" ? 'margin-right: 0;margin-left: .4375rem;' : 'margin-left: 0;margin-right: .4375rem;'}}"></span>{{str_replace('_',' ',$order['order_status'])}}
                         </span>
                         @elseif($order['order_status']=='processing' || $order['order_status']=='out_for_delivery')
-                            <span class="badge badge-soft-warning ml-2 ml-sm-3 text-capitalize">
-                              <span class="legend-indicator bg-warning"></span>{{str_replace('_',' ',$order['order_status'])}}
+                            <span class="badge badge-soft-primary ml-2 ml-sm-3 text-capitalize">
+                              <span class="legend-indicator bg-primary"></span>{{str_replace('_',' ',$order['order_status'])}}
+                            </span>
+                        @elseif($order['order_status']=='delivered')
+                            <span class="badge badge-soft-success ml-2 ml-sm-3 text-capitalize">
+                              <span class="legend-indicator bg-success"></span>{{'Finished'}}
                             </span>
 
-                        @elseif($order['order_status']=='delivered' || $order['order_status']=='confirmed')
+                        @elseif($order['order_status']=='confirmed')
                             <span class="badge badge-soft-success ml-2 ml-sm-3 text-capitalize">
                               <span class="legend-indicator bg-success"></span>{{str_replace('_',' ',$order['order_status'])}}
                             </span>
@@ -276,44 +280,51 @@
                     <!-- End Body -->
                 </div>
                 <!-- End Card -->
-
-
             </div>
 
             <div class="col-lg-4">
-                <!-- Card -->
-                <div class="card">
+                <div class="card card-confirm mb-3">
                     <!-- Header -->
-                    <div class="card-header">
-                        <h4 class="card-header-title">{{\App\CPU\translate('Customer')}}</h4>
+                    <div class="card-header px-2">
+                        @if($order['order_status']=='pending')
+                        <span class="badge badge-soft-warning text-capitalize" style="font-size: 14px;">
+                            {{ \App\CPU\translate('need_confirmation') }}
+                        </span>
+                        @elseif($order['order_status']=='failed')
+                            <span class="badge badge-danger ml-sm-3 text-capitalize" style="font-size: 14px;">
+                            <span class="legend-indicator bg-danger"></span>
+                            {{ \App\CPU\translate('failed') }}
+                            </span>
+                        @elseif($order['order_status']=='confirmed')
+                            <span class="badge badge-soft-success ml-sm-3 text-capitalize" style="font-size: 14px;">
+                            <span class="legend-indicator bg-success"></span>
+                            {{ \App\CPU\translate('Confirmed') }}
+                            </span>
+                        {{-- @elseif($order['order_status']=='directPay')
+                            <span class="badge badge-info ml-sm-3 text-capitalize" style="font-size: 14px;">
+                            {{ \App\CPU\translate('Bayar_langsung') }}
+                            </span> --}}
+                        @elseif($order['order_status']=='processing' || $order['order_status']=='out_for_delivery')
+                            <span class="badge badge-soft-primary text-capitalize" style="font-size: 14px;">
+                                {{ \App\CPU\translate('on_process') }}
+                            </span>
+                        @elseif($order['order_status']=='delivered')
+                            <span class="badge badge-soft-success ml-sm-3 text-capitalize" style="font-size: 14px;">
+                            {{ \App\CPU\translate('finished') }}
+                            </span>
+                        @else
+                            <span class="badge badge-soft-danger ml-sm-3 text-capitalize" style="font-size: 14px;">
+                            {{str_replace('_',' ',$order['order_status'])}}
+                            </span>
+                        @endif
                     </div>
                     <!-- End Header -->
 
                     <!-- Body -->
-                    @if($order->customer)
-
-                        <div class="card-body"
-                            style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
-                            <div class="media align-items-center" href="javascript:">
-                                <div
-                                    class="avatar avatar-circle {{Session::get('direction') === "rtl" ? 'ml-3' : 'mr-3'}}">
-                                    <img
-                                        class="avatar-img"
-                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                                        src="{{asset('storage/profile/'.$order->customer->image)}}"
-                                        alt="Image Description">
-                                </div>
-                                <div class="media-body">
-                            <span
-                                class="text-body text-hover-primary">{{$order->customer['f_name'].' '.$order->customer['l_name']}}</span>
-                                </div>
-                                <div class="media-body text-right">
-                                    {{--<i class="tio-chevron-right text-body"></i>--}}
-                                </div>
-                            </div>
-
-                            <hr>
-
+                    @if ($order->customer)
+                    <div class="card-body" style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5>{{\App\CPU\translate('Customer_info')}}</h5>
                             <div class="media align-items-center" href="javascript:">
                                 <div
                                     class="icon icon-soft-info icon-circle {{Session::get('direction') === "rtl" ? 'ml-3' : 'mr-3'}}">
@@ -322,12 +333,134 @@
                                 <div class="media-body">
                                     <span class="text-body text-hover-primary"> {{\App\Model\Order::where('customer_id',$order['customer_id'])->count()}} {{\App\CPU\translate('orders')}}</span>
                                 </div>
-                                <div class="media-body text-right">
-                                    {{--<i class="tio-chevron-right text-body"></i>--}}
-                                </div>
                             </div>
 
-                            <hr>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex align-items-center">
+                                Name :
+                            </div>
+                            <div class="mx-1">
+                                <div class="media align-items-center" href="javascript:">
+                                    <div class="media-body">
+                                        <span class="text-body text-capitalize text-hover-primary">{{$order->customer['f_name'].' '.$order->customer['l_name']}}</span>
+                                    </div>
+                                    <div
+                                        class="avatar avatar-circle {{Session::get('direction') === "rtl" ? 'ml-3' : 'mr-3'}}">
+                                        <img
+                                            class="avatar-img"
+                                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                            src="{{asset('storage/profile/'.$order->customer->image)}}"
+                                            alt="Image Description">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5>{{\App\CPU\translate('Contact info')}}</h5>
+                        </div>
+
+                        <div class="flex-start">
+                            <div>
+                                <i class="tio-online {{Session::get('direction') === "rtl" ? 'ml-2' : 'mr-2'}}"></i>
+                            </div>
+                            <div class="mx-1"><a class="text-dark"
+                                                href="mailto: {{$order->customer['email']}}">{{$order->customer['email']}}</a>
+                            </div>
+                        </div>
+                        <div class="flex-start mt-2">
+                            <div>
+                                <i class="tio-android-phone-vs {{Session::get('direction') === "rtl" ? 'ml-2' : 'mr-2'}}"></i>
+                            </div>
+                            <div class="mx-1"><a class="text-dark"
+                                                href="tel:{{$order->customer['phone']}}">{{$order->customer['phone']}}</a>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                <!-- End Body -->
+                @if ($order['struk'] != NULL && $order['order_status'] == 'delivered')
+                <a onclick="cancel('canceled')" class="btn btn-danger w-100">
+                    {{ \App\CPU\Translate('Batalkan') }}
+                </a>
+                @endif
+                @if ($order['order_status']=='pending' )
+                <div class="card-footer d-flex justify-content-center">
+                    <div class="row w-100">
+                        <div class="col-md-6">
+                            <button class="btn btn-outline-secondary w-100" onclick="order_status('canceled')">
+                                {{ \App\CPU\Translate('Tolak') }}
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <a class="btn w-100 btn-success" type="button" onclick="order_status('processing')">
+                            {{-- @if ($stock == 0)
+                            {{ \App\CPU\Translate('Kamar_habis') }}
+                            @else
+                            {{ \App\CPU\Translate('Terima') }}
+                            @endif --}}
+                            {{ \App\CPU\Translate('Terima') }}
+                            </a>
+                            {{-- <a onclick="order_status('processing')" class="btn btn-success w-100">
+                                {{ \App\CPU\Translate('Terima') }}
+                            </a> --}}
+                        </div>
+                    </div>
+                </div>
+                @endif
+                @if ($order['order_status']=='processing' )
+                <div class="card-footer d-flex justify-content-center">
+                    <div class="row w-100">
+                        <div class="col-md-6">
+                            <button class="btn btn-outline-secondary w-100" onclick="order_status('canceled')">
+                                {{ \App\CPU\Translate('Cancel') }}
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <a class="btn w-100 btn-success" type="button" onclick="order_status('delivered')">
+                            {{ \App\CPU\Translate('Finish') }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                </div>
+
+                <!-- Card -->
+                @php($mitra = \App\CPU\Helpers::mitra_data($order->mitra_id))
+                @if($mitra)
+                <div class="card mb-3">
+                    <!-- Header -->
+                    <div class="card-header d-flex justify-content-between">
+                        <h4 class="card-header-title">{{\App\CPU\translate('Mitra')}}</h4>
+                        <div class="media align-items-center" href="javascript:">
+                            <div class="media-body">
+                                <span
+                                    class="text-body text-capitalize text-hover-primary">{{$mitra->name}}
+                                </span>
+                            </div>
+                            <div
+                                class="avatar avatar-circle ml-3">
+                                <img
+                                    class="avatar-img"
+                                    onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                    src="{{asset('storage/mitra/'. $mitra->image)}}"
+                                    alt="Image Description">
+                            </div>
+
+                            {{-- <div class="media-body text-right">
+                                <i class="tio-chevron-right text-body"></i>
+                            </div> --}}
+                        </div>
+                    </div>
+                    <!-- End Header -->
+                    <!-- Body -->
+                        <div class="card-body"
+                            style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
 
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5>{{\App\CPU\translate('Contact info')}}</h5>
@@ -338,49 +471,23 @@
                                     <i class="tio-online {{Session::get('direction') === "rtl" ? 'ml-2' : 'mr-2'}}"></i>
                                 </div>
                                 <div class="mx-1"><a class="text-dark"
-                                                     href="mailto: {{$order->customer['email']}}">{{$order->customer['email']}}</a>
+                                    href="mailto: {{$mitra->email}}">{{$mitra->email}}</a>
                                 </div>
                             </div>
-                            <div class="flex-start">
+                            <div class="flex-start mt-2">
                                 <div>
                                     <i class="tio-android-phone-vs {{Session::get('direction') === "rtl" ? 'ml-2' : 'mr-2'}}"></i>
                                 </div>
                                 <div class="mx-1"><a class="text-dark"
-                                                     href="tel:{{$order->customer['phone']}}">{{$order->customer['phone']}}</a>
+                                        href="tel:{{$mitra->phone}}">{{$mitra->phone}}</a>
                                 </div>
                             </div>
-
-                            <hr>
-
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h5>{{\App\CPU\translate('shipping_address')}}</h5>
-
-                            </div>
-
-                            @if($order->shippingAddress)
-                                @php($shipping=$order->shippingAddress)
-                            @else
-                                @php($shipping=json_decode($order['shipping_address_data']))
-                            @endif
-
-                            <span class="d-block">{{\App\CPU\translate('Name')}} :
-                                <strong>{{$shipping? $shipping->contact_person_name : \App\CPU\translate('empty')}}</strong><br>
-                                 {{\App\CPU\translate('Country')}}:
-                                <strong>{{$shipping ? $shipping->country : \App\CPU\translate('empty')}}</strong><br>
-                                {{\App\CPU\translate('City')}}:
-                                <strong>{{$shipping ? $shipping->city : \App\CPU\translate('empty')}}</strong><br>
-                                {{\App\CPU\translate('zip_code')}} :
-                                <strong>{{$shipping ? $shipping->zip  : \App\CPU\translate('empty')}}</strong><br>
-                                {{\App\CPU\translate('address')}} :
-                                <strong>{{$shipping ? $shipping->address  : \App\CPU\translate('empty')}}</strong><br>
-                                {{\App\CPU\translate('Phone')}}:
-                                <strong>{{$shipping ? $shipping->phone  : \App\CPU\translate('empty')}}</strong>
-                            </span>
                         </div>
+                        <!-- End Body -->
+                    </div>
                 @endif
-                <!-- End Body -->
-                </div>
                 <!-- End Card -->
+
             </div>
         </div>
     </div>
@@ -423,12 +530,12 @@
         function order_status(status) {
             var value = status;
             Swal.fire({
-                title: '{{\App\CPU\translate('Are you sure Change this?')}}',
+                title: 'Are you sure to '+ status + ' this booking?',
                 text: "{{\App\CPU\translate('You wont be able to revert this!')}}",
                 showCancelButton: true,
                 confirmButtonColor: '#377dff',
                 cancelButtonColor: 'secondary',
-                confirmButtonText: '{{\App\CPU\translate('Yes, Change it!')}}'
+                confirmButtonText: '{{\App\CPU\translate('Yes!')}}'
             }).then((result) => {
                 if (result.value) {
                     $.ajaxSetup({

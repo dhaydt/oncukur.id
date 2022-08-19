@@ -55,12 +55,12 @@ class OrderManager
                     $product = Product::find($detail['product_id']);
                     $type = $detail['variant'];
                     $var_store = [];
-                    foreach (json_decode($product['variation'], true) as $var) {
-                        if ($type == $var['type']) {
-                            $var['qty'] += $detail['qty'];
-                        }
-                        array_push($var_store, $var);
-                    }
+                    // foreach (json_decode($product['variation'], true) as $var) {
+                    //     if ($type == $var['type']) {
+                    //         $var['qty'] += $detail['qty'];
+                    //     }
+                    //     array_push($var_store, $var);
+                    // }
                     Product::where(['id' => $product['id']])->update([
                         'variation' => json_encode($var_store),
                         'current_stock' => $product['current_stock'] + $detail['qty'],
