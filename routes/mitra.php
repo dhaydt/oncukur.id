@@ -42,5 +42,14 @@ Route::group(['namespace' => 'mitra', 'prefix' => 'mitra', 'as' => 'mitra.'], fu
             Route::post('update/{id}', '\App\Http\Controllers\Mitra\ProfileController@update');
             Route::post('settings-password', '\App\Http\Controllers\Mitra\ProfileController@settings_password_update')->name('settings-password');
         });
+
+        Route::group(['prefix' => 'orders', 'as' => 'orders.'], function () {
+            Route::get('list/{status}', 'OrderController@list')->name('list');
+            Route::get('details/{id}', 'OrderController@details')->name('details');
+            Route::get('generate-invoice/{id}', 'OrderController@generate_invoice')->name('generate-invoice');
+            Route::post('status', 'OrderController@status')->name('status');
+            Route::post('productStatus', 'OrderController@productStatus')->name('productStatus');
+            Route::post('payment-status', 'OrderController@payment_status')->name('payment-status');
+        });
     });
 });

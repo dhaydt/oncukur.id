@@ -62,9 +62,9 @@
                 <div class="navbar-vertical-content">
                     <ul class="navbar-nav navbar-nav-lg nav-tabs">
                         <!-- Dashboards -->
-                        <li class="navbar-vertical-aside-has-menu {{Request::is('seller')?'show':''}}">
+                        <li class="navbar-vertical-aside-has-menu {{Request::is('mitra/dashboard')?'show':''}}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link"
-                               href="{{route('seller.dashboard.index')}}">
+                                href="{{route('mitra.mitra.home')}}">
                                 <i class="tio-home-vs-1-outlined nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                     {{\App\CPU\translate('Dashboard')}}
@@ -80,7 +80,7 @@
                         </li>
 
                         <!-- Pages -->
-                        <li class="navbar-vertical-aside-has-menu {{Request::is('seller/orders*')?'active':''}}">
+                        <li class="navbar-vertical-aside-has-menu {{Request::is('mitra/orders*')?'active':''}}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle" href="javascript:">
                                 <i class="tio-shopping-cart nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
@@ -89,89 +89,89 @@
                             </a>
                             @php($sellerId = auth('mitra')->id())
                             <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
-                                style="display: {{Request::is('seller/order*')?'block':'none'}}">
+                                style="display: {{Request::is('mitra/order*')?'block':'none'}}">
 
-                                <li class="nav-item {{Request::is('seller/orders/list/all')?'active':''}}">
-                                    <a class="nav-link " href="{{route('seller.orders.list',['all'])}}" title="">
+                                <li class="nav-item {{Request::is('mitra/orders/list/all')?'active':''}}">
+                                    <a class="nav-link " href="{{route('mitra.orders.list',['all'])}}" title="">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">{{\App\CPU\translate('All')}}</span>
                                         <span class="badge badge-info badge-pill {{Session::get('direction') === "rtl" ? 'mr-1' : 'ml-1'}}">
-                                            {{ \App\Model\Order::where(['seller_is'=>'seller'])->where(['seller_id'=>$sellerId])->count()}}
+                                            {{ \App\Model\Order::where(['seller_is'=>'seller'])->where(['mitra_id'=>$sellerId])->count()}}
                                         </span>
                                     </a>
                                 </li>
-                                <li class="nav-item {{Request::is('seller/orders/list/pending')?'active':''}}">
-                                    <a class="nav-link " href="{{route('seller.orders.list',['pending'])}}" title="">
+                                <li class="nav-item {{Request::is('mitra/orders/list/pending')?'active':''}}">
+                                    <a class="nav-link " href="{{route('mitra.orders.list',['pending'])}}" title="">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">{{\App\CPU\translate('Pending')}}</span>
                                         <span class="badge badge-soft-info badge-pill {{Session::get('direction') === "rtl" ? 'mr-1' : 'ml-1'}}">
-                                            {{ \App\Model\Order::where(['seller_is'=>'seller'])->where(['seller_id'=>$sellerId])->where(['order_status'=>'pending'])->count()}}
+                                            {{ \App\Model\Order::where(['seller_is'=>'seller'])->where(['mitra_id'=>$sellerId])->where(['order_status'=>'pending'])->count()}}
                                         </span>
                                     </a>
                                 </li>
-                                <li class="nav-item {{Request::is('seller/orders/list/confirmed')?'active':''}}">
-                                    <a class="nav-link " href="{{route('seller.orders.list',['confirmed'])}}" title="">
+                                <li class="nav-item {{Request::is('mitra/orders/list/confirmed')?'active':''}}">
+                                    <a class="nav-link " href="{{route('mitra.orders.list',['confirmed'])}}" title="">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">{{\App\CPU\translate('confirmed')}}</span>
                                         <span class="badge badge-soft-info badge-pill {{Session::get('direction') === "rtl" ? 'mr-1' : 'ml-1'}}">
-                                            {{ \App\Model\Order::where(['seller_is'=>'seller'])->where(['seller_id'=>$sellerId])->where(['order_status'=>'confirmed'])->count()}}
+                                            {{ \App\Model\Order::where(['seller_is'=>'seller'])->where(['mitra_id'=>$sellerId])->where(['order_status'=>'confirmed'])->count()}}
                                         </span>
                                     </a>
                                 </li>
 
-                                <li class="nav-item {{Request::is('seller/orders/list/processing')?'active':''}}">
-                                    <a class="nav-link " href="{{route('seller.orders.list',['processing'])}}" title="">
+                                <li class="nav-item {{Request::is('mitra/orders/list/processing')?'active':''}}">
+                                    <a class="nav-link " href="{{route('mitra.orders.list',['processing'])}}" title="">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">{{\App\CPU\translate('Processing')}}</span>
                                         <span class="badge badge-warning badge-pill {{Session::get('direction') === "rtl" ? 'mr-1' : 'ml-1'}}">
-                                            {{ \App\Model\Order::where(['seller_is'=>'seller'])->where(['seller_id'=>$sellerId])->where(['order_status'=>'processing'])->count()}}
+                                            {{ \App\Model\Order::where(['seller_is'=>'seller'])->where(['mitra_id'=>$sellerId])->where(['order_status'=>'processing'])->count()}}
                                         </span>
                                     </a>
                                 </li>
 
-                                <li class="nav-item {{Request::is('seller/orders/list/out_for_delivery')?'active':''}}">
-                                    <a class="nav-link " href="{{route('seller.orders.list',['out_for_delivery'])}}" title="">
+                                <li class="nav-item {{Request::is('mitra/orders/list/out_for_delivery')?'active':''}}">
+                                    <a class="nav-link " href="{{route('mitra.orders.list',['out_for_delivery'])}}" title="">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">{{\App\CPU\translate('out_for_delivery')}}</span>
                                         <span class="badge badge-warning badge-pill {{Session::get('direction') === "rtl" ? 'mr-1' : 'ml-1'}}">
-                                            {{ \App\Model\Order::where(['seller_is'=>'seller'])->where(['seller_id'=>$sellerId])->where(['order_status'=>'out_for_delivery'])->count()}}
+                                            {{ \App\Model\Order::where(['seller_is'=>'seller'])->where(['mitra_id'=>$sellerId])->where(['order_status'=>'out_for_delivery'])->count()}}
                                         </span>
                                     </a>
                                 </li>
 
-                                <li class="nav-item {{Request::is('seller/orders/list/delivered')?'active':''}}">
-                                    <a class="nav-link " href="{{route('seller.orders.list',['delivered'])}}" title="">
+                                <li class="nav-item {{Request::is('mitra/orders/list/delivered')?'active':''}}">
+                                    <a class="nav-link " href="{{route('mitra.orders.list',['delivered'])}}" title="">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">{{\App\CPU\translate('Delivered')}}</span>
                                         <span class="badge badge-success badge-pill {{Session::get('direction') === "rtl" ? 'mr-1' : 'ml-1'}}">
-                                            {{ \App\Model\Order::where(['seller_is'=>'seller'])->where(['seller_id'=>$sellerId])->where(['order_status'=>'delivered'])->count()}}
+                                            {{ \App\Model\Order::where(['seller_is'=>'seller'])->where(['mitra_id'=>$sellerId])->where(['order_status'=>'delivered'])->count()}}
                                         </span>
                                     </a>
                                 </li>
-                                <li class="nav-item {{Request::is('seller/orders/list/returned')?'active':''}}">
-                                    <a class="nav-link " href="{{route('seller.orders.list',['returned'])}}" title="">
+                                <li class="nav-item {{Request::is('mitra/orders/list/returned')?'active':''}}">
+                                    <a class="nav-link " href="{{route('mitra.orders.list',['returned'])}}" title="">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">{{\App\CPU\translate('Returned')}}</span>
                                         <span class="badge badge-soft-danger badge-pill {{Session::get('direction') === "rtl" ? 'mr-1' : 'ml-1'}}">
-                                            {{ \App\Model\Order::where(['seller_is'=>'seller'])->where(['seller_id'=>$sellerId])->where(['order_status'=>'returned'])->count()}}
+                                            {{ \App\Model\Order::where(['seller_is'=>'seller'])->where(['mitra_id'=>$sellerId])->where(['order_status'=>'returned'])->count()}}
                                         </span>
                                     </a>
                                 </li>
-                                <li class="nav-item {{Request::is('seller/orders/list/failed')?'active':''}}">
-                                    <a class="nav-link " href="{{route('seller.orders.list',['failed'])}}" title="">
+                                <li class="nav-item {{Request::is('mitra/orders/list/failed')?'active':''}}">
+                                    <a class="nav-link " href="{{route('mitra.orders.list',['failed'])}}" title="">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">{{\App\CPU\translate('Failed')}}</span>
                                         <span class="badge badge-danger badge-pill {{Session::get('direction') === "rtl" ? 'mr-1' : 'ml-1'}}">
-                                            {{ \App\Model\Order::where(['seller_is'=>'seller'])->where(['seller_id'=>$sellerId])->where(['order_status'=>'failed'])->count()}}
+                                            {{ \App\Model\Order::where(['seller_is'=>'seller'])->where(['mitra_id'=>$sellerId])->where(['order_status'=>'failed'])->count()}}
                                         </span>
                                     </a>
                                 </li>
-                                <li class="nav-item {{Request::is('seller/orders/list/canceled')?'active':''}}">
-                                    <a class="nav-link " href="{{route('seller.orders.list',['canceled'])}}" title="">
+                                <li class="nav-item {{Request::is('mitra/orders/list/canceled')?'active':''}}">
+                                    <a class="nav-link " href="{{route('mitra.orders.list',['canceled'])}}" title="">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">{{\App\CPU\translate('canceled')}}</span>
                                         <span class="badge badge-danger badge-pill {{Session::get('direction') === "rtl" ? 'mr-1' : 'ml-1'}}">
-                                            {{ \App\Model\Order::where(['seller_is'=>'seller'])->where(['seller_id'=>$sellerId])->where(['order_status'=>'canceled'])->count()}}
+                                            {{ \App\Model\Order::where(['seller_is'=>'seller'])->where(['mitra_id'=>$sellerId])->where(['order_status'=>'canceled'])->count()}}
                                         </span>
                                     </a>
                                 </li>
