@@ -1,6 +1,6 @@
 @extends('layouts.back-end.app-mitra')
 
-@section('title', \App\CPU\translate('Dashboard'))
+@section('title', \App\CPU\translate('Mitra\'s_Dashboard'))
 
 @push('css_or_js')
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -33,8 +33,124 @@
 @endpush
 
 @section('content')
+@php($data = ['pending' => 1,
+    'confirmed' => 1,
+    'processing' => 1,
+    'out_for_delivery' => 1,
+    'delivered' => 2,
+    'canceled' => 3,
+    'returned' => 2,
+    'failed' => 1,
 
+    'commission_given' => 0,
+    'pending_withdraw' => 0,
+    'delivery_charge_earned' => 0,
+    'collected_cash' => 0,
+    'total_tax_collected' => 0,
+    'total_earning' => 0,
+    'withdrawn' => 0,
+    ])
+    <div class="content container-fluid">
+        <div class="page-header pb-0" style="border-bottom: 0!important">
+            <div class="flex-between row align-items-center mx-1">
+                <h1 class="page-header-title">
+                    Dashboard
+                </h1>
+                <p>Welcome to mitra's Dashboard.</p>
+            </div>
+        </div>
 
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="flex-between gx-2 gx-lg-3 mb-2">
+                    <div style="{{Session::get('direction') === "rtl" ? 'margin-right:2px' : ''}};">
+                        <h4><i style="font-size: 30px"
+                            class="tio-chart-bar-4"></i>{{\App\CPU\translate('dashboard_order_statistics')}}</h4>
+                    </div>
+                    <div style="width: 20vw">
+                        <select class="custom-select" name="statistics_type" onchange="order_stats_update(this.value)">
+                            <option
+                                value="overall" {{session()->has('statistics_type') && session('statistics_type') == 'overall'?'selected':''}}>
+                                {{\App\CPU\translate('Overall Statistics')}}
+                            </option>
+                            <option
+                                value="today" {{session()->has('statistics_type') && session('statistics_type') == 'today'?'selected':''}}>
+                                {{\App\CPU\translate('Todays Statistics')}}
+                            </option>
+                            <option
+                                value="this_month" {{session()->has('statistics_type') && session('statistics_type') == 'this_month'?'selected':''}}>
+                                {{\App\CPU\translate('This Months Statistics')}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row gx-2 gx-lg-3" id="order_stats">
+                    @include('mitra-views.partials._dashboard-order-stats',['data'=>$data])
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="flex-between gx-2 gx-lg-3 mb-2">
+                    <div>
+                        <h4><i style="font-size: 30px"
+                            class="tio-wallet"></i>{{\App\CPU\translate('mitra_wallet')}}</h4>
+                    </div>
+                </div>
+                <div class="row gx-2 gx-lg-3" id="order_stats">
+                    @include('mitra-views.partials._dashboard-wallet-stats',['data'=>$data])
+                </div>
+
+                <div class="row">
+                    <!-- Earnings (Monthly) Card Example -->
+                    <div class="col-xl-6 for-card col-md-6 mt-4">
+                        <div class="card for-card-body-2 shadow h-100  badge-primary"
+                            style="background: #362222!important;">
+                            <div class="card-body text-light">
+                                <div class="flex-between no-gutters align-items-center">
+                                    <div>
+                                        <div class="font-weight-bold text-uppercase for-card-text mb-1">
+                                            {{\App\CPU\translate('Withdrawable_balance')}}
+                                        </div>
+                                        <div
+                                            class="for-card-count">{{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($data['total_earning']))}}</div>
+                                    </div>
+                                    <div>
+                                        <a href="javascript:" style="background: #3A6351!important;"
+                                            class="btn btn-primary"
+                                            data-toggle="modal" data-target="#balance-modal">
+                                            <i class="tio-wallet-outlined"></i> {{\App\CPU\translate('Withdraw')}}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Earnings (Monthly) Card Example -->
+                    <div class="col-xl-6 for-card col-md-6 mt-4" style="cursor: pointer">
+                        <div class="card  shadow h-100 for-card-body-3 badge-info"
+                            style="background: #171010!important;">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div
+                                            class=" font-weight-bold for-card-text text-uppercase mb-1">{{\App\CPU\translate('withdrawn')}}</div>
+                                        <div
+                                            class="for-card-count">{{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($data['withdrawn']))}}</div>
+                                    </div>
+                                    <div class="col-auto for-margin">
+                                        <i class="tio-money-vs"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('script')
