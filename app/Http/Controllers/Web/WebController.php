@@ -61,7 +61,7 @@ class WebController extends Controller
         $shops = Shop::with('seller')->select('*', DB::raw('6371 * acos(cos(radians('.$lat.'))
                         * cos(radians(latitude)) * cos(radians(longitude) - radians('.$long.'))
                         + sin(radians('.$lat.')) * sin(radians(latitude)) ) AS distance'));
-        $shops = $shops->having('distance', '<', 10);
+        $shops = $shops->having('distance', '<', 20);
         // $shops = $shops->whereHas('seller', function ($s) use ($request) {
         //     $s->with('product')->whereHas('product', function ($p) use ($request) {
         //         $p->whereJsonContains('category_ids', ['id' => (string) $request->cat_id])->inRandomOrder();
