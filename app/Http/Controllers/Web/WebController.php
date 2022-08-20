@@ -70,6 +70,8 @@ class WebController extends Controller
         $shops = $shops->inRandomOrder();
         $shops = $shops->get();
 
+        var_dump($shops);
+
         if (count($shops) > 0) {
             $shop = $shops[0];
             $prices = [];
