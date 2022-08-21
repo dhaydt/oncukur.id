@@ -156,7 +156,7 @@ Route::group(['namespace' => 'api\v1', 'prefix' => 'v1', 'middleware' => ['api_l
         Route::group(['prefix' => 'order'], function () {
             Route::get('list', 'CustomerController@get_order_list');
             Route::get('details', 'CustomerController@get_order_details');
-            Route::get('place', 'OrderController@place_order');
+            Route::post('place', 'OrderController@place_order');
         });
         // Chatting
         Route::group(['prefix' => 'chat'], function () {

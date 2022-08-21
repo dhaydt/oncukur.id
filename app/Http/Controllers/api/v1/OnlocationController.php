@@ -17,6 +17,13 @@ class OnlocationController extends Controller
         $lat = $request->lat;
         $long = $request->long;
 
+        foreach ($request->service_id as $s) {
+            $productCheck = Product::find($s);
+            if (!$productCheck) {
+                return response()->json(['status' => 'failed', 'message' => 'Service not found!']);
+            }
+        }
+
         if ($lat == '') {
             return response()->json(['status' => 'error', 'message' => 'Latitude is required']);
         }
@@ -30,7 +37,7 @@ class OnlocationController extends Controller
         $shops = Shop::with('seller')->select('*', DB::raw('6371 * acos(cos(radians('.$lat.'))
                         * cos(radians(latitude)) * cos(radians(longitude) - radians('.$long.'))
                         + sin(radians('.$lat.')) * sin(radians(latitude)) ) AS distance'));
-        $shops = $shops->having('distance', '<', 10);
+        $shops = $shops->having('distance', '<', 20);
         // $shops = $shops->whereHas('seller', function ($s) use ($request) {
         //     $s->with('product')->whereHas('product', function ($p) use ($request) {
         //         $p->whereJsonContains('category_ids', ['id' => (string) $request->cat_id])->inRandomOrder();
@@ -59,13 +66,14 @@ class OnlocationController extends Controller
             $mitra = Mitra::with('shop')->where('shop_id', $shop->id)->inRandomOrder()->get();
             if (count($mitra) > 0) {
                 $from = [
-                    'status' => 200,
-                    'range' => $shop->distance,
+                    'status' => 'success',
+                    'range' => round($shop->distance, 2),
                     'service_price' => number_format($price),
                     'driver_price' => number_format($driver),
                     'total_price' => number_format($price + $driver),
                     'service_ids' => $id,
                     'order_type' => 'order',
+                    'outlet_id' => $shop['id'],
                     'to' => [
                         'lat' => floatval($request->lat),
                         'lng' => floatval($request->long),
@@ -130,8 +138,8 @@ class OnlocationController extends Controller
 
     public function menu(Request $request)
     {
-        $shop = Shop::find($request['shop_id']);
-        $menu = Product::active()->where(['added_by' => 'seller', 'user_id' => $shop->seller_id])->get();
+        // $shop = Shop::find($request['shop_id']);
+        $menu = Product::active()->get();
 
         return response()->json(['status' => 'success', 'product_data' => $menu]);
     }

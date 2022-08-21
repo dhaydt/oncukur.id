@@ -1,4 +1,4 @@
-@extends('layouts.back-end.app-seller')
+@extends('layouts.back-end.app-mitra')
 @section('title',\App\CPU\translate($order['order_type'] .' Details'))
 
 @push('css_or_js')
@@ -8,7 +8,6 @@
 @section('content')
     <!-- Page Heading -->
     <div class="content container-fluid">
-
         <div class="page-header d-print-none p-3" style="background: white">
             <div class="row align-items-center">
                 <div class="col-sm mb-2 mb-sm-0">
@@ -544,7 +543,7 @@
                         }
                     });
                     $.ajax({
-                        url: "{{route('seller.orders.status')}}",
+                        url: "{{route('mitra.orders.status')}}",
                         method: 'POST',
                         data: {
                             "id": '{{$order['id']}}',

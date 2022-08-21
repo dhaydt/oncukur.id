@@ -5,21 +5,17 @@ namespace App\Http\Controllers\api\v1;
 use App\CPU\CartManager;
 use App\CPU\Helpers;
 use App\CPU\OrderManager;
-use App\Http\Controllers\Controller;
-use App\Model\Admin;
-use App\Model\OrderDetail;
-use App\Model\Seller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
 use function App\CPU\translate;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
     public function track_order(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'order_id' => 'required'
+            'order_id' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -31,7 +27,8 @@ class OrderController extends Controller
 
     public function place_order(Request $request)
     {
-        $unique_id = $request->user()->id . '-' . rand(000001, 999999) . '-' . time();
+        // return response()->json($request);
+        $unique_id = OrderManager::gen_unique_id();
         $order_ids = [];
         foreach (CartManager::get_cart_group_ids($request) as $group_id) {
             $data = [

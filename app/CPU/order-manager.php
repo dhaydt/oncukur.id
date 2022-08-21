@@ -311,6 +311,7 @@ class OrderManager
                 'delivery_status' => 'pending',
                 'shipping_method_id' => 0,
                 'payment_status' => 'paid',
+                'mitra_id' => $seller_data->mitra_id,
                 'created_at' => now(),
                 'updated_at' => now(),
             ];

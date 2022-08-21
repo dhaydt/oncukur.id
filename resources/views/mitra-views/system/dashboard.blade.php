@@ -33,7 +33,7 @@
 @endpush
 
 @section('content')
-@php($data = ['pending' => 1,
+{{-- @php($data = ['pending' => 1,
     'confirmed' => 1,
     'processing' => 1,
     'out_for_delivery' => 1,
@@ -49,7 +49,7 @@
     'total_tax_collected' => 0,
     'total_earning' => 0,
     'withdrawn' => 0,
-    ])
+    ]) --}}
     <div class="content container-fluid">
         <div class="page-header pb-0" style="border-bottom: 0!important">
             <div class="flex-between row align-items-center mx-1">
