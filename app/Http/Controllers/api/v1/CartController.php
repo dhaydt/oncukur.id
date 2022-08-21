@@ -36,7 +36,7 @@ class CartController extends Controller
         $validator = Validator::make($request->all(), [
             'id' => 'required',
         ], [
-            'id.required' => translate('Product ID is required!'),
+            'id.required' => translate('Service ID is required!'),
         ]);
 
         if ($validator->errors()->count() > 0) {

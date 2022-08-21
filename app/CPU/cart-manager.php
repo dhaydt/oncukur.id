@@ -284,8 +284,9 @@ class CartManager
             } else {
                 $cart_check = Cart::where([
                     'customer_id' => $user->id,
-                    'seller_id' => $product->user_id,
-                    'seller_is' => $product->added_by, ])->first();
+                    'mitra_id' => $request->mitra_id ? $request->mitra_id : 0,
+                    // 'seller_is' => $product->added_by,
+                    ])->first();
             }
 
             if (isset($cart_check)) {
