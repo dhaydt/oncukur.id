@@ -21,9 +21,10 @@ class CartController extends Controller
             $shop = Shop::where('seller_id', $data['seller_id'])->first();
             $data['choices'] = json_decode($data['choices']);
             $data['variations'] = json_decode($data['variations']);
+            $data['outlet_name'] = $shop['name'];
+            $data['outlet_address'] = $shop['address'];
             $data['latitude'] = $shop['latitude'];
             $data['longitude'] = $shop['longitude'];
-            // dd($shop);
 
             return $data;
         });
