@@ -7,6 +7,7 @@ use App\CPU\Helpers;
 use function App\CPU\translate;
 use App\Http\Controllers\Controller;
 use App\Model\Cart;
+use App\Model\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -17,8 +18,12 @@ class CartController extends Controller
         $user = Helpers::get_customer($request);
         $cart = Cart::where(['customer_id' => $user->id])->get();
         $cart->map(function ($data) {
+            $shop = Shop::where('seller_id', $data['seller_id'])->first();
             $data['choices'] = json_decode($data['choices']);
             $data['variations'] = json_decode($data['variations']);
+            $data['latitude'] = $shop['latitude'];
+            $data['longitude'] = $shop['longitude'];
+            // dd($shop);
 
             return $data;
         });
