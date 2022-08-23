@@ -50,14 +50,12 @@ class OnlocationController extends Controller
             $shop = $shops[0];
 
             foreach ($shops as $s) {
-                $mitraCheck = Mitra::where(['shop_id' => $s->id, 'status' => 'approved'])->get();
+                $mitra = Mitra::where(['shop_id' => $s->id, 'status' => 'approved'])->get();
 
-                if (count($mitraCheck) > 0) {
+                if (count($mitra) > 0) {
                     $mitra = Mitra::with('shop')->where(['shop_id' => $s->id, 'status' => 'approved'])->inRandomOrder()->get();
                     $shop = $s;
-                }
-
-                if (!$mitra) {
+                } else {
                     return response()->json(['status' => 400, 'message' => 'Mitra not available']);
                 }
             }
