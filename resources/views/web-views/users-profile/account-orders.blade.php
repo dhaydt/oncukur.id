@@ -1,6 +1,6 @@
 @extends('layouts.front-end.app')
 
-@section('title',\App\CPU\translate('My Order List'))
+@section('title',\App\CPU\translate('My Order Listoo'))
 
 @push('css_or_js')
     <style>
@@ -137,11 +137,23 @@
                                     <td class="bodytr">
                                         @if($order['order_status']=='failed' || $order['order_status']=='canceled')
                                             <span class="badge badge-danger text-capitalize">
-                                                {{\App\CPU\translate($order['order_status'])}}
+                                                {{\App\CPU\translate('cancelled')}}
                                             </span>
-                                        @elseif($order['order_status']=='confirmed' || $order['order_status']=='processing' || $order['order_status']=='delivered')
+                                        @elseif($order['order_status']=='confirmed')
                                             <span class="badge badge-success text-capitalize">
-                                                {{\App\CPU\translate($order['order_status'])}}
+                                                {{\App\CPU\translate('confirmed')}}
+                                            </span>
+                                        @elseif($order['order_status']=='processing')
+                                            <span class="badge badge-success text-capitalize">
+                                                {{\App\CPU\translate('processing')}}
+                                            </span>
+                                        @elseif($order['order_status']=='delivered')
+                                            <span class="badge badge-success text-capitalize">
+                                                {{\App\CPU\translate('finished')}}
+                                            </span>
+                                        @elseif($order['order_status']=='pending')
+                                            <span class="badge badge-warning text-capitalize">
+                                                {{\App\CPU\translate('Pending')}}
                                             </span>
                                         @else
                                             <span class="badge badge-info text-capitalize">

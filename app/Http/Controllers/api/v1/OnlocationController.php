@@ -64,7 +64,9 @@ class OnlocationController extends Controller
             $service = Product::find($request->service_id);
 
             $mitra = Mitra::with('shop')->where('shop_id', $shop->id)->inRandomOrder()->get();
+
             if (count($mitra) > 0) {
+                return response()->json($mitra);
                 $from = [
                     'status' => 'success',
                     'range' => round($shop->distance, 2),
