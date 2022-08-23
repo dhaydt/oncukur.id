@@ -55,7 +55,9 @@ class OnlocationController extends Controller
                 if (count($mitraCheck) > 0) {
                     $mitra = Mitra::with('shop')->where(['shop_id' => $s->id, 'status' => 'approved'])->inRandomOrder()->get();
                     $shop = $s;
-                } else {
+                }
+
+                if (!$mitra) {
                     return response()->json(['status' => 400, 'message' => 'Mitra not available']);
                 }
             }
