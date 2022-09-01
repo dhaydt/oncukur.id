@@ -25,6 +25,8 @@
                         @if ($order['order_type'] == 'order')
                             <input type="hidden" name="user_lat" value="{{ $order['user_lat'] }}">
                             <input type="hidden" name="user_long" value="{{ $order['user_long'] }}">
+                            <input type="hidden" name="outlet_lat" value="{{ $mitra->shop->latitude }}">
+                            <input type="hidden" name="outlet_long" value="{{ $mitra->shop->longitude }}">
                         @endif
 
                         @if($order['payment_status']=='paid')
@@ -532,7 +534,7 @@
                         lng: parseFloat(long),
                     }
 
-                    var label = `<div style='width:180px' align='center'>\n <button align='center' type='button' onclick="getRoute(`+ parseFloat(lat) +`,`+parseFloat(long)+`)" class='btn btn-success btn-sm text-capitalize mb-3'>Show Route</button>\n        </div>`
+                    var label = `<div style='width:180px' align='center'>\n <button align='center' type='button' onclick="getRoute(`+ parseFloat(lat) +`,`+parseFloat(long)+`)" class='btn btn-success mt-2 btn-sm text-capitalize mb-3'>Show Route</button>\n        </div>`
 
                     var marker = new google.maps.Marker({
                         position: pos,
@@ -597,6 +599,14 @@
                         zoom: 13,
                     });
 
+            var from_lat = parseFloat($("input[name=outlet_lat]").val());
+            var from_long = parseFloat($("input[name=outlet_long]").val());
+
+                var from = {
+                    lat: from_lat,
+                    lng: from_long
+                }
+
                 var directionsService = new google.maps.DirectionsService();
 
                 var directionsDisplay = new google.maps.DirectionsRenderer();
@@ -609,7 +619,7 @@
                      * Creating a new request
                      */
                     var request = {
-                        origin: origin,
+                        origin: from,
                         destination: dest,
                         travelMode: google.maps.TravelMode.DRIVING, //WALKING, BYCYCLING, TRANSIT
                         unitSystem: google.maps.UnitSystem.IMPERIAL
