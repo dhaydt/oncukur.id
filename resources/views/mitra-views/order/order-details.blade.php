@@ -22,6 +22,10 @@
 
                     <div class="d-sm-flex align-items-sm-center">
                         <h1 class="page-header-title">{{\App\CPU\translate($order['order_type'])}} #{{$order['id']}}</h1>
+                        @if ($order['order_type'] == 'order')
+                            <input type="hidden" name="user_lat" value="{{ $order['user_lat'] }}">
+                            <input type="hidden" name="user_long" value="{{ $order['user_long'] }}">
+                        @endif
 
                         @if($order['payment_status']=='paid')
                             <span
@@ -134,7 +138,6 @@
                 </div>
             </div>
         </div>
-
 
         <div class="row" id="printableArea">
             <div class="col-lg-8 mb-3  mb-lg-0">
@@ -279,6 +282,9 @@
                     <!-- End Body -->
                 </div>
                 <!-- End Card -->
+                <div class="card">
+                    <div class="map" id="map" style="height: 500px;"></div>
+                </div>
             </div>
 
             <div class="col-lg-4">
@@ -492,7 +498,161 @@
     </div>
 @endsection
 @push('script')
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key={{ env('GOOGLE_API_KEY') }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_API_KEY') }}&callback=initMap&v=weekly" defer></script>
     <script>
+        $(document).ready(function(){
+            var lat = $("input[name=user_lat]").val();
+            var long = $("input[name=user_long]").val();
+            console.log('coor',lat)
+            initMap(lat, long);
+        })
+
+        function initMap(lat, long) {
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: lat, lng: long },
+                zoom: 13,
+            });
+
+            infoWindow = new google.maps.InfoWindow();
+
+            const locationButton = document.createElement("button");
+
+            map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                    const pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                    };
+
+                    const destination = {
+                        lat: parseFloat(lat),
+                        lng: parseFloat(long),
+                    }
+
+                    var label = `<div style='width:180px' align='center'>\n <button align='center' type='button' onclick="getRoute(`+ parseFloat(lat) +`,`+parseFloat(long)+`)" class='btn btn-success btn-sm text-capitalize mb-3'>Show Route</button>\n        </div>`
+
+                    var marker = new google.maps.Marker({
+                        position: pos,
+                        animation: google.maps.Animation.DROP,
+                        map: map,
+                    });
+
+                    marker.addListener("click", () => {
+                        infoWindow.setContent(label);
+                        infoWindow.open(map, marker);
+                    });
+
+                    map.setCenter(pos);
+                },
+                () => {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                }
+                );
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, infoWindow, map.getCenter());
+            }
+        }
+
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+            infoWindow.setPosition(pos);
+            infoWindow.setContent(
+                browserHasGeolocation
+                ? "Error: The Geolocation service failed."
+                : "Error: Your browser doesn't support geolocation."
+            );
+            infoWindow.open(map);
+        }
+
+        function getRoute(lat, lng){
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                    const pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                    };
+                    const dest ={
+                        lat: parseFloat(lat),
+                        lng: parseFloat(lng)
+                    }
+                    showRoute(pos, dest);
+                },
+                () => {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                }
+                );
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, infoWindow, map.getCenter());
+            }
+
+            function showRoute(origin, dest){
+                console.log('route', origin, dest)
+                map = new google.maps.Map(document.getElementById("map"), {
+                        center: origin,
+                        zoom: 13,
+                    });
+
+                var directionsService = new google.maps.DirectionsService();
+
+                var directionsDisplay = new google.maps.DirectionsRenderer();
+
+                directionsDisplay.setMap(map);
+
+                calculateDistance();
+                function calculateDistance(){
+                    /**
+                     * Creating a new request
+                     */
+                    var request = {
+                        origin: origin,
+                        destination: dest,
+                        travelMode: google.maps.TravelMode.DRIVING, //WALKING, BYCYCLING, TRANSIT
+                        unitSystem: google.maps.UnitSystem.IMPERIAL
+                    }
+
+                    /**
+                     * Pass the created request to the route method
+                     */
+
+                    directionsService.route(request, function (result, status) {
+                        if (status == google.maps.DirectionsStatus.OK) {
+
+                            /**
+                             * Get distance and time then display on the map
+                             */
+                            // const output = document.querySelector('#output');
+                            // output.innerHTML = "<p class='alert-success'>From: " + document.getElementById("origin").value + "</br>" +"To: " + document.getElementById("destination").value + "</br>"+"Driving distance <i class='fas fa-road'></i> : " + result.routes[0].legs[0].distance.text +"</br>"+ " Duration <i class='fas fa-clock'></i> : " + result.routes[0].legs[0].duration.text + ".</p>";
+
+                            /**
+                             * Display the obtained route
+                             */
+                            directionsDisplay.setDirections(result);
+                        } else {
+                            /**
+                             * Eliminate route from the map
+                             */
+                            directionsDisplay.setDirections({ routes: [] });
+
+                            /**
+                             * Centre the map to my current location
+                             */
+                            map.setCenter(origin);
+
+                            /**
+                             * show error message in case there is any
+                             */
+                            // output.innerHTML = "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> Could not retrieve driving distance.</div>";
+                        }
+                    });
+            }}
+        }
+
+
         $(document).on('change', '.payment_status', function () {
             var id = $(this).attr("data-id");
             var value = $(this).val();

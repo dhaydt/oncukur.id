@@ -35,6 +35,7 @@
     <!-- Font CDN -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key={{ env('GOOGLE_API_KEY') }}"></script>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
     @stack('css_or_js')
@@ -605,6 +606,7 @@
 <script src="{{asset('assets/front-end')}}/vendor/drift-zoom/dist/Drift.min.js"></script>
 <script src="{{asset('assets/front-end')}}/vendor/lightgallery.js/dist/js/lightgallery.min.js"></script>
 <script src="{{asset('assets/front-end')}}/vendor/lg-video.js/dist/lg-video.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_API_KEY') }}&callback=initMap&v=weekly" defer></script>
 
 {{--Toastr--}}
 <script src={{asset("assets/back-end/js/toastr.js")}}></script>

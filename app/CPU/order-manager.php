@@ -281,7 +281,7 @@ class OrderManager
             'mitra_id' => $seller_data->mitra_id,
             'range_km' => $seller_data->range_km,
             'user_lat' => $seller_data->user_lat,
-            'user_long' => $seller_data->user_lat,
+            'user_long' => $seller_data->user_long,
             'created_at' => now(),
             'updated_at' => now(),
         ];

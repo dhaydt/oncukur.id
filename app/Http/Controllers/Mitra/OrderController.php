@@ -6,6 +6,7 @@ use App\CPU\Helpers;
 use App\CPU\OrderManager;
 use function App\CPU\translate;
 use App\Http\Controllers\Controller;
+use App\Model\Mitra;
 use App\Model\Order;
 use Illuminate\Http\Request;
 
@@ -39,13 +40,16 @@ class OrderController extends Controller
 
     public function details($id)
     {
+        $mitra = auth('mitra')->id();
         $sellerId = auth('mitra')->id();
         $order = Order::with(['details' => function ($query) use ($sellerId) {
             $query->where('mitra_id', $sellerId);
         }])->with('customer', 'shipping')
             ->where('id', $id)->first();
 
-        return view('mitra-views.order.order-details', compact('order'));
+        $mitra = Mitra::with('shop')->find($mitra);
+
+        return view('mitra-views.order.order-details', compact('order', 'mitra'));
     }
 
     public function status(Request $request)
