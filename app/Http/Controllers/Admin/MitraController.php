@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\CPU\Helpers;
+use function App\CPU\translate;
 use App\Http\Controllers\Controller;
 use App\Model\Mitra;
 use App\Model\Order;
@@ -11,6 +12,7 @@ use App\Model\Product;
 use App\Model\Review;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class MitraController extends Controller
@@ -156,10 +158,31 @@ class MitraController extends Controller
     {
         $order = Mitra::findOrFail($request->id);
         $order->status = $request->status;
+        $user = $order;
         if ($request->status == 'approved') {
+            try {
+                Mail::to($user->email)->send(new \App\Mail\ReviewMitra('Your registration was approved, you can login on the mitra dashboard using the credentials you entered during registration!!!
+                (pendaftaran anda diterima, anda bisa login di dashboard mitra menggunakan credensial yang anda masukan saat pendaftaran!!)'));
+                $response = translate('notification email has been sent to the mitra email');
+                Toastr::success($response);
+            } catch (\Exception $exception) {
+                $response = translate('email_failed');
+                Toastr::error($response);
+            }
             Toastr::success('Mitra has been approved successfully');
         } elseif ($request->status == 'rejected') {
             Toastr::info('Mitra has been rejected successfully');
+        } elseif ($request->status == 'review') {
+            try {
+                Mail::to($user->email)->send(new \App\Mail\ReviewMitra('Your registration on progress, Please come to the outlet where you apply, to verify files and skills by bringing your original identity file!!
+                (Pendaftaran anda sedang diproses, Mohon untuk datang ke outlet tempat anda melamar, agar melakukan verifikasi berkas dan skill dengan membawa berkas asli identitas anda!!)'));
+                $response = translate('notification email has been sent to the mitra email');
+                Toastr::success($response);
+            } catch (\Exception $exception) {
+                $response = translate('email_failed');
+                Toastr::error($response);
+            }
+            Toastr::info('Mitra has been Reviewed');
         } elseif ($request->status == 'suspended') {
             $order->auth_token = Str::random(80);
             Toastr::info('Mitra has been suspended successfully');

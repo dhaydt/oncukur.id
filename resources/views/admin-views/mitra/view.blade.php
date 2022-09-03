@@ -32,6 +32,28 @@
                             <form class="d-inline-block" action="{{route('admin.mitras.updateStatus')}}" method="POST">
                                 @csrf
                                 <input type="hidden" name="id" value="{{$seller->id}}">
+                                <input type="hidden" name="status" value="review">
+                                <button type="submit" class="btn btn-primary">{{\App\CPU\translate('Review_Document')}}</button>
+                            </form>
+                            <form class="d-inline-block" action="{{route('admin.mitras.updateStatus')}}" method="POST">
+                                @csrf
+                                <input type="hidden" name="id" value="{{$seller->id}}">
+                                <input type="hidden" name="status" value="rejected">
+                                <button type="submit" class="btn btn-danger">{{\App\CPU\translate('reject')}}</button>
+                            </form>
+                        </div>
+                    </div>
+                @endif
+                @if ($seller->status=="review")
+                    <div class="mt-4 pr-2 float-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}">
+                        <div class="flex-start">
+                            <h4 class="mx-1"><i class="tio-shop-outlined"></i></h4>
+                            <div><h4>{{\App\CPU\translate('user_request_for_become_a_mitra.')}}</h4></div>
+                        </div>
+                        <div class="text-center">
+                            <form class="d-inline-block" action="{{route('admin.mitras.updateStatus')}}" method="POST">
+                                @csrf
+                                <input type="hidden" name="id" value="{{$seller->id}}">
                                 <input type="hidden" name="status" value="approved">
                                 <button type="submit" class="btn btn-primary">{{\App\CPU\translate('Approve')}}</button>
                             </form>

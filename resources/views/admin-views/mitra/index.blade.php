@@ -68,7 +68,13 @@
                                         <td scope="col">{{$seller->phone}}</td>
                                         <td scope="col">{{$seller->email}}</td>
                                         <td scope="col">
-                                            {!! $seller->status=='approved'?'<label class="badge badge-success">Active</label>':'<label class="badge badge-danger">In-Active</label>' !!}
+                                            @if ($seller->status=='approved')
+                                                <label class="badge badge-success">Active</label>
+                                            @elseif($seller->status=='review')
+                                                <label class="badge badge-primary">On-Review</label>
+                                            @else
+                                                <label class="badge badge-danger">In-Active</label>
+                                            @endif
                                         </td>
                                         <td scope="col">
                                             <a href="{{route('admin.mitras.order-list',[$seller['id']])}}"

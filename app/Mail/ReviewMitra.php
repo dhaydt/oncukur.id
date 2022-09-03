@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class EmailVerification extends Mailable
+class ReviewMitra extends Mailable
 {
     use Queueable;
     use SerializesModels;
@@ -30,6 +30,6 @@ class EmailVerification extends Mailable
      */
     public function build()
     {
-        return $this->view('email-templates.email-verification', ['token' => $this->token]);
+        return $this->view('email-templates.review-template', ['token' => $this->token]);
     }
 }
