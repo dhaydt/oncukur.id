@@ -172,8 +172,8 @@
             </span>
           </div>
           <div class="card-footer">
-            <div class="logo">
-                <img src="{{asset("storage/company")."/".$web_config['web_logo']->value}}" alt="ONCUKUR LOGO">
+            <div class="logo" style="display: flex; justify-content: right;">
+                <img src="{{asset("assets/oncukur.png")}}" alt="ONCUKUR LOGO">
             </div>
           </div>
         </div>
