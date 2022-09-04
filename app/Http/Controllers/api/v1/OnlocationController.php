@@ -34,9 +34,12 @@ class OnlocationController extends Controller
             return response()->json(['status' => 'error', 'message' => 'Please select service menu']);
         }
 
-        $shops = Shop::with('seller')->select('*', DB::raw('6371 * acos(cos(radians('.$lat.'))
+        $shops = Shop::with('seller', 'mitras')->where('status', 1)->select('*', DB::raw('6371 * acos(cos(radians('.$lat.'))
                         * cos(radians(latitude)) * cos(radians(longitude) - radians('.$long.'))
                         + sin(radians('.$lat.')) * sin(radians(latitude)) ) AS distance'));
+        $shops = $shops->whereHas('mitras', function ($q) {
+            $q->where('status', 'approved');
+        });
         $shops = $shops->having('distance', '<', 20);
         // $shops = $shops->whereHas('seller', function ($s) use ($request) {
         //     $s->with('product')->whereHas('product', function ($p) use ($request) {
@@ -46,39 +49,41 @@ class OnlocationController extends Controller
         $shops = $shops->inRandomOrder();
         $shops = $shops->get();
 
-        if (count($shops) > 0) {
-            $shop = $shops[0];
+        // return response()->json($shops);
 
-            foreach ($shops as $s) {
-                $mitra = Mitra::where(['shop_id' => $s->id, 'status' => 'approved'])->get();
+        foreach ($shops as $shop) {
+            if (count($shop['mitras']) > 0) {
+                $shop = $shop;
+
+                // dd($shop);
+                $mitra = Mitra::where(['shop_id' => $shop->id, 'status' => 'approved'])->get();
 
                 if (count($mitra) > 0) {
-                    $mitra = Mitra::with('shop')->where(['shop_id' => $s->id, 'status' => 'approved'])->inRandomOrder()->get();
-                    $shop = $s;
+                    $mitra = Mitra::with('shop')->where(['shop_id' => $shop->id, 'status' => 'approved'])->inRandomOrder()->get();
+                    $shop = $shop;
                 } else {
                     return response()->json(['status' => 400, 'message' => 'Mitra not available']);
                 }
-            }
 
-            $prices = [];
-            $id = [];
-            foreach ($request->service_id as $cat) {
-                if ($cat !== null) {
-                    $product = Product::where('id', $cat)->pluck('unit_price');
-                    $ids = Product::where('id', $cat)->pluck('id');
-                    array_push($prices, $product[0]);
-                    array_push($id, $ids[0]);
+                $prices = [];
+                $id = [];
+                foreach ($request->service_id as $cat) {
+                    if ($cat !== null) {
+                        $product = Product::where('id', $cat)->pluck('unit_price');
+                        $ids = Product::where('id', $cat)->pluck('id');
+                        array_push($prices, $product[0]);
+                        array_push($id, $ids[0]);
+                    }
                 }
-            }
-            $price = array_sum($prices);
-            $driver = round(10000 * $shop->distance);
+                $price = array_sum($prices);
+                $driver = round(10000 * $shop->distance);
 
-            $service = Product::find($request->service_id);
+                $service = Product::find($request->service_id);
 
-            // $mitra = Mitra::with('shop')->where(['shop_id' => $shop->id, 'status' => 'approved'])->inRandomOrder()->get();
+                // $mitra = Mitra::with('shop')->where(['shop_id' => $shop->id, 'status' => 'approved'])->inRandomOrder()->get();
 
-            if (count($mitra) > 0) {
-                $from = [
+                if (count($mitra) > 0) {
+                    $from = [
                     'status' => 'success',
                     'range' => round($shop->distance, 2),
                     'service_price' => number_format($price),
@@ -96,8 +101,14 @@ class OnlocationController extends Controller
                     ],
                 ];
 
-                return response()->json($from);
+                    return response()->json($from);
+                }
+
+                return response()->json($shop);
             }
+        }
+
+        if (count($shops) > 0) {
             $shops = ['status' => 400, 'message' => 'Mitra not available'];
             // return $shops;
             return response()->json($shops);
