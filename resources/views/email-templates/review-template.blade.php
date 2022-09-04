@@ -33,6 +33,19 @@
     .card-body span{
       font-size: 16px;
     }
+    .card-footer{
+      border-top: 1px solid #9e9e9e;
+      padding-bottom: 10px;
+    }
+
+    .card-footer .logo{
+      margin-top: 5px;
+      display: flex;
+      justify-content: end;
+    }
+    .card-footer .logo img{
+      height: 30px;
+    }
 
     @media(max-width: 500px){
       .container{
@@ -154,9 +167,14 @@
 
               Based on your registration at Mitra OnCukur: <br>
               <h4>
-                {{ $token }}
+                {!! $token !!}
               </h4>
             </span>
+          </div>
+          <div class="card-footer">
+            <div class="logo">
+                <img src="{{asset("storage/company")."/".$web_config['web_logo']->value}}" alt="ONCUKUR LOGO">
+            </div>
           </div>
         </div>
       </div>

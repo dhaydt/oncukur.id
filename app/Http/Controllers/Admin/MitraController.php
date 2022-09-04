@@ -161,8 +161,8 @@ class MitraController extends Controller
         $user = $order;
         if ($request->status == 'approved') {
             try {
-                Mail::to($user->email)->send(new \App\Mail\ReviewMitra('Your registration was approved, you can login on the mitra dashboard using the credentials you entered during registration!!!
-                (pendaftaran anda diterima, anda bisa login di dashboard mitra menggunakan credensial yang anda masukan saat pendaftaran!!)'));
+                Mail::to($user->email)->send(new \App\Mail\ReviewMitra('Your registration was <i style="color:blue">APPROVED</i>, you can login on the mitra dashboard using the Email & Password you entered during registration!!! <br><br>
+                (pendaftaran anda di <i style="color:blue">TERIMA</i>, anda bisa login di dashboard mitra menggunakan User & Password yang anda masukan saat pendaftaran!!)'));
                 $response = translate('notification email has been sent to the mitra email');
                 Toastr::success($response);
             } catch (\Exception $exception) {
@@ -174,8 +174,8 @@ class MitraController extends Controller
             Toastr::info('Mitra has been rejected successfully');
         } elseif ($request->status == 'review') {
             try {
-                Mail::to($user->email)->send(new \App\Mail\ReviewMitra('Your registration on progress, Please come to the outlet where you apply, to verify files and skills by bringing your original identity file!!
-                (Pendaftaran anda sedang diproses, Mohon untuk datang ke outlet tempat anda melamar, agar melakukan verifikasi berkas dan skill dengan membawa berkas asli identitas anda!!)'));
+                Mail::to($user->email)->send(new \App\Mail\ReviewMitra('Your registration <i style="color:blue">ON PROGRESS</i>, Please come to the outlet where you apply, to verify files and skills by bringing your original identity file!! <br><br>
+                (Pendaftaran anda sedang di <i style="color:blue">PROSES</i>, Mohon untuk datang ke outlet tempat anda mendaftar, agar melakukan verifikasi berkas dan skill dengan membawa berkas asli identitas anda!!)'));
                 $response = translate('notification email has been sent to the mitra email');
                 Toastr::success($response);
             } catch (\Exception $exception) {
