@@ -151,7 +151,7 @@
   </style>
 </head>
 
-<body style="background-color: #e9ecef;">
+<body>
   <!-- end preheader -->
   <div class="container">
     <div class="row justify-content-center">
