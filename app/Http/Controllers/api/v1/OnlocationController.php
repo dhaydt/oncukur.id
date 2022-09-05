@@ -113,7 +113,7 @@ class OnlocationController extends Controller
             // return $shops;
             return response()->json($shops);
         } else {
-            $shops = ['status' => 400, 'message' => 'Outlet Not Found in This Area'];
+            $shops = ['status' => 400, 'message' => 'Outlet or Mitra Not Found in This Area'];
 
             return response()->json($shops);
         }

@@ -58,9 +58,12 @@ class WebController extends Controller
         $lat = $request->lat;
         $long = $request->long;
 
-        $shops = Shop::with('seller')->select('*', DB::raw('6371 * acos(cos(radians('.$lat.'))
+        $shops = Shop::with('seller', 'mitras')->where('status', 1)->select('*', DB::raw('6371 * acos(cos(radians('.$lat.'))
                         * cos(radians(latitude)) * cos(radians(longitude) - radians('.$long.'))
                         + sin(radians('.$lat.')) * sin(radians(latitude)) ) AS distance'));
+        $shops = $shops->whereHas('mitras', function ($q) {
+            $q->where('status', 'approved');
+        });
         $shops = $shops->having('distance', '<', 20);
         // $shops = $shops->whereHas('seller', function ($s) use ($request) {
         //     $s->with('product')->whereHas('product', function ($p) use ($request) {
@@ -72,51 +75,56 @@ class WebController extends Controller
 
         // var_dump($shops);
 
-        if (count($shops) > 0) {
-            $shop = $shops[0];
-            $prices = [];
-            $id = [];
-            foreach ($request->cat_id as $cat) {
-                $product = Product::where('id', $cat)->pluck('unit_price');
-                $ids = Product::where('id', $cat)->pluck('id');
-                array_push($prices, $product[0]);
-                array_push($id, $ids[0]);
-            }
-            $price = array_sum($prices);
-            $driver = \App\CPU\Helpers::driver_cost(round($shop->distance, 2));
+        foreach ($shops as $shop) {
+            if (count($shop['mitras']) > 0) {
+                $shop = $shop;
+                $prices = [];
+                $id = [];
+                foreach ($request->cat_id as $cat) {
+                    $product = Product::where('id', $cat)->pluck('unit_price');
+                    $ids = Product::where('id', $cat)->pluck('id');
+                    array_push($prices, $product[0]);
+                    array_push($id, $ids[0]);
+                }
+                $price = array_sum($prices);
+                $driver = \App\CPU\Helpers::driver_cost(round($shop->distance, 2));
 
-            $service = Product::find($request->cat_id);
+                $service = Product::find($request->cat_id);
 
-            $mitra = Mitra::with('shop')->where('shop_id', $shop->id)->inRandomOrder()->get();
-            if (count($mitra) > 0) {
-                $from = [
-                    'status' => 200,
-                    'shop' => $shop,
-                    'mitra' => $mitra[0],
-                    'service_price' => number_format($price),
-                    'driver_price' => number_format($driver),
-                    'total_price' => number_format($price + $driver),
-                    'service' => $service,
-                    'ids' => $id,
-                    'to' => [
-                        'lat' => floatval($request->lat),
-                        'lng' => floatval($request->long),
-                    ],
-                ];
+                $mitra = Mitra::with('shop')->where('shop_id', $shop->id)->inRandomOrder()->get();
+                if (count($mitra) > 0) {
+                    $from = [
+                        'status' => 200,
+                        'shop' => $shop,
+                        'mitra' => $mitra[0],
+                        'service_price' => number_format($price),
+                        'driver_price' => number_format($driver),
+                        'total_price' => number_format($price + $driver),
+                        'service' => $service,
+                        'ids' => $id,
+                        'to' => [
+                            'lat' => floatval($request->lat),
+                            'lng' => floatval($request->long),
+                        ],
+                    ];
+                    if ($request->ajax()) {
+                        return $from;
+                    } else {
+                        return $from;
+                    }
+                }
+                $shops = ['status' => 400, 'message' => 'Mitra not available'];
                 if ($request->ajax()) {
-                    return $from;
+                    return $shops;
                 } else {
-                    return $from;
+                    // return $shops;
                 }
             }
-            $shops = ['status' => 400, 'message' => 'Mitra not available'];
-            if ($request->ajax()) {
-                return $shops;
-            } else {
-                // return $shops;
-            }
+        }
+
+        if (count($shops) > 0) {
         } else {
-            $shops = ['status' => 400, 'message' => 'Outlet Not Found in This Area'];
+            $shops = ['status' => 400, 'message' => 'Outlet or Mitra Not Found in This Area'];
             if ($request->ajax()) {
                 return $shops;
             } else {
