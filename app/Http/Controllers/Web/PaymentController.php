@@ -13,6 +13,27 @@ use Midtrans\Config;
 
 class PaymentController extends Controller
 {
+    public function gopay()
+    {
+        // Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+
+        $params = [
+                'transaction_details' => [
+                    'order_id' => rand(),
+                    'gross_amount' => 10000,
+                ],
+                'payment_type' => 'gopay',
+                'gopay' => [
+                    'enable_callback' => true,                // optional
+                    'callback_url' => 'someapps://callback',   // optional
+                ],
+        ];
+
+        $response = \Midtrans\CoreApi::charge($params);
+        dd($response);
+    }
+
     public function createSnap(Request $request)
     {
         if (auth('customer')->check()) {

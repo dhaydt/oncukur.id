@@ -12,6 +12,7 @@ use App\Model\Product;
 use App\Model\Review;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -169,6 +170,18 @@ class MitraController extends Controller
                 $response = translate('email_failed');
                 Toastr::error($response);
             }
+            DB::table('mitra_wallets')->insert([
+                'mitra_id' => $order['id'],
+                'withdrawn' => 0,
+                'commission_given' => 0,
+                'total_earning' => 0,
+                'pending_withdraw' => 0,
+                'delivery_charge_earned' => 0,
+                'collected_cash' => 0,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
             Toastr::success('Mitra has been approved successfully');
         } elseif ($request->status == 'rejected') {
             Toastr::info('Mitra has been rejected successfully');
