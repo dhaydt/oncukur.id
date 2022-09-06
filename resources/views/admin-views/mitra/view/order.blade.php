@@ -1,6 +1,6 @@
 @extends('layouts.back-end.app')
 
-@section('title',$seller->shop ? $seller->shop->name : \App\CPU\translate("shop name not found"))
+@section('title',$seller->name ? $seller->name : \App\CPU\translate("Mitra name not found"))
 
 @push('css_or_js')
     <style>
@@ -106,30 +106,52 @@
                 <li class="breadcrumb-item"><a
                         href="{{route('admin.dashboard.index')}}">{{\App\CPU\translate('Dashboard')}}</a>
                 </li>
-                <li class="breadcrumb-item" aria-current="page">{{\App\CPU\translate('Seller_Details')}}</li>
+                <li class="breadcrumb-item" aria-current="page">{{\App\CPU\translate('Mitra_Details')}}</li>
             </ol>
         </nav>
 
         <!-- Page Heading -->
         <div class="flex-between d-sm-flex row align-items-center justify-content-between mb-2 mx-1">
             <div>
-                <a href="{{route('admin.sellers.seller-list')}}" class="btn btn-primary mt-3 mb-3">{{\App\CPU\translate('Back_to_seller_list')}}</a>
+                <a href="{{route('admin.mitras.mitra-list')}}" class="btn btn-primary mt-3 mb-3">{{\App\CPU\translate('Back_to_mitra_list')}}</a>
             </div>
             <div>
                 @if ($seller->status=="pending")
                     <div class="mt-4 pr-2 float-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}">
                         <div class="flex-start">
                             <div class="mx-1"><h4><i class="tio-shop-outlined"></i></h4></div>
-                            <div>{{\App\CPU\translate('Seller_request_for_open_a_shop.')}}</div>
+                            <div>{{\App\CPU\translate('mitra_request_for_join_oncukur.')}}</div>
                         </div>
                         <div class="text-center">
-                            <form class="d-inline-block" action="{{route('admin.sellers.updateStatus')}}" method="POST">
+                            <form class="d-inline-block" action="{{route('admin.mitras.updateStatus')}}" method="POST">
+                                @csrf
+                                <input type="hidden" name="id" value="{{$seller->id}}">
+                                <input type="hidden" name="status" value="review">
+                                <button type="submit" class="btn btn-primary">{{\App\CPU\translate('Review')}}</button>
+                            </form>
+                            <form class="d-inline-block" action="{{route('admin.mitras.updateStatus')}}" method="POST">
+                                @csrf
+                                <input type="hidden" name="id" value="{{$seller->id}}">
+                                <input type="hidden" name="status" value="rejected">
+                                <button type="submit" class="btn btn-danger">{{\App\CPU\translate('reject')}}</button>
+                            </form>
+                        </div>
+                    </div>
+                @endif
+                @if ($seller->status=="review")
+                    <div class="mt-4 pr-2 float-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}">
+                        <div class="flex-start">
+                            <div class="mx-1"><h4><i class="tio-shop-outlined"></i></h4></div>
+                            <div>{{\App\CPU\translate('mitra_request_for_join_oncukur.')}}</div>
+                        </div>
+                        <div class="text-center">
+                            <form class="d-inline-block" action="{{route('admin.mitras.updateStatus')}}" method="POST">
                                 @csrf
                                 <input type="hidden" name="id" value="{{$seller->id}}">
                                 <input type="hidden" name="status" value="approved">
                                 <button type="submit" class="btn btn-primary">{{\App\CPU\translate('Approve')}}</button>
                             </form>
-                            <form class="d-inline-block" action="{{route('admin.sellers.updateStatus')}}" method="POST">
+                            <form class="d-inline-block" action="{{route('admin.mitras.updateStatus')}}" method="POST">
                                 @csrf
                                 <input type="hidden" name="id" value="{{$seller->id}}">
                                 <input type="hidden" name="status" value="rejected">
@@ -144,7 +166,7 @@
         <div class="page-header">
             <div class="flex-between row mx-1">
                 <div>
-                    <h1 class="page-header-title">{{ $seller->shop ? $seller->shop->name : "Shop Name : Update Please" }}</h1>
+                    <h1 class="page-header-title"><span class="text-uppercase">{{ $seller->name }} ( {{ $seller->shop? $seller->shop->name : "Outlet Name : Ask outlet administrator for update" }} )</span></h1>
                 </div>
             </div>
             <!-- Nav Scroller -->
@@ -152,27 +174,23 @@
                 <!-- Nav -->
                 <ul class="nav nav-tabs page-header-tabs">
                     <li class="nav-item">
-                        <a class="nav-link " href="{{ route('admin.sellers.view',$seller->id) }}">{{\App\CPU\translate('Shop')}}</a>
+                        <a class="nav-link " href="{{ route('admin.mitras.view',$seller->id) }}">{{\App\CPU\translate('Outlet')}}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active"
-                           href="{{ route('admin.sellers.view',['id'=>$seller->id, 'tab'=>'order']) }}">{{\App\CPU\translate('Order')}}</a>
+                        href="{{ route('admin.mitras.view',['id'=>$seller->id, 'tab'=>'order']) }}">{{\App\CPU\translate('Order / Booking')}}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="{{ route('admin.sellers.view',['id'=>$seller->id, 'tab'=>'product']) }}">{{\App\CPU\translate('Product')}}</a>
+                        href="{{ route('admin.mitras.view',['id'=>$seller->id, 'tab'=>'setting']) }}">{{\App\CPU\translate('Setting')}}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="{{ route('admin.sellers.view',['id'=>$seller->id, 'tab'=>'setting']) }}">{{\App\CPU\translate('Setting')}}</a>
+                        href="{{ route('admin.mitras.view',['id'=>$seller->id, 'tab'=>'transaction']) }}">{{\App\CPU\translate('Transaction')}}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="{{ route('admin.sellers.view',['id'=>$seller->id, 'tab'=>'transaction']) }}">{{\App\CPU\translate('Transaction')}}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="{{ route('admin.sellers.view',['id'=>$seller->id, 'tab'=>'review']) }}">{{\App\CPU\translate('Review')}}</a>
+                        href="{{ route('admin.mitras.view',['id'=>$seller->id, 'tab'=>'review']) }}">{{\App\CPU\translate('Review')}}</a>
                     </li>
 
                 </ul>
@@ -304,7 +322,7 @@
                                                 {{$orders->firstItem()+$key}}
                                             </td>
                                             <td class="table-column-pl-0">
-                                                <a href="{{route('admin.sellers.order-details',['order_id'=>$order['id'],'seller_id'=>$order->sellerName['seller_id']])}}">{{$order['id']}}</a>
+                                                <a href="{{route('admin.mitras.order-details',['order_id'=>$order['id'],'seller_id'=>$order->sellerName['seller_id']])}}">{{$order['id']}}</a>
                                             </td>
                                             <td>{{date('d M Y',strtotime($order['created_at']))}}</td>
                                             <td>
@@ -374,7 +392,7 @@
                                             </td>
                                             <td>
                                                 <a class="btn btn-sm btn-white"
-                                                   href="{{route('admin.sellers.order-details',['order_id'=>$order['id'],'seller_id'=>$order['customer_id']])}}"><i
+                                                   href="{{route('admin.mitras.order-details',['order_id'=>$order['id'],'seller_id'=>$order['customer_id']])}}"><i
                                                         class="tio-visible"></i> {{\App\CPU\translate('View')}}</a>
                                             </td>
                                         </tr>

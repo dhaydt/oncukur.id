@@ -1,6 +1,6 @@
 @extends('layouts.back-end.app')
-
-@section('title', $seller->shop? $seller->shop->name : \App\CPU\translate("Outlet Name"))
+{{-- {{ dd($seller) }} --}}
+@section('title', $seller->name ? $seller->name : \App\CPU\translate("Mitra_name"))
 
 @push('css_or_js')
 
@@ -73,7 +73,7 @@
     <div class="page-header">
         <div class="flex-between row mx-1">
             <div>
-                <h1 class="page-header-title">{{ $seller->shop? $seller->shop->name : "Outlet Name : Ask outlet administrator for update" }}</h1>
+                <h1 class="page-header-title">{{ $seller->name }} <span class="text-uppercase">( {{ $seller->shop? $seller->shop->name : "Outlet Name : Ask outlet administrator for update" }} )</span></h1>
             </div>
         </div>
         <!-- Nav Scroller -->
@@ -81,27 +81,23 @@
             <!-- Nav -->
             <ul class="nav nav-tabs page-header-tabs">
                 <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('admin.sellers.view',$seller->id) }}">{{\App\CPU\translate('Shop')}}</a>
+                        <a class="nav-link active" href="{{ route('admin.mitras.view',$seller->id) }}">{{\App\CPU\translate('Outlet')}}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="{{ route('admin.sellers.view',['id'=>$seller->id, 'tab'=>'order']) }}">{{\App\CPU\translate('Order')}}</a>
+                        href="{{ route('admin.mitras.view',['id'=>$seller->id, 'tab'=>'order']) }}">{{\App\CPU\translate('Order / Booking')}}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="{{ route('admin.sellers.view',['id'=>$seller->id, 'tab'=>'product']) }}">{{\App\CPU\translate('Product')}}</a>
+                        href="{{ route('admin.mitras.view',['id'=>$seller->id, 'tab'=>'setting']) }}">{{\App\CPU\translate('Setting')}}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="{{ route('admin.sellers.view',['id'=>$seller->id, 'tab'=>'setting']) }}">{{\App\CPU\translate('Setting')}}</a>
+                        href="{{ route('admin.mitras.view',['id'=>$seller->id, 'tab'=>'transaction']) }}">{{\App\CPU\translate('Transaction')}}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="{{ route('admin.sellers.view',['id'=>$seller->id, 'tab'=>'transaction']) }}">{{\App\CPU\translate('Transaction')}}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="{{ route('admin.sellers.view',['id'=>$seller->id, 'tab'=>'review']) }}">{{\App\CPU\translate('Review')}}</a>
+                           href="{{ route('admin.mitras.view',['id'=>$seller->id, 'tab'=>'review']) }}">{{\App\CPU\translate('Review')}}</a>
                     </li>
 
             </ul>
@@ -115,7 +111,7 @@
                 <div class=" gx-2 gx-lg-3 mb-2">
                     <div>
                         <h4><i style="font-size: 30px"
-                               class="tio-wallet"></i>{{\App\CPU\translate('seller_wallet')}}</h4>
+                               class="tio-wallet"></i>{{\App\CPU\translate('mitra_wallet')}}</h4>
                     </div>
                     <div class="row gx-2 gx-lg-3" id="order_stats">
                         <div class="flex-between" style="width: 100%">
@@ -204,7 +200,7 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header text-capitalize">
-                        {{\App\CPU\translate('Seller')}} {{\App\CPU\translate('Account')}} <br>
+                        {{\App\CPU\translate('Mitra')}} {{\App\CPU\translate('Account')}} <br>
                         @if($seller->status=='approved')
                             <form class="d-inline-block" action="{{route('admin.mitras.updateStatus')}}" method="POST">
                                 @csrf
@@ -225,21 +221,21 @@
                     </div>
                     <div class="card-body">
                         <div class="card-body" style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
-                            <div class="flex-start">
-                                <div><h4>Status : </h4></div>
-                                <div class="mx-1"><h4>{!! $seller->status=='approved'?'<label class="badge badge-success">Active</label>':'<label class="badge badge-danger">In-Active</label>' !!}</h4></div>
+                            <div class="flex-start row">
+                                <div class="col-3"><h4>Status : </h4></div>
+                                <div class="col-9"><h4>{!! $seller->status=='approved'?'<label class="badge badge-success">Active</label>':'<label class="badge badge-danger">In-Active</label>' !!}</h4></div>
                             </div>
-                            <div class="flex-start">
-                                <div><h5>{{\App\CPU\translate('name')}} : </h5></div>
-                                <div class="mx-1"><h5>{{$seller->f_name}} {{$seller->l_name}}</h5></div>
+                            <div class="flex-start row">
+                                <div class="col-3"><h5>{{\App\CPU\translate('name')}} : </h5></div>
+                                <div class="col-9"><h5>{{$seller->name}}</h5></div>
                             </div>
-                            <div class="flex-start">
-                                <div><h5>{{\App\CPU\translate('Email')}} : </h5></div>
-                                <div class="mx-1"><h5>{{$seller->email}}</h5></div>
+                            <div class="flex-start row">
+                                <div class="col-3"><h5>{{\App\CPU\translate('Email')}} : </h5></div>
+                                <div class="col-9"><h5>{{$seller->email}}</h5></div>
                             </div>
-                            <div class="flex-start">
-                                <div><h5>{{\App\CPU\translate('Phone')}} : </h5></div>
-                                <div class="mx-1"><h5>{{$seller->phone}}</h5></div>
+                            <div class="flex-start row">
+                                <div class="col-3"><h5>{{\App\CPU\translate('Phone')}} : </h5></div>
+                                <div class="col-9"><h5>{{$seller->phone}}</h5></div>
                             </div>
                         </div>
                     </div>
@@ -249,56 +245,48 @@
                 <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    {{\App\CPU\translate('Shop')}} {{\App\CPU\translate('info')}}
+                    {{\App\CPU\translate('Outlet')}} {{\App\CPU\translate('info')}}
                 </div>
                 <div class="card-body" style="text-align: {{Session::get('direction') === " rtl" ? 'right' : 'left'
                     }};">
-                    <div class="flex-start">
-                        <div>
-                            <h5>{{\App\CPU\translate('seller')}} : </h5>
+                    <div class="flex-start row">
+                        <div class="col-3">
+                            <h5>{{\App\CPU\translate('Outlet_name')}}</h5>
                         </div>
-                        <div class="mx-1">
-                            <h5>{{$seller->shop->name}}</h5>
-                        </div>
-                    </div>
-                    <div class="flex-start">
-                        <div>
-                            <h5>{{\App\CPU\translate('Phone')}} : </h5>
-                        </div>
-                        <div class="mx-1">
-                            <h5>{{$seller->shop->contact}}</h5>
+                        <div class="col-9">
+                            <h5 class="text-capitalize">: {{$seller->shop->name}}</h5>
                         </div>
                     </div>
-                    <div class="flex-start">
-                        <div>
-                            <h5>{{\App\CPU\translate('address')}} : </h5>
+                    <div class="flex-start row">
+                        <div class="col-3">
+                            <h5>{{\App\CPU\translate('Phone')}}</h5>
                         </div>
-                        <div class="mx-1">
-                            <h5>{{$seller->shop->address}}</h5>
-                        </div>
-                    </div>
-                    <div class="flex-start">
-                        <div>
-                            <h5>{{\App\CPU\translate('District')}} : </h5>
-                        </div>
-                        <div class="mx-1">
-                            <h5>{{$seller->shop->district}}</h5>
+                        <div class="col-9">
+                            <h5>: {{$seller->shop->contact}}</h5>
                         </div>
                     </div>
-                    <div class="flex-start">
-                        <div>
-                            <h5>{{\App\CPU\translate('City')}} : </h5>
+                    <div class="flex-start row">
+                        <div class="col-3">
+                            <h5>{{\App\CPU\translate('address')}}</h5>
                         </div>
-                        <div class="mx-1">
-                            <h5>{{$seller->shop->city}}</h5>
+                        <div class="col-9">
+                            <h5>: {{$seller->shop->address}}</h5>
                         </div>
                     </div>
-                    <div class="flex-start">
-                        <div>
-                            <h5>{{\App\CPU\translate('Province')}} : </h5>
+                    <div class="flex-start row">
+                        <div class="col-3">
+                            <h5>{{\App\CPU\translate('Chair')}}</h5>
                         </div>
-                        <div class="mx-1">
-                            <h5>{{$seller->shop->province}}</h5>
+                        <div class="col-9">
+                            <h5 class="text-capitalize">: {{$seller->shop->chair}}</h5>
+                        </div>
+                    </div>
+                    <div class="flex-start row">
+                        <div class="col-3">
+                            <h5>{{\App\CPU\translate('Mitra_capacity')}}</h5>
+                        </div>
+                        <div class="col-9">
+                            <h5 class="text-capitalize">: {{$seller->shop->capacity}}</h5>
                         </div>
                     </div>
                 </div>
@@ -313,21 +301,21 @@
                     </div>
                     <div class="card-body" style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
                         <div class="col-md-8 mt-2">
-                            <div class="flex-start">
-                                <div><h4>{{\App\CPU\translate('bank_name')}} : </h4></div>
-                                <div class="mx-1"><h4>{{$seller->bank_name ? $seller->bank_name : 'No Data found'}}</h4></div>
+                            <div class="flex-start row">
+                                <div class="col-5"><h4>{{\App\CPU\translate('bank_name')}} : </h4></div>
+                                <div class="col-7"><h4>{{$seller->bank_name ? $seller->bank_name : 'No Data found'}}</h4></div>
                             </div>
-                            <div class="flex-start">
-                                <div><h6>{{\App\CPU\translate('Branch')}} : </h6></div>
-                                <div class="mx-1"><h6>{{$seller->branch ? $seller->branch : 'No Data found'}}</h6></div>
+                            <div class="flex-start row">
+                                <div class="col-5"><h6>{{\App\CPU\translate('Branch')}} : </h6></div>
+                                <div class="col-7"><h6>{{$seller->branch ? $seller->branch : 'No Data found'}}</h6></div>
                             </div>
-                            <div class="flex-start">
-                                <div><h6>{{\App\CPU\translate('holder_name')}} : </h6></div>
-                                <div class="mx-1"><h6>{{$seller->holder_name ? $seller->holder_name : 'No Data found'}}</h6></div>
+                            <div class="flex-start row">
+                                <div class="col-5"><h6>{{\App\CPU\translate('holder_name')}} : </h6></div>
+                                <div class="col-7"><h6>{{$seller->holder_name ? $seller->holder_name : 'No Data found'}}</h6></div>
                             </div>
-                            <div class="flex-start">
-                                <div><h6>{{\App\CPU\translate('account_no')}} : </h6></div>
-                                <div class="mx-1"><h6>{{$seller->account_no ? $seller->account_no : 'No Data found'}}</h6></div>
+                            <div class="flex-start row">
+                                <div class="col-5"><h6>{{\App\CPU\translate('account_no')}} : </h6></div>
+                                <div class="col-7"><h6>{{$seller->account_no ? $seller->account_no : 'No Data found'}}</h6></div>
                             </div>
                         </div>
                     </div>

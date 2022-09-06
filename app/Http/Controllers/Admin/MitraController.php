@@ -93,7 +93,7 @@ class MitraController extends Controller
             }
 
             //return back();
-            return view('admin-views.seller.view.setting', compact('seller'));
+            return view('admin-views.mitra.view.setting', compact('seller'));
         } elseif ($tab == 'transaction') {
             $transactions = OrderTransaction::where('seller_is', 'seller')->where('seller_id', $seller->id);
 
