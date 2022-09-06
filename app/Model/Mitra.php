@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\mitra_wallet;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -34,6 +35,6 @@ class Mitra extends Authenticatable
 
     public function wallet()
     {
-        return $this->hasOne(SellerWallet::class, 'seller_id');
+        return $this->hasOne(mitra_wallet::class, 'mitra_id');
     }
 }

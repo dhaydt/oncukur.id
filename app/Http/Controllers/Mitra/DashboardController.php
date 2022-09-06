@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Mitra;
 
 use App\Http\Controllers\Controller;
+use App\mitra_wallet;
 use App\Model\Order;
 use App\Model\OrderTransaction;
 use App\Model\Product;
-use App\Model\SellerWallet;
 use App\Model\Shop;
 use App\User;
 use Brian2694\Toastr\Facades\Toastr;
@@ -69,7 +69,7 @@ class DashboardController extends Controller
         // $data['top_sell'] = $top_sell;
         // $data['most_rated_products'] = $most_rated_products;
 
-        $admin_wallet = SellerWallet::where('seller_id', auth('seller')->id())->first();
+        $admin_wallet = mitra_wallet::where('mitra_id', auth('mitra')->id())->first();
         $data['total_earning'] = $admin_wallet->total_earning ?? 0;
         $data['withdrawn'] = $admin_wallet->withdrawn ?? 0;
         $data['commission_given'] = $admin_wallet->commission_given ?? 0;
