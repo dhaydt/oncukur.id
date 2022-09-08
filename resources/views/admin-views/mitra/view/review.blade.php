@@ -165,7 +165,7 @@
     <div class="page-header">
         <div class="flex-between row mx-1">
             <div>
-                <h1 class="page-header-title"><span class="text-uppercase">{{ $seller->name }} ( {{ $seller->shop? $seller->shop->name : "Outlet Name : Ask outlet administrator for update" }} )</span></h1>
+                <h1 class="page-header-title">{{ $seller->name }} <span class="text-uppercase">( {{ $seller->shop? $seller->shop->name : "Outlet Name : Ask outlet administrator for update" }} )</span></h1>
             </div>
 
         </div>
@@ -174,7 +174,7 @@
             <!-- Nav -->
             <ul class="nav nav-tabs page-header-tabs">
                 <li class="nav-item">
-                    <a class="nav-link " href="{{ route('admin.mitras.view',$seller->id) }}">{{\App\CPU\translate('Shop')}}</a>
+                    <a class="nav-link " href="{{ route('admin.mitras.view',$seller->id) }}">{{\App\CPU\translate('Outlet')}}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link"

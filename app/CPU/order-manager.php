@@ -2,6 +2,8 @@
 
 namespace App\CPU;
 
+use App\mitra_wallet;
+use App\mitra_wallet_histories;
 use App\Model\Admin;
 use App\Model\AdminWallet;
 use App\Model\Cart;
@@ -109,10 +111,11 @@ class OrderManager
 
     public static function wallet_manage_on_order_status_change($order, $received_by)
     {
-        $order = Order::find($order['id']);
+        $order = Order::with('details')->find($order['id']);
         $order_summary = OrderManager::order_summary($order);
         $order_amount = $order_summary['subtotal'] - $order_summary['total_discount_on_product'] - $order['discount_amount'];
         $commission = Helpers::sales_commission($order);
+        $outletCommission = Helpers::outlet_commission($order);
         $shipping_model = Helpers::get_business_settings('shipping_method');
 
         if (AdminWallet::where('admin_id', 1)->first() == false) {
@@ -141,16 +144,35 @@ class OrderManager
             ]);
         }
 
+        $mitra_wallet = mitra_wallet::where('mitra_id', $order['mitra_id'])->first();
+
+        if ($mitra_wallet == false) {
+            DB::table('mitra_wallets')->insert([
+                'mitra_id' => $order['mitra_id'],
+                'withdrawn' => 0,
+                'commission_given' => 0,
+                'total_earning' => 0,
+                'pending_withdraw' => 0,
+                'delivery_charge_earned' => 0,
+                'collected_cash' => 0,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
         if ($order['payment_method'] == 'cash_on_delivery') {
             DB::table('order_transactions')->insert([
                 'transaction_id' => OrderManager::gen_unique_id(),
                 'customer_id' => $order['customer_id'],
                 'seller_id' => $order['seller_id'],
+                'mitra_id' => $order['mitra_id'],
                 'seller_is' => $order['seller_is'],
                 'order_id' => $order['id'],
                 'order_amount' => $order_amount,
-                'seller_amount' => $order_amount - $commission,
+                'seller_amount' => $outletCommission,
+                'mitra_amount' => $order_amount - $commission - $outletCommission,
                 'admin_commission' => $commission,
+                'outlet_commission' => $outletCommission,
                 'received_by' => $received_by,
                 'status' => 'disburse',
                 'delivery_charge' => $order['shipping_cost'],
@@ -161,12 +183,39 @@ class OrderManager
                 'updated_at' => now(),
             ]);
 
+            $detail = $order['details'];
+            $product_id = [];
+
             $wallet = AdminWallet::where('admin_id', 1)->first();
             $wallet->commission_earned += $commission;
             if ($shipping_model == 'inhouse_shipping') {
                 $wallet->delivery_charge_earned += $order['shipping_cost'];
             }
             $wallet->save();
+
+            DB::table('admin_wallet_histories')->insert([
+                'admin_id' => 1,
+                'amount' => $commission,
+                'order_id' => $order['id'],
+                'product_id' => json_encode($product_id),
+                'payment' => 'gopay',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            $sellerWallet = SellerWallet::where('seller_id', $order['seller_id'])->first();
+            $sellerWallet->commission_earned += $outletCommission;
+            $sellerWallet->save();
+
+            DB::table('seller_wallet_histories')->insert([
+                'seller_id' => $order['seller_id'],
+                'amount' => $outletCommission,
+                'order_id' => $order['id'],
+                'product_id' => json_encode($product_id),
+                'payment' => 'gopay',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
 
             if ($order['seller_is'] == 'admin') {
                 $wallet = AdminWallet::where('admin_id', 1)->first();
@@ -177,18 +226,33 @@ class OrderManager
                 $wallet->total_tax_collected += $order_summary['total_tax'];
                 $wallet->save();
             } else {
-                $wallet = SellerWallet::where('seller_id', $order['seller_id'])->first();
+                $wallet = mitra_wallet::where('mitra_id', $order['mitra_id'])->first();
                 $wallet->commission_given += $commission;
+                $wallet->outlet_commission_given += $outletCommission;
                 $wallet->total_tax_collected += $order_summary['total_tax'];
 
                 if ($shipping_model == 'sellerwise_shipping') {
                     $wallet->delivery_charge_earned += $order['shipping_cost'];
                     $wallet->collected_cash += $order['order_amount']; //total order amount
                 } else {
-                    $wallet->total_earning += ($order_amount - $commission) + $order_summary['total_tax'];
+                    $wallet->total_earning += ($order_amount - $commission - $outletCommission) + $order_summary['total_tax'];
                 }
 
                 $wallet->save();
+
+                $history = mitra_wallet_histories::where('mitra_id', $order['mitra_id'])->first();
+                foreach ($detail as $d) {
+                    array_push($product_id, $d['product_id']);
+                }
+                DB::table('mitra_wallet_histories')->insert([
+                        'mitra_id' => $order['mitra_id'],
+                        'amount' => ($order_amount - $commission - $outletCommission) + $order_summary['total_tax'],
+                        'order_id' => $order['id'],
+                        'product_id' => json_encode($product_id),
+                        'payment' => 'gopay',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
             }
         } else {
             $transaction = OrderTransaction::where(['order_id' => $order['id']])->first();
@@ -262,7 +326,7 @@ class OrderManager
             'verification_code' => rand(100000, 999999),
             'customer_id' => $user->id,
             'seller_id' => $seller_data->seller_id,
-            'seller_is' => $seller_data->seller_is,
+            'seller_is' => 'seller',
             'customer_type' => 'customer',
             'payment_status' => $data['payment_status'],
             'order_status' => $data['order_status'],

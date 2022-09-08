@@ -166,7 +166,7 @@
         <div class="page-header">
             <div class="flex-between row mx-1">
                 <div>
-                    <h1 class="page-header-title"><span class="text-uppercase">{{ $seller->name }} ( {{ $seller->shop? $seller->shop->name : "Outlet Name : Ask outlet administrator for update" }} )</span></h1>
+                    <h1 class="page-header-title">{{ $seller->name }} <span class="text-uppercase">( {{ $seller->shop? $seller->shop->name : "Outlet Name : Ask outlet administrator for update" }} )</span></h1>
                 </div>
             </div>
             <!-- Nav Scroller -->
@@ -231,7 +231,7 @@
                                     <div class="col-sm-6 col-lg-4 column-divider-sm">
                                         <div class="flex-between align-items-center" style="cursor: pointer">
                                             <div class="media-body" style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
-                                                <h6 class="card-subtitle">{{\App\CPU\translate('delivered')}}</h6>
+                                                <h6 class="card-subtitle">{{\App\CPU\translate('Finished')}}</h6>
                                                 <span class="card-title h3">
                                                     {{ $orders->where('order_status','delivered')->count() }}</span>
                                             </div>

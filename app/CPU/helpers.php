@@ -1018,6 +1018,25 @@ class Helpers
         return $commission_amount;
     }
 
+    public static function outlet_commission($order)
+    {
+        $order_summery = OrderManager::order_summary($order);
+        $order_total = $order_summery['subtotal'] - $order_summery['total_discount_on_product'] - $order['discount_amount'];
+        $commission_amount = 0;
+
+        if ($order['seller_is'] == 'seller') {
+            $seller = Seller::find($order['seller_id']);
+            if (isset($seller) && $seller['sales_commission_percentage'] !== null) {
+                $commission = $seller['sales_commission_percentage'];
+            } else {
+                $commission = Helpers::get_business_settings('outlet_commission');
+            }
+            $commission_amount = (($order_total / 100) * $commission);
+        }
+
+        return $commission_amount;
+    }
+
     public static function categoryName($id)
     {
         return Category::select('name')->find($id)->name;

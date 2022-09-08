@@ -343,6 +343,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::group(['prefix' => 'seller-settings', 'as' => 'seller-settings.', 'middleware' => ['module:business_settings']], function () {
                 Route::get('/', 'BusinessSettingsController@seller_settings')->name('index');
                 Route::post('update-seller-settings', 'BusinessSettingsController@sales_commission')->name('update-seller-settings');
+                Route::post('update-outlet-settings', 'BusinessSettingsController@outlet_commission')->name('update-outlet-settings');
                 Route::post('update-seller-registration', 'BusinessSettingsController@seller_registration')->name('update-seller-registration');
             });
 

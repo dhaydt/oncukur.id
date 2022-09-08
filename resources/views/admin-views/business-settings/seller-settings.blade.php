@@ -25,18 +25,39 @@
         <div class="row" style="padding-bottom: 20px">
             @php($commission=\App\Model\BusinessSetting::where('type','sales_commission')->first())
             <div class="col-md-6">
-                <div class="card-header">
-                    <h5>{{\App\CPU\translate('Sales Commission')}}</h5>
-                </div>
                 <div class="card">
+                    <div class="card-header">
+                        <h5>{{\App\CPU\translate('Admin Commission')}}</h5>
+                    </div>
                     <div class="card-body" style="padding: 20px">
                         <form action="{{route('admin.business-settings.seller-settings.update-seller-settings')}}"
-                              method="post">
+                            method="post">
                             @csrf
                             <label>{{\App\CPU\translate('Default Sales Commission')}} ( % )</label>
                             <input class="form-control" name="commission"
-                                   value="{{isset($commission)?$commission->value:0}}"
-                                   min="0" max="100">
+                                value="{{isset($commission)?$commission->value:0}}"
+                                min="0" max="100">
+                            <hr>
+                            <button type="submit"
+                                    class="btn btn-primary {{Session::get('direction') === "rtl" ? 'float-left mr-3' : 'float-right ml-3'}}">{{\App\CPU\translate('Save')}}</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            @php($outletcommission=\App\Model\BusinessSetting::where('type','outlet_commission')->first())
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>{{\App\CPU\translate('Outlet Commission')}}</h5>
+                    </div>
+                    <div class="card-body" style="padding: 20px">
+                        <form action="{{route('admin.business-settings.seller-settings.update-outlet-settings')}}"
+                            method="post">
+                            @csrf
+                            <label>{{\App\CPU\translate('Default Sales Commission')}} ( % )</label>
+                            <input class="form-control" name="commission"
+                                value="{{isset($outletcommission)?$outletcommission->value:0}}"
+                                min="0" max="100">
                             <hr>
                             <button type="submit"
                                     class="btn btn-primary {{Session::get('direction') === "rtl" ? 'float-left mr-3' : 'float-right ml-3'}}">{{\App\CPU\translate('Save')}}</button>
@@ -46,11 +67,11 @@
             </div>
 
             @php($seller_registration=\App\Model\BusinessSetting::where('type','seller_registration')->first()->value)
-            <div class="col-md-6">
-                <div class="card-header">
-                    <h5>{{\App\CPU\translate('Seller Registration')}}</h5>
-                </div>
+            <div class="col-md-6 mt-3">
                 <div class="card">
+                    <div class="card-header">
+                        <h5>{{\App\CPU\translate('Outlet Registration')}}</h5>
+                    </div>
                     <div class="card-body" style="padding: 20px">
                         <form action="{{route('admin.business-settings.seller-settings.update-seller-registration')}}"
                               method="post">

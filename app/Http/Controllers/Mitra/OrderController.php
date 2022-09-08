@@ -72,13 +72,14 @@ class OrderController extends Controller
         }
 
         if ($order->order_status == 'delivered') {
-            return response()->json(['success' => 0, 'message' => 'order is already delivered.'], 200);
+            return response()->json(['success' => 0, 'message' => 'order is already finished.'], 200);
         }
         $order->order_status = $request->order_status;
         OrderManager::stock_update_on_order_status_change($order, $request->order_status);
 
-        if ($request->order_status == 'delivered' && $order['seller_id'] != null) {
-            OrderManager::wallet_manage_on_order_status_change($order, 'seller');
+        if ($request->order_status == 'delivered' && $order['mitra_id'] != null) {
+            $cost =
+            OrderManager::wallet_manage_on_order_status_change($order, 'mitra');
         }
 
         $order->save();
