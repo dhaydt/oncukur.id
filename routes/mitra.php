@@ -44,12 +44,12 @@ Route::group(['namespace' => 'mitra', 'prefix' => 'mitra', 'as' => 'mitra.'], fu
         });
 
         Route::group(['prefix' => 'orders', 'as' => 'orders.'], function () {
-            Route::get('list/{status}', 'OrderController@list')->name('list');
-            Route::get('details/{id}', 'OrderController@details')->name('details');
-            Route::get('generate-invoice/{id}', 'OrderController@generate_invoice')->name('generate-invoice');
-            Route::post('status', 'OrderController@status')->name('status');
-            Route::post('productStatus', 'OrderController@productStatus')->name('productStatus');
-            Route::post('payment-status', 'OrderController@payment_status')->name('payment-status');
+            Route::get('list/{status}', '\App\Http\Controllers\Mitra\OrderController@list')->name('list');
+            Route::get('details/{id}', '\App\Http\Controllers\Mitra\OrderController@details')->name('details');
+            Route::get('generate-invoice/{id}', '\App\Http\Controllers\Mitra\OrderController@generate_invoice')->name('generate-invoice');
+            Route::post('status', '\App\Http\Controllers\Mitra\OrderController@status')->name('status');
+            Route::post('productStatus', '\App\Http\Controllers\Mitra\OrderController@productStatus')->name('productStatus');
+            Route::post('payment-status', '\App\Http\Controllers\Mitra\OrderController@payment_status')->name('payment-status');
         });
     });
 });
