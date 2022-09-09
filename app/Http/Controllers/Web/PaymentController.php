@@ -6,6 +6,7 @@ use App\CPU\CartManager;
 use App\CPU\OrderManager;
 use App\Http\Controllers\Controller;
 use App\Model\Order;
+use App\Model\OrderDetail;
 use Brian2694\Toastr\Facades\Toastr;
 use Exception;
 use Illuminate\Http\Request;
@@ -81,19 +82,21 @@ class PaymentController extends Controller
                     'order_id' => $order->id.'-'.now(),
                     'gross_amount' => $value,
                 ],
-                'callbacks' => [
-                    'finish' => env('APP_URL').'/midtrans-payment/pay-success',
+                'payment_type' => 'gopay',
+                'gopay' => [
+                    'enable_callback' => true,                // optional
+                    'callback_url' => env('APP_URL').'/midtrans-payment/pay-success',
                 ],
             ];
 
             try {
                 // Get Snap Payment Page URL
-                $paymentUrl = \Midtrans\Snap::createTransaction($params)->redirect_url;
+                $paymentUrl = \Midtrans\CoreApi::charge($params);
 
                 // Redirect to Snap Payment Page
                 // dd($paymentUrl);
 
-                return redirect()->away($paymentUrl);
+                return redirect()->away($paymentUrl->actions[1]->url);
             } catch (Exception $e) {
                 echo $e->getMessage();
             }
@@ -106,16 +109,22 @@ class PaymentController extends Controller
 
     public function paySuccess(Request $request)
     {
+        // dd($request);
         $order_id = strtok($request->order_id, '-');
-        // dd($order_id);
-        $order = Order::find($order_id);
+        $order = Order::with('details')->find($order_id);
 
         if ($order) {
+            $details = OrderDetail::where('order_id', $order_id)->get();
             $order->payment_status = 'paid';
             OrderManager::wallet_manage_on_order_status_change($order, 'mitra');
             $order->save();
             if (auth('customer')->check()) {
-                Toastr::success('Payment success.');
+                Toastr::success('Payment success');
+
+                foreach ($details as $d) {
+                    $d['payment_status'] = 'paid';
+                    $d->save();
+                }
 
                 return view('web-views.checkout-complete');
             }
