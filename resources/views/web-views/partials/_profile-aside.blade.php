@@ -3,6 +3,10 @@
         font-family: 'Titillium Web', sans-serif
     }
 
+    a{
+        text-decoration: none !important;
+    }
+
     .footer span {
         font-size: 12px
     }

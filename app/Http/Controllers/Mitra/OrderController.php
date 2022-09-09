@@ -77,10 +77,10 @@ class OrderController extends Controller
         $order->order_status = $request->order_status;
         OrderManager::stock_update_on_order_status_change($order, $request->order_status);
 
-        if ($request->order_status == 'delivered' && $order['mitra_id'] != null) {
-            $cost =
-            OrderManager::wallet_manage_on_order_status_change($order, 'mitra');
-        }
+        // if ($request->order_status == 'delivered' && $order['mitra_id'] != null) {
+        //     $cost =
+        //     OrderManager::wallet_manage_on_order_status_change($order, 'mitra');
+        // }
 
         $order->save();
         $data = $request->order_status;

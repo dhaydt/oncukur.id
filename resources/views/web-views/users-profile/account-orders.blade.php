@@ -1,6 +1,6 @@
 @extends('layouts.front-end.app')
 
-@section('title',\App\CPU\translate('My Order Listoo'))
+@section('title',\App\CPU\translate('My Order List'))
 
 @push('css_or_js')
     <style>
@@ -37,7 +37,7 @@
         }
 
         .tdBorder {
-            border- {{Session::get('direction') === "rtl" ? 'left' : 'right'}}: 1px solid #f7f0f0;
+            border-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}: 1px solid #f7f0f0;
             text-align: center;
         }
 
@@ -47,7 +47,7 @@
         }
 
         .sidebar h3:hover + .divider-role {
-            border-bottom: 3px solid {{$web_config['primary_color']}}                                   !important;
+            border-bottom: 3px solid {{$web_config['primary_color']}} !important;
             transition: .2s ease-in-out;
         }
 
@@ -118,6 +118,10 @@
                                 </td>
                                 <td class="tdBorder">
                                     <div class="py-2"><span
+                                            class="d-block spandHeadO"> {{\App\CPU\translate('Payment')}}</span></div>
+                                </td>
+                                <td class="tdBorder">
+                                    <div class="py-2"><span
                                             class="d-block spandHeadO"> {{\App\CPU\translate('Total')}}</span></div>
                                 </td>
                                 <td class="tdBorder">
@@ -162,23 +166,41 @@
                                         @endif
                                     </td>
                                     <td class="bodytr">
+                                        @if($order['payment_status']=='paid')
+                                            <span class="badge badge-success text-capitalize">
+                                                {{\App\CPU\translate('paid')}}
+                                            </span>
+                                        @else
+                                            <span class="badge badge-danger text-capitalize">
+                                                {{\App\CPU\translate($order['payment_status'])}}
+                                            </span>
+                                        @endif
+                                    </td>
+
+                                    <td class="bodytr">
                                         {{\App\CPU\Helpers::currency_converter($order['order_amount'])}}
                                     </td>
                                     <td class="bodytr" style="width: 162px">
                                         <a href="{{ route('account-order-details', ['id'=>$order->id]) }}"
-                                           class="btn btn-secondary p-2">
+                                           class="btn btn-secondary p-2 btn-sm">
                                             <i class="fa fa-eye"></i> {{\App\CPU\translate('view')}}
                                         </a>
-                                        @if($order['payment_method']=='cash_on_delivery' && $order['order_status']=='pending')
-                                            <a href="javascript:"
-                                               onclick="route_alert('{{ route('order-cancel',[$order->id]) }}','{{\App\CPU\translate('want_to_cancel_this_order?')}}')"
-                                               class="btn btn-danger p-2 top-margin">
-                                                <i class="fa fa-trash"></i> {{\App\CPU\translate('cancel')}}
+                                        @if ($order['order_status'] !== 'canceled')
+                                            @if($order['order_status']=='pending')
+                                                <a href="javascript:"
+                                                onclick="route_alert('{{ route('order-cancel',[$order->id]) }}','{{\App\CPU\translate('want_to_cancel_this_order?')}}')"
+                                                class="btn btn-danger btn-sm p-2 top-margin">
+                                                    <i class="fa fa-trash"></i> {{\App\CPU\translate('cancel')}}
+                                                </a>
+                                            @elseif($order['order_status'] == 'delivered' && $order['payment_status'] == 'unpaid')
+                                            <a class="btn btn-info btn-sm p-2 top-margin" href="{{ route('midtrans-payment.pay', ['id' => $order->id]) }}">
+                                                <i class="fa fa-dollar-sign"></i> {{\App\CPU\translate('Pay_now')}}
                                             </a>
-                                        @else
-                                            <button class="btn btn-danger p-2 top-margin" onclick="cancel_message()">
-                                                <i class="fa fa-trash"></i> {{\App\CPU\translate('cancel')}}
-                                            </button>
+                                            @else
+                                                <button class="btn btn-danger btn-sm p-2 top-margin" onclick="cancel_message()">
+                                                    <i class="fa fa-trash"></i> {{\App\CPU\translate('cancel')}}
+                                                </button>
+                                            @endif
                                         @endif
                                     </td>
                                 </tr>

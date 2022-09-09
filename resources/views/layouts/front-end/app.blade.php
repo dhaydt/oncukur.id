@@ -560,6 +560,8 @@
     @include('layouts.front-end.partials._header')
 @endif
 
+@include('layouts.front-end.partials._modal_order')
+
 <!-- Loading -->
 <div class="container">
     <div class="row">
@@ -612,6 +614,12 @@
 {!! Toastr::message() !!}
 
 <script>
+    $(document).ready(function(){
+        var modalOrder = new bootstrap.Modal(document.getElementById('modalOrder'), {
+                            keyboard: false
+                        })
+        // modalOrder.show();
+    })
     function addWishlist(product_id) {
         $.ajaxSetup({
             headers: {
@@ -954,9 +962,9 @@
 
     @if(Request::is('/') &&  \Illuminate\Support\Facades\Cookie::has('popup_banner')==false)
     $(document).ready(function () {
+    @php(\Illuminate\Support\Facades\Cookie::queue('popup_banner', 'off', 1))
         $('#popup-modal').appendTo("body").modal('show');
     });
-    @php(\Illuminate\Support\Facades\Cookie::queue('popup_banner', 'off', 1))
     @endif
 
     $(".clickable").click(function () {

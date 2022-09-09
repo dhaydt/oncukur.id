@@ -89,7 +89,7 @@
                         <div class=" p-5">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h5 style="font-size: 20px; font-weight: 900">{{\App\CPU\translate('your_order_has_been_placed_successfully!')}}
+                                    <h5 style="font-size: 20px; font-weight: 900">{{\App\CPU\translate('your_order_has_paid_successfully!')}}
                                         !</h5>
                                 </div>
                             </div>
@@ -103,7 +103,7 @@
                             </div>
 
                             <span class="font-weight-bold d-block mt-4" style="font-size: 17px;">{{\App\CPU\translate('Hello')}}, {{auth('customer')->user()->f_name}}</span>
-                            <span>{{\App\CPU\translate('we_will_confirm_your_order_soon!')}}</span>
+                            <span>{{\App\CPU\translate('thank_you_for_trusting_onCUkur..')}}</span>
 
                             <div class="row mt-4">
                                 <div class="col-6">
