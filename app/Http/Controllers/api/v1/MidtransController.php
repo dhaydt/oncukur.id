@@ -57,7 +57,7 @@ class MidtransController extends Controller
                     'gross_amount' => $value,
                 ],
                 'callbacks' => [
-                    'finish' => env('APP_URL').'/close',
+                    'finish' => env('APP_URL').'/midtrans-payment/success?cart_group_id='.$cart->cart_group_id.'&payment_id='.$tran,
                 ],
             ];
 
