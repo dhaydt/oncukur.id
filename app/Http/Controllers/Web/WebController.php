@@ -397,12 +397,12 @@ class WebController extends Controller
 
         CartManager::cart_clean();
 
-        return view('web-views.checkout-complete');
+        return view('web-views.order_placed');
     }
 
     public function order_placed()
     {
-        return view('web-views.checkout-complete');
+        return view('web-views.order_placed');
     }
 
     public function shop_cart()
