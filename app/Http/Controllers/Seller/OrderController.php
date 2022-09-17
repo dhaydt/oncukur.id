@@ -6,8 +6,11 @@ use App\CPU\Helpers;
 use App\CPU\OrderManager;
 use function App\CPU\translate;
 use App\Http\Controllers\Controller;
+use App\Model\Mitra;
 use App\Model\Order;
 use App\Model\Seller;
+use App\Model\Shop;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -45,8 +48,10 @@ class OrderController extends Controller
             $query->where('seller_id', $sellerId);
         }])->with('customer', 'shipping')
             ->where('id', $id)->first();
+        $outlet = Shop::where('seller_id', $sellerId)->first();
+        $mitra = Mitra::where('shop_id', $outlet['id'])->get();
 
-        return view('seller-views.order.order-details', compact('order'));
+        return view('seller-views.order.order-details', compact('order', 'mitra'));
     }
 
     public function generate_invoice($id)
@@ -107,6 +112,14 @@ class OrderController extends Controller
 
         if ($request->order_status == 'delivered' && $order['seller_id'] != null) {
             OrderManager::wallet_manage_on_order_status_change($order, 'mitra');
+        }
+
+        if ($request['mitra_id']) {
+            $order->mitra_id = $request['mitra_id'];
+            $order->save();
+            Toastr('Booking processing successfully');
+
+            return redirect()->back();
         }
 
         $order->save();

@@ -56,7 +56,7 @@
                             </span>
                         @elseif($order['order_status']=='delivered')
                             <span class="badge badge-soft-success ml-2 ml-sm-3 text-capitalize">
-                              <span class="legend-indicator bg-success"></span>{{'Finished'}}
+                            <span class="legend-indicator bg-success"></span>{{'Finished'}}
                             </span>
 
                         @elseif($order['order_status']=='confirmed')
@@ -141,7 +141,7 @@
             <div class="col-lg-8 mb-3  mb-lg-0">
                 <!-- Card -->
                 <div class="card mb-3  mb-lg-5"
-                     style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
+                        style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
                     <!-- Header -->
                     <div class="card-header" style="display: block!important;">
                         <div class="row pr-0">
@@ -396,19 +396,19 @@
                                 {{ \App\CPU\Translate('Tolak') }}
                             </button>
                         </div>
+                        @if ($order['order_type'] == 'booking')
+                        <div class="col-md-6">
+                            <button class="btn w-100 btn-success text-capitalize" data-toggle="modal" data-target="#selectMitra">
+                                {{ \App\CPU\Translate('Pilih_mitra') }}
+                            </button>
+                        </div>
+                        @else
                         <div class="col-md-6">
                             <a class="btn w-100 btn-success" type="button" onclick="order_status('processing')">
-                            {{-- @if ($stock == 0)
-                            {{ \App\CPU\Translate('Kamar_habis') }}
-                            @else
-                            {{ \App\CPU\Translate('Terima') }}
-                            @endif --}}
-                            {{ \App\CPU\Translate('Terima') }}
-                            </a>
-                            {{-- <a onclick="order_status('processing')" class="btn btn-success w-100">
                                 {{ \App\CPU\Translate('Terima') }}
-                            </a> --}}
+                            </a>
                         </div>
+                        @endif
                     </div>
                 </div>
                 @endif
@@ -428,6 +428,42 @@
                     </div>
                 </div>
                 @endif
+                </div>
+
+                <!-- Modal -->
+
+                <div class="modal fade" id="selectMitra" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Pilih mitra</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{route('seller.orders.status')}}" method="post">
+                        @csrf
+                        <div class="modal-body">
+                                <div class="form-group row justify-content-center">
+
+                                    <div class="col-sm-10">
+                                        <input type="hidden" value="processing" name="order_status">
+                                        <input type="hidden" value="{{ $order['id'] }}" name="id">
+                                        <select class="form-control form-control-sm" name="mitra_id">
+                                            @foreach ($mitra as $m)
+                                                <option class="text-capitalize" value="{{ $m['id'] }}">{{ $m['name'] }} ({{ $m['phone'] }})</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
+                                <button type="submit" class="btn btn-primary">Terima</button>
+                            </div>
+                        </form>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Card -->
