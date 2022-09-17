@@ -249,6 +249,7 @@
                                 <hr>
                             @endif
                         @endforeach
+                        {{-- {{ dd($order['details']) }} --}}
                         @php($shipping=$order['details'][0]['driver_cost'])
                         @php($coupon_discount=$order['discount_amount'])
                         <div class="row justify-content-md-end mb-3">

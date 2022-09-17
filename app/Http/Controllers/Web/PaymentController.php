@@ -129,7 +129,7 @@ class PaymentController extends Controller
                 return view('web-views.checkout-complete');
             }
 
-            return response()->json(['message' => 'Payment succeeded, back to app'], 200);
+            return view('web-views.checkout-complete-android');
         }
         // foreach (CartManager::get_cart_group_ids() as $group_id) {
         //     $data = [
@@ -150,7 +150,7 @@ class PaymentController extends Controller
             return view('web-views.checkout-complete');
         }
 
-        return response()->json(['message' => 'Payment succeeded, back to app'], 200);
+        return view('web-views.checkout-complete-android');
     }
 
     public function createSnap(Request $request)
@@ -243,7 +243,7 @@ class PaymentController extends Controller
             return view('web-views.checkout-complete');
         }
 
-        return response()->json(['message' => 'Payment succeeded, back to app'], 200);
+        return view('web-views.checkout-complete');
     }
 
     public function getPayment()

@@ -253,6 +253,7 @@
                                 <hr>
                             @endif
                         @endforeach
+                        {{-- {{ dd($order['details']) }} --}}
                         @php($shipping=$order['details'][0]['driver_cost'])
                         @php($coupon_discount=$order['discount_amount'])
                         <div class="row justify-content-md-end mb-3">
@@ -284,9 +285,11 @@
                     <!-- End Body -->
                 </div>
                 <!-- End Card -->
+                @if ($order['order_type'] == 'order')
                 <div class="card">
                     <div class="map" id="map" style="height: 500px;"></div>
                 </div>
+                @endif
             </div>
 
             <div class="col-lg-4">

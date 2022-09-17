@@ -145,7 +145,7 @@
                                             </span>
                                         @elseif($order['order_status']=='confirmed')
                                             <span class="badge badge-success text-capitalize">
-                                                {{\App\CPU\translate('confirmed')}}
+                                                {{\App\CPU\translate('processing')}}
                                             </span>
                                         @elseif($order['order_status']=='processing')
                                             <span class="badge badge-success text-capitalize">

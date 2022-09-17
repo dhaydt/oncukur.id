@@ -8,6 +8,7 @@ use function App\CPU\translate;
 use App\Http\Controllers\Controller;
 use App\Model\Mitra;
 use App\Model\Order;
+use App\Model\OrderDetail;
 use App\Model\Seller;
 use App\Model\Shop;
 use Brian2694\Toastr\Facades\Toastr;
@@ -49,7 +50,7 @@ class OrderController extends Controller
         }])->with('customer', 'shipping')
             ->where('id', $id)->first();
         $outlet = Shop::where('seller_id', $sellerId)->first();
-        $mitra = Mitra::where('shop_id', $outlet['id'])->get();
+        $mitra = Mitra::where(['shop_id' => $outlet['id'], 'status' => 'approved'])->get();
 
         return view('seller-views.order.order-details', compact('order', 'mitra'));
     }
@@ -115,9 +116,14 @@ class OrderController extends Controller
         }
 
         if ($request['mitra_id']) {
+            $details = OrderDetail::where('order_id', $order->id)->get();
+            foreach ($details as $d) {
+                $d->mitra_id = $request['mitra_id'];
+                $d->save();
+            }
             $order->mitra_id = $request['mitra_id'];
             $order->save();
-            Toastr('Booking processing successfully');
+            Toastr::success('Booking successfully processing.');
 
             return redirect()->back();
         }
