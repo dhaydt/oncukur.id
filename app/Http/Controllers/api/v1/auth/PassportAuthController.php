@@ -150,6 +150,7 @@ class PassportAuthController extends Controller
             'email' => 'required',
             'otp' => 'required',
             'password' => 'required',
+            'device_id' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -163,6 +164,8 @@ class PassportAuthController extends Controller
         ];
         // dd($data);
         if (isset($user) && auth()->attempt($data)) {
+            $user->device_id = $request->device_id;
+            $user->save();
             $token = auth()->user()->createToken('LaravelAuthApp')->accessToken;
 
             return response()->json(['status' => 'success', 'token' => $token], 200);

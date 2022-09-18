@@ -247,6 +247,7 @@ return array(
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
     'App\\Providers\\SocialLoginServiceProvider' => $baseDir . '/app/Providers/SocialLoginServiceProvider.php',
     'App\\User' => $baseDir . '/app/User.php',
+    'App\\login_device' => $baseDir . '/app/login_device.php',
     'App\\mitra_wallet' => $baseDir . '/app/mitra_wallet.php',
     'App\\mitra_wallet_histories' => $baseDir . '/app/mitra_wallet_histories.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',

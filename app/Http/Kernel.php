@@ -6,6 +6,7 @@ use App\Http\Middleware\ActivationCheckMiddleware;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\APILocalizationMiddleware;
 use App\Http\Middleware\CustomerMiddleware;
+use App\Http\Middleware\DeviceMiddleware;
 use App\Http\Middleware\InstallationMiddleware;
 use App\Http\Middleware\MaintenanceModeMiddleware;
 use App\Http\Middleware\MitraMiddleware;
@@ -79,6 +80,7 @@ class Kernel extends HttpKernel
         'installation-check' => InstallationMiddleware::class,
         'actch' => ActivationCheckMiddleware::class,
         'api_lang' => APILocalizationMiddleware::class,
+        'device' => DeviceMiddleware::class,
         'maintenance_mode' => MaintenanceModeMiddleware::class,
     ];
 

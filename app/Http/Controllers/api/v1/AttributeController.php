@@ -6,10 +6,19 @@ use App\Country;
 use App\Http\Controllers\Controller;
 use App\Model\Attribute;
 use App\Model\BusinessSetting;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class AttributeController extends Controller
 {
+    public function checkDevice(Request $request)
+    {
+        return response()->json([
+            'status' => 'success',
+            'message' => 'your device registered',
+        ]);
+    }
+
     public function about_us()
     {
         $about_us = BusinessSetting::where('type', 'about_us')->first();

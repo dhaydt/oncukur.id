@@ -970,6 +970,7 @@ class ComposerStaticInit5c810ba0d19412d72c885b40a9decbf5
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\Providers\\SocialLoginServiceProvider' => __DIR__ . '/../..' . '/app/Providers/SocialLoginServiceProvider.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
+        'App\\login_device' => __DIR__ . '/../..' . '/app/login_device.php',
         'App\\mitra_wallet' => __DIR__ . '/../..' . '/app/mitra_wallet.php',
         'App\\mitra_wallet_histories' => __DIR__ . '/../..' . '/app/mitra_wallet_histories.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
