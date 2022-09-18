@@ -9,6 +9,7 @@ use App\Http\Middleware\CustomerMiddleware;
 use App\Http\Middleware\DeviceMiddleware;
 use App\Http\Middleware\InstallationMiddleware;
 use App\Http\Middleware\MaintenanceModeMiddleware;
+use App\Http\Middleware\MitraDeviceMiddleware;
 use App\Http\Middleware\MitraMiddleware;
 use App\Http\Middleware\ModulePermissionMiddleware;
 use App\Http\Middleware\SellerMiddleware;
@@ -81,6 +82,7 @@ class Kernel extends HttpKernel
         'actch' => ActivationCheckMiddleware::class,
         'api_lang' => APILocalizationMiddleware::class,
         'device' => DeviceMiddleware::class,
+        'device-mitra' => MitraDeviceMiddleware::class,
         'maintenance_mode' => MaintenanceModeMiddleware::class,
     ];
 

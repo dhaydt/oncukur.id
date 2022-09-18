@@ -11,6 +11,14 @@ use Illuminate\Support\Str;
 
 class MitraController extends Controller
 {
+    public function checkDevice(Request $request)
+    {
+        return response()->json([
+            'status' => 'success',
+            'message' => 'your device registered',
+        ]);
+    }
+
     public function mitra_info(Request $request)
     {
         $data = Helpers::get_mitra_by_token($request);

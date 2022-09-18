@@ -86,6 +86,7 @@ class LoginController extends Controller
             'email' => 'required',
             'otp' => 'required',
             'password' => 'required',
+            'device_id' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -101,7 +102,7 @@ class LoginController extends Controller
         if (isset($mitra) && auth('mitra')->attempt($data)) {
             $token = Str::random(50);
 
-            Mitra::where(['id' => auth('mitra')->id()])->update(['auth_token' => $token]);
+            Mitra::where(['id' => auth('mitra')->id()])->update(['auth_token' => $token, 'device_id' => $request->device_id]);
             if (SellerWallet::where('seller_id', $mitra['id'])->first() == false) {
                 DB::table('seller_wallets')->insert([
                     'seller_id' => $mitra['id'],

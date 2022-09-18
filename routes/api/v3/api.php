@@ -12,6 +12,10 @@ Route::group(['namespace' => 'api\v3', 'prefix' => 'v3', 'middleware' => ['api_l
             Route::put('reset-password', 'ForgotPassword@reset_password_submit');
         });
 
+        Route::group(['middleware' => 'device-mitra'], function () {
+            Route::post('check-device', 'MitraController@checkDevice');
+        });
+
         Route::get('mitra-info', 'MitraController@mitra_info');
         Route::post('mitra-update', 'MitraController@update');
     });
