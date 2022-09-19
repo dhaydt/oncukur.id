@@ -425,7 +425,7 @@
         <div class="row">
             <div class="col-md-3"></div>
             <div class="sidebar_heading col-md-9">
-                <h1 class="h3  mb-0 folot-left headerTitle">{{\App\CPU\translate('chat_with_seller')}}</h1>
+                <h1 class="h3  mb-0 folot-left headerTitle">{{\App\CPU\translate('chat_with_outlet_or_mitra')}}</h1>
             </div>
         </div>
     </div>
@@ -459,17 +459,29 @@
                                 @if (isset($unique_shops))
                                     @foreach($unique_shops as $key=>$shop)
                                         <div class="chat_list @if ($key == 0) btn-primary @endif"
-                                             id="user_{{$shop->shop_id}}">
+                                            id="user_{{$shop->shop_id}}">
                                             <div class="chat_people" id="chat_people">
                                                 <div class="chat_img">
-                                                    <img
-                                                        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                                        src="{{asset('storage/app/public/shop/'.$shop->image)}}"
-                                                        style="border-radius: 10px">
+                                                    @php($mitra = \App\CPU\Helpers::getMitra($shop['mitra_id']))
+                                                    @if ($shop['mitra_id'] == 0)
+                                                        <img
+                                                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                                            src="{{asset('storage/outlet/'.$shop->image)}}"
+                                                            style="border-radius: 10px">
+
+                                                    @elseif($shop['mitra_id'] != 0)
+                                                        <img
+                                                            src="{{asset('storage/mitra/'.$mitra->image)}}"
+                                                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                                            style="border-radius: 10px">
+                                                    @endif
                                                 </div>
+                                                {{-- {{ dd($shop) }} --}}
                                                 <div class="chat_ib">
-                                                    <h5 class="seller @if($shop->seen_by_customer)active-text @endif"
-                                                        id="{{$shop->shop_id}}">{{$shop->name}}</h5>
+                                                    <h5 class="seller text-capitalize @if($shop->seen_by_customer)active-text @endif"
+                                                        id="{{$shop->shop_id}}">@if ($shop['mitra_id'] == 0) Outlet @else
+                                                            {{ $mitra->name }}
+                                                        @endif {{' ('.$shop->name.')'}}</h5>
                                                 </div>
                                             </div>
                                         </div>
@@ -493,7 +505,7 @@
                                                 @if ($chat->sent_by_seller)
                                                     <div class="incoming_msg">
                                                         <div class="incoming_msg_img"><img
-                                                                src="@if($chat->image == 'def.png'){{asset('storage/app/public/'.$chat->image)}} @else {{asset('storage/app/public/shop/'.$chat->image)}} @endif"
+                                                                src="@if($chat->image == 'def.png'){{asset('storage/'.$chat->image)}} @else {{asset('storage/shop/'.$chat->image)}} @endif"
                                                                 alt="sunil"></div>
                                                         <div class="received_msg">
                                                             <div class="received_withd_msg">
@@ -528,18 +540,23 @@
                                                 class="form-inline d-flex justify-content-center md-form form-sm active-cyan-2 mt-2"
                                                 id="myForm">
                                                 @csrf
+                                                @php($seller_id =  $last_chat->mitra_id)
+                                                @if ($seller_id == 0)
+                                                    @php($seller_id = $last_chat->shop->seller_id)
+                                                @endif
 
                                                 <input type="text" id="hidden_value" hidden
-                                                       value="{{$last_chat->shop_id}}" name="">
+                                                    value="{{$last_chat->shop_id}}" name="">
                                                 <input type="text" id="seller_value" hidden
-                                                       value="{{$last_chat->shop->seller_id}}" name="">
-
+                                                    value="{{$seller_id}}" name="">
+                                                <input type="text" id="receiver" hidden
+                                                    value="{{$last_chat->receiver}}" name="">
                                                 <input
                                                     class="form-control form-control-sm {{Session::get('direction') === "rtl" ? 'ml-3' : 'mr-3'}} w-75"
                                                     id="msgInputValue"
                                                     type="text" placeholder="{{\App\CPU\translate('Send a message')}}" aria-label="Search">
                                                 <input class="aSend" type="submit" id="msgSendBtn" style="width: 45px;"
-                                                       value="Send">
+                                                    value="Send">
                                                 {{-- <a class="aSend" id="msgSendBtn">Send</a> --}}
                                                 {{-- <i class="fa fa-send" style="color: #92C6FF" aria-hidden="true"></i> --}}
 
@@ -571,6 +588,7 @@
 
             $(".seller").click(function (e) {
                 e.stopPropagation();
+                console.log('id', e);
                 shop_id = e.target.id;
                 //active when click on seller
                 $('.chat_list.btn-primary').removeClass('btn-primary');
@@ -605,7 +623,7 @@
                                     )
 
                                 } else {
-                                    let img_path = element.image == 'def.png' ? `${window.location.origin}/storage/app/public/${element.image}` : `${window.location.origin}/storage/app/public/shop/${element.image}`;
+                                    let img_path = element.image == 'def.png' ? `${window.location.origin}/storage/${element.image}` : `${window.location.origin}/storage/shop/${element.image}`;
 
                                     $(".msg_history").append(`
                     <div class="incoming_msg" style="display: flex;" id="incoming_msg">
@@ -650,11 +668,13 @@
                 var inputs = $('#myForm').find('#msgInputValue').val();
                 var new_shop_id = $('#myForm').find('#hidden_value').val();
                 var new_seller_id = $('#myForm').find('#seller_value').val();
+                var receiver = $('#myForm').find('#receiver').val();
 
 
                 let data = {
                     message: inputs,
                     shop_id: new_shop_id,
+                    receiver: receiver,
                     seller_id: new_seller_id
                 }
                 $.ajaxSetup({

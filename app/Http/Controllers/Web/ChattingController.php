@@ -36,9 +36,10 @@ class ChattingController extends Controller
 
             return view('web-views.users-profile.profile.chat-with-seller', compact('chattings', 'unique_shops', 'last_chat'));
         }
-        return view('web-views.users-profile.profile.chat-with-seller');
 
+        return view('web-views.users-profile.profile.chat-with-seller');
     }
+
     public function messages(Request $request)
     {
         $last_chat = Chatting::where('user_id', auth('customer')->id())
@@ -61,25 +62,34 @@ class ChattingController extends Controller
 
     public function messages_store(Request $request)
     {
+        if ($request->receiver == 'Outlet') {
+            $seller = $request->seller_id;
+            $mitra = 0;
+        } else {
+            $seller = 0;
+            $mitra = $request->seller_id;
+        }
 
         if ($request->message == '') {
             Toastr::warning('Type Something!');
+
             return response()->json('type something!');
         } else {
             $message = $request->message;
             DB::table('chattings')->insert([
-                'user_id'          => auth('customer')->id(),
-                'shop_id'          => $request->shop_id,
-                'seller_id'        => $request->seller_id,
+                'user_id' => auth('customer')->id(),
+                'shop_id' => $request->shop_id,
+                'seller_id' => $seller,
+                'receiver' => $request->receiver,
+                'mitra_id' => $mitra,
 
-                'message'          => $request->message,
+                'message' => $request->message,
                 'sent_by_customer' => 1,
                 'seen_by_customer' => 0,
-                'created_at'       => now(),
+                'created_at' => now(),
             ]);
 
             return response()->json($message);
         }
     }
-
 }

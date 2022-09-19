@@ -25,6 +25,11 @@ class Chatting extends Model
         return $this->belongsTo(Seller::class, 'seller_id');
     }
 
+    public function mitra()
+    {
+        return $this->belongsTo(Mitra::class, 'mitra_id');
+    }
+
     public function customer()
     {
         return $this->belongsTo(User::class, 'user_id');

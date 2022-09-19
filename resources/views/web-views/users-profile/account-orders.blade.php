@@ -130,7 +130,6 @@
                                 </td>
                             </tr>
                             </thead>
-
                             <tbody>
                             @foreach($orders as $order)
                                 <tr>
@@ -182,24 +181,76 @@
                                     </td>
                                     <td class="bodytr" style="width: 162px">
                                         <a href="{{ route('account-order-details', ['id'=>$order->id]) }}"
-                                           class="btn btn-secondary p-2 btn-sm">
+                                            class="btn btn-secondary btn-sm p-1 mb-1">
                                             <i class="fa fa-eye"></i> {{\App\CPU\translate('view')}}
                                         </a>
                                         @if ($order['order_status'] !== 'canceled')
+                                            @if ($order['order_status'] !== 'delivered' || $order['payment_status'] !== 'paid')
+                                            @php($shop = \App\CPU\Helpers::get_shop($order->seller_id))
+                                                        @php($seller = $order->mitra_id)
+                                                        @if ($seller !== 0)
+                                                        @php($seller = $order->mitra_id)
+                                                        @php($receiver = 'Mitra')
+                                                    @else
+                                                        @php($seller = $order->seller_id)
+                                                        @php($receiver = 'Outlet')
+                                                    @endif
+
+                                                    <button type="button" class="btn btn-outline-success btn-sm p-1 mb-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{ $order['id'] }}">
+                                                        <i class="fas fa-comments"></i> {{ $receiver }}
+                                                    </button>
+
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="staticBackdrop{{ $order['id'] }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                            <h5 class="modal-title" id="staticBackdropLabel">Chat {{ $receiver }}</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="row msg-option" id="msg-option">
+                                                                    <form action="" id="chatOwner{{ $order['id'] }}">
+                                                                        <input type="hidden" class="receiver" name="receiver" value="{{ $receiver }}">
+                                                                        <input type="hidden" class="seller_id" name="seller_id" value="{{ $seller }}" hidden seller-id="{{$seller}}">
+                                                                        <input type="hidden" class="shop_id" name="shop_id" value="{{ $shop }}">
+                                                                        <textarea shop-id="{{ $shop }}" class="chatInputBox form-control" name="message"
+                                                                                    id="chatInputBox" rows="3"></textarea>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <div class="go-to-chatbox" id="go_to_chatbox">
+                                                                        <a href="{{route('chat-with-seller')}}" class="btn btn-primary" id="go_to_chatbox_btn">
+                                                                            {{\App\CPU\translate('go_to')}} {{\App\CPU\translate('chatbox')}} </a>
+                                                                    </div>
+                                                                    {{-- <button class="btn btn-secondary" style="color: white;" data-bs-dismiss="modal"
+                                                                    id="cancelBtn">{{\App\CPU\translate('cancel')}}
+                                                                    </button> --}}
+                                                                    <button class="btn btn-primary" style="color: white;" onclick="send({{ $order['id'] }})">{{\App\CPU\translate('send')}}</button>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                            @endif
                                             @if($order['order_status']=='pending')
                                                 <a href="javascript:"
                                                 onclick="route_alert('{{ route('order-cancel',[$order->id]) }}','{{\App\CPU\translate('want_to_cancel_this_order?')}}')"
-                                                class="btn btn-danger btn-sm p-2 top-margin">
+                                                class="btn btn-danger btn-sm top-margin">
                                                     <i class="fa fa-trash"></i> {{\App\CPU\translate('cancel')}}
                                                 </a>
                                             @elseif($order['order_status'] == 'delivered' && $order['payment_status'] == 'unpaid')
-                                            <a class="btn btn-info btn-sm p-2 top-margin" href="{{ route('midtrans-payment.pay', ['id' => $order->id]) }}">
+                                            <a class="btn btn-info btn-sm top-margin" href="{{ route('midtrans-payment.pay', ['id' => $order->id]) }}">
                                                 <i class="fa fa-dollar-sign"></i> {{\App\CPU\translate('Pay_now')}}
                                             </a>
                                             @else
-                                                <button class="btn btn-danger btn-sm p-2 top-margin" onclick="cancel_message()">
-                                                    <i class="fa fa-trash"></i> {{\App\CPU\translate('cancel')}}
-                                                </button>
+                                            @if ($order['order_status'] !== 'processing' && $order['order_status'] !== 'delivered' && $order['order_status'] !== 'confirmed')
+                                            <button class="btn btn-danger btn-sm" onclick="cancel_message()">
+                                                <i class="fa fa-trash"></i> {{\App\CPU\translate('cancel')}}
+                                            </button>
+                                            @endif
                                             @endif
                                         @endif
                                     </td>
@@ -225,5 +276,76 @@
                 ProgressBar: true
             });
         }
+
+        function send(order_id){
+            let msgValue = $('#msg-option' + order_id).find('textarea').val();
+            let data = {
+                message: msgValue,
+                shop_id: $('#msg-option' + order_id).find('textarea').attr('shop-id'),
+                seller_id: $('.msg-option' + order_id).find('.seller_id').attr('seller-id'),
+                receiver: $('.msg-option' + order_id).find('.receiver').attr('value'),
+            }
+            let form = $('#chatOwner' + order_id).serialize();
+            console.log('data', form);
+            if (msgValue != '') {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: "post",
+                    url: '{{route('messages_store')}}',
+                    data: form,
+                    success: function (respons) {
+                        console.log('send successfully');
+                    }
+                });
+
+
+            $('#staticBackdrop' + order_id).modal('hide');
+            } else {
+                console.log('say something');
+            }
+        }
+
+        $('.sendBtn').on('click', function (e) {
+            e.preventDefault();
+            let msgValue = $('#msg-option').find('textarea').val();
+            let data = {
+                message: msgValue,
+                shop_id: $('#msg-option').find('textarea').attr('shop-id'),
+                seller_id: $('.msg-option').find('.seller_id').attr('seller-id'),
+                receiver: $('.msg-option').find('.receiver').attr('value'),
+            }
+            let chat = $('#chatOwner').serialize();
+            console.log('data', data);
+            if (msgValue != '') {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    }
+                });
+
+                // $.ajax({
+                //     type: "post",
+                //     url: '{{route('messages_store')}}',
+                //     data: data,
+                //     success: function (respons) {
+                //         console.log('send successfully');
+                //     }
+                // });
+
+
+                // $('#chatInputBox').val('');
+                // $('#msg-option').css('display', 'none');
+                // $('#contact-seller').find('.contact').attr('disabled', '');
+                // $('#seller_details').animate({'height': '125px'});
+                // $('#go_to_chatbox').css('display', 'block');
+            } else {
+                console.log('say something');
+            }
+        });
     </script>
 @endpush

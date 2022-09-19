@@ -16,6 +16,7 @@ use App\Model\Review;
 use App\Model\Seller;
 use App\Model\ShippingAddress;
 use App\Model\ShippingMethod;
+use App\Model\Shop;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
@@ -23,6 +24,20 @@ use Illuminate\Support\Facades\Session;
 
 class Helpers
 {
+    public static function getMitra($id)
+    {
+        $mitra = Mitra::find($id);
+
+        return $mitra;
+    }
+
+    public static function get_shop($id)
+    {
+        $shop = Shop::where('seller_id', $id)->first();
+
+        return $shop->id;
+    }
+
     public static function driver_cost($range)
     {
         $cost = Helpers::get_business_settings('driver_cost');
@@ -532,6 +547,7 @@ class Helpers
     public static function product_data_formatting($data, $multi_data = false)
     {
         $storage = [];
+        // dd($multi_data);
         if ($multi_data == true) {
             foreach ($data as $item) {
                 $variation = [];
@@ -570,16 +586,16 @@ class Helpers
                 }
             }
             $data['attributes'] = $attributes;
-            $data['choice_options'] = json_decode($data['choice_options']);
-            foreach (json_decode($data['variation'], true) as $var) {
-                array_push($variation, [
-                    'type' => $var['type'],
-                    'price' => (float) $var['price'],
-                    'sku' => $var['sku'],
-                    'qty' => (int) $var['qty'],
-                ]);
-            }
-            $data['variation'] = $variation;
+            // $data['choice_options'] = json_decode($data['choice_options']);
+            // foreach (json_decode($data['variation'], true) as $var) {
+            //     array_push($variation, [
+            //         'type' => $var['type'],
+            //         'price' => (float) $var['price'],
+            //         'sku' => $var['sku'],
+            //         'qty' => (int) $var['qty'],
+            //     ]);
+            // }
+            // $data['variation'] = $variation;
         }
 
         return $data;
