@@ -36,6 +36,10 @@ class OrderController extends Controller
             $order_ids = OrderDetail::with('order')->where(['mitra_id' => $seller['id']])->whereHas('order', function ($q) {
                 $q->where('order_status', 'delivered');
             })->pluck('order_id')->toArray();
+        } elseif ($request->status == 'canceled') {
+            $order_ids = OrderDetail::with('order')->where(['mitra_id' => $seller['id']])->whereHas('order', function ($q) {
+                $q->where('order_status', 'canceled');
+            })->pluck('order_id')->toArray();
         } else {
             $order_ids = OrderDetail::where(['mitra_id' => $seller['id']])->pluck('order_id')->toArray();
         }
@@ -65,7 +69,7 @@ class OrderController extends Controller
 
     public function order_detail_status(Request $request)
     {
-        $data = Helpers::get_seller_by_token($request);
+        $data = Helpers::get_mitra_by_token($request);
 
         if ($data['success'] == 1) {
             $seller = $data['data'];
@@ -96,7 +100,11 @@ class OrderController extends Controller
         if ($order->order_status == 'delivered') {
             return response()->json(['success' => 0, 'message' => translate('order is already delivered')], 200);
         }
-        $order->order_status = $request->order_status;
+        $status = $request->order_status;
+        if ($status == 'finished') {
+            $status = 'delivered';
+        }
+        $order->order_status = $status;
         OrderManager::stock_update_on_order_status_change($order, $request->order_status);
 
         if ($request->order_status == 'delivered' && $order['seller_id'] != null) {
@@ -105,6 +113,6 @@ class OrderController extends Controller
 
         $order->save();
 
-        return response()->json(['success' => 1, 'message' => translate('order_status_updated_successfully')], 200);
+        return response()->json(['status' => 'success', 'message' => translate('order_status_'.$request->order_status.'_successfully')], 200);
     }
 }

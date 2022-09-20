@@ -1,4 +1,5 @@
 <div class="flex-between" style="width: 100%">
+    {{-- {{ dd($commission_data) }} --}}
     <div class="mb-3 mb-lg-0" style="width: 18%">
         <div class="card card-body card-hover-shadow h-100 text-white text-center" style="background-color: #22577A;">
             <h1 class="p-2 text-white">{{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($data['commission_given']))}}</h1>
