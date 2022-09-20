@@ -24,7 +24,21 @@ class OrderController extends Controller
             ], 401);
         }
 
-        $order_ids = OrderDetail::where(['mitra_id' => $seller['id']])->pluck('order_id')->toArray();
+        if ($request->status == 'pending') {
+            $order_ids = OrderDetail::with('order')->where(['mitra_id' => $seller['id']])->whereHas('order', function ($q) {
+                $q->where('order_status', 'pending');
+            })->pluck('order_id')->toArray();
+        } elseif ($request->status == 'processing') {
+            $order_ids = OrderDetail::with('order')->where(['mitra_id' => $seller['id']])->whereHas('order', function ($q) {
+                $q->where('order_status', 'processing');
+            })->pluck('order_id')->toArray();
+        } elseif ($request->status == 'finished') {
+            $order_ids = OrderDetail::with('order')->where(['mitra_id' => $seller['id']])->whereHas('order', function ($q) {
+                $q->where('order_status', 'delivered');
+            })->pluck('order_id')->toArray();
+        } else {
+            $order_ids = OrderDetail::where(['mitra_id' => $seller['id']])->pluck('order_id')->toArray();
+        }
 
         return response()->json(['status' => 'success', 'data' => Order::with(['customer'])->whereIn('id', $order_ids)->get()], 200);
     }
