@@ -34,8 +34,11 @@ class Helpers
     public static function get_shop($id)
     {
         $shop = Shop::where('seller_id', $id)->first();
+        if ($shop) {
+            return $shop->id;
+        }
 
-        return $shop->id;
+        return 0;
     }
 
     public static function driver_cost($range)
