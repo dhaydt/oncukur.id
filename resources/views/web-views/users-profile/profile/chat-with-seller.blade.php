@@ -478,6 +478,13 @@
                                                 </div>
                                                 {{-- {{ dd($shop) }} --}}
                                                 <div class="chat_ib">
+                                                    @if ($shop["mitra_id"] == 0 )
+                                                        <input type="hidden" id="receiver-{{ $shop->shop_id }}" value="Outlet">
+                                                        <input type="hidden" id="mitra_ids-{{ $shop->shop_id }}" value="{{ $shop['seller_id'] }}">
+                                                    @else
+                                                        <input type="hidden" id="receiver-{{ $shop->shop_id }}" value="Mitra">
+                                                        <input type="hidden" id="mitra_ids-{{ $shop->shop_id }}" value="{{ $shop['mitra_id'] }}">
+                                                    @endif
                                                     <h5 class="seller text-capitalize @if($shop->seen_by_customer)active-text @endif"
                                                         id="{{$shop->shop_id}}">@if ($shop['mitra_id'] == 0) Outlet @else
                                                             {{ $mitra->name }}
@@ -541,8 +548,10 @@
                                                 id="myForm">
                                                 @csrf
                                                 @php($seller_id =  $last_chat->mitra_id)
+                                                @php($receiver = 'Mitra')
                                                 @if ($seller_id == 0)
                                                     @php($seller_id = $last_chat->shop->seller_id)
+                                                    @php($receiver = 'Outlet')
                                                 @endif
 
                                                 <input type="text" id="hidden_value" hidden
@@ -596,6 +605,10 @@
                 $('.seller').css('color', 'black');
                 $(`#user_${shop_id} h5`).css('color', 'white');
 
+                var receiver = $(`#receiver-${shop_id}`).val();
+                var mitra_id = $(`#mitra_ids-${shop_id}`).val();
+                console.log('receiver', mitra_id);
+
                 $.ajax({
                     type: "get",
                     url: "messages?shop_id=" + shop_id,
@@ -614,31 +627,33 @@
                                 if (element.sent_by_customer) {
 
                                     $(".msg_history").append(`
-                    <div class="outgoing_msg">
-                      <div class='send_msg'>
-                        <p  class="btn-primary">${element.message}</p>
-                        <span class='time_date'> ${time}    |    ${date}</span>
-                      </div>
-                    </div>`
+                                        <div class="outgoing_msg">
+                                        <div class='send_msg'>
+                                            <p  class="btn-primary">${element.message}</p>
+                                            <span class='time_date'> ${time}    |    ${date}</span>
+                                        </div>
+                                        </div>`
                                     )
 
                                 } else {
                                     let img_path = element.image == 'def.png' ? `${window.location.origin}/storage/${element.image}` : `${window.location.origin}/storage/shop/${element.image}`;
 
                                     $(".msg_history").append(`
-                    <div class="incoming_msg" style="display: flex;" id="incoming_msg">
-                      <div class="incoming_msg_img" id="">
-                        <img src="${img_path}" alt="">
-                      </div>
-                      <div class="received_msg">
-                        <div class="received_withd_msg">
-                          <p id="receive_msg">${element.message}</p>
-                        <span class="time_date">${time}    |    ${date}</span></div>
-                      </div>
-                    </div>`
+                                        <div class="incoming_msg" style="display: flex;" id="incoming_msg">
+                                        <div class="incoming_msg_img" id="">
+                                            <img src="${img_path}" alt="">
+                                        </div>
+                                        <div class="received_msg">
+                                            <div class="received_withd_msg">
+                                            <p id="receive_msg">${element.message}</p>
+                                            <span class="time_date">${time}    |    ${date}</span></div>
+                                        </div>
+                                        </div>`
                                     )
                                 }
                                 $('#hidden_value').attr("value", shop_id);
+                                $('#receiver').attr("value", receiver);
+                                $('#seller_value').attr("value", mitra_id);
                             });
                         } else {
                             $(".msg_history").html(`<p> No Message available </p>`);

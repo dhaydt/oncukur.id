@@ -65,7 +65,7 @@ class ChattingController extends Controller
         if ($request->receiver == 'Outlet') {
             $seller = $request->seller_id;
             $mitra = 0;
-        } else {
+        } elseif ($request->receiver == 'Mitra') {
             $seller = 0;
             $mitra = $request->seller_id;
         }
