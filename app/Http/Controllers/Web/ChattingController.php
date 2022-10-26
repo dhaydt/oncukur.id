@@ -11,8 +11,16 @@ use Illuminate\Support\Facades\DB;
 
 class ChattingController extends Controller
 {
+    public function chatUpdate(Request $request)
+    {
+        return response()->json(['data' => view('web-views.partials.chat-user')->render()]);
+    }
+
     public function chat_with_seller(Request $request)
     {
+        if (!auth('customer')->id()) {
+            return redirect()->route('customer.auth.login');
+        }
         // $last_chat = Chatting::with('seller_info')->where('user_id', auth('customer')->id())
         //     ->orderBy('created_at', 'DESC')
         //     ->first();
@@ -21,7 +29,7 @@ class ChattingController extends Controller
             ->first();
 
         if (isset($last_chat)) {
-            $chattings = Chatting::join('shops', 'shops.id', '=', 'chattings.shop_id')
+            $chattings = Chatting::with('mitra')->join('shops', 'shops.id', '=', 'chattings.shop_id')
                 ->select('chattings.*', 'shops.name', 'shops.image')
                 ->where('chattings.user_id', auth('customer')->id())
                 ->where('shop_id', $last_chat->shop_id)

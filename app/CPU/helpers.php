@@ -6,6 +6,7 @@ use App\Country;
 use App\Model\Admin;
 use App\Model\BusinessSetting;
 use App\Model\Category;
+use App\Model\Chatting;
 use App\Model\Color;
 use App\Model\Coupon;
 use App\Model\Currency;
@@ -24,6 +25,59 @@ use Illuminate\Support\Facades\Session;
 
 class Helpers
 {
+    public static function lastChat()
+    {
+        $last_chat = Chatting::with(['shop'])->where('user_id', auth('customer')->id())
+            ->orderBy('created_at', 'DESC')
+            ->first();
+
+        if (isset($last_chat)) {
+            $chattings = Chatting::with('mitra')->join('shops', 'shops.id', '=', 'chattings.shop_id')
+                    ->select('chattings.*', 'shops.name', 'shops.image')
+                    ->where('chattings.user_id', auth('customer')->id())
+                    ->where('shop_id', $last_chat->shop_id)
+                    ->get();
+
+            $unique_shops = Chatting::join('shops', 'shops.id', '=', 'chattings.shop_id')
+                    ->select('chattings.*', 'shops.name', 'shops.image')
+                    ->where('chattings.user_id', auth('customer')->id())
+                    ->orderBy('chattings.created_at', 'desc')
+                    ->get()
+                    ->unique('shop_id');
+
+            $data = [
+                    $last_chat, $chattings, $unique_shops,
+                    ];
+
+            return $data;
+        }
+
+        return $last_chat;
+    }
+
+    public static function chattings($last_chat)
+    {
+        $chattings = Chatting::with('mitra')->join('shops', 'shops.id', '=', 'chattings.shop_id')
+                ->select('chattings.*', 'shops.name', 'shops.image')
+                ->where('chattings.user_id', auth('customer')->id())
+                ->where('shop_id', $last_chat->shop_id)
+                ->get();
+
+        return $chattings;
+    }
+
+    public static function unique_shops($last_chat)
+    {
+        $unique_shops = Chatting::join('shops', 'shops.id', '=', 'chattings.shop_id')
+        ->select('chattings.*', 'shops.name', 'shops.image')
+        ->where('chattings.user_id', auth('customer')->id())
+        ->orderBy('chattings.created_at', 'desc')
+        ->get()
+        ->unique('shop_id');
+
+        return $unique_shops;
+    }
+
     public static function getMitra($id)
     {
         $mitra = Mitra::find($id);

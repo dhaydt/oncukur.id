@@ -310,6 +310,7 @@
         .type_msg {
             border-top: 1px solid #c4c4c4;
             position: relative;
+            height: 60px;
         }
 
         .msg_send_btn {
@@ -439,7 +440,6 @@
 
             {{-- Seller List start --}}
             @if (isset($unique_shops))
-
                 <div class="col-lg-3 chatSel">
                     <div class="card box-shadow-sm">
                         <div class="inbox_people">
@@ -456,44 +456,7 @@
                                 <hr>
                             </div>
                             <div class="inbox_chat">
-                                @if (isset($unique_shops))
-                                    @foreach($unique_shops as $key=>$shop)
-                                        <div class="chat_list @if ($key == 0) btn-primary @endif"
-                                            id="user_{{$shop->shop_id}}">
-                                            <div class="chat_people" id="chat_people">
-                                                <div class="chat_img">
-                                                    @php($mitra = \App\CPU\Helpers::getMitra($shop['mitra_id']))
-                                                    @if ($shop['mitra_id'] == 0)
-                                                        <img
-                                                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                                                            src="{{asset('storage/outlet/'.$shop->image)}}"
-                                                            style="border-radius: 10px">
-
-                                                    @elseif($shop['mitra_id'] != 0)
-                                                        <img
-                                                            src="{{asset('storage/mitra/'.$mitra->image)}}"
-                                                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                                                            style="border-radius: 10px">
-                                                    @endif
-                                                </div>
-                                                {{-- {{ dd($shop) }} --}}
-                                                <div class="chat_ib">
-                                                    @if ($shop["mitra_id"] == 0 )
-                                                        <input type="hidden" id="receiver-{{ $shop->shop_id }}" value="Outlet">
-                                                        <input type="hidden" id="mitra_ids-{{ $shop->shop_id }}" value="{{ $shop['seller_id'] }}">
-                                                    @else
-                                                        <input type="hidden" id="receiver-{{ $shop->shop_id }}" value="Mitra">
-                                                        <input type="hidden" id="mitra_ids-{{ $shop->shop_id }}" value="{{ $shop['mitra_id'] }}">
-                                                    @endif
-                                                    <h5 class="seller text-capitalize @if($shop->seen_by_customer)active-text @endif"
-                                                        id="{{$shop->shop_id}}">@if ($shop['mitra_id'] == 0) Outlet @else
-                                                            {{ $mitra->name }}
-                                                        @endif {{' ('.$shop->name.')'}}</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endForeach
-                                @endif
+                                @include('web-views.partials._inbox_list')
                             </div>
                         </div>
                     </div>
@@ -511,9 +474,16 @@
                                             @foreach($chattings as $key => $chat)
                                                 @if ($chat->sent_by_seller)
                                                     <div class="incoming_msg">
-                                                        <div class="incoming_msg_img"><img
-                                                                src="@if($chat->image == 'def.png'){{asset('storage/'.$chat->image)}} @else {{asset('storage/shop/'.$chat->image)}} @endif"
-                                                                alt="sunil"></div>
+                                                        <div class="incoming_msg_img">
+                                                            {{-- {{ dd($chat) }} --}}
+                                                            @if ($chat->mitra_id == 0)
+                                                                <img onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'" src="@if($chat->image == 'def.png'){{asset('storage/'.$chat->image)}} @else {{asset('storage/shop/'.$chat->image)}} @endif"
+                                                                    alt="Outlet">
+                                                            @else
+                                                                <img src="{{asset('storage/mitra/'.$chat->mitra->image)}}" onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                                                    alt="Outlet">
+                                                            @endif
+                                                        </div>
                                                         <div class="received_msg">
                                                             <div class="received_withd_msg">
                                                                 <p>
@@ -564,7 +534,7 @@
                                                     class="form-control form-control-sm {{Session::get('direction') === "rtl" ? 'ml-3' : 'mr-3'}} w-75"
                                                     id="msgInputValue"
                                                     type="text" placeholder="{{\App\CPU\translate('Send a message')}}" aria-label="Search">
-                                                <input class="aSend" type="submit" id="msgSendBtn" style="width: 45px;"
+                                                <input class="aSend" type="submit" id="msgSendBtn" style="width: 80px; background: #b2b2b2; border-radius: 20px; display: flex; justify-content: center; color: #fff;"
                                                     value="Send">
                                                 {{-- <a class="aSend" id="msgSendBtn">Send</a> --}}
                                                 {{-- <i class="fa fa-send" style="color: #92C6FF" aria-hidden="true"></i> --}}
@@ -586,10 +556,15 @@
     </div>
 
 @endsection
-
 @push('script')
     <script>
         $(document).ready(function () {
+            setInterval(function() {chatChecker()}, 1000);
+
+            function chatChecker(){
+                console.log('cheked')
+            }
+
             var shop_id;
             $(".msg_history").stop().animate({scrollTop: $(".msg_history")[0].scrollHeight}, 1000);
             // var perams_url = window.location.search.substring(1);
@@ -705,10 +680,10 @@
                     success: function (respons) {
                         $(".msg_history").append(`
                 <div class="outgoing_msg" id="outgoing_msg">
-                  <div class='send_msg'>
-                    <p>${respons}</p>
-                    <span class='time_date'> now</span>
-                  </div>
+                    <div class='send_msg'>
+                        <p>${respons}</p>
+                        <span class='time_date'> now</span>
+                    </div>
                 </div>`
                         )
                     }

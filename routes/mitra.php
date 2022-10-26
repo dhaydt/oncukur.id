@@ -51,5 +51,12 @@ Route::group(['namespace' => 'mitra', 'prefix' => 'mitra', 'as' => 'mitra.'], fu
             Route::post('productStatus', '\App\Http\Controllers\Mitra\OrderController@productStatus')->name('productStatus');
             Route::post('payment-status', '\App\Http\Controllers\Mitra\OrderController@payment_status')->name('payment-status');
         });
+
+        // Messaging
+        Route::group(['prefix' => 'messages', 'as' => 'messages.'], function () {
+            Route::get('/chat', 'ChattingController@chat')->name('chat');
+            Route::get('/message-by-user', 'ChattingController@message_by_user')->name('message_by_user');
+            Route::post('/seller-message-store', 'ChattingController@seller_message_store')->name('seller_message_store');
+        });
     });
 });

@@ -118,6 +118,7 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode']], funct
     Route::get('chat-with-seller', 'ChattingController@chat_with_seller')->name('chat-with-seller');
     Route::get('messages', 'ChattingController@messages')->name('messages');
     Route::post('messages-store', 'ChattingController@messages_store')->name('messages_store');
+    Route::post('messages-update', 'ChattingController@chatUpdate')->name('chatUpdate');
     // chatting end
 
     //Support Ticket
