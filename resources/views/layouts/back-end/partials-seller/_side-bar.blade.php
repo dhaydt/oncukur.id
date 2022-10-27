@@ -104,7 +104,7 @@
                                         </span>
                                     </a>
                                 </li>
-                                <li class="nav-item {{Request::is('seller/orders/list/confirmed')?'active':''}}">
+                                {{-- <li class="nav-item {{Request::is('seller/orders/list/confirmed')?'active':''}}">
                                     <a class="nav-link " href="{{route('seller.orders.list',['confirmed'])}}" title="">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">{{\App\CPU\translate('confirmed')}}</span>
@@ -112,7 +112,7 @@
                                             {{ \App\Model\Order::where(['seller_is'=>'seller'])->where(['seller_id'=>$sellerId])->where(['order_status'=>'confirmed'])->count()}}
                                         </span>
                                     </a>
-                                </li>
+                                </li> --}}
 
                                 <li class="nav-item {{Request::is('seller/orders/list/processing')?'active':''}}">
                                     <a class="nav-link " href="{{route('seller.orders.list',['processing'])}}" title="">
@@ -124,7 +124,7 @@
                                     </a>
                                 </li>
 
-                                <li class="nav-item {{Request::is('seller/orders/list/out_for_delivery')?'active':''}}">
+                                {{-- <li class="nav-item {{Request::is('seller/orders/list/out_for_delivery')?'active':''}}">
                                     <a class="nav-link " href="{{route('seller.orders.list',['out_for_delivery'])}}" title="">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">{{\App\CPU\translate('out_for_delivery')}}</span>
@@ -132,18 +132,18 @@
                                             {{ \App\Model\Order::where(['seller_is'=>'seller'])->where(['seller_id'=>$sellerId])->where(['order_status'=>'out_for_delivery'])->count()}}
                                         </span>
                                     </a>
-                                </li>
+                                </li> --}}
 
                                 <li class="nav-item {{Request::is('seller/orders/list/delivered')?'active':''}}">
                                     <a class="nav-link " href="{{route('seller.orders.list',['delivered'])}}" title="">
                                         <span class="tio-circle nav-indicator-icon"></span>
-                                        <span class="text-truncate">{{\App\CPU\translate('Delivered')}}</span>
+                                        <span class="text-truncate">{{\App\CPU\translate('Finished')}}</span>
                                         <span class="badge badge-success badge-pill {{Session::get('direction') === "rtl" ? 'mr-1' : 'ml-1'}}">
                                             {{ \App\Model\Order::where(['seller_is'=>'seller'])->where(['seller_id'=>$sellerId])->where(['order_status'=>'delivered'])->count()}}
                                         </span>
                                     </a>
                                 </li>
-                                <li class="nav-item {{Request::is('seller/orders/list/returned')?'active':''}}">
+                                {{-- <li class="nav-item {{Request::is('seller/orders/list/returned')?'active':''}}">
                                     <a class="nav-link " href="{{route('seller.orders.list',['returned'])}}" title="">
                                         <span class="tio-circle nav-indicator-icon"></span>
                                         <span class="text-truncate">{{\App\CPU\translate('Returned')}}</span>
@@ -151,7 +151,7 @@
                                             {{ \App\Model\Order::where(['seller_is'=>'seller'])->where(['seller_id'=>$sellerId])->where(['order_status'=>'returned'])->count()}}
                                         </span>
                                     </a>
-                                </li>
+                                </li> --}}
                                 <li class="nav-item {{Request::is('seller/orders/list/failed')?'active':''}}">
                                     <a class="nav-link " href="{{route('seller.orders.list',['failed'])}}" title="">
                                         <span class="tio-circle nav-indicator-icon"></span>
