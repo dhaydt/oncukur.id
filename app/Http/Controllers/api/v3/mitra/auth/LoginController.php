@@ -107,7 +107,7 @@ class LoginController extends Controller
                 DB::table('seller_wallets')->insert([
                     'seller_id' => $mitra['id'],
                     'withdrawn' => 0,
-                    'comission_given' => 0,
+                    'commission_given' => 0,
                     'total_earning' => 0,
                     'pending_withdraw' => 0,
                     'created_at' => now(),
