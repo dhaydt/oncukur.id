@@ -106,7 +106,7 @@ class LoginController extends Controller
             if (SellerWallet::where('seller_id', $mitra['id'])->first() == false) {
                 DB::table('seller_wallets')->insert([
                     'seller_id' => $mitra['id'],
-                    'withdraw' => 0,
+                    'withdrawn' => 0,
                     'comission_given' => 0,
                     'total_earning' => 0,
                     'pending_withdraw' => 0,
