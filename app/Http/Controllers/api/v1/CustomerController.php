@@ -271,6 +271,6 @@ class CustomerController extends Controller
             'cm_firebase_token' => $request['cm_firebase_token'],
         ]);
 
-        return response()->json(['message' => translate('successfully updated!')], 200);
+        return response()->json(['status' => 'success', 'message' => translate('firebase token successfully updated!')], 200);
     }
 }
