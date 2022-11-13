@@ -10,6 +10,7 @@ use App\Model\Order;
 use App\Model\OrderTransaction;
 use App\Model\Product;
 use App\Model\Review;
+use App\Model\Shop;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -158,6 +159,10 @@ class MitraController extends Controller
     public function updateStatus(Request $request)
     {
         $order = Mitra::findOrFail($request->id);
+        $outlet_id = $order->shop_id;
+        $outlet = Shop::find($outlet_id);
+        $lat = $outlet->latitude;
+        $lng = $outlet->longitude;
         $order->status = $request->status;
         $user = $order;
         if ($request->status == 'approved') {
@@ -187,8 +192,7 @@ class MitraController extends Controller
             Toastr::info('Mitra has been rejected successfully');
         } elseif ($request->status == 'review') {
             try {
-                Mail::to($user->email)->send(new \App\Mail\ReviewMitra('Your registration <i style="color:blue">ON PROGRESS</i>, Please come to the outlet where you apply, to verify files and skills by bringing your original identity file!! <br><br>
-                (Pendaftaran anda sedang di <i style="color:blue">PROSES</i>, Mohon untuk datang ke outlet tempat anda mendaftar, agar melakukan verifikasi berkas dan skill dengan membawa berkas asli identitas anda!!)'));
+                Mail::to($user->email)->send(new \App\Mail\ReviewMitra('Your registration <i style="color:blue">ON PROGRESS</i>, Please come to <a href="https://maps.google.com/?q='.$lat.','.$lng.'">This location Outlet</a> where you apply, to verify files and skills by bringing your original identity file!! <br> The document checking period will expire within 7 days after this email is received! <br><br> (Pendaftaran anda sedang di <i style="color:blue">PROSES</i>, Mohon untuk datang ke outlet tempat anda mendaftar, agar melakukan verifikasi berkas dan skill dengan membawa berkas asli identitas anda ke <a href="https://maps.google.com/?q='.$lat.','.$lng.'">Lokasi Outlet ini</a> tempat anda melamar!! <br> Masa pemeriksaan dokumen akan berakhir dalam 7 hari setelah email ini diterima!)'));
                 $response = translate('notification email has been sent to the mitra email');
                 Toastr::success($response);
             } catch (\Exception $exception) {
