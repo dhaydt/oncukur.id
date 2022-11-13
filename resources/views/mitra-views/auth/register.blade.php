@@ -49,6 +49,20 @@
                                     </select>
                                 </div>
                             </div>
+                            <h5 class="black">Account TikTok</h5>
+                            <div class="form-group row">
+                                <div class="col-md-6 col-12 mb-3 mb-sm-0">
+                                    <input type="text" class="form-control form-control-user" id="exampleFirstName"
+                                        name="id_tiktok" value="{{old('id_tiktok')}}"
+                                        placeholder="{{\App\CPU\translate('id_tiktok')}}" required>
+                                </div>
+
+                                <div class="col-md-6 col-12 mb-3 mb-sm-0">
+                                    <input type="text" class="form-control form-control-user"
+                                        name="account_name" value="{{old('account_name')}}"
+                                        placeholder="{{\App\CPU\translate('account_tiktok_name')}}" required>
+                                </div>
+                            </div>
                             <h5 class="black">{{\App\CPU\translate('Mitra')}} {{\App\CPU\translate('Info')}} </h5>
                             <div class="form-group row">
 
@@ -111,7 +125,7 @@
                             </div>
 
                             <button type="submit" class="btn btn-primary btn-user btn-block"
-                                id="apply">{{\App\CPU\translate('Apply')}} {{\App\CPU\translate('OnCukur_Mitra')}}
+                                id="apply">{{\App\CPU\translate('Apply')}} {{\App\CPU\translate('ONCUKUR_Mitra')}}
                             </button>
                         </form>
                         <hr>

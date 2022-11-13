@@ -314,11 +314,11 @@ class CartManager
             $cart['range_km'] = $request->range ? $request->range : 0;
             $cart['user_lat'] = $request->lat_user;
             $cart['user_long'] = $request->lng_user;
-            // if ($product->added_by == 'seller') {
-            //     $cart['shop_info'] = Shop::where(['seller_id' => $product->user_id])->first()->name;
-            // } else {
-            // }
-            $cart['shop_info'] = Helpers::get_business_settings('company_name');
+            if ($product->added_by == 'seller') {
+                $cart['shop_info'] = Shop::where(['seller_id' => $product->user_id])->first()->name;
+            } else {
+                $cart['shop_info'] = Helpers::get_business_settings('company_name');
+            }
 
             if ($user == 'offline') {
                 $offline_cart = session('offline_cart');

@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Registration Mitra OnCukur</title>
+  <title>Registration Mitra ONCUKUR</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style type="text/css">
     .container {
@@ -159,13 +159,13 @@
         <div class="card">
           <div class="card-header">
             <h3>
-              OnCUkur Regisration Status
+                ONCUKUR Regisration Status
             </h3>
           </div>
           <div class="card-body">
             <span>
 
-              Based on your registration at Mitra OnCukur: <br>
+              Based on your registration at Mitra ONCUKUR: <br>
               <h4>
                 {!! $token !!}
               </h4>

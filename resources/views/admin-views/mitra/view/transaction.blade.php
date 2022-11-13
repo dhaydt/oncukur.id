@@ -121,7 +121,7 @@
                     <div class="mt-4 pr-2 float-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}">
                         <div class="flex-start">
                             <div class="mx-1"><h4><i class="tio-shop-outlined"></i></h4></div>
-                            <div>{{\App\CPU\translate('mitra_request_for_join_oncukur.')}}</div>
+                            <div>{{\App\CPU\translate('mitra_request_for_join_ONCUKUR.')}}</div>
                         </div>
                         <div class="text-center">
                             <form class="d-inline-block" action="{{route('admin.mitras.updateStatus')}}" method="POST">
@@ -143,7 +143,7 @@
                     <div class="mt-4 pr-2 float-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}">
                         <div class="flex-start">
                             <div class="mx-1"><h4><i class="tio-shop-outlined"></i></h4></div>
-                            <div>{{\App\CPU\translate('mitra_request_for_join_oncukur.')}}</div>
+                            <div>{{\App\CPU\translate('mitra_request_for_join_ONCUKUR.')}}</div>
                         </div>
                         <div class="text-center">
                             <form class="d-inline-block" action="{{route('admin.mitras.updateStatus')}}" method="POST">

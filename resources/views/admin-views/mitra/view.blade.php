@@ -111,7 +111,7 @@
                 <div class=" gx-2 gx-lg-3 mb-2">
                     <div>
                         <h4><i style="font-size: 30px"
-                               class="tio-wallet"></i>{{\App\CPU\translate('mitra_wallet')}}</h4>
+                            class="tio-wallet"></i>{{\App\CPU\translate('mitra_wallet')}}</h4>
                     </div>
                     <div class="row gx-2 gx-lg-3" id="order_stats">
                         <div class="flex-between" style="width: 100%">
@@ -236,6 +236,22 @@
                             <div class="flex-start row">
                                 <div class="col-3"><h5>{{\App\CPU\translate('Phone')}} : </h5></div>
                                 <div class="col-9"><h5>{{$seller->phone}}</h5></div>
+                            </div>
+                            <div class="flex-start row">
+                                <div class="col-3"><h5>{{\App\CPU\translate('ID_TikTok')}} : </h5></div>
+                                <div class="col-9"><h5>{{$seller->id_tiktok}}</h5></div>
+                            </div>
+                            <div class="flex-start row">
+                                <div class="col-3"><h5>{{\App\CPU\translate('TikTok_Name')}} : </h5></div>
+                                <div class="col-9"><h5>{{$seller->username_tiktok}}</h5></div>
+                            </div>
+                            <div class="flex-start row">
+                                <div class="col-3"><h5>{{\App\CPU\translate('KTP')}} : </h5></div>
+                                <div class="col-9">
+                                    <div class="card">
+                                        <img src="{{ asset('storage/ktp'.'/'.$seller->ktp) }}" alt="" class="w-100">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

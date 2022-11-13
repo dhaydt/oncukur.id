@@ -17,7 +17,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        Toastr::info('Welcome to OnCukur Dashboard Mitra!');
+        Toastr::info('Welcome to ONCUKUR Dashboard Mitra!');
 
         $from = Carbon::now()->startOfYear()->format('Y-m-d');
 

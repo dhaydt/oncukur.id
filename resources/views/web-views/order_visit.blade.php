@@ -1,5 +1,5 @@
 @extends('layouts.front-end.app')
-@section('title', 'OnCukur')
+@section('title', 'ONCUKUR')
 
 @push('css_or_js')
 <style>

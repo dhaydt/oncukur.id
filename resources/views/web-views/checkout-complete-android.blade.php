@@ -103,7 +103,7 @@
 
                             <span class="font-weight-bold d-block mt-4" style="font-size: 17px;">{{\App\CPU\translate('Hello')}}, Customer</span>
                             <span class="font-weight-bold d-block mt-4" style="font-size: 17px;">{{\App\CPU\translate('Please_back_to_App')}}</span>
-                            <span>{{\App\CPU\translate('thank_you_for_trusting_onCUkur..')}}</span>
+                            <span>{{\App\CPU\translate('thank_you_for_trusting_ONCUKUR..')}}</span>
 
                             {{-- <div class="row mt-4">
                                 <div class="col-6">

@@ -34,10 +34,14 @@ class RegisterController extends Controller
         $validator = Validator::make($request->all(), [
             'outlet_id' => 'required',
             'name' => 'required',
+            'id_tiktok' => 'required',
+            'account_name' => 'required',
             'email' => 'required|email|unique:mitras',
             'password' => 'required|min:8',
         ], [
             'outlet.required' => 'Please select available outlet!',
+            'id_tiktok.required' => 'Please input TikTok ID!',
+            'account_name.required' => 'Please input Account TikTok Name!',
             'name' => 'Your fullname is required',
             'email.required' => 'Your Email is required',
         ]);
@@ -64,10 +68,12 @@ class RegisterController extends Controller
         $mitra->shop_id = $request->outlet_id;
         $mitra->phone = $request->phone;
         $mitra->email = $request->email;
+        $mitra->id_tiktok = $request->id_tiktok;
+        $mitra->username_tiktok = $request->account_name;
         $mitra->status = 'pending';
         $mitra->password = bcrypt($request->password);
         $mitra->birthdate = $request->birthdate;
-        $mitra->ktp = ImageManager::upload('ktp', 'png', $request->file('ktp'));
+        $mitra->ktp = ImageManager::upload('ktp/', 'png', $request->file('ktp'));
         $mitra->save();
 
         $email_verification = Helpers::get_business_settings('email_verification');
