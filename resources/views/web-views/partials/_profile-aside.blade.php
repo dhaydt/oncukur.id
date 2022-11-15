@@ -63,7 +63,7 @@
             <!-- Filter by price-->
             <div class="sidebarL">
                 <h3 class="widget-title btnF" style="font-weight: 700;">
-                    <a class="{{Request::is('account-oder*') || Request::is('account-order-details*') ? 'active-menu' :''}}" href="{{route('account-oder') }} ">{{\App\CPU\translate('my_order')}}</a>
+                    <a class="{{Request::is('account-oder*') || Request::is('account-order-details*') ? 'active-menu' :''}}" href="{{route('account-oder') }} ">{{\App\CPU\translate('My_Order')}} / {{\App\CPU\translate('booking')}}</a>
                 </h3>
                 <div class="divider-role"
                      style="border: 1px solid whitesmoke; margin-bottom: 14px;  margin-top: -6px;">
@@ -72,24 +72,24 @@
         </div>
         <div class="pb-0">
             <!-- Filter by price-->
-            <div class="sidebarL">
+            {{-- <div class="sidebarL">
                 <h3 class="widget-title btnF" style="font-weight: 700;">
                     <a class="{{Request::is('track-order*')?'active-menu':''}}" href="{{route('track-order.index') }} ">{{\App\CPU\translate('track_your_order')}}</a>
                 </h3>
                 <div class="divider-role"
                      style="border: 1px solid whitesmoke; margin-bottom: 14px;  margin-top: -6px;">
                 </div>
-            </div>
+            </div> --}}
         </div>
         <div class="pb-0">
             <!-- Filter by price-->
-            <div class="sidebarL">
+            {{-- <div class="sidebarL">
                 <h3 class="widget-title btnF " style="font-weight: 700;">
                     <a class="{{Request::is('wishlists*')?'active-menu':''}}" href="{{route('wishlists')}}"> {{\App\CPU\translate('wish_list')}}  </a></h3>
                 <div class="divider-role"
                      style="border: 1px solid whitesmoke; margin-bottom: 14px;  margin-top: -6px;">
                 </div>
-            </div>
+            </div> --}}
         </div>
 
         {{--to do--}}
@@ -120,7 +120,7 @@
         </div>
         <div class="pb-0">
             <!-- Filter by price-->
-            <div class=" sidebarL">
+            {{-- <div class=" sidebarL">
                 <h3 class="widget-title btnF" style="font-weight: 700;">
                     <a class="{{Request::is('account-address*')?'active-menu':''}}"
                        href="{{ route('account-address') }}">{{\App\CPU\translate('address')}} </a>
@@ -128,18 +128,18 @@
                 <div class="divider-role"
                      style="border: 1px solid whitesmoke; margin-bottom: 14px;  margin-top: -6px;">
                 </div>
-            </div>
+            </div> --}}
         </div>
         <div class="pb-0">
             <!-- Filter by price-->
-            <div class=" sidebarL">
+            {{-- <div class=" sidebarL">
                 <h3 class="widget-title btnF" style="font-weight: 700;">
                     <a class="{{(Request::is('account-ticket*') || Request::is('support-ticket*'))?'active-menu':''}}"
                        href="{{ route('account-tickets') }}">{{\App\CPU\translate('support_ticket')}}</a></h3>
                 <div class="divider-role"
                      style="border: 1px solid whitesmoke; margin-bottom: 14px;  margin-top: -6px;">
                 </div>
-            </div>
+            </div> --}}
         </div>
         {{--<div class="pb-0" style="padding-top: 12px;">
             <!-- Filter by price-->
