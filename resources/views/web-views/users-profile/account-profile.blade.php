@@ -55,6 +55,7 @@
             font-weight: 600;
             margin-top: 0px !important;
             margin-bottom: 0;
+            text-transform: capitalize;
             font-size: 15px;
             color: #030303;
         }
@@ -143,7 +144,7 @@
                                 @csrf
                                 <img id="blah"
                                      style=" border-radius: 50px; margin-{{Session::get('direction') === "rtl" ? 'right' : 'left'}}: 30px; width: 50px!important;height: 50px!important;"
-                                     class="rounded-circle border"
+                                     class="rounded-circle border p-0"
                                      onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                      src="{{asset('storage/profile')}}/{{$customerDetail['image']}}">
 
