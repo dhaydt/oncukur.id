@@ -11,6 +11,15 @@
             padding: 10px;
         }
 
+        .ewallet{
+            font-size: 16px;
+            font-weight: 600
+        }
+
+        .saldo{
+            font-size: 20px;
+        }
+
         .label_1 {
             /*position: absolute;*/
             font-size: 10px;
@@ -52,11 +61,33 @@
     ]) --}}
     <div class="content container-fluid">
         <div class="page-header pb-0" style="border-bottom: 0!important">
-            <div class="flex-between row align-items-center mx-1">
-                <h1 class="page-header-title">
-                    Dashboard
-                </h1>
-                <p>Welcome to mitra's Dashboard.</p>
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="flex-between row align-items-center mx-1">
+                        <h1 class="page-header-title">
+                            Dashboard
+                        </h1>
+                        <p>Welcome to mitra's Dashboard.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex justify-content-between align-items-center">
+                    <div class="flex-between row align-items-center mx-1">
+                        <div class="wallet d-flex justify-content-between align-items-center">
+                            <label for="" class="ewallet mb-0">Saldo :</label>
+                            <span class="badge badge-success saldo">{{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($mitra->wallet->total_earning))}}</span>
+                        </div>
+                        <div class="status d-flex justify-content-between align-items-center mt-2">
+                            <label for="" class="mb-0 ewallet">Is Online :</label>
+                            <div class="saklar d-flex align-items-center">
+                                <label class="switch mb-0">
+                                    <input type="checkbox"
+                                        onclick="onlineChange('{{$mitra->is_online}}')" {{$mitra->is_online == 1?'checked':''}}>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -183,6 +214,41 @@
     </script>
 
     <script>
+        function onlineChange(val){
+            var value = val;
+            if(value == 0){
+                value = 1;
+            }else{
+                value = 0;
+            }
+            console.log('online', value)
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.post({
+                url: '{{route('mitra.mitra.online')}}',
+                data: {
+                    online: value
+                },
+                beforeSend: function () {
+                    $('#loading').show()
+                },
+                success: function (data) {
+                    console.log('data', data)
+                    if(data.status == 200){
+                        toastr.success(data.message);
+                    }else{
+                        toastr.warning(data.message);
+                    }
+                    location.reload();
+                },
+                complete: function () {
+                    $('#loading').hide()
+                }
+            });
+        }
         function order_stats_update(type) {
             $.ajaxSetup({
                 headers: {

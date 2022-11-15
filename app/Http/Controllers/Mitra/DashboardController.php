@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Mitra;
 
+use App\CPU\Helpers;
+use function App\CPU\translate;
 use App\Http\Controllers\Controller;
 use App\mitra_wallet;
+use App\Model\Mitra;
 use App\Model\Order;
 use App\Model\OrderTransaction;
 use App\Model\Product;
@@ -11,6 +14,7 @@ use App\Model\Shop;
 use App\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -77,8 +81,26 @@ class DashboardController extends Controller
         $data['delivery_charge_earned'] = $admin_wallet->delivery_charge_earned ?? 0;
         $data['collected_cash'] = $admin_wallet->collected_cash ?? 0;
         $data['total_tax_collected'] = $admin_wallet->total_tax_collected ?? 0;
+        $mitra = Mitra::with('wallet')->find(auth('mitra')->id());
 
-        return view('mitra-views.system.dashboard', compact('data', 'seller_data', 'commission_data'));
+        return view('mitra-views.system.dashboard', compact('data', 'seller_data', 'commission_data', 'mitra'));
+    }
+
+    public function is_online(Request $request)
+    {
+        $id = auth('mitra')->id();
+        $mitra = Mitra::with('wallet')->find($id);
+        if ($request->online == 1) {
+            $saldo = $mitra->wallet->total_earning;
+            $minim = Helpers::minimal_online();
+            if ($saldo < $minim) {
+                return response()->json(['status' => '404', 'message' => translate('Your_balance_is_not_sufficient_to_receive_the_order/booking')]);
+            }
+        }
+        $mitra->is_online = $request->online;
+        $mitra->save();
+
+        return response()->json(['status' => '200', 'message' => translate('Successfully_change_online_status')]);
     }
 
     public function order_stats_data()

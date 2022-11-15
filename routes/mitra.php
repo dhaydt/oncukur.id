@@ -35,6 +35,7 @@ Route::group(['namespace' => 'mitra', 'prefix' => 'mitra', 'as' => 'mitra.'], fu
     // authenticated mitra
     Route::group(['middleware' => ['mitra']], function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('mitra.home');
+        Route::post('/is_online', [DashboardController::class, 'is_online'])->name('mitra.online');
 
         Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
             Route::get('view', '\App\Http\Controllers\Mitra\ProfileController@view')->name('view');

@@ -103,6 +103,13 @@ class Helpers
         return round($cost);
     }
 
+    public static function minimal_online()
+    {
+        $cost = Helpers::get_business_settings('minimal_online');
+
+        return $cost;
+    }
+
     public static function mitra_name($id)
     {
         $name = Mitra::find($id);
