@@ -5,12 +5,11 @@ namespace App\Http\Controllers\Customer\Auth;
 use App\CPU\CartManager;
 use App\CPU\Helpers;
 use App\Http\Controllers\Controller;
-use App\Model\BusinessSetting;
+use App\Model\CustomerWallet;
 use App\Model\Wishlist;
 use App\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
@@ -24,6 +23,7 @@ class LoginController extends Controller
     public function login()
     {
         session()->put('keep_return_url', url()->previous());
+
         return view('customer-view.auth.login');
     }
 
@@ -31,7 +31,7 @@ class LoginController extends Controller
     {
         $request->validate([
             'user_id' => 'required',
-            'password' => 'required|min:8'
+            'password' => 'required|min:8',
         ]);
 
         $remember = ($request['remember']) ? true : false;
@@ -40,7 +40,7 @@ class LoginController extends Controller
         if (filter_var($user_id, FILTER_VALIDATE_EMAIL)) {
             $medium = 'email';
         } else {
-            $count = strlen(preg_replace("/[^\d]/", "", $user_id));
+            $count = strlen(preg_replace("/[^\d]/", '', $user_id));
             if ($count >= 9 && $count <= 15) {
                 $medium = 'phone';
             } else {
@@ -48,10 +48,11 @@ class LoginController extends Controller
             }
         }
 
-        $user = User::where($medium,'like',"%{$user_id}%")->first();
+        $user = User::where($medium, 'like', "%{$user_id}%")->first();
 
         if (isset($user) == false) {
             Toastr::error('Credentials do not match or account has been suspended.');
+
             return back()->withInput();
         }
 
@@ -65,13 +66,21 @@ class LoginController extends Controller
         }
 
         if (isset($user) && $user->is_active && auth('customer')->attempt(['email' => $user->email, 'password' => $request->password], $remember)) {
+            $checkWallet = CustomerWallet::where('customer_id', $user->id)->first();
+            if (!$checkWallet) {
+                $wallet = new CustomerWallet();
+                $wallet->customer_id = $user->id;
+                $wallet->save();
+            }
             session()->put('wish_list', Wishlist::where('customer_id', auth('customer')->user()->id)->pluck('product_id')->toArray());
-            Toastr::info('Welcome to ' . Helpers::get_business_settings('company_name') . '!');
+            Toastr::info('Welcome to '.Helpers::get_business_settings('company_name').'!');
             CartManager::cart_to_db();
+
             return redirect(session('keep_return_url'));
         }
 
         Toastr::error('Credentials do not match or account has been suspended.');
+
         return back()->withInput();
     }
 
@@ -79,7 +88,8 @@ class LoginController extends Controller
     {
         auth()->guard('customer')->logout();
         session()->forget('wish_list');
-        Toastr::info('Come back soon, ' . '!');
+        Toastr::info('Come back soon, '.'!');
+
         return redirect()->route('home');
     }
 }

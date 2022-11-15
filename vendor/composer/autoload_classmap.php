@@ -28,6 +28,8 @@ return array(
     'App\\Console\\Commands\\UpdatePackage' => $baseDir . '/app/Console/Commands/UpdatePackage.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Country' => $baseDir . '/app/Country.php',
+    'App\\CustomerWallet' => $baseDir . '/app/CustomerWallet.php',
+    'App\\CustomerWalletHistories' => $baseDir . '/app/CustomerWalletHistories.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\Admin\\AttributeController' => $baseDir . '/app/Http/Controllers/Admin/AttributeController.php',
     'App\\Http\\Controllers\\Admin\\Auth\\LoginController' => $baseDir . '/app/Http/Controllers/Admin/Auth/LoginController.php',

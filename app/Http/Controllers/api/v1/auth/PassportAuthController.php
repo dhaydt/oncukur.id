@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\v1\auth;
 use App\CPU\Helpers;
 use function App\CPU\translate;
 use App\Http\Controllers\Controller;
+use App\Model\CustomerWallet;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -167,6 +168,13 @@ class PassportAuthController extends Controller
             $user->device_id = $request->device_id;
             $user->save();
             $token = auth()->user()->createToken('LaravelAuthApp')->accessToken;
+
+            $checkWallet = CustomerWallet::where('customer_id', $user->id)->first();
+            if (!$checkWallet) {
+                $wallet = new CustomerWallet();
+                $wallet->customer_id = $user->id;
+                $wallet->save();
+            }
 
             return response()->json(['status' => 'success', 'token' => $token], 200);
         } else {

@@ -22,7 +22,7 @@ class UserProfileController extends Controller
     public function user_account(Request $request)
     {
         if (auth('customer')->check()) {
-            $customerDetail = User::where('id', auth('customer')->id())->first();
+            $customerDetail = User::with('wallet')->where('id', auth('customer')->id())->first();
 
             return view('web-views.users-profile.account-profile', compact('customerDetail'));
         } else {

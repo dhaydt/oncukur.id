@@ -119,12 +119,14 @@ class Helpers
 
     public static function userProfile($user)
     {
+        $user = User::with('wallet')->find($user->id);
         $data = [
             'f_name' => $user->f_name,
             'l_name' => $user->l_name,
             'email' => $user->email,
             'phone' => $user->phone,
             'image' => $user->image,
+            'saldo' => $user->wallet->saldo,
         ];
 
         return $data;

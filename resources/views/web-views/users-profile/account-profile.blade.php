@@ -34,14 +34,21 @@
             color: {{$web_config['primary_color']}};
             font-weight: 400;
             font-size: 13px;
-
         }
 
         .spandHeadO:hover {
             color: {{$web_config['primary_color']}};
             font-weight: 400;
             font-size: 13px;
+        }
 
+        .ewallet{
+            font-size: 16px;
+            font-weight: 600
+        }
+
+        .saldo{
+            font-size: 20px;
         }
 
         .font-name {
@@ -141,14 +148,24 @@
                                      src="{{asset('storage/profile')}}/{{$customerDetail['image']}}">
 
                                 <div class="col-md-10">
-                                    <h5 class="font-name">{{$customerDetail->f_name. ' '.$customerDetail->l_name}}</h5>
-                                    <label for="files"
-                                           style="cursor: pointer; color:{{$web_config['primary_color']}};"
-                                           class="spandHeadO">
-                                        {{\App\CPU\translate('change_your_profile')}}
-                                    </label>
-                                    <span style="color: red;font-size: 10px">( * {{\App\CPU\translate('Image ratio should be')}} 1:1 )</span>
-                                    <input id="files" name="image" style="visibility:hidden;" type="file">
+                                    <div class="row">
+                                        <div class="col-md-8 col-12">
+                                            <h5 class="font-name">{{$customerDetail->f_name. ' '.$customerDetail->l_name}}</h5>
+                                            <label for="files"
+                                                   style="cursor: pointer; color:{{$web_config['primary_color']}};"
+                                                   class="spandHeadO">
+                                                {{\App\CPU\translate('change_your_profile')}}
+                                            </label>
+                                            <span style="color: red;font-size: 10px">( * {{\App\CPU\translate('Image ratio should be')}} 1:1 )</span>
+                                            <input id="files" name="image" style="visibility:hidden;" type="file">
+                                        </div>
+                                        <div class="col-md-4 col-6 d-flex align-items-center justify-content-between">
+                                            <label for="" class="ewallet mb-0 text-bold">
+                                                Saldo :
+                                            </label>
+                                            <span class="badge badge-success saldo">{{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($customerDetail->wallet->saldo))}}</span>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="card-body {{Session::get('direction') === "rtl" ? 'mr-3' : 'ml-3'}}">

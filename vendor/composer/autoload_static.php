@@ -751,6 +751,8 @@ class ComposerStaticInit5c810ba0d19412d72c885b40a9decbf5
         'App\\Console\\Commands\\UpdatePackage' => __DIR__ . '/../..' . '/app/Console/Commands/UpdatePackage.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Country' => __DIR__ . '/../..' . '/app/Country.php',
+        'App\\CustomerWallet' => __DIR__ . '/../..' . '/app/CustomerWallet.php',
+        'App\\CustomerWalletHistories' => __DIR__ . '/../..' . '/app/CustomerWalletHistories.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Admin\\AttributeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/AttributeController.php',
         'App\\Http\\Controllers\\Admin\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/Auth/LoginController.php',

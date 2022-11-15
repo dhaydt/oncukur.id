@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Model;
+namespace App;
 
-use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class CustomerWallet extends Model
