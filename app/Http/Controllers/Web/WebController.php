@@ -91,7 +91,7 @@ class WebController extends Controller
 
                 $service = Product::find($request->cat_id);
 
-                $mitra = Mitra::with('shop')->where('shop_id', $shop->id)->inRandomOrder()->get();
+                $mitra = Mitra::with('shop')->where(['shop_id' => $shop->id, 'status' => 'approved', 'is_online' => 1])->inRandomOrder()->get();
                 if (count($mitra) > 0) {
                     $from = [
                         'status' => 200,

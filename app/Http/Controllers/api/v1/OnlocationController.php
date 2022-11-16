@@ -56,10 +56,10 @@ class OnlocationController extends Controller
                 $shop = $shop;
 
                 // dd($shop);
-                $mitra = Mitra::where(['shop_id' => $shop->id, 'status' => 'approved'])->get();
+                $mitra = Mitra::where(['shop_id' => $shop->id, 'status' => 'approved', 'is_online' => 1])->get();
 
                 if (count($mitra) > 0) {
-                    $mitra = Mitra::with('shop')->where(['shop_id' => $shop->id, 'status' => 'approved'])->inRandomOrder()->get();
+                    $mitra = Mitra::with('shop')->where(['shop_id' => $shop->id, 'is_online' => 1])->inRandomOrder()->get();
                     $shop = $shop;
                 } else {
                     return response()->json(['status' => 400, 'message' => 'Mitra not available']);
