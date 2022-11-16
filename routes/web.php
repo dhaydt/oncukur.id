@@ -37,6 +37,8 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode']], funct
         Route::get('pay-success', 'PaymentController@paySuccess')->name('pay-success');
         Route::get('midtrans', 'PaymentController@getPayment');
         Route::get('midtrans-pay', 'PaymentController@pay')->name('pay');
+
+        Route::get('topUp-success/{id}/{saldo}', 'PaymentController@successTopUp')->name('topUp-success');
     });
 
     Route::get('onlocation', 'WebController@onlocation')->name('onlocation');
@@ -52,6 +54,7 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode']], funct
         Route::get('checkout-complete', 'WebController@checkout_complete')->name('checkout-complete')->middleware('customer');
         Route::get('order-placed', 'WebController@order_placed')->name('order-placed')->middleware('customer');
         Route::get('shop-cart', 'WebController@shop_cart')->name('shop-cart');
+        Route::post('top-up', 'PaymentController@topUp')->name('topUp');
     });
 
     Route::group(['prefix' => 'xendit-payment', 'as' => 'xendit-payment.'], function () {

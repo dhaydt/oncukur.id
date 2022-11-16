@@ -150,7 +150,7 @@
 
                                 <div class="col-md-10">
                                     <div class="row">
-                                        <div class="col-md-8 col-12">
+                                        <div class="col-md-6 col-12">
                                             <h5 class="font-name">{{$customerDetail->f_name. ' '.$customerDetail->l_name}}</h5>
                                             <label for="files"
                                                    style="cursor: pointer; color:{{$web_config['primary_color']}};"
@@ -160,14 +160,40 @@
                                             <span style="color: red;font-size: 10px">( * {{\App\CPU\translate('Image ratio should be')}} 1:1 )</span>
                                             <input id="files" name="image" style="visibility:hidden;" type="file">
                                         </div>
-                                        <div class="col-md-4 col-6 d-flex align-items-center justify-content-between">
+                                        <div class="col-md-6 col-6 d-flex align-items-center justify-content-between">
                                             <label for="" class="ewallet mb-0 text-bold">
                                                 Saldo :
                                             </label>
                                             <span class="badge badge-success saldo">{{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($customerDetail->wallet->saldo))}}</span>
+                                            <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"  class="btn btn-primary"><i class="fas fa-plus"></i> Top Up</button>
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="exampleModalLabel">Top Up Saldo</h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                            <div class="modal-body">
+                                                <label for="inputPassword5">Pilih Nominal Top Up</label>
+                                                <select class="custom-select" name="nominal">
+                                                    <option value="" selected>Pilih nominal</option>
+                                                    <option value="50000">50.000</option>
+                                                    <option value="100000">100.000</option>
+                                                    <option value="200000">200.000</option>
+                                                </select>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" onclick="topUp()" class="btn btn-primary">Proses Top Up</button>
+                                            </div>
+                                      </div>
+                                    </div>
+                                  </div>
 
                                 <div class="card-body {{Session::get('direction') === "rtl" ? 'mr-3' : 'ml-3'}}">
                                     <h3 class="font-nameA">{{\App\CPU\translate('account_information')}} </h3>
@@ -331,6 +357,30 @@
     <script src="{{asset('assets/front-end')}}/vendor/nouislider/distribute/nouislider.min.js"></script>
     <script src="{{asset('assets/back-end/js/croppie.js')}}"></script>
     <script>
+        function topUp(){
+            var val = $('select[name="nominal"]').val();
+            if(val == ""){
+                toastr.warning('Pilih nominal top up anda!')
+            }
+            console.log('topup', val);
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: `{{ route('topUp') }}`,
+                method: 'POST',
+                data: {
+                    nominal: val
+                },
+                success: function(data){
+                    console.log('resp', data.payment_url);
+                    location.href = data.payment_url;
+                }
+            })
+        }
         function checkPasswordMatch() {
             var password = $("#password").val();
             var confirmPassword = $("#confirm_password").val();

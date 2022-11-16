@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Web;
 
 use App\CPU\CartManager;
 use App\CPU\OrderManager;
+use App\CustomerWallet;
+use App\CustomerWalletHistories;
 use App\Http\Controllers\Controller;
 use App\Model\Order;
 use App\Model\OrderDetail;
@@ -15,6 +17,86 @@ use Midtrans\Config;
 
 class PaymentController extends Controller
 {
+    public function topUp(Request $request)
+    {
+        $val = $request['nominal'];
+        $customer = auth('customer')->user();
+        $value = $val;
+
+        $user = [
+                'given_names' => $customer->f_name,
+                'email' => $customer->email,
+                'mobile_number' => $customer->phone,
+            ];
+
+        // session()->put('transaction_ref', $tran);
+
+        Config::$serverKey = config('midtrans.server_key');
+
+        Config::$clientKey = config('midtrans.client_key');
+
+        // non-relevant function only used for demo/example purpose
+        $this->printExampleWarningMessage();
+
+        // Uncomment for production environment
+        Config::$isProduction = false;
+
+        // Enable sanitization
+        Config::$isSanitized = true;
+
+        // Enable 3D-Secure
+        Config::$is3ds = true;
+
+        $params = [
+                'transaction_details' => [
+                    'order_id' => $customer['id'].'-'.now(),
+                    'gross_amount' => $value,
+                ],
+                'payment_type' => 'gopay',
+                'gopay' => [
+                    'enable_callback' => true,                // optional
+                    'callback_url' => env('APP_URL').'/midtrans-payment/topUp-success'.'/'.$customer['id'].'/'.$val,
+                ],
+            ];
+
+        try {
+            // Get Snap Payment Page URL
+            $paymentUrl = \Midtrans\CoreApi::charge($params);
+
+            // Redirect to Snap Payment Page
+            // dd($paymentUrl);
+
+            return response()->json(['status' => 'success', 'payment_url' => $paymentUrl->actions[1]->url]);
+
+            return redirect()->away($paymentUrl->actions[1]->url);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function successTopUp(Request $request, $id, $saldo)
+    {
+        // dd($request, $id, $saldo);
+        $wallet = CustomerWallet::where('customer_id', $id)->first();
+        if (!$wallet) {
+            $wallet = new CustomerWallet();
+            $wallet->customer_id = $id;
+        }
+
+        $wallet->saldo = $saldo;
+
+        $walletHistory = new CustomerWalletHistories();
+        $walletHistory->customer_id = $id;
+        $walletHistory->transaction_amount = $saldo;
+        $walletHistory->transaction_type = 'topup';
+        $walletHistory->save();
+
+        $wallet->save();
+        Toastr::success('successfully added your balance');
+
+        return redirect()->route('user-account');
+    }
+
     public function gopay()
     {
         // Set your Merchant Server Key
