@@ -37,6 +37,9 @@ Route::group(['namespace' => 'mitra', 'prefix' => 'mitra', 'as' => 'mitra.'], fu
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('mitra.home');
         Route::post('/is_online', [DashboardController::class, 'is_online'])->name('mitra.online');
 
+        Route::post('/topup', [DashboardController::class, 'topUp'])->name('mitra.topup');
+        Route::get('topUp-success/{id}/{saldo}', [DashboardController::class, 'topUpSuccess']);
+
         Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
             Route::get('view', '\App\Http\Controllers\Mitra\ProfileController@view')->name('view');
             Route::get('update/{id}', '\App\Http\Controllers\Mitra\ProfileController@edit')->name('update');

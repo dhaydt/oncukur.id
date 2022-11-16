@@ -6,6 +6,7 @@ use App\CPU\Helpers;
 use function App\CPU\translate;
 use App\Http\Controllers\Controller;
 use App\mitra_wallet;
+use App\mitra_wallet_histories;
 use App\Model\Mitra;
 use App\Model\Order;
 use App\Model\OrderTransaction;
@@ -16,6 +17,7 @@ use Brian2694\Toastr\Facades\Toastr;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Midtrans\Config;
 
 class DashboardController extends Controller
 {
@@ -101,6 +103,98 @@ class DashboardController extends Controller
         $mitra->save();
 
         return response()->json(['status' => '200', 'message' => translate('Successfully_change_online_status')]);
+    }
+
+    public function topUp(Request $request)
+    {
+        $val = $request['nominal'];
+        $customer = auth('mitra')->user();
+        $value = $val;
+
+        $user = [
+                'given_names' => $customer->name,
+                'email' => $customer->email,
+                'mobile_number' => $customer->phone,
+            ];
+
+        // session()->put('transaction_ref', $tran);
+
+        Config::$serverKey = config('midtrans.server_key');
+
+        Config::$clientKey = config('midtrans.client_key');
+
+        // non-relevant function only used for demo/example purpose
+        $this->printExampleWarningMessage();
+
+        // Uncomment for production environment
+        Config::$isProduction = false;
+
+        // Enable sanitization
+        Config::$isSanitized = true;
+
+        // Enable 3D-Secure
+        Config::$is3ds = true;
+
+        $params = [
+                'transaction_details' => [
+                    'order_id' => $customer['id'].'-'.now(),
+                    'gross_amount' => $value,
+                ],
+                'payment_type' => 'gopay',
+                'gopay' => [
+                    'enable_callback' => true,                // optional
+                    'callback_url' => env('APP_URL').'/mitra/topUp-success'.'/'.$customer['id'].'/'.$val,
+                ],
+            ];
+
+        try {
+            // Get Snap Payment Page URL
+            $paymentUrl = \Midtrans\CoreApi::charge($params);
+
+            // Redirect to Snap Payment Page
+            // dd($paymentUrl);
+
+            return response()->json(['status' => 'success', 'payment_url' => $paymentUrl->actions[1]->url]);
+
+            return redirect()->away($paymentUrl->actions[1]->url);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function topUpSuccess($id, $saldo)
+    {
+        $wallet = mitra_wallet::where('mitra_id', $id)->first();
+        if (!$wallet) {
+            $wallet = new mitra_wallet();
+            $wallet->mitra_id = $id;
+        }
+
+        $wallet->total_earning += $saldo;
+
+        $walletHistory = new mitra_wallet_histories();
+        $walletHistory->mitra_id = $id;
+        $walletHistory->amount = $saldo;
+        $walletHistory->payment = 'topup';
+        $walletHistory->save();
+
+        $wallet->save();
+        Toastr::success('successfully added your balance');
+
+        return redirect()->route('mitra.mitra.home');
+    }
+
+    public function printExampleWarningMessage()
+    {
+        if (strpos(Config::$serverKey, 'your ') != false) {
+            echo '<code>';
+            echo '<h4>Please set your server key from sandbox</h4>';
+            echo 'In file: '.__FILE__;
+            echo '<br>';
+            echo '<br>';
+            echo htmlspecialchars('Config::$serverKey = \'<your server key>\';');
+            die();
+        }
     }
 
     public function order_stats_data()

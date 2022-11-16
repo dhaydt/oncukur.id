@@ -74,7 +74,7 @@ class PaymentController extends Controller
         }
     }
 
-    public function successTopUp(Request $request, $id, $saldo)
+    public function successTopUp($id, $saldo)
     {
         // dd($request, $id, $saldo);
         $wallet = CustomerWallet::where('customer_id', $id)->first();
@@ -83,7 +83,7 @@ class PaymentController extends Controller
             $wallet->customer_id = $id;
         }
 
-        $wallet->saldo = $saldo;
+        $wallet->saldo += $saldo;
 
         $walletHistory = new CustomerWalletHistories();
         $walletHistory->customer_id = $id;

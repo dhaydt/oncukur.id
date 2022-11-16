@@ -75,6 +75,7 @@
                         <div class="wallet d-flex justify-content-between align-items-center">
                             <label for="" class="ewallet mb-0">Saldo :</label>
                             <span class="badge badge-success saldo">{{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($mitra->wallet->total_earning))}}</span>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#modalTopUp"><i class="fas fa-plus"></i> Saldo</button>
                         </div>
                         <div class="status d-flex justify-content-between align-items-center mt-2">
                             <label for="" class="mb-0 ewallet">Is Online :</label>
@@ -90,6 +91,31 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="modalTopUp" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Top Up Saldo</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                    <div class="modal-body">
+                        <label for="inputPassword5">Pilih Nominal Top Up</label>
+                        <select class="custom-select" name="nominal">
+                            <option value="" selected>Pilih nominal</option>
+                            <option value="50000">50.000</option>
+                            <option value="100000">100.000</option>
+                            <option value="200000">200.000</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" onclick="topUp()" class="btn btn-primary">Proses Top Up</button>
+                    </div>
+              </div>
+            </div>
+          </div>
 
         <div class="card mb-3">
             <div class="card-body">
@@ -205,6 +231,31 @@
     </script>
 
     <script>
+        function topUp(){
+            var val = $('select[name="nominal"]').val();
+            if(val == ""){
+                toastr.warning('Pilih nominal top up anda!')
+            }
+            console.log('topup', val);
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: `{{ route('mitra.mitra.topup') }}`,
+                method: 'POST',
+                data: {
+                    nominal: val
+                },
+                success: function(data){
+                    console.log('resp', data.payment_url);
+                    location.href = data.payment_url;
+                }
+            })
+        }
+
         function call_duty() {
             toastr.warning('{{\App\CPU\translate('Update your bank info first!')}}', '{{\App\CPU\translate('Warning')}}!', {
                 CloseButton: true,
