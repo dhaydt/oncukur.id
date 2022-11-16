@@ -27,6 +27,7 @@ use App\Model\Seller;
 use App\Model\ShippingAddress;
 use App\Model\Shop;
 use App\Model\Wishlist;
+use App\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 use Illuminate\Http\Request;
@@ -382,15 +383,26 @@ class WebController extends Controller
     {
         $unique_id = OrderManager::gen_unique_id();
         $order_ids = [];
+        $id = auth('customer')->id();
+        $user = User::with('wallet')->find($id);
+        $saldo = $user->wallet->saldo;
+
         foreach (CartManager::get_cart_group_ids() as $group_id) {
+            $cart = Cart::where('cart_group_id', $group_id)->pluck('price')->toArray();
+            $belanja = array_sum($cart);
+            if ($belanja > $saldo) {
+                Toastr::warning(translate('Your_balance_is_insufficient_for_this_transaction'));
+
+                return redirect()->back();
+            }
             $data = [
-                'payment_method' => 'cash_on_delivery',
-                'order_status' => 'pending',
-                'payment_status' => 'unpaid',
-                'transaction_ref' => '',
-                'order_group_id' => $unique_id,
-                'cart_group_id' => $group_id,
-            ];
+            'payment_method' => 'cash_on_delivery',
+            'order_status' => 'pending',
+            'payment_status' => 'unpaid',
+            'transaction_ref' => '',
+            'order_group_id' => $unique_id,
+            'cart_group_id' => $group_id,
+        ];
             $order_id = OrderManager::generate_order($data);
             array_push($order_ids, $order_id);
         }

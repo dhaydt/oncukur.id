@@ -7,6 +7,8 @@ use App\CPU\Helpers;
 use App\CPU\OrderManager;
 use function App\CPU\translate;
 use App\Http\Controllers\Controller;
+use App\Model\Cart;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -30,7 +32,18 @@ class OrderController extends Controller
         // return response()->json($request);
         $unique_id = OrderManager::gen_unique_id();
         $order_ids = [];
+
+        $id = $request->user()->id;
+        $user = User::with('wallet')->find($id);
+        $saldo = $user->wallet->saldo;
+
         foreach (CartManager::get_cart_group_ids($request) as $group_id) {
+            $cart = Cart::where('cart_group_id', $group_id)->pluck('price')->toArray();
+            $belanja = array_sum($cart);
+            if ($belanja > $saldo) {
+                return response()->json(['status' => 'fail', 'message' => 'Your balance is insufficient for this transaction']);
+            }
+
             $data = [
                 'payment_method' => 'cash_on_delivery',
                 'order_status' => 'pending',
