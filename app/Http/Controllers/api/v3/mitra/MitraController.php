@@ -20,6 +20,27 @@ use Midtrans\Config;
 
 class MitraController extends Controller
 {
+    public function is_online(Request $request)
+    {
+        $id = Helpers::get_mitra_by_token($request)['data'];
+        if (!$id) {
+            return response()->json(['auth-001' => 'Your existing session token does not authorize you any more']);
+        }
+        // dd($id['id']);
+        $mitra = Mitra::with('wallet')->find($id['id']);
+        if ($request->online == 1) {
+            $saldo = $mitra->wallet->total_earning;
+            $minim = Helpers::minimal_online();
+            if ($saldo < $minim) {
+                return response()->json(['status' => 'failed', 'message' => translate('Your_balance_is_not_sufficient_to_receive_the_order/booking')]);
+            }
+        }
+        $mitra->is_online = $request->online;
+        $mitra->save();
+
+        return response()->json(['status' => 'success', 'message' => translate('Successfully_change_online_status')]);
+    }
+
     public function topUp(Request $request)
     {
         $val = $request['nominal'];
