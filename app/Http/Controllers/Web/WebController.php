@@ -384,17 +384,17 @@ class WebController extends Controller
         $unique_id = OrderManager::gen_unique_id();
         $order_ids = [];
         $id = auth('customer')->id();
-        $user = User::with('wallet')->find($id);
-        $saldo = $user->wallet->saldo;
+        // $user = User::with('wallet')->find($id);
+        // $saldo = $user->wallet->saldo;
 
         foreach (CartManager::get_cart_group_ids() as $group_id) {
             $cart = Cart::where('cart_group_id', $group_id)->pluck('price')->toArray();
-            $belanja = array_sum($cart);
-            if ($belanja > $saldo) {
-                Toastr::warning(translate('Your_balance_is_insufficient_for_this_transaction'));
+            // $belanja = array_sum($cart);
+            // if ($belanja > $saldo) {
+            //     Toastr::warning(translate('Your_balance_is_insufficient_for_this_transaction'));
 
-                return redirect()->back();
-            }
+            //     return redirect()->back();
+            // }
             $data = [
             'payment_method' => 'cash_on_delivery',
             'order_status' => 'pending',

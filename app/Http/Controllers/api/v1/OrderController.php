@@ -33,16 +33,16 @@ class OrderController extends Controller
         $unique_id = OrderManager::gen_unique_id();
         $order_ids = [];
 
-        $id = $request->user()->id;
-        $user = User::with('wallet')->find($id);
-        $saldo = $user->wallet->saldo;
+        // $id = $request->user()->id;
+        // $user = User::with('wallet')->find($id);
+        // $saldo = $user->wallet->saldo;
 
         foreach (CartManager::get_cart_group_ids($request) as $group_id) {
             $cart = Cart::where('cart_group_id', $group_id)->pluck('price')->toArray();
-            $belanja = array_sum($cart);
-            if ($belanja > $saldo) {
-                return response()->json(['status' => 'fail', 'message' => 'Your balance is insufficient for this transaction']);
-            }
+            // $belanja = array_sum($cart);
+            // if ($belanja > $saldo) {
+            //     return response()->json(['status' => 'fail', 'message' => 'Your balance is insufficient for this transaction']);
+            // }
 
             $data = [
                 'payment_method' => 'cash_on_delivery',
