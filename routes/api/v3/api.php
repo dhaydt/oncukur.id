@@ -26,6 +26,7 @@ Route::group(['namespace' => 'api\v3', 'prefix' => 'v3', 'middleware' => ['api_l
 
         Route::get('mitra-info', 'MitraController@mitra_info');
         Route::post('mitra-update', 'MitraController@update');
+        Route::post('topup', 'MitraController@topUp');
 
         Route::group(['prefix' => 'orders'], function () {
             Route::get('list', 'OrderController@list');
