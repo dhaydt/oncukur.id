@@ -14,6 +14,64 @@ use Midtrans\Config;
 
 class MidtransController extends Controller
 {
+    public function topUp(Request $request)
+    {
+        $customer = Helpers::get_customer($request);
+        $val = $request['nominal'];
+        // $customer = auth('mitra')->user();
+        $value = $val;
+
+        $user = [
+                'given_names' => $customer->name,
+                'email' => $customer->email,
+                'mobile_number' => $customer->phone,
+            ];
+
+        // session()->put('transaction_ref', $tran);
+
+        Config::$serverKey = config('midtrans.server_key');
+
+        Config::$clientKey = config('midtrans.client_key');
+
+        // non-relevant function only used for demo/example purpose
+        // $this->printExampleWarningMessage();
+
+        // Uncomment for production environment
+        Config::$isProduction = false;
+
+        // Enable sanitization
+        Config::$isSanitized = true;
+
+        // Enable 3D-Secure
+        Config::$is3ds = true;
+
+        $params = [
+                'transaction_details' => [
+                    'order_id' => $customer['id'].'-'.now(),
+                    'gross_amount' => $value,
+                ],
+                'payment_type' => 'gopay',
+                'gopay' => [
+                    'enable_callback' => true,                // optional
+                    'callback_url' => env('APP_URL').'/midtrans-payment/topUp-success'.'/'.$customer['id'].'/'.$val,
+                ],
+            ];
+
+        try {
+            // Get Snap Payment Page URL
+            $paymentUrl = \Midtrans\CoreApi::charge($params);
+
+            // Redirect to Snap Payment Page
+            // dd($paymentUrl);
+
+            return response()->json(['status' => 'success', 'payment_url' => $paymentUrl->actions[1]->url]);
+
+            return redirect()->away($paymentUrl->actions[1]->url);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
     public function pay(Request $request)
     {
         $customer = Helpers::get_customer($request);

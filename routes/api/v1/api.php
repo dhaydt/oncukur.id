@@ -133,6 +133,8 @@ Route::group(['namespace' => 'api\v1', 'prefix' => 'v1', 'middleware' => ['api_l
         Route::group(['middleware' => 'device'], function () {
             Route::post('check-device', 'AttributeController@checkDevice');
         });
+
+        Route::post('top-up', 'MidtransController@topUp');
         Route::post('pay', 'MidtransController@pay');
         Route::get('info', 'CustomerController@info');
         Route::post('update-profile', 'CustomerController@update_profile');
