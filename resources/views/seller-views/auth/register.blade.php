@@ -21,7 +21,13 @@
         .helpers{
             font-size: 12px;
         }
-
+        #map-canvas {
+            height: 600px;
+            width: 100%;
+            margin: 0px;
+            padding: 0px;
+            border-radius: 20px;
+        }
     </style>
 </head>
 
@@ -52,7 +58,7 @@
                                         <div class="col-12  col-lg-4">
                                             <div class="mb-3">
                                                 <label for="name" class="form-label">Full Name</label>
-                                                <input type="text" class="form-control form-control-user" name="name" id="name" value="{{ old('name') }}" required>
+                                                <input type="text" class="form-control form-control-user" name="username" id="username" value="{{ old('name') }}" required>
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-6 col-lg-4">
@@ -60,7 +66,7 @@
                                                 <label for="exampleInputEmail1" class="form-label">Email</label>
                                                 <input type="email" name="email" class="form-control form-control-user" id="exampleInputEmail1" value="{{ old('email') }}"
                                                     aria-describedby="emailHelp" required>
-                                                <div id="emailHelp" class="form-text text-primary helpers ms-1">Use for Outlet login
+                                                <div id="emailHelp" class="form-text text-primary helpers ms-1">Use for Admin Outlet login
                                                 </div>
                                             </div>
                                         </div>
@@ -97,37 +103,33 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="mb-3">
-                                                <label for="name" class="form-label">Full Name</label>
+                                                <label for="name" class="form-label">Name</label>
                                                 <input type="text" class="form-control form-control-user" name="name" id="name" value="{{ old('name') }}" required>
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-6">
                                             <div class="mb-3">
-                                                <label for="exampleInputEmail1" class="form-label">Email</label>
-                                                <input type="email" name="email" class="form-control form-control-user" id="exampleInputEmail1" value="{{ old('email') }}"
-                                                    aria-describedby="emailHelp" required>
-                                                <div id="emailHelp" class="form-text text-primary helpers ms-1">Use for Outlet login
+                                                <label for="exampleInputEmail1" class="form-label">Mitra Capacity</label>
+                                                <input type="number" name="capacity" id="capacity" class="form-control form-control-user">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="mb-3">
+                                                <label for="" class="form-label">Available Chair</label>
+                                                <input type="text" id="chair" name="chair" class="form-control form-control-user">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-12">
+                                            <div class="mb-3">
+                                                <label for="address" class="input-label mt-4">{{ \App\CPU\Translate('Address') }}</label>
+                                                <div class="input-group">
+                                                    <input id="address" class="form-control" name="address">
+                                                    <btn id="map-address-btn" class="input-group-text btn btn-success" onclick="codeAddress()">Find</btn>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-6">
-                                            <div class="mb-3">
-                                                <label for="phone" class="form-label">Phone number</label>
-                                                <input type="number" name="phone" value="{{ old('phone') }}" class="form-control form-control-user" aria-describedby="phoneHelp" required>
-                                                <div id="phoneHelp" class="form-text text-primary helpers ms-1">Ex: 0812 3456 7899</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-6">
-                                            <div class="mb-3">
-                                                <label for="password" class="form-label">Password</label>
-                                                <input type="password" class="form-control form-control-user" minlength="6" required name="password">
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-6">
-                                            <div class="mb-3">
-                                                <label for="r_password" class="form-label">Repeat Password</label>
-                                                <input type="password" class="form-control form-control-user" minlength="6" required>
-                                                <div class="pass invalid-feedback">Repeat Password Not Match</div>
+                                                {{-- <button id="map-address-btn" onclick="codeAddress()">find</button> --}}
+                                                <div class="row justify-content-center mt-4">
+                                                    <div id="map-canvas" class="mx-3"></div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -143,6 +145,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key={{ env('GOOGLE_API_KEY') }}&language=id"></script>
     @if ($errors->any())
     <script>
         @foreach($errors->all() as $error)
@@ -152,7 +156,166 @@
         });
         @endforeach
     </script>
-@endif
+    @endif
+        <script>
+        $(document).ready(function(){
+        var searchInput = 'address';
+        var autocomplete;
+        autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+            types: ['geocode'],
+            componentRestrictions: {
+                country: "IDN"
+            }
+        });
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            var near_place = autocomplete.getPlace();
+        });
+
+
+        var lat = -0.287487;
+        var long = 100.373011;
+        var myLatlng = new google.maps.LatLng(lat, long);
+        var myOptions = {
+            zoom: 13,
+            center: myLatlng
+        }
+
+        map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+        infoWindow = new google.maps.InfoWindow();
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                const pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                };
+
+                var label = 'Your location'
+
+                var marker = new google.maps.Marker({
+                    position: pos,
+                    animation: google.maps.Animation.DROP,
+                    draggable: true,
+                    map: map,
+                });
+
+                // get map button functionality
+        function initialize() {
+                var mapOptions = {												// options for map
+                    zoom: 8,
+                    center: latlng
+                }
+                map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);	// create new map in the map-canvas div
+            }
+
+            var geocoder = new google.maps.Geocoder();
+
+            $("#map-address-btn").click(function(event){
+                event.preventDefault();
+                var address = $("#address").val();					// grab the address from the input field
+                codeAddress(address);										// geocode the address
+            });
+
+            function codeAddress(address) {
+                // geocoder = new google.maps.Geocoder();
+                geocoder.geocode( { 'address': address}, function(results, status) {
+                    console.log('stat', status)
+                    console.log('res', results)
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        map.setCenter(results[0].geometry.location);
+                        infoWindow = new google.maps.InfoWindow();			// center the map on address
+                        var marker = new google.maps.Marker({					// place a marker on the map at the address
+                            map: map,
+                            position: results[0].geometry.location
+                        });
+                        var label = `<span class="badge badge-success m-2 mr-3 mb-3" style="font-size: 15px;">`+ address +`</span>`
+                        $("#lat").val(results[0].geometry.location.lat);
+                        $("#long").val(results[0].geometry.location.lng);
+                        infoWindow.setContent(label);
+                        infoWindow.open(map, marker);
+                    } else {
+                        // alert('Geocode was not successful for the following reason: ' + status);
+                    }
+                });
+            }
+
+                google.maps.event.addListener(window, 'load', initialize);
+            // infoWindow.open(map, marker);	// setup initial map
+
+                 // Mengambil alamat on drag
+                google.maps.event.addListener(marker, 'dragend', function() {
+                    geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            if (results[0]) {
+                                var lt = results[0].geometry.location.lat
+                                var lg = results[0].geometry.location.lng
+
+                                $("#address").val(results[0].formatted_address);
+                                $("#lat").val(lt);
+                                $("#long").val(lg);
+
+                                var label = `<span class="badge badge-success m-2 mr-3 mb-3" style="font-size: 15px;">`+ results[0].formatted_address +`</span>`
+
+                                var address_components = results[0].address_components;
+                                var components={};
+                                jQuery.each(address_components, function(k,v1) {jQuery.each(v1.types, function(k2, v2){components[v2]=v1.long_name});});
+                                var city;
+                                var postal_code;
+                                var state;
+                                var country;
+
+                                if(components.locality) {
+                                    city = components.locality;
+                                }
+
+                                if(!city) {
+                                    city = components.administrative_area_level_1;
+                                }
+
+                                if(components.postal_code) {
+                                    postal_code = components.postal_code;
+                                }
+
+                                if(components.administrative_area_level_1) {
+                                    state = components.administrative_area_level_1;
+                                }
+
+                                if(components.country) {
+                                    country = components.country;
+                                }
+
+                                infoWindow.setContent(label);
+                                infoWindow.open(map, marker);
+                                }
+                            }
+                    });
+                });
+
+        // Akhir Mengambil alamat on drag
+
+                marker.addListener("click", () => {
+                    infoWindow = new google.maps.InfoWindow();
+                    infoWindow.setContent(label);
+                    infoWindow.open(map, marker);
+                });
+
+                map.setCenter(pos);
+            },
+            () => {
+                handleLocationError(true, infoWindow, map.getCenter());
+            }
+            );
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+
+
+    })
+
+        </script>
 </body>
 
 </html>
