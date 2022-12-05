@@ -590,125 +590,8 @@
   <div class="new-section mb-5">
     <div class="container">
         <div class="row">
-        {{-- Deal of the day/Recommended Product --}}
-        <div class="col col-md-3 col-sm-6 col-12 day-off">
-            <div class="deal_of_the_day">
-                        @if(isset($deal_of_the_day))
-                            <h1 style="color: white"> {{ \App\CPU\translate('deal_of_the_day') }}</h1>
-                            <center>
-                                <strong style="font-size: 21px!important;color: {{$web_config['primary_color']}}">
-                                    {{$deal_of_the_day->discount_type=='amount'?\App\CPU\Helpers::currency_converter($deal_of_the_day->discount):$deal_of_the_day->discount.' % '}}
-                                    {{\App\CPU\translate('off')}}
-                                </strong>
-                            </center>
-                            <div class="d-flex justify-content-center align-items-center" style="padding-top: 37px">
-                                <img style="height: 206px;"
-                                    src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$deal_of_the_day->product['thumbnail']}}"
-                                    onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                                    alt="">
-                            </div>
-                            <div style="text-align: center; padding-top: 26px;">
-                                <h5 style="font-weight: 600; color: {{$web_config['primary_color']}}">
-                                    {{\Illuminate\Support\Str::limit($deal_of_the_day->product['name'],40)}}
-                                </h5>
-                                <span class="text-accent">
-                                    {{\App\CPU\Helpers::currency_converter(
-                                        $deal_of_the_day->product->unit_price-(\App\CPU\Helpers::get_product_discount($deal_of_the_day->product,$deal_of_the_day->product->unit_price))
-                                    )}}
-                                </span>
-                                @if($deal_of_the_day->product->discount > 0)
-                                    <strike style="font-size: 12px!important;color: grey!important;">
-                                        {{\App\CPU\Helpers::currency_converter($deal_of_the_day->product->unit_price)}}
-                                    </strike>
-                                @endif
-
-                            </div>
-                            <div class="pt-3 pb-2" style="text-align: center;">
-                                <button class="buy_btn"
-                                        onclick="location.href='{{route('product',$deal_of_the_day->product->slug)}}'">{{\App\CPU\translate('buy_now')}}
-                                </button>
-                            </div>
-                        @else
-                            @php($product=\App\Model\Product::active()->inRandomOrder()->first())
-                            @if(isset($product))
-                                <h1 style="color: white"> {{ \App\CPU\translate('recommended_service') }}</h1>
-                                <div class="d-flex justify-content-center align-items-center" style="padding-top: 55px">
-                                    <img style="height: 206px;"
-                                        src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
-                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                                        alt="">
-                                </div>
-                                <div style="text-align: center; padding-top: 60px;" class="pb-2">
-                                    <button class="buy_btn" onclick="location.href='{{route('product',$product->slug)}}'">
-                                        {{\App\CPU\translate('order_now')}}
-                                    </button>
-                                </div>
-                            @endif
-                        @endif
-                    </div>
-                    {{-- <div class="container mt-2">
-                        <div class="row p-0">
-                        <div class="col-md-3 col-sm-6 col-6 mb-2 p-0 text-center mobile-padding">
-                            <img style="height: 29px;" src="{{asset("/assets/front-end/png/delivery.png")}}" alt="">
-                            <div class="deal-title">3 Days <br><span>Fast Delivery</span></div>
-                        </div>
-
-                        <div class="col-md-3 col-sm-6 col-6 mb-2 p-0 text-center">
-                            <img style="height: 29px;" src="{{asset("/assets/front-end/png/money.png")}}" alt="">
-                            <div class="deal-title">Money Back <br><span>Gurrantey</span></div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-6 mb-2 p-0 text-center">
-                            <img style="height: 29px;" src="{{asset("/assets/front-end/png/Genuine.png")}}" alt="">
-                            <div class="deal-title">100% Genuine<br><span>Product</span></div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-6 mb-2 p-0 text-center">
-                            <img style="height: 29px;" src="{{asset("/assets/front-end/png/Payment.png")}}" alt="">
-                            <div class="deal-title">Authentic<br><span>Payment</span></div>
-                        </div>
-                        </div>
-                    </div> --}}
-            </div>
-
-        <div class="col col-md-9 col-sm-6 col-12">
+        <div class="col col-md-12 col-sm-12 col-12">
             <div class="row">
-            {{-- featured --}}
-            {{-- <div class="col col-md-6 col-sm-6 col-12 products">
-                @if(count($featured_products) > 0)
-                <div class="container rtl card p-2 h-100" style="box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);
-                    -webkit-box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);
-                    -moz-box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);">
-                    <!-- Heading-->
-                    <div class="section-header">
-                        <div class="feature_header">
-                            <span class="for-feature-title">{{ \App\CPU\translate('featured_products')}}</span>
-                        </div>
-                        <div>
-                            <a class="btn btn-outline-accent btn-sm viw-btn-a"
-                            href="{{route('products',['data_from'=>'featured','page'=>1])}}">
-                            {{ \App\CPU\translate('view_all')}}
-                            <i class="czi-arrow-{{Session::get('direction') === " rtl" ? 'left mr-1 ml-n1'
-                                : 'right ml-1 mr-n1' }}"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <hr class="view_border">
-                    <!-- Grid-->
-                    <div class="row mt-2 mb-3">
-                    @foreach($featured_products->slice(0, 6) as $product)
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-6 mb-2">
-                        @include('web-views.partials._single_product_featured',['product'=>$product])
-
-                        <hr class="d-sm-none">
-                    </div>
-                    @endforeach
-                    </div>
-                </div>
-              @endif
-            </div> --}}
-
-
-            {{-- Latest products --}}
                 <div class="col col-md-12 col-sm-12 col-12 latest card p-2" style="box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);
                     -webkit-box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);
                     -moz-box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);">
@@ -749,14 +632,14 @@
    <section class="container pb-4 pb-md-5 rtl">
         <div class="row">
             <!-- Bestsellers-->
-            <div class="col-12 col-sm-6 col-md-4 mb-2 py-3">
+            <div class="col-12 col-sm-6 col-md-6 mb-2 py-3">
                 <div class="container h-100 card p-2" style="box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);
       -webkit-box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);
       -moz-box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);">
                     <div class="widget h-100">
                         <div class="d-flex justify-content-between section-header">
                             <div class="feature_header">
-                                <span class="for-feature-title">{{ \App\CPU\translate('best_sellings')}}</span>
+                                <span class="for-feature-title">{{ \App\CPU\translate('best_service')}}</span>
                             </div>
                             <div>
                                 <a class="btn btn-outline-accent p-2 px-2" style="width: unset;"
@@ -809,70 +692,9 @@
                 </div>
             </div>
         </div>
-        <!-- New arrivals-->
-        <div class="col-12 col-sm-6 col-md-4 mb-2 py-3">
-            <div class="container h-100 card p-2" style="box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);
-      -webkit-box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);
-      -moz-box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);">
-                <div class="widget h-100">
-                    <div class="d-flex justify-content-between">
-                        <div class="feature_header">
-                            <span class="for-feature-title">{{ \App\CPU\translate('new_arrival')}}</span>
-                        </div>
-                        <div>
-                            <a class="btn btn-outline-accent p-2 px-2" style="width: unset;"
-                                href="{{route('products',['data_from'=>'best-selling','page'=>1])}}">{{
-                                \App\CPU\translate('view_all')}}
-                                <i class="czi-arrow-{{Session::get('direction') === " rtl" ? 'left mr-1 ml-n1'
-                                    : 'right ml-1 mr-n1' }}"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        @foreach($latest_products as $key=>$product)
-                        @if($key<4) <div class="col col-md-4 col-sm-2 mb-2">
-                            <div class="media d-flex flex-column pt-2 pb-2 mb-1" style="height:215px"
-                                data-href="{{route('product',$product->slug)}}">
-                                <div class="card-header" style="min-height: 127px; max-height: 135px; width: 100%;">
-                                    <a class="d-block text-center {{Session::get('direction') === " rtl" ? 'ml-2'
-                                        : 'mr-2' }}" href="{{route('product',$product->slug)}}">
-                                        <img style="height: 100%; width: 100%; max-height: 120px; max-width: 95px"
-                                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                                            src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
-                                            alt="Product" />
-                                    </a>
-                                </div>
 
-                                <div class="media-body w-100 h-100 text-center">
-                                    <h6 class="widget-product-title">
-                                        <a class="ptr" href="{{route('product',$product->slug)}}">
-                                            {{substr($product['name'],0,30)}} {{strlen($product['name'])>30?'...':''}}
-                                        </a>
-                                    </h6>
-                                    <div class="widget-product-meta">
-                                        <span class="text-accent d-flex flex-column">
-                                            {{\App\CPU\Helpers::currency_converter(
-                                            $product->unit_price-(\App\CPU\Helpers::get_product_discount($product,$product->unit_price))
-                                            )}}
-                                            @if($product->discount > 0)
-                                            <strike style="font-size: 12px!important;color: red!important;">
-                                                {{\App\CPU\Helpers::currency_converter($product->unit_price)}}
-                                            </strike>
-                                            @endif
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-                    @endif
-                    @endforeach
-                </div>
-            </div>
-        </div>
-
-        </div>
         <!-- Top rated-->
-        <div class="col-12 col-sm-6 col-md-4 mb-2 py-3 ">
+        <div class="col-12 col-sm-6 col-md-6 mb-2 py-3 ">
             <div class="container h-100 card p-2" style="box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);
       -webkit-box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);
       -moz-box-shadow: 6px 8px 10px -10px rgba(0,0,0,0.25);">

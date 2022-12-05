@@ -162,15 +162,15 @@
         }
     </style>
     <style>
+        thead {
+            background: {{$web_config['primary_color']}}                         !important;
+            color: white;
+        }
         th, td {
             border-bottom: 1px solid #ddd;
             padding: 5px;
         }
 
-        thead {
-            background: {{$web_config['primary_color']}}                         !important;
-            color: white;
-        }
     </style>
 @endpush
 
@@ -188,18 +188,15 @@
                 <div class="cz-product-gallery">
                     <div class="cz-preview">
                         @if($product->images!=null)
-                            @foreach (json_decode($product->images) as $key => $photo)
                                 <div
-                                    class="cz-preview-item d-flex align-items-center justify-content-center {{$key==0?'active':''}}"
-                                    id="image{{$key}}">
+                                    class="cz-preview-item d-flex align-items-center justify-content-center active"
+                                    id="image">
                                     <img class="cz-image-zoom img-responsive"
                                          onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                                         src="{{asset("storage/product/$photo")}}"
-                                         data-zoom="{{asset("storage/product/$photo")}}"
+                                         src="{{asset("storage/product/$product->images")}}"
                                          alt="Product image" width="">
                                     <div class="cz-image-zoom-pane"></div>
                                 </div>
-                            @endforeach
                         @endif
                     </div>
                     <div class="cz">
@@ -208,17 +205,15 @@
                                 <div class="table-responsive" data-simplebar style="max-height: 515px; padding: 1px;">
                                     <div class="d-flex">
                                         @if($product->images!=null)
-                                            @foreach (json_decode($product->images) as $key => $photo)
                                                 <div class="cz-thumblist">
-                                                    <a class="cz-thumblist-item  {{$key==0?'active':''}} d-flex align-items-center justify-content-center "
-                                                       href="#image{{$key}}">
+                                                    <a class="cz-thumblist-item active d-flex align-items-center justify-content-center "
+                                                       href="#image">
                                                         <img
                                                             onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                                                            src="{{asset("storage/product/$photo")}}"
+                                                            src="{{asset("storage/product/$product->images")}}"
                                                             alt="Product thumb">
                                                     </a>
                                                 </div>
-                                            @endforeach
                                         @endif
                                     </div>
                                 </div>
@@ -595,17 +590,17 @@
                     <!-- Tabs-->
                     <ul class="nav nav-tabs d-flex justify-content-center" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#overview" data-toggle="tab" role="tab"
+                            <a class="nav-link active text-capitalize" href="#overview" data-toggle="tab" role="tab"
                                style="color: black !important;">
-                                {{\App\CPU\translate('OVERVIEW')}}
+                                {{\App\CPU\translate('Description')}}
                             </a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link" href="#reviews" data-toggle="tab" role="tab"
                                style="color: black !important;">
                                 {{\App\CPU\translate('REVIEWS')}}
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                     <div class="px-4 pt-lg-3 pb-3 mb-3">
                         <div class="tab-content px-lg-3">
@@ -845,7 +840,7 @@
     </div>
 
     <!-- Product carousel (You may also like)-->
-    <div class="container  mb-3 rtl" style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
+    {{-- <div class="container  mb-3 rtl" style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
         <div class="flex-between">
             <div class="feature_header">
                 <span>{{ \App\CPU\translate('similar_products')}}</span>
@@ -881,7 +876,7 @@
                 </div>
             @endif
         </div>
-    </div>
+    </div> --}}
 
     <div class="modal fade rtl" id="show-modal-view" tabindex="-1" role="dialog" aria-labelledby="show-modal-image"
          aria-hidden="true" style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
