@@ -300,15 +300,15 @@
                                 </div>
                             @endif
                             @php
-                                $qty = 0;
-                                if(!empty($product->variation)){
-                                foreach (json_decode($product->variation) as $key => $variation) {
-                                        $qty += $variation->qty;
-                                    }
-                                }
+                                // $qty = 0;
+                                // if(!empty($product->variation)){
+                                // foreach (json_decode($product->variation) as $key => $variation) {
+                                //         $qty += $variation->qty;
+                                //     }
+                                // }
                             @endphp
                         </div>
-                        @foreach (json_decode($product->choice_options) as $key => $choice)
+                        {{-- @foreach (json_decode($product->choice_options) as $key => $choice)
                             <div class="row flex-start mx-0">
                                 <div
                                     class="product-description-label mt-2 {{Session::get('direction') === "rtl" ? 'pl-2' : 'pr-2'}}">{{ $choice->title }}
@@ -332,10 +332,10 @@
                                     </ul>
                                 </div>
                             </div>
-                    @endforeach
+                    @endforeach --}}
 
                     <!-- Quantity + Add to cart -->
-                        <div class="row no-gutters">
+                        {{-- <div class="row no-gutters">
                             <div class="col-2">
                                 <div class="product-description-label mt-2">{{\App\CPU\translate('Quantity')}}:</div>
                             </div>
@@ -350,11 +350,11 @@
                                                     disabled="disabled" style="padding: 10px">
                                                 -
                                             </button>
-                                        </span>
-                                        <input type="text" name="quantity"
+                                        </span> --}}
+                                        <input type="hidden" name="quantity"
                                                class="form-control input-number text-center cart-qty-field"
                                                placeholder="1" value="1" min="1" max="100">
-                                        <span class="input-group-btn">
+                                        {{-- <span class="input-group-btn">
                                             <button class="btn btn-number" type="button" data-type="plus"
                                                     data-field="quantity" style="padding: 10px">
                                                +
@@ -362,7 +362,7 @@
                                         </span>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
 
                         <div class="row flex-start no-gutters d-none mt-2" id="chosen_price_div">
@@ -375,14 +375,14 @@
                                 </div>
                             </div>
 
-                            <div class="col-12">
+                            {{-- <div class="col-12">
                                 @if($product['current_stock']<=0)
                                     <h5 class="mt-3" style="color: red">{{\App\CPU\translate('out_of_stock')}}</h5>
                                 @endif
-                            </div>
+                            </div> --}}
                         </div>
 
-                        <div class="d-flex justify-content-between mt-2">
+                        {{-- <div class="d-flex justify-content-between mt-2">
                             <button
                                 class="btn btn-secondary element-center btn-gap-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}"
                                 onclick="buy_now()"
@@ -404,7 +404,7 @@
                                    aria-hidden="true"></i>
                                 <span class="countWishlist-{{$product['id']}}">{{$countWishlist}}</span>
                             </button>
-                        </div>
+                        </div> --}}
                     </form>
                     <hr style="padding-bottom: 10px">
                     <div style="text-align:{{Session::get('direction') === "rtl" ? 'right' : 'left'}};"
