@@ -802,6 +802,9 @@ class Helpers
 
     public static function module_permission_check($mod_name)
     {
+        if (auth('seller')->check()) {
+            return true;
+        }
         $permission = auth('admin')->user()->role->module_access;
         if (isset($permission) && in_array($mod_name, (array) json_decode($permission)) == true) {
             return true;
