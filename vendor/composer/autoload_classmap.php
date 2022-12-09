@@ -111,6 +111,7 @@ return array(
     'App\\Http\\Controllers\\Seller\\OrderController' => $baseDir . '/app/Http/Controllers/Seller/OrderController.php',
     'App\\Http\\Controllers\\Seller\\ProductController' => $baseDir . '/app/Http/Controllers/Seller/ProductController.php',
     'App\\Http\\Controllers\\Seller\\ProfileController' => $baseDir . '/app/Http/Controllers/Seller/ProfileController.php',
+    'App\\Http\\Controllers\\Seller\\ReportController' => $baseDir . '/app/Http/Controllers/Seller/ReportController.php',
     'App\\Http\\Controllers\\Seller\\ReviewsController' => $baseDir . '/app/Http/Controllers/Seller/ReviewsController.php',
     'App\\Http\\Controllers\\Seller\\ShippingMethodController' => $baseDir . '/app/Http/Controllers/Seller/ShippingMethodController.php',
     'App\\Http\\Controllers\\Seller\\ShopController' => $baseDir . '/app/Http/Controllers/Seller/ShopController.php',

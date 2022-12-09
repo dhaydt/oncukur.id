@@ -57,6 +57,14 @@ Route::group(['namespace' => 'Seller', 'prefix' => 'seller', 'as' => 'seller.'],
             Route::get('bulk-export', 'ProductController@bulk_export_data')->name('bulk-export');
         });
 
+        Route::group(['prefix' => 'report', 'as' => 'report.', 'middleware' => ['module:report']], function () {
+            Route::get('order', 'ReportController@order_index')->name('order');
+            Route::get('earning', 'ReportController@earning_index')->name('earning');
+            Route::post('set-date', 'ReportController@set_date')->name('set-date');
+            Route::get('import', 'ReportController@bulk_import_index')->name('import');
+            Route::post('bulk-import', 'ReportController@bulk_import_data')->name('bulk-import');
+        });
+
         Route::group(['prefix' => 'orders', 'as' => 'orders.'], function () {
             Route::get('list/{status}', 'OrderController@list')->name('list');
             Route::get('details/{id}', 'OrderController@details')->name('details');

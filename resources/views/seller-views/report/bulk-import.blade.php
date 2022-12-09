@@ -1,6 +1,6 @@
 @extends('layouts.back-end.app-seller')
 
-@section('title', \App\CPU\translate('Product Bulk Import'))
+@section('title', \App\CPU\translate('Transaction Bulk Import'))
 
 @push('css_or_js')
 
@@ -12,13 +12,9 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{route('seller.dashboard.index')}}">{{\App\CPU\translate('Dashboard')}}</a>
                 </li>
-                <li class="breadcrumb-item" aria-current="page"><a
-                        href="{{route('seller.product.list')}}">{{\App\CPU\translate('Product')}}</a>
-                </li>
                 <li class="breadcrumb-item">{{\App\CPU\translate('bulk_import')}} </li>
             </ol>
         </nav>
-
         <!-- Content Row -->
         <div class="row" style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
             <div class="col-12">
@@ -30,9 +26,6 @@
 
                     <p>3. {{\App\CPU\translate('Once you have downloaded and filled the format file, upload it in the form below and submit')}}.</p>
 
-                    <p> 4. {{\App\CPU\translate('After uploading products you need to edit them and set products images and choices')}}.</p>
-
-                    <p> 5. {{\App\CPU\translate('You can get brand and category id from their list, please input the right ids')}}.</p>
                 </div>
             </div>
 
@@ -42,8 +35,8 @@
                     @csrf
                     <div class="card mt-2 rest-part">
                         <div class="card-header">
-                            <h4>{{\App\CPU\translate('Import Products File')}}</h4>
-                            <a href="{{asset('public/assets/product_bulk_format.xlsx')}}" download=""
+                            <h4>{{\App\CPU\translate('Import Transaction File')}}</h4>
+                            <a href="{{asset('assets/transaction_bulk_format.xlsx')}}" download=""
                                class="btn btn-secondary">{{\App\CPU\translate('Download Format')}}</a>
                         </div>
                         <div class="card-body">
