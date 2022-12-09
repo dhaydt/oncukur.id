@@ -68,7 +68,7 @@ class ReportController extends Controller
                 'seller_id' => auth('seller')->id(),
                 'seller_is' => 'admin',
                 'mitra_id' => null,
-                'order_id' => 300000 + $collection['ORDER_ID'],
+                'order_id' => $collection['ORDER_ID'].now(),
                 'order_amount' => $collection['PRICE'],
                 'seller_amount' => $collection['PRICE'],
                 'mitra_amount' => 0,
