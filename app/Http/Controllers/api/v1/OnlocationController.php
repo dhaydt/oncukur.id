@@ -40,7 +40,7 @@ class OnlocationController extends Controller
         $shops = $shops->whereHas('mitras', function ($q) {
             $q->where('status', 'approved');
         });
-        $shops = $shops->having('distance', '<', 20);
+        $shops = $shops->having('distance', '<', 1000);
         // $shops = $shops->whereHas('seller', function ($s) use ($request) {
         //     $s->with('product')->whereHas('product', function ($p) use ($request) {
         //         $p->whereJsonContains('category_ids', ['id' => (string) $request->cat_id])->inRandomOrder();
