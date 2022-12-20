@@ -79,6 +79,8 @@ class ProductController extends BaseController
             'capacity' => 'required',
             'address' => 'required',
             'chair' => 'required',
+            'lat' => 'required',
+            'long' => 'required',
         ], [
             'name.required' => 'Outlet name is required',
             'email.required' => 'Email is required for login',
@@ -86,6 +88,8 @@ class ProductController extends BaseController
             'phone.required' => 'Phone is required',
             'image' => 'Outlet Image is required',
             'contact.required' => 'Contact Outlet is Required',
+            'lat.required' => 'Mohon klik simpan alamat setelah mengisi alamat',
+            'long.required' => 'Mohon klik simpan alamat setelah mengisi alamat',
         ]);
 
         if ($validator->errors()->count() > 0) {

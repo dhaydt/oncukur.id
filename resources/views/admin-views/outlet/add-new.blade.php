@@ -80,7 +80,7 @@
                             <label for="address" class="input-label mt-4">{{ \App\CPU\Translate('address') }}</label>
                             <div class="input-group">
                                 <input id="address" class="form-control" name="address">
-                                <btn id="map-address-btn" class="input-group-text btn btn-success" onclick="codeAddress()">Cari</btn>
+                                <btn id="map-address-btn" class="input-group-text btn btn-success" onclick="codeAddress()">Simpan Alamat</btn>
                             </div>
                             {{-- <button id="map-address-btn" onclick="codeAddress()">find</button> --}}
                             <div class="row justify-content-center mt-4">
