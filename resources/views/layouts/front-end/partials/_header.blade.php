@@ -190,6 +190,7 @@
                                 onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                 alt="{{$web_config['name']->value}}"/>
                 </a>
+                tester
 
                 <a class="navbar-brand d-sm-none mr-auto ml-2"
                 href="{{route('home')}}">
