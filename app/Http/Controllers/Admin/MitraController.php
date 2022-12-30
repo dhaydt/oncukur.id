@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\CPU\Helpers;
 use function App\CPU\translate;
 use App\Http\Controllers\Controller;
+use App\mitra_wallet;
 use App\Model\Mitra;
 use App\Model\Order;
 use App\Model\OrderTransaction;
 use App\Model\Product;
 use App\Model\Review;
 use App\Model\Shop;
+use App\Model\WithdrawRequest;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -207,5 +209,61 @@ class MitraController extends Controller
         $order->save();
 
         return back();
+    }
+
+    public function withdraw()
+    {
+        $all = session()->has('withdraw_status_filter') && session('withdraw_status_filter') == 'all' ? 1 : 0;
+        $active = session()->has('withdraw_status_filter') && session('withdraw_status_filter') == 'approved' ? 1 : 0;
+        $denied = session()->has('withdraw_status_filter') && session('withdraw_status_filter') == 'denied' ? 1 : 0;
+        $pending = session()->has('withdraw_status_filter') && session('withdraw_status_filter') == 'pending' ? 1 : 0;
+
+        $withdraw_req = WithdrawRequest::with(['mitra'])->where('mitra_id', '!=', null)
+            ->when($all, function ($query) {
+                return $query;
+            })
+            ->when($active, function ($query) {
+                return $query->where('approved', 1);
+            })
+            ->when($denied, function ($query) {
+                return $query->where('approved', 2);
+            })
+            ->when($pending, function ($query) {
+                return $query->where('approved', 0);
+            })
+            ->orderBy('id', 'desc')
+            ->latest()
+            ->paginate(Helpers::pagination_limit());
+
+        return view('admin-views.mitra.withdraw', compact('withdraw_req'));
+    }
+
+    public function withdraw_view($withdraw_id, $seller_id)
+    {
+        $seller = WithdrawRequest::with(['mitra'])->where(['id' => $withdraw_id])->first();
+
+        return view('admin-views.mitra.withdraw-view', compact('seller'));
+    }
+
+    public function withdrawStatus(Request $request, $id)
+    {
+        $withdraw = WithdrawRequest::find($id);
+        $withdraw->approved = $request->approved;
+        $withdraw->transaction_note = $request['note'];
+        if ($request->approved == 1) {
+            mitra_wallet::where('mitra_id', $withdraw->mitra_id)->increment('withdrawn', $withdraw['amount']);
+            mitra_wallet::where('mitra_id', $withdraw->mitra_id)->decrement('pending_withdraw', $withdraw['amount']);
+            $withdraw->save();
+            Toastr::success('Mitras Payment has been approved successfully');
+
+            return redirect()->route('admin.mitras.withdraw_list');
+        }
+
+        mitra_wallet::where('mitra_id', $withdraw->mitra_id)->increment('total_earning', $withdraw['amount']);
+        mitra_wallet::where('mitra_id', $withdraw->mitra_id)->decrement('pending_withdraw', $withdraw['amount']);
+        $withdraw->save();
+        Toastr::info('Mitra Payment request has been Denied successfully');
+
+        return redirect()->route('admin.mitras.withdraw_list');
     }
 }

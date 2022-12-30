@@ -11,6 +11,8 @@ Route::group(['namespace' => 'api\v3', 'prefix' => 'v3', 'middleware' => ['api_l
 
         Route::post('balance-withdraw', 'MitraController@withdraw_request');
         Route::post('close-withdraw-request', 'MitraController@close_withdraw_request');
+        Route::post('pending-withdraw', 'MitraController@pending_withdraw');
+        Route::post('saldo', 'MitraController@saldo');
 
         Route::group(['prefix' => 'auth', 'namespace' => 'auth'], function () {
             Route::post('login', 'LoginController@login');

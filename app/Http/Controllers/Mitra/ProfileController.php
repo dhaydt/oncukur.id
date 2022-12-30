@@ -13,9 +13,9 @@ class ProfileController extends Controller
 {
     public function view(Request $request)
     {
-        $user = Auth('mitra')->user();
+        $data = Mitra::where('id', auth('mitra')->id())->first();
 
-        return $user;
+        return view('mitra-views.profile.view', compact('data'));
     }
 
     public function edit($id)
@@ -66,7 +66,7 @@ class ProfileController extends Controller
 
     public function bank_update(Request $request, $id)
     {
-        $bank = Mitra::find(auth('seller')->id());
+        $bank = Mitra::find(auth('mitra')->id());
         $bank->bank_name = $request->bank_name;
         $bank->branch = $request->branch;
         $bank->holder_name = $request->holder_name;
@@ -79,12 +79,12 @@ class ProfileController extends Controller
 
     public function bank_edit($id)
     {
-        if (auth('seller')->id() != $id) {
+        if (auth('mitra')->id() != $id) {
             Toastr::warning(translate('you_can_not_change_others_info'));
 
             return back();
         }
-        $data = Mitra::where('id', auth('seller')->id())->first();
+        $data = Mitra::where('id', auth('mitra')->id())->first();
 
         return view('mitra-views.profile.bankEdit', compact('data'));
     }

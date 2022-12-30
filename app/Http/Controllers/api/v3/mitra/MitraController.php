@@ -20,6 +20,22 @@ use Midtrans\Config;
 
 class MitraController extends Controller
 {
+    public function saldo(Request $request)
+    {
+        $data = Helpers::get_mitra_by_token($request);
+        if ($data['success'] == 1) {
+            $seller = $data['data'];
+
+            $admin_wallet = mitra_wallet::where('mitra_id', $seller['id'])->first();
+
+            return response()->json(['status' => 'success', 'message' => 'Saldo', 'data' => $admin_wallet->total_earning]);
+        } else {
+            return response()->json([
+                'auth-001' => translate('Your existing session token does not authorize you any more'),
+            ], 401);
+        }
+    }
+
     public function is_online(Request $request)
     {
         $id = Helpers::get_mitra_by_token($request)['data'];
@@ -169,6 +185,22 @@ class MitraController extends Controller
         }
 
         return response()->json(Helpers::responseSuccess('Mitra info updated successfully'), 200);
+    }
+
+    public function pending_withdraw(Request $request)
+    {
+        $data = Helpers::get_mitra_by_token($request);
+        if ($data['success'] == 1) {
+            $seller = $data['data'];
+
+            $admin_wallet = mitra_wallet::where('mitra_id', $seller['id'])->first();
+
+            return response()->json(['status' => 'success', 'message' => 'Pending withdraw', 'data' => $admin_wallet->pending_withdraw]);
+        } else {
+            return response()->json([
+                'auth-001' => translate('Your existing session token does not authorize you any more'),
+            ], 401);
+        }
     }
 
     public function withdraw_request(Request $request)

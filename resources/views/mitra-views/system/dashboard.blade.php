@@ -174,13 +174,47 @@
                                             class="for-card-count">{{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($data['total_earning']))}}</div>
                                     </div>
                                     <div>
-                                        <a href="javascript:" style="background: #3A6351!important;"
+                                        <a href="javascript" style="background: #3A6351!important;"
                                             class="btn btn-primary"
                                             data-toggle="modal" data-target="#balance-modal">
                                             <i class="tio-wallet-outlined"></i> {{\App\CPU\translate('Withdraw')}}
                                         </a>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="balance-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content" style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">{{\App\CPU\translate('Withdraw Request')}}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form action="{{route('mitra.withdraw.request')}}" method="post">
+                                    <div class="modal-body">
+                                        @csrf
+                                        <div class="form-group">
+                                            <label for="recipient-name" class="col-form-label">{{\App\CPU\translate('Amount')}}:</label>
+                                            <input type="number" name="amount" step=".01"
+                                                value="{{\App\CPU\BackEndHelper::usd_to_currency($data['total_earning'])}}"
+                                                class="form-control" id="">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{\App\CPU\translate('Close')}}</button>
+                                        @if(auth('mitra')->user()->account_no==null || auth('mitra')->user()->bank_name==null)
+                                            <button type="button" class="btn btn-primary" onclick="call_duty()">
+                                                {{\App\CPU\translate('Incomplete bank info')}}
+                                            </button>
+                                        @else
+                                            <button type="submit" class="btn btn-primary">{{\App\CPU\translate('Request')}}</button>
+                                        @endif
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

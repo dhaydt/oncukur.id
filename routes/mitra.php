@@ -46,6 +46,8 @@ Route::group(['namespace' => 'mitra', 'prefix' => 'mitra', 'as' => 'mitra.'], fu
             Route::get('update/{id}', '\App\Http\Controllers\Mitra\ProfileController@edit')->name('update');
             Route::post('update/{id}', '\App\Http\Controllers\Mitra\ProfileController@update');
             Route::post('settings-password', '\App\Http\Controllers\Mitra\ProfileController@settings_password_update')->name('settings-password');
+            Route::get('bank-edit/{id}', '\App\Http\Controllers\Mitra\ProfileController@bank_edit')->name('bankInfo');
+            Route::post('bank-update/{id}', '\App\Http\Controllers\Mitra\ProfileController@bank_update')->name('bank_update');
         });
 
         Route::group(['prefix' => 'orders', 'as' => 'orders.'], function () {
@@ -62,6 +64,14 @@ Route::group(['namespace' => 'mitra', 'prefix' => 'mitra', 'as' => 'mitra.'], fu
             Route::get('/chat', 'ChattingController@chat')->name('chat');
             Route::get('/message-by-user', 'ChattingController@message_by_user')->name('message_by_user');
             Route::post('/seller-message-store', 'ChattingController@seller_message_store')->name('seller_message_store');
+        });
+
+        Route::group(['prefix' => 'withdraw', 'as' => 'withdraw.'], function () {
+            Route::get('list', 'WithdrawController@list')->name('list');
+            Route::get('cancel/{id}', 'WithdrawController@close_request')->name('cancel');
+            Route::post('status-filter', 'WithdrawController@status_filter')->name('status-filter');
+            Route::post('request', 'WithdrawController@w_request')->name('request');
+            Route::delete('close/{id}', 'WithdrawController@close_request')->name('close');
         });
     });
 });

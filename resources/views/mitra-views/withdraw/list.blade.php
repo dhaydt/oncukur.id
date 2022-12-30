@@ -1,4 +1,4 @@
-@extends('layouts.back-end.app')
+@extends('layouts.back-end.app-mitra')
 
 @section('title', \App\CPU\translate('Withdraw Request'))
 
@@ -10,7 +10,7 @@
     <div class="content container-fluid">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{\App\CPU\translate('Dashboard')}}</a>
+                <li class="breadcrumb-item"><a href="{{route('seller.dashboard.index')}}">{{\App\CPU\translate('Dashboard')}}</a>
                 </li>
                 <li class="breadcrumb-item" aria-current="page">{{\App\CPU\translate('Withdraw')}}  </li>
             </ol>
@@ -39,59 +39,53 @@
                                 <tr>
                                     <th>{{\App\CPU\translate('SL#')}}</th>
                                     <th>{{\App\CPU\translate('amount')}}</th>
-                                    {{-- <th>{{\App\CPU\translate('note')}}</th> --}}
-                                    <th>{{ \App\CPU\translate('Name') }}</th>
                                     <th>{{\App\CPU\translate('request_time')}}</th>
                                     <th>{{\App\CPU\translate('status')}}</th>
                                     <th style="width: 5px">{{\App\CPU\translate('Action')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($withdraw_req as $k=>$wr)
+                                @foreach($withdraw_requests as $key=>$withdraw_request)
                                     <tr>
-                                        <td scope="row">{{$withdraw_req->firstItem()+$k}}</td>
-                                        <td>{{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($wr['amount']))}}</td>
-                                        {{-- <td>{{$wr->transaction_note}}</td> --}}
+                                        <td scope="row">{{$withdraw_requests->firstitem()+$key}}</td>
+                                        <td>{{\App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($withdraw_request['amount']))}}</td>
+                                        <td>{{date("F jS, Y", strtotime($withdraw_request->created_at))}}</td>
                                         <td>
-                                            <a href="{{route('admin.mitras.view',$wr->mitra_id)}}">{{ $wr->mitra->name }}</a>
-                                        </td>
-                                        <td>{{$wr->created_at}}</td>
-                                        <td>
-                                            @if($wr->approved==0)
+                                            @if($withdraw_request->approved==0)
                                                 <label class="badge badge-primary">{{\App\CPU\translate('Pending')}}</label>
-                                            @elseif($wr->approved==1)
+                                            @elseif($withdraw_request->approved==1)
                                                 <label class="badge badge-success">{{\App\CPU\translate('Approved')}}</label>
                                             @else
                                                 <label class="badge badge-danger">{{\App\CPU\translate('Denied')}}</label>
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{route('admin.mitras.withdraw_view',[$wr['id'],$wr->mitra['id']])}}"
-                                               class="btn btn-primary btn-sm">
-                                                {{\App\CPU\translate('View')}}
-                                            </a>
+                                            @if($withdraw_request->approved==0)
+                                                <button id="{{route('seller.business-settings.withdraw.cancel', [$withdraw_request['id']])}}"
+                                                        onclick="close_request('{{ route('mitra.withdraw.cancel', [$withdraw_request['id']]) }}')"
+                                                   class="btn btn-primary btn-sm">
+                                                    {{\App\CPU\translate('close')}}
+                                                </button>
+                                            @else
+                                                <span class="btn btn-primary btn-sm disabled">
+                                                    {{\App\CPU\translate('close')}}
+                                                </span>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
-                            @if(count($withdraw_req)==0)
-                                <div class="text-center p-4">
-                                    <img class="mb-3"
-                                         src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg"
-                                         alt="Image Description" style="width: 7rem;">
-                                    <p class="mb-0">{{\App\CPU\translate('No_data_to_show')}}</p>
-                                </div>
-                        @endif
                         </div>
                     </div>
                     <div class="card-footer">
-                        {{$withdraw_req->links()}}
+                        {{$withdraw_requests->links()}}
                     </div>
                 </div>
             </div>
 
         </div>
+
     </div>
 @endsection
 
@@ -105,7 +99,7 @@
               }
           });
           $.post({
-              url: '{{route('admin.withdraw.status-filter')}}',
+              url: '{{route('seller.business-settings.withdraw.status-filter')}}',
               data: {
                   withdraw_status_filter: type
               },
@@ -119,6 +113,23 @@
                   $('#loading').hide()
               }
           });
+      }
+  </script>
+
+  <script>
+      function close_request(route_name) {
+          swal({
+              title: "{{\App\CPU\translate('Are you sure?')}}",
+              text: "{{\App\CPU\translate('Once deleted, you will not be able to recover this')}}",
+              icon: "{{\App\CPU\translate('warning')}}",
+              buttons: true,
+              dangerMode: true,
+          })
+              .then((willDelete) => {
+                  if (willDelete) {
+                      window.location.href = (route_name);
+                  }
+              });
       }
   </script>
 @endpush

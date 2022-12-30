@@ -19,17 +19,17 @@ class BackEndHelper
 
     public static function currency_to_usd($amount)
     {
-        $currency_model = Helpers::get_business_settings('currency_model');
-        if ($currency_model == 'multi_currency') {
-            $default = Currency::find(BusinessSetting::where(['type' => 'system_default_currency'])->first()->value);
-            $usd = Currency::where('code', 'USD')->first()->exchange_rate;
-            $rate = $default['exchange_rate'] / $usd;
-            $value = floatval($amount) / floatval($rate);
-        } else {
-            $value = floatval($amount);
-        }
+        // $currency_model = Helpers::get_business_settings('currency_model');
+        // if ($currency_model == 'multi_currency') {
+        //     $default = Currency::find(BusinessSetting::where(['type' => 'system_default_currency'])->first()->value);
+        //     $usd = Currency::where('code', 'USD')->first()->exchange_rate;
+        //     $rate = $default['exchange_rate'] / $usd;
+        //     $value = floatval($amount) / floatval($rate);
+        // } else {
+        //     $value = floatval($amount);
+        // }
 
-        return round($value);
+        return $amount;
     }
 
     public static function usd_to_currency($amount)

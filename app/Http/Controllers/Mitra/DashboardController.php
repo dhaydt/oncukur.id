@@ -79,6 +79,7 @@ class DashboardController extends Controller
         $data['total_earning'] = $admin_wallet->total_earning ?? 0;
         $data['withdrawn'] = $admin_wallet->withdrawn ?? 0;
         $data['commission_given'] = $admin_wallet->commission_given ?? 0;
+        $data['outlet_commission_given'] = $admin_wallet->outlet_commission_given ?? 0;
         $data['pending_withdraw'] = $admin_wallet->pending_withdraw ?? 0;
         $data['delivery_charge_earned'] = $admin_wallet->delivery_charge_earned ?? 0;
         $data['collected_cash'] = $admin_wallet->collected_cash ?? 0;

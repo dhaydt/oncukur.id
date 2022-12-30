@@ -24,7 +24,7 @@
                 <div class="card">
                     <div class="card-header p-3">
                         <h3 class="text-center text-capitalize">
-                            {{\App\CPU\translate('seller')}} {{\App\CPU\translate('Withdraw')}} {{\App\CPU\translate('information')}}
+                            {{\App\CPU\translate('Mitra')}} {{\App\CPU\translate('Withdraw')}} {{\App\CPU\translate('information')}}
                         </h3>
 
                         <i class="tio-wallet-outlined" style="font-size: 30px"></i>
@@ -71,7 +71,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-md-4">
                 <div class="card" style="min-height: 260px;">
                     <div class="card-header">
@@ -82,25 +81,26 @@
                         <div class="col-md-8 mt-2">
                             <div class="flex-start">
                                 <div><h4>{{\App\CPU\translate('bank_name')}} : </h4></div>
-                                <div class="mx-1"><h4>{{$seller->seller->bank_name ? $seller->seller->bank_name : 'No Data found'}}</h4></div>
+                                <div class="mx-1"><h4>{{$seller->mitra->bank_name ? $seller->mitra->bank_name : 'No Data found'}}</h4></div>
                             </div>
                             <div class="flex-start">
                                 <div><h6>{{\App\CPU\translate('Branch')}} : </h6></div>
-                                <div class="mx-1"><h6>{{$seller->seller->branch ? $seller->seller->branch : 'No Data found'}}</h6></div>
+                                <div class="mx-1"><h6>{{$seller->mitra->branch ? $seller->mitra->branch : 'No Data found'}}</h6></div>
                             </div>
                             <div class="flex-start">
                                 <div><h6>{{\App\CPU\translate('holder_name')}} : </h6></div>
-                                <div class="mx-1"><h6>{{$seller->seller->holder_name ? $seller->seller->holder_name : 'No Data found'}}</h6></div>
+                                <div class="mx-1"><h6>{{$seller->mitra->holder_name ? $seller->mitra->holder_name : 'No Data found'}}</h6></div>
                             </div>
                             <div class="flex-start">
                                 <div><h6>{{\App\CPU\translate('account_no')}} : </h6></div>
-                                <div class="mx-1"><h6>{{$seller->seller->account_no ? $seller->seller->account_no : 'No Data found'}}</h6></div>
+                                <div class="mx-1"><h6>{{$seller->mitra->account_no ? $seller->mitra->account_no : 'No Data found'}}</h6></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            @if($seller->seller->shop)
+            @php($shop = \App\Model\Shop::find($seller->mitra->shop_id))
+            @if($shop)
                 <div class="col-md-4">
                     <div class="card" style="min-height: 260px;">
                         <div class="card-header">
@@ -110,19 +110,19 @@
                         <div class="card-body" style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
                             <div class="flex-start">
                                 <div><h5>{{\App\CPU\translate('seller_b')}} : </h5></div>
-                                <div class="mx-1"><h5>{{$seller->seller->shop->name}}</h5></div>
+                                <div class="mx-1"><h5>{{$shop->name}}</h5></div>
                             </div>
                             <div class="flex-start">
                                 <div><h5>{{\App\CPU\translate('Phone')}} : </h5></div>
-                                <div class="mx-1"><h5>{{$seller->seller->shop->contact}}</h5></div>
+                                <div class="mx-1"><h5>{{$shop->contact}}</h5></div>
                             </div>
                             <div class="flex-start">
                                 <div><h5>{{\App\CPU\translate('address')}} : </h5></div>
-                                <div class="mx-1"><h5>{{$seller->seller->shop->address}}</h5></div>
+                                <div class="mx-1"><h5>{{$shop->address}}</h5></div>
                             </div>
                             <div class="flex-start">
                                 <div><h5 class="text-capitalize badge badge-success">{{\App\CPU\translate('balance')}} : </h5></div>
-                                <div class="mx-1"><h5>{{\App\CPU\Convert::default($seller->seller->wallet->balance)}} {{\App\CPU\currency_symbol()}}</h5></div>
+                                <div class="mx-1"><h5>{{\App\CPU\Convert::default($seller->mitra->wallet->balance)}} {{\App\CPU\currency_symbol()}}</h5></div>
                             </div>
                         </div>
                     </div>
@@ -137,15 +137,15 @@
                     <div class="card-body" style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
                         <div class="flex-start">
                             <div><h5>{{\App\CPU\translate('name')}} : </h5></div>
-                            <div class="mx-1"><h5>{{$seller->seller->f_name}} {{$seller->seller->l_name}}</h5></div>
+                            <div class="mx-1"><h5>{{$seller->mitra->name}}</h5></div>
                         </div>
                         <div class="flex-start">
                             <div><h5>{{\App\CPU\translate('Email')}} : </h5></div>
-                            <div class="mx-1"><h5>{{$seller->seller->email}}</h5></div>
+                            <div class="mx-1"><h5>{{$seller->mitra->email}}</h5></div>
                         </div>
                         <div class="flex-start">
                             <div><h5>{{\App\CPU\translate('Phone')}} : </h5></div>
-                            <div class="mx-1"><h5>{{$seller->seller->phone}}</h5></div>
+                            <div class="mx-1"><h5>{{$seller->mitra->phone}}</h5></div>
                         </div>
                     </div>
                 </div>
@@ -161,7 +161,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form action="{{route('admin.sellers.withdraw_status',[$seller['id']])}}" method="POST">
+                        <form action="{{route('admin.mitras.withdraw_status',[$seller['id']])}}" method="POST">
                             @csrf
                             <div class="modal-body">
                                 <div class="form-group">

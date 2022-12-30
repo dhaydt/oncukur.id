@@ -2,22 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\CPU\Convert;
 use App\CPU\Helpers;
-use App\CPU\ImageManager;
-use App\CPU\BackEndHelper;
 use App\Http\Controllers\Controller;
 use App\Model\Order;
-use App\Model\OrderDetail;
+use App\Model\OrderTransaction;
 use App\Model\Product;
+use App\Model\Review;
 use App\Model\Seller;
-use App\Model\WithdrawRequest;
 use App\Model\SellerWallet;
+use App\Model\WithdrawRequest;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Model\Review;
-use App\Model\OrderTransaction;
 
 class SellerController extends Controller
 {
@@ -41,6 +37,7 @@ class SellerController extends Controller
             $sellers = Seller::with(['orders', 'product']);
         }
         $sellers = $sellers->latest()->paginate(Helpers::pagination_limit())->appends($query_param);
+
         return view('admin-views.seller.index', compact('sellers', 'search'));
     }
 
@@ -49,7 +46,7 @@ class SellerController extends Controller
         $seller = Seller::findOrFail($id);
         if ($tab == 'order') {
             $id = $seller->id;
-            $orders = Order::where(['seller_is'=>'seller'])->where(['seller_id'=>$id])->latest()->paginate(Helpers::pagination_limit());
+            $orders = Order::where(['seller_is' => 'seller'])->where(['seller_id' => $id])->latest()->paginate(Helpers::pagination_limit());
             // $orders->map(function ($data) {
             //     $value = 0;
             //     foreach ($data->details as $detail) {
@@ -59,10 +56,11 @@ class SellerController extends Controller
             //     return $data;
             // });
             return view('admin-views.seller.view.order', compact('seller', 'orders'));
-        } else if ($tab == 'product') {
+        } elseif ($tab == 'product') {
             $products = Product::where('added_by', 'seller')->where('user_id', $seller->id)->paginate(Helpers::pagination_limit());
+
             return view('admin-views.seller.view.product', compact('seller', 'products'));
-        } else if ($tab == 'setting') {
+        } elseif ($tab == 'setting') {
             $commission = $request['commission'];
             if ($request->has('commission')) {
                 request()->validate([
@@ -71,7 +69,7 @@ class SellerController extends Controller
 
                 if ($request['commission_status'] == 1 && $request['commission'] == null) {
                     Toastr::error('You did not set commission percentage field.');
-                    //return back();
+                //return back();
                 } else {
                     $seller = Seller::find($id);
                     $seller->sales_commission_percentage = $request['commission_status'] == 1 ? $request['commission'] : null;
@@ -84,7 +82,7 @@ class SellerController extends Controller
             if ($request->has('gst')) {
                 if ($request['gst_status'] == 1 && $request['gst'] == null) {
                     Toastr::error('You did not set GST number field.');
-                    //return back();
+                //return back();
                 } else {
                     $seller = Seller::find($id);
                     $seller->gst = $request['gst_status'] == 1 ? $request['gst'] : null;
@@ -96,13 +94,12 @@ class SellerController extends Controller
 
             //return back();
             return view('admin-views.seller.view.setting', compact('seller'));
-        } else if ($tab == 'transaction') {
-            $transactions = OrderTransaction::where('seller_is','seller')->where('seller_id',$seller->id);
+        } elseif ($tab == 'transaction') {
+            $transactions = OrderTransaction::where('seller_is', 'seller')->where('seller_id', $seller->id);
 
             $query_param = [];
             $search = $request['search'];
-            if ($request->has('search'))
-            {
+            if ($request->has('search')) {
                 $key = explode(' ', $request['search']);
                 $transactions = $transactions->where(function ($q) use ($key) {
                     foreach ($key as $value) {
@@ -111,12 +108,11 @@ class SellerController extends Controller
                     }
                 });
                 $query_param = ['search' => $request['search']];
-            }else{
+            } else {
                 $transactions = $transactions;
             }
             $status = $request['status'];
-            if ($request->has('status'))
-            {
+            if ($request->has('status')) {
                 $key = explode(' ', $request['status']);
                 $transactions = $transactions->where(function ($q) use ($key) {
                     foreach ($key as $value) {
@@ -125,25 +121,24 @@ class SellerController extends Controller
                 });
                 $query_param = ['status' => $request['status']];
             }
-               $transactions = $transactions->latest()->paginate(Helpers::pagination_limit())->appends($query_param);
+            $transactions = $transactions->latest()->paginate(Helpers::pagination_limit())->appends($query_param);
 
-            return view('admin-views.seller.view.transaction', compact('seller', 'transactions','search','status'));
-
-        } else if ($tab == 'review') {
+            return view('admin-views.seller.view.transaction', compact('seller', 'transactions', 'search', 'status'));
+        } elseif ($tab == 'review') {
             $sellerId = $seller->id;
 
             $query_param = [];
             $search = $request['search'];
             if ($request->has('search')) {
                 $key = explode(' ', $request['search']);
-                $product_id = Product::where('added_by','seller')->where('user_id',$sellerId)->where(function ($q) use ($key) {
+                $product_id = Product::where('added_by', 'seller')->where('user_id', $sellerId)->where(function ($q) use ($key) {
                     foreach ($key as $value) {
                         $q->where('name', 'like', "%{$value}%");
                     }
                 })->pluck('id')->toArray();
 
                 $reviews = Review::with(['product'])
-                    ->whereIn('product_id',$product_id);
+                    ->whereIn('product_id', $product_id);
 
                 $query_param = ['search' => $request['search']];
             } else {
@@ -156,6 +151,7 @@ class SellerController extends Controller
 
             return view('admin-views.seller.view.review', compact('seller', 'reviews', 'search'));
         }
+
         return view('admin-views.seller.view', compact('seller'));
     }
 
@@ -163,15 +159,16 @@ class SellerController extends Controller
     {
         $order = Seller::findOrFail($request->id);
         $order->status = $request->status;
-        if ($request->status == "approved") {
+        if ($request->status == 'approved') {
             Toastr::success('Seller has been approved successfully');
-        } else if ($request->status == "rejected") {
+        } elseif ($request->status == 'rejected') {
             Toastr::info('Seller has been rejected successfully');
-        } else if ($request->status == "suspended") {
+        } elseif ($request->status == 'suspended') {
             $order->auth_token = Str::random(80);
             Toastr::info('Seller has been suspended successfully');
         }
         $order->save();
+
         return back();
     }
 
@@ -181,6 +178,7 @@ class SellerController extends Controller
 
         $orders = $orders->latest()->paginate(Helpers::pagination_limit());
         $seller = Seller::findOrFail($seller_id);
+
         return view('admin-views.seller.order-list', compact('orders', 'seller'));
     }
 
@@ -188,12 +186,14 @@ class SellerController extends Controller
     {
         $product = Product::where(['user_id' => $seller_id, 'added_by' => 'seller'])->latest()->paginate(Helpers::pagination_limit());
         $seller = Seller::findOrFail($seller_id);
+
         return view('admin-views.seller.porduct-list', compact('product', 'seller'));
     }
 
     public function order_details($order_id, $seller_id)
     {
         $order = Order::with('shipping')->where(['id' => $order_id])->first();
+
         return view('admin-views.seller.order-details', compact('order', 'seller_id'));
     }
 
@@ -204,7 +204,7 @@ class SellerController extends Controller
         $denied = session()->has('withdraw_status_filter') && session('withdraw_status_filter') == 'denied' ? 1 : 0;
         $pending = session()->has('withdraw_status_filter') && session('withdraw_status_filter') == 'pending' ? 1 : 0;
 
-        $withdraw_req = WithdrawRequest::with(['seller'])
+        $withdraw_req = WithdrawRequest::with(['seller'])->where('seller_id', '!=', null)
             ->when($all, function ($query) {
                 return $query;
             })
@@ -227,6 +227,7 @@ class SellerController extends Controller
     public function withdraw_view($withdraw_id, $seller_id)
     {
         $seller = WithdrawRequest::with(['seller'])->where(['id' => $withdraw_id])->first();
+
         return view('admin-views.seller.withdraw-view', compact('seller'));
     }
 
@@ -240,6 +241,7 @@ class SellerController extends Controller
             SellerWallet::where('seller_id', $withdraw->seller_id)->decrement('pending_withdraw', $withdraw['amount']);
             $withdraw->save();
             Toastr::success('Seller Payment has been approved successfully');
+
             return redirect()->route('admin.sellers.withdraw_list');
         }
 
@@ -247,14 +249,15 @@ class SellerController extends Controller
         SellerWallet::where('seller_id', $withdraw->seller_id)->decrement('pending_withdraw', $withdraw['amount']);
         $withdraw->save();
         Toastr::info('Seller Payment request has been Denied successfully');
-        return redirect()->route('admin.sellers.withdraw_list');
 
+        return redirect()->route('admin.sellers.withdraw_list');
     }
 
     public function sales_commission_update(Request $request, $id)
     {
         if ($request['status'] == 1 && $request['commission'] == null) {
             Toastr::error('You did not set commission percentage field.');
+
             return back();
         }
 
@@ -263,6 +266,7 @@ class SellerController extends Controller
         $seller->save();
 
         Toastr::success('Commission percentage for this seller has been updated.');
+
         return back();
     }
 }

@@ -1,4 +1,4 @@
-@extends('layouts.back-end.app-seller')
+@extends('layouts.back-end.app-mitra')
 
 @section('title', \App\CPU\translate('Bank Info'))
 
@@ -14,8 +14,8 @@
     <div class="content container-fluid" style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{route('seller.dashboard.index')}}">{{\App\CPU\translate('Dashboard')}}</a></li>
-                <li class="breadcrumb-item" aria-current="page">{{\App\CPU\translate('Seller')}}</li>
+                <li class="breadcrumb-item"><a href="{{route('mitra.mitra.home')}}">{{\App\CPU\translate('Dashboard')}}</a></li>
+                <li class="breadcrumb-item" aria-current="page">{{\App\CPU\translate('Mitra')}}</li>
                 <li class="breadcrumb-item">{{\App\CPU\translate('Bank info')}}</li>
             </ol>
         </nav>
@@ -28,7 +28,7 @@
                         <h1 class="h3 mb-0 ">{{\App\CPU\translate('Edit Bank Info')}}</h1>
                     </div>
                     <div class="card-body">
-                        <form action="{{route('seller.profile.bank_update',[$data->id])}}" method="post"
+                        <form action="{{route('mitra.profile.bank_update',[$data->id])}}" method="post"
                               enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">

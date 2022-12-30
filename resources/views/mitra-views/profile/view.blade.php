@@ -1,4 +1,4 @@
-@extends('layouts.back-end.app-seller')
+@extends('layouts.back-end.app-mitra')
 @section('title', \App\CPU\translate('Bank Info View'))
 @push('css_or_js')
     <!-- Custom styles for this page -->
@@ -9,8 +9,8 @@
     <div class="content container-fluid">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{route('seller.dashboard.index')}}">{{\App\CPU\translate('Dashboard')}}</a></li>
-                <li class="breadcrumb-item" aria-current="page">{{\App\CPU\translate('seller')}}</li>
+                <li class="breadcrumb-item"><a href="{{route('mitra.mitra.home')}}">{{\App\CPU\translate('Dashboard')}}</a></li>
+                <li class="breadcrumb-item" aria-current="page">{{\App\CPU\translate('Mitra')}}</li>
                 <li class="breadcrumb-item">{{\App\CPU\translate('my_bank_info')}}</li>
             </ol>
         </nav>
@@ -41,7 +41,7 @@
                             </div>
 
                             <a class="btn btn-primary"
-                                href="{{route('seller.profile.bankInfo',[$data->id])}}">{{\App\CPU\translate('Edit')}}</a>
+                                href="{{route('mitra.profile.bankInfo',[$data->id])}}">{{\App\CPU\translate('Edit')}}</a>
                         </div>
                     </div>
                 </div>

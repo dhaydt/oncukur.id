@@ -216,7 +216,7 @@
                             </ul>
                         </li> --}}
 
-                        <li class="navbar-vertical-aside-has-menu {{Request::is('seller/reviews/list*')?'active':''}}">
+                        {{-- <li class="navbar-vertical-aside-has-menu {{Request::is('seller/reviews/list*')?'active':''}}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link"
                                href="{{route('seller.reviews.list')}}">
                                 <i class="tio-star nav-icon"></i>
@@ -224,10 +224,10 @@
                                     {{\App\CPU\translate('Product')}} {{\App\CPU\translate('Reviews')}}
                                 </span>
                             </a>
-                        </li>
+                        </li> --}}
 
 
-                        <li class="navbar-vertical-aside-has-menu {{Request::is('mitra/messages*')?'active':''}}">
+                        {{-- <li class="navbar-vertical-aside-has-menu {{Request::is('mitra/messages*')?'active':''}}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link"
                                href="{{route('mitra.messages.chat')}}">
                                 <i class="tio-email nav-icon"></i>
@@ -235,10 +235,10 @@
                                     {{\App\CPU\translate('messages')}}
                                 </span>
                             </a>
-                        </li>
-                        <li class="navbar-vertical-aside-has-menu {{Request::is('seller/profile*')?'active':''}}">
+                        </li> --}}
+                        <li class="navbar-vertical-aside-has-menu {{Request::is('mitra/profile*')?'active':''}}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link"
-                               href="{{route('seller.profile.view')}}">
+                               href="{{route('mitra.profile.view')}}">
                                 <i class="tio-shop nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                     {{\App\CPU\translate('my_bank_info')}}
@@ -247,7 +247,7 @@
                         </li>
 
 
-                        <li class="navbar-vertical-aside-has-menu {{Request::is('seller/shop*')?'active':''}}">
+                        {{-- <li class="navbar-vertical-aside-has-menu {{Request::is('seller/shop*')?'active':''}}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link"
                                href="{{route('seller.shop.view')}}">
                                 <i class="tio-home nav-icon"></i>
@@ -255,7 +255,7 @@
                                     {{\App\CPU\translate('my_shop')}}
                                 </span>
                             </a>
-                        </li>
+                        </li> --}}
 
 
                         <!-- End Pages -->
@@ -276,9 +276,9 @@
                             </li>
                         @endif
 
-                        <li class="navbar-vertical-aside-has-menu {{Request::is('seller/business-settings/withdraws*')?'active':''}}">
+                        <li class="navbar-vertical-aside-has-menu {{Request::is('mitra/withdraws*')?'active':''}}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link"
-                               href="{{route('seller.business-settings.withdraw.list')}}">
+                               href="{{route('mitra.withdraw.list')}}">
                                 <i class="tio-wallet-outlined nav-icon"></i>
                                 <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate text-capitalize">
                                         {{\App\CPU\translate('withdraws')}}
